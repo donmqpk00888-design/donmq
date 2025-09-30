@@ -1,10 +1,10 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { SystemLanguageSetting_Data } from '@models/system-maintenance/1_1_3-system-language-setting';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { S_1_1_3_SystemLanguageSettingService } from '@services/system-maintenance/s_1_1_3_system-language-setting.service';
-import { InjectBase } from '@utilities/inject-base-app';
+import { InjectBase } from '@utilities/inject-base-app';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -29,9 +29,9 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   getDataFromSource() {
@@ -64,12 +64,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.snotifyService.error(
             this.translateService.instant(`System.Message.${this.action == 'Add' ? 'CreateErrorMsg' : 'UpdateErrorMsg'}`),
             this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => {
-        this.spinnerService.hide()
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'));
       }
     })
   }

@@ -1,11 +1,11 @@
 import { Component, input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { MonthlyDataLockParam } from '@models/salary-maintenance/7_1_22_monthly-salary-generation';
 import { S_7_1_22_MonthlySalaryGenerationService } from '@services/salary-maintenance/s_7_1_22_monthly-salary-generation.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'monthly-data-lock-active',
@@ -70,7 +70,6 @@ export class Tab2Component extends InjectBase implements OnInit {
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -99,12 +98,10 @@ export class Tab2Component extends InjectBase implements OnInit {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -113,8 +110,7 @@ export class Tab2Component extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion

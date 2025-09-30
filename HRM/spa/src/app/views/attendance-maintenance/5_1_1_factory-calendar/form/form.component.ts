@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { FactoryCalendar_Table } from '@models/attendance-maintenance/5_1_1_factory-calendar';
@@ -7,7 +6,8 @@ import { UserForLogged } from '@models/auth/auth';
 import { S_5_1_1_FactoryCalendar } from '@services/attendance-maintenance/s_5_1_1_factory-calendar.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -51,12 +51,12 @@ export class FormComponent extends InjectBase implements OnInit {
         dateInputFormat: 'YYYY/MM/DD',
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.action = role.title;
         this.filterList(role.dataResolved)
-      }).unsubscribe()
-    this.service.paramForm.subscribe((res) => {
+      })
+    this.service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (this.action == 'Edit') {
         if (res == null)
           this.back()
@@ -69,19 +69,13 @@ export class FormComponent extends InjectBase implements OnInit {
         if (res != null)
           this.data = res
       }
-    }).unsubscribe()
+    })
   }
   retryGetDropDownList() {
     this.service.getDropDownList(this.data.division)
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -105,6 +99,7 @@ export class FormComponent extends InjectBase implements OnInit {
         .postData(this.data)
         .subscribe({
           next: (res) => {
+          this.spinnerService.hide();
             if (res.isSuccess) {
               isBack ? this.back() : this.data = <FactoryCalendar_Table>{}
               this.snotifyService.success(
@@ -116,18 +111,15 @@ export class FormComponent extends InjectBase implements OnInit {
                 this.translateService.instant(`AttendanceMaintenance.FactoryCalendar.${res.error}`),
                 this.translateService.instant('System.Caption.Error'));
             }
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         })
-        .add(() => {
-          this.spinnerService.hide();
-        });
     }
     else {
       this.service
         .putData(this.data)
         .subscribe({
           next: (res) => {
+          this.spinnerService.hide();
             if (res.isSuccess) {
               this.back()
               this.snotifyService.success(
@@ -140,12 +132,8 @@ export class FormComponent extends InjectBase implements OnInit {
                 this.translateService.instant('System.Caption.Error')
               );
             }
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         })
-        .add(() => {
-          this.spinnerService.hide();
-        });
     }
   }
   editData() {

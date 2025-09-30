@@ -51,7 +51,7 @@
                       <td class="text-center">{{ item.language_Name }}</td>
                       <td class="text-center custom-style-td">
                         <button [disabled]="!functionUtility.checkFunction('Edit')"
-                                [class]="!item.isActive ? 'btn btn-sm btn-danger ml-2 text-white' : 'btn btn-sm btn-primary ml-2 text-white'"
+                                [class]="!item.isActive ? 'btn btn-sm btn-danger ml-2 ' : 'btn btn-sm btn-primary ml-2 '"
                                 (click)="changeState(item)">
                           {{(!item.isActive ? 'SystemMaintenance.SystemLanguageSetting.Disable' : 'SystemMaintenance.SystemLanguageSetting.Enabled') | translate }}
                         </button>
@@ -63,7 +63,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -73,7 +73,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

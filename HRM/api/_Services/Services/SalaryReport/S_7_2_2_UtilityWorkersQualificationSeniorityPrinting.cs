@@ -101,19 +101,19 @@ namespace API._Services.Services.SalaryReport
         public async Task<OperationResult> DownloadFileExcel(UtilityWorkersQualificationSeniorityPrintingParam param, string userName)
         {
             var data = await GetData(param);
-            if (!data.Any()) return new OperationResult(false, "System.Message.Nodata");
+            if (!data.Any()) return new OperationResult(false, "System.Message.NoData");
 
             var HOD = await Query_Department_List(param.Factory);
             var HODL = _repositoryAccessor.HRMS_Org_Department_Language
                 .FindAll(x => x.Factory == param.Factory
                            && x.Language_Code == param.Language);
             var deparmentList = HOD.GroupJoin(HODL,
-                        x => x.Key,
-                        y => y.Department_Code,
+                        x => new {x.Division, x.Department_Code},
+                        y => new {y.Division, y.Department_Code},
                         (x, y) => new { dept = x, hodl = y })
                         .SelectMany(x => x.hodl.DefaultIfEmpty(),
                         (x, y) => new { x.dept, hodl = y })
-                        .Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{(x.hodl != null ? x.hodl.Name : x.dept.Value)}"))
+                        .Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}"))
                         .ToList();
 
             var basicCode = _repositoryAccessor.HRMS_Basic_Code.FindAll(true).ToHashSet();
@@ -186,12 +186,12 @@ namespace API._Services.Services.SalaryReport
                            && x.Language_Code == language);
 
             var deparment = HOD.GroupJoin(HODL,
-                        x => x.Key,
-                        y => y.Department_Code,
+                        x => new {x.Division, x.Department_Code},
+                        y => new {y.Division, y.Department_Code},
                         (x, y) => new { dept = x, hodl = y })
                         .SelectMany(x => x.hodl.DefaultIfEmpty(),
                         (x, y) => new { x.dept, hodl = y })
-                        .Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{x.dept.Key}-{(x.hodl != null ? x.hodl.Name : x.dept.Value)}"))
+                        .Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}"))
                         .ToList();
             return deparment;
         }

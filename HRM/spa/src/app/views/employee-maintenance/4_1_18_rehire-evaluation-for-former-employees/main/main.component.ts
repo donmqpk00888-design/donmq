@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
 import { RehireEvaluationForFormerEmployees, RehireEvaluationForFormerEmployeesDto, RehireEvaluationForFormerEmployeesParam, RehireEvaluationForFormerEmployeesSource } from '@models/employee-maintenance/4_1_18_rehire-evaluation-for-former-employees';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -77,16 +77,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true,'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListTypeHeadIdentificationNumber() {
     this.service.getListTypeHeadIdentificationNumber(this.param.nationality).subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.dataTypeahead = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -95,7 +92,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listNationality = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 

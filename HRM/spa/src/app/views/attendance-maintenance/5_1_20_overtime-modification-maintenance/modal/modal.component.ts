@@ -63,8 +63,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           res.isSuccess,
           res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error ?? 'System.Message.UpdateErrorMsg')
         if (res.isSuccess) this.directive.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -79,13 +78,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
    * Danh sách ngày nghỉ
    */
   getHolidays() {
-    this.spinnerService.show();
     this.service.getListHoliday().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.holidays = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -93,13 +89,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
    * Danh sách lịch làm việc
    */
   getWorkShiftTypes() {
-    this.spinnerService.show();
     this.commonService.getListWorkShiftType().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.workShiftTypes = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -108,13 +101,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
   onChangeWorkShiftType() {
     if (this.functionUtility.checkEmpty(this.model.overtime_Date))
       return this.functionUtility.snotifySuccessError(false, "Please check Date");
-    this.spinnerService.show();
     this.service.getWorkShiftTypeTime(this.model.work_Shift_Type, this.model.overtime_Date.toDate().toStringDateTime(), this.model.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.model.work_Shift_Type_Time = res?.work_Shift_Type_Time;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

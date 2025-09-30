@@ -2,7 +2,6 @@ import { MonthlyExchangeRateSetting_Update } from '@models/salary-maintenance/7_
 import { InjectBase } from '@utilities/inject-base-app';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { MonthlyExchangeRateSetting_Main, MonthlyExchangeRateSetting_Memory, MonthlyExchangeRateSetting_Param } from '@models/salary-maintenance/7_1_2_monthly-exchange-rate-setting';
 import { Pagination } from '@utilities/pagination-utility';
@@ -10,6 +9,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { S_7_1_2_MonthlyExchangeRateSetting } from '@services/salary-maintenance/s_7_1_2_monthly-exchange-rate-setting.service';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -57,12 +57,12 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         minMode: this.minMode
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.formType = role.title
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe();
+      });
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<MonthlyExchangeRateSetting_Memory>{
@@ -89,19 +89,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     }
   }
   getDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList()
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -137,13 +128,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('SalaryMaintenance.MonthlyExchangeRateSetting.NotExitedData'),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -164,13 +148,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.LeaveApplicationMaintenance.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-          this.spinnerService.hide();
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.DeleteErrorMsg'),
-            this.translateService.instant('System.Caption.Error')
-          );
           this.spinnerService.hide();
         }
       });
@@ -198,15 +175,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               );
             resolve()
           },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-            reject()
-
-          }
+          error: () => { reject() }
         });
     })
   };

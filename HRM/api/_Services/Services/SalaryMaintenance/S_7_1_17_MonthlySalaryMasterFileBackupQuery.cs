@@ -406,10 +406,14 @@ namespace API._Services.Services.SalaryMaintenance
                 }
                 // 1. Check if there is data in the salary closing file. 
                 // If it is locked, it cannot be generated again.
-                var CNT = await _repositoryAccessor.HRMS_Sal_Close.CountAsync(x =>
-                    x.Factory == param.Factory &&
-                    x.Sal_Month.Date == yearMonth.Date
-                );
+                var CNT = await _repositoryAccessor.HRMS_Sal_Close.FindAll(x => x.Factory == param.Factory 
+                                && x.Sal_Month.Date == yearMonth.Date, true)
+                        .Join(_repositoryAccessor.HRMS_Sal_Monthly.FindAll(true),
+                                x => new { x.Factory, x.Sal_Month, x.Employee_ID },
+                                y => new { y.Factory, y.Sal_Month, y.Employee_ID },
+                                (x, y) => new { HSC = x, HSM = y })
+                        .CountAsync();
+
                 if (CNT > 0)
                 {
                     await _repositoryAccessor.RollbackAsync();
@@ -559,7 +563,7 @@ namespace API._Services.Services.SalaryMaintenance
         {
             var data = await GetData(param);
             if (!(data.Data as List<D_7_17_MonthlySalaryMasterFileBackupQueryDto>).Any())
-                return new OperationResult(false, "No Data");
+                return new OperationResult(false, "NoData");
 
             DateTime now = DateTime.Now;
             var HBCL = _repositoryAccessor.HRMS_Basic_Code_Language.FindAll(x => x.Type_Seq == BasicCodeTypeConstant.SalaryItem, true).ToList();
@@ -569,7 +573,7 @@ namespace API._Services.Services.SalaryMaintenance
                 .Union(_repositoryAccessor.HRMS_Sal_MasterBackup_Detail.FindAll(x => x.Factory == param.Factory).Select(x => x.Salary_Item))
                 .Distinct().OrderBy(x => x).ToListAsync();
             if (!salaryItems.Any())
-                return new OperationResult(false, "No Data");
+                return new OperationResult(false, "NoData");
 
             var data_Detail = await _repositoryAccessor.HRMS_Sal_MasterBackup_Detail.FindAll(x => x.Factory == param.Factory && salaryItems.Contains(x.Salary_Item))
                 .Select(x => new MonthlySalaryMasterFileBackupQuery_SalaryItem

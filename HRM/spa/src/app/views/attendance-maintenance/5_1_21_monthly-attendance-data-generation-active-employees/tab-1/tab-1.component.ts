@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { GenerationActiveParam } from '@models/attendance-maintenance/5_1_21_monthly-attendance-data-generation-active-employees';
@@ -7,6 +6,7 @@ import { S_5_1_21_MonthlyAttendanceDataGenerationActiveEmployeesService } from '
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'data-generation-active',
@@ -43,9 +43,7 @@ export class Tab1Component extends InjectBase implements OnInit {
   ) {
     super();
 
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.getListFactoryAdd();
         this.getListDepartment();
       });
@@ -102,10 +100,7 @@ export class Tab1Component extends InjectBase implements OnInit {
             this.translateService.instant('System.Caption.Error')
           );
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-      },
+      }
     });
   }
 
@@ -128,7 +123,6 @@ export class Tab1Component extends InjectBase implements OnInit {
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -182,7 +176,6 @@ export class Tab1Component extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -193,7 +186,6 @@ export class Tab1Component extends InjectBase implements OnInit {
         next: (res) => {
           this.listDepartment = res;
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
   //#endregion

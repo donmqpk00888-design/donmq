@@ -88,18 +88,10 @@
                         *ngIf="functionUtility.checkFunction('Add')">
                   <i class="{{ iconButton.ADD }}"></i> {{'System.Action.Add' | translate }}
                 </button>
-                <label type="button"
-                       class="{{classButton.UPLOAD}}"
-                       style="cursor: pointer; margin-bottom: 0"
-                       *ngIf="functionUtility.checkFunction('Upload')">
-                  <i [class]="iconButton.UPLOAD"></i>
-                  {{'System.Action.Upload'| translate }}
-                  <input #inputRef
-                         type="file"
-                         name="upload"
-                         style="display: none"
-                         (change)="upload($event)" />
-                </label>
+                <file-upload [allowExtensions]="acceptFormat"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <button type="button"
                         class="{{ classButton.SEARCH}}"
                         (click)="downloadTemplate()"
@@ -131,8 +123,8 @@
                             *ngFor="let day of week.days"
                             (click)="onDateClick(day)">
                           <label type="button"
-                                style="cursor: pointer; margin-bottom: 0"
-                                *ngIf="functionUtility.checkFunction('Upload')">{{ day.date }}
+                                 style="cursor: pointer; margin-bottom: 0"
+                                 *ngIf="functionUtility.checkFunction('Upload')">{{ day.date }}
                           </label>
                         </td>
                       </tr>
@@ -140,7 +132,7 @@
                     <tr *ngIf="data.calendar.weeks?.length === 0">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{'System.Message.Nodata' | translate }}
+                        {{'System.Message.NoData' | translate }}
                       </td>
                     </tr>
                   </table>
@@ -156,7 +148,8 @@
                             <th class="text-center"
                                 [attr.colspan]="functionUtility.getColspan(['Edit','Delete'])"
                                 *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')">
-                              {{'AttendanceMaintenance.FactoryCalendar.Operation' | translate }}</th>
+                              {{'AttendanceMaintenance.FactoryCalendar.Operation' | translate }}
+                            </th>
                             <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.AttDate' | translate }}</th>
                             <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.TypeCode' | translate }}</th>
                             <th class="text-center">{{'AttendanceMaintenance.FactoryCalendar.Describe' | translate }}</th>
@@ -188,7 +181,7 @@
                         <tr *ngIf="data.table.result?.length === 0">
                           <td colspan="100%"
                               class="table-warning text-center font-weight-bold">
-                            {{'System.Message.Nodata' | translate }}
+                            {{'System.Message.NoData' | translate }}
                           </td>
                         </tr>
                       </table>
@@ -196,7 +189,7 @@
                   </div>
                   <div class="col-8">
                     <div class="d-flex"
-                         *ngIf="data.table.result?.length > 0 && data.table.pagination.totalPage > 0">
+                         *ngIf="data.table.result?.length > 0 && data.table.pagination.totalPage > 1">
                       <pagination [boundaryLinks]="true"
                                   [totalItems]="data.table.pagination.totalCount"
                                   [itemsPerPage]="data.table.pagination.pageSize"

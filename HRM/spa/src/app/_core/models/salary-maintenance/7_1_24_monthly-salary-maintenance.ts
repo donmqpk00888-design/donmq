@@ -16,6 +16,7 @@ export interface MonthlySalaryMaintenanceDto {
   update_By: string;
   update_Time: string;
   bankTransfer: string;
+  currency: string;
   language: string;
   tax: number;
   isDelete: boolean;

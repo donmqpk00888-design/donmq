@@ -10,6 +10,7 @@ import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SharedModule } from '@views/_shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgSelectModule,
     OvertimeParameterSettingRoutingModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    SharedModule
   ],
   declarations: [MainComponent, AddComponent, EditComponent],
 })

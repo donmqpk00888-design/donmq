@@ -371,7 +371,7 @@ namespace API._Services.Services.SalaryMaintenance
         {
             var data = await GetData(param);
             if (!data.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             List<Cell> dataCells = new()
             {

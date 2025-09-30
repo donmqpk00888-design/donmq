@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <form class="form-horizontal" autocomplete="off" #mainForm="ngForm">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
           <div class="card-header">
             <div class="row border-title">
               <div class="col-md-12">
@@ -15,23 +17,28 @@
 
               <!-- Factory -->
               <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory" class="badge badge-warning">
-                    {{ "AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Factory" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory" name="factory" [(ngModel)]="param.factory" [clearable]="param.factory != ''"
-                    (clear)="deleteProperty('factory')" (ngModelChange)="onSelectFactory()"
-                    placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Factory' | translate }}">
-                    <ng-option *ngFor="let item of listFactory" [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onSelectFactory()"
+                           placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Factory' | translate }}">
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Year Month -->
               <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <label class="badge badge-warning" for="yearMonth">
+                <label class="badge badge-warning"
+                       for="yearMonth">
                   {{"AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.YearMonth" | translate
                   }}
                   <span class="text-danger text-bold">*</span>
@@ -39,10 +46,19 @@
                 <div class="full-width">
                   <div class="container_date">
                     <div class="input-group mr-1">
-                      <input autocomplete="off" (keydown.backspace)="param.yearMonth = null" onkeypress="return false;"
-                        onpaste="return false;" type="text" placeholder='YYYY/MM' class="form-control bg-white"
-                        name="yearMonth" id="yearMonth" [(ngModel)]="yearMonth" bsDatepicker
-                        [bsConfig]="bsConfigMonthly" required />
+                      <input autocomplete="off"
+                             (keydown.backspace)="param.yearMonth = null"
+                             onkeypress="return false;"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder='YYYY/MM'
+                             class="form-control"
+                             name="yearMonth"
+                             id="yearMonth"
+                             [(ngModel)]="yearMonth"
+                             bsDatepicker
+                             [bsConfig]="bsConfigMonthly"
+                             required />
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
@@ -52,19 +68,22 @@
               </div>
               <!-- Level -->
               <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="level" class="badge badge-warning">
-                    {{ "AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Level" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="level" name="level" [(ngModel)]="param.level" [clearable]="param.level != 0"
-                    (clear)="deleteProperty('level')"
-                    placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Level' | translate }}">
-                    <ng-option *ngFor="let item of listLevel" [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="level"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Level" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="level"
+                           name="level"
+                           [(ngModel)]="param.level"
+                           [clearable]="param.level != 0"
+                           (clear)="deleteProperty('level')"
+                           placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Level' | translate }}">
+                  <ng-option *ngFor="let item of listLevel"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
 
               <!-- Permission Group -->
@@ -76,60 +95,80 @@
                       <span class="text-danger text-bold"> *</span>
                     </label>
                     <ng-select id="permissionGroup"
-                      name="permissionGroup" [multiple]="true"
-                      [items]="listPermissionGroup"
-                      [selectableGroup]="true"
-                      [selectableGroupAsModel]="false"
-                      [closeOnSelect]="false"
-                      groupBy="allGroup"
-                      bindLabel="value"
-                      bindValue="key"
-                      (clear)="param.permissionGroup = []"
-                      [(ngModel)]="param.permissionGroup"
-                      (ngModelChange)="onPermissionChange()"
-                      [disabled]="!param.factory"
-                      placeholder="{{'AttendanceMaintenance.MonthlyEmployeeStatus_ByDepartment.PermissionGroup' | translate }}">
-                      <ng-template ng-optgroup-tmp let-item="item"
-                        let-item$="item$" let-index="index">
-                        <input id="item-{{ index }}" type="checkbox"
-                          name="item-{{ index }}" [ngModel]="item$.selected" /> {{
-                        'System.Action.SelectAll' | translate }}</ng-template>
-                      <ng-template ng-option-tmp let-item="item" let-item$="item$"
-                        let-index="index">
-                        <input id="item-{{ index }}" name="item-{{ index }}"
-                          type="checkbox" [ngModel]="item$.selected" /> {{
-                        item.value }} </ng-template>
+                               name="permissionGroup"
+                               [multiple]="true"
+                               [items]="listPermissionGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               groupBy="allGroup"
+                               bindLabel="value"
+                               bindValue="key"
+                               (clear)="param.permissionGroup = []"
+                               [(ngModel)]="param.permissionGroup"
+                               (ngModelChange)="onPermissionChange()"
+                               [disabled]="!param.factory"
+                               placeholder="{{'AttendanceMaintenance.MonthlyEmployeeStatus_ByDepartment.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
                     </ng-select>
                   </div>
                 </div>
               </div>
 
               <div class="col-12 pb-2">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button"
-                  class="{{ classButton.SEARCH }}"
-                  (click)="getTotalRows(true)"
-                  [disabled]="!param.factory || yearMonth == null || !param.level || functionUtility.checkEmpty(param.permissionGroup)">
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getTotalRows(true)"
+                        [disabled]="!param.factory || yearMonth == null || !param.level || functionUtility.checkEmpty(param.permissionGroup)">
                   <i class="{{ iconButton.SEARCH }}"></i>
                   {{ "System.Action.Search" | translate }}
                 </button>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button"
-                  class="{{ classButton.CLEAR }}"
-                  (click)="clear()">
+                        type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i>
                   {{ "System.Action.Clear" | translate }}
                 </button>
                 <button type="button"
-                  (click)="excel()"
-                  class="btn btn-success"
-                  [disabled]="!param.factory || yearMonth == null || !param.level || functionUtility.checkEmpty(param.permissionGroup)"
-                  *ngIf="functionUtility.checkFunction('Excel')">
+                        (click)="excel()"
+                        class="btn btn-success"
+                        [disabled]="!param.factory || yearMonth == null || !param.level || functionUtility.checkEmpty(param.permissionGroup)"
+                        *ngIf="functionUtility.checkFunction('Excel')">
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>
               </div>
-              
+
               <div>
                 <strong class="title-card-cs pl-3">{{ "AttendanceMaintenance.MonthlyEmployeeStatus_ByGender.Total" |
                   translate }}

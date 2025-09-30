@@ -57,8 +57,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           res.isSuccess,
           res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error ?? 'System.Message.UpdateErrorMsg');
         if (res.isSuccess) this.directive.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 }

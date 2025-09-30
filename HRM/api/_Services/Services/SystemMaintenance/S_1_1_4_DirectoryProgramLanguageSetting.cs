@@ -78,13 +78,30 @@ namespace API._Services.Services.SystemMaintenance
                 pred.And(x => x.Code.Trim().ToLower().Contains(param.Code.Trim().ToLower()));
             if (!string.IsNullOrEmpty(param.Name))
                 pred.And(x => x.Name.Trim().ToLower().Contains(param.Name.Trim().ToLower()));
+            var HSL = _repositoryAccessor.HRMS_SYS_Language.FindAll(x => x.IsActive == true).Select(x => x.Language_Code);
+            var HSD = _repositoryAccessor.HRMS_SYS_Directory.FindAll()
+                .Select(x => new
+                {
+                    Code = Convert.ToString(x.Directory_Code),
+                    Name = Convert.ToString(x.Directory_Name),
+                    Kind = "D"
+                });
+            var HSP = _repositoryAccessor.HRMS_SYS_Program.FindAll()
+                .Select(x => new
+                {
+                    Code = Convert.ToString(x.Program_Code),
+                    Name = Convert.ToString(x.Program_Name),
+                    Kind = "P"
+                });
+            var sys_Dir_Pro = HSD.Union(HSP);
             var data = _repositoryAccessor.HRMS_SYS_Program_Language.FindAll(pred)
                 .GroupBy(x => new { x.Kind, x.Code })
                 .Select(x => new DirectoryProgramLanguageSetting_Data
                 {
                     Kind = x.Key.Kind,
                     Code = x.Key.Code,
-                    Name = x.FirstOrDefault().Name
+                    Name = sys_Dir_Pro.FirstOrDefault(y => y.Code == x.Key.Code && y.Kind == x.Key.Kind).Name
+                        ?? x.FirstOrDefault(y => !HSL.Any() || HSL.Contains(y.Language_Code)).Name
                 });
             return await PaginationUtility<DirectoryProgramLanguageSetting_Data>.CreateAsync(data, pagination.PageNumber, pagination.PageSize);
         }
@@ -92,25 +109,43 @@ namespace API._Services.Services.SystemMaintenance
 
         public async Task<DirectoryProgramLanguageSetting_Data> GetDetail(string kind, string code)
         {
-            var data = await _repositoryAccessor.HRMS_SYS_Language.FindAll(x => x.IsActive == true)
-                            .GroupJoin(_repositoryAccessor.HRMS_SYS_Program_Language.FindAll(x => x.Kind == kind && x.Code == code),
-                            a => a.Language_Code,
-                            b => b.Language_Code,
-                            (a, b) => new { a, b })
-                            .SelectMany(x => x.b.DefaultIfEmpty(),
-                            (x, y) => new { x.a.Language_Code, y.Name })
-                            .ToListAsync();
-            if (!data.Any())
-                return null;
-            var langs = data.Select(x => new Language
-            {
-                Lang_Code = x.Language_Code,
-                Lang_Name = x.Name
-            }).ToList();
+            var HSD = _repositoryAccessor.HRMS_SYS_Directory.FindAll()
+                .Select(x => new
+                {
+                    Code = Convert.ToString(x.Directory_Code),
+                    Name = Convert.ToString(x.Directory_Name),
+                    Kind = "D"
+                });
+            var HSP = _repositoryAccessor.HRMS_SYS_Program.FindAll()
+                .Select(x => new
+                {
+                    Code = Convert.ToString(x.Program_Code),
+                    Name = Convert.ToString(x.Program_Name),
+                    Kind = "P"
+                });
+            var HSL = _repositoryAccessor.HRMS_SYS_Language.FindAll(x => x.IsActive == true).Select(x => x.Language_Code);
+            var HSPL = _repositoryAccessor.HRMS_SYS_Program_Language.FindAll(x => x.Kind == kind && x.Code == code);
+
+            var langs = await HSL
+                .GroupJoin(HSPL,
+                    a => a,
+                    b => b.Language_Code,
+                    (a, b) => new { a, b })
+                .SelectMany(x => x.b.DefaultIfEmpty(),
+                    (x, y) => new { Language_Code = x.a, y.Name })
+                .Select(x => new Language
+                {
+                    Lang_Code = x.Language_Code,
+                    Lang_Name = x.Name
+                })
+                .ToListAsync();
+            var name = HSD.Union(HSP).FirstOrDefault(y => y.Code == code && y.Kind == kind)?.Name
+                ?? HSPL.FirstOrDefault(y => !HSL.Any() || HSL.Contains(y.Language_Code))?.Name;
             DirectoryProgramLanguageSetting_Data result = new()
             {
                 Kind = kind,
                 Code = code,
+                Code_Name = !string.IsNullOrWhiteSpace(name) ? $"{code} - {name}" : code,
                 Langs = langs
             };
             return result;
@@ -165,14 +200,6 @@ namespace API._Services.Services.SystemMaintenance
         public async Task<List<KeyValuePair<string, string>>> GetCodeDirectory()
         {
             return await _repositoryAccessor.HRMS_SYS_Directory.FindAll().OrderBy(x => x.Seq).Select(x => new KeyValuePair<string, string>(x.Directory_Code, x.Directory_Name)).ToListAsync();
-        }
-
-        public async Task<List<KeyValuePair<string, string>>> GetNameCode(string kind, string code)
-        {
-            if (kind == "P")
-                return await _repositoryAccessor.HRMS_SYS_Program.FindAll(x => x.Program_Code == code).Select(x => new KeyValuePair<string, string>(x.Program_Code, x.Program_Name)).ToListAsync();
-            else
-                return await _repositoryAccessor.HRMS_SYS_Directory.FindAll(x => x.Directory_Code == code).Select(x => new KeyValuePair<string, string>(x.Directory_Code, x.Directory_Name)).ToListAsync();
         }
     }
 }

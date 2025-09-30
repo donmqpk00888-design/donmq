@@ -69,8 +69,7 @@ export class ModalComponent412 extends InjectBase implements AfterViewInit {
             result.error ?? (this.type === 'Add' ? "System.Message.CreateErrorMsg" : 'System.Message.UpdateErrorMsg'))
         if (result.isSuccess)
           this.directive.hide()
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -80,22 +79,16 @@ export class ModalComponent412 extends InjectBase implements AfterViewInit {
   }
 
   getMaxSeq() {
-    this.spinnerService.show();
     this.service.getMaxSeq(this.model.useR_GUID).subscribe({
       next: res => this.model.seq = res,
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
     })
   }
 
   getRelationships() {
-    this.spinnerService.show();
     this.service.getRelationships().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.relationships = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

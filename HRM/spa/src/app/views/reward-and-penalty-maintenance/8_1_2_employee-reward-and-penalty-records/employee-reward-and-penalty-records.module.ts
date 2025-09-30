@@ -13,11 +13,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
-    MainComponent, 
-    FormComponent, 
+    MainComponent,
+    FormComponent,
     ModalComponent
   ],
   imports: [
@@ -32,6 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     TypeaheadModule.forRoot(),
     TranslateModule,
     NgSelectModule,
+    SharedModule,
     EmployeeRewardAndPenaltyRecordsRoutingModule,
   ],
 })

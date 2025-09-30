@@ -206,7 +206,7 @@ namespace API._Services.Services.EmployeeMaintenance
                .FirstOrDefaultAsync(x => x.USER_GUID == dto.USER_GUID);
 
             if (data == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             data.Permission_Group = dto.PermissionGroup;
             data.Employment_Status = dto.CrossFactoryStatus;
@@ -268,7 +268,7 @@ namespace API._Services.Services.EmployeeMaintenance
                .FirstOrDefaultAsync(x => x.USER_GUID == dto.USER_GUID, true);
 
             if (data == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             DateTime current = DateTime.Now;
 

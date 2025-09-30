@@ -6,7 +6,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { IClearCache } from '@services/cache.service';
 import { LocalStorageConstants, SessionStorageConstants } from '@constants/local-storage.constants';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 
 @Injectable({
   providedIn: 'root'

@@ -26,6 +26,7 @@ public class D_7_25_MonthlySalaryMaintenanceExitedEmployeesMain
     public string Salary_Type { get; set; }
     public string FIN_Pass_Status { get; set; }
     public string Transfer { get; set; }
+    public string Currency { get; set; }
     public int Tax { get; set; }
     // Monthly attendance data can be expanded/collapsed
     public D_7_25_Query_Att_MonthlyResult Monthly_Attendance { get; set; }

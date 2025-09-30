@@ -56,12 +56,12 @@ namespace API._Services.Services.SalaryReport
                     y => new { y.Factory, y.USER_GUID },
                     (HEP, HSADM) => new { HEP, HSADM })
                 .GroupBy(x => new
-                {                
+                {
                     x.HSADM.AddDed_Type,
                     x.HSADM.AddDed_Item
                 })
                 .Select(x => new MonthlySalaryAdditionsDeductionsSummaryReportData
-                {               
+                {
                     AddDed_Type = x.Key.AddDed_Type,
                     AddDed_Item = x.Key.AddDed_Item,
                     Amount = x.Sum(y => (decimal)y.HSADM.Amount) // Chuyển sang decimal do bị out range Int32
@@ -101,7 +101,7 @@ namespace API._Services.Services.SalaryReport
             var data = (List<MonthlySalaryAdditionsDeductionsSummaryReportData>)result.Data;
 
             if (data.Count == 0)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             var HBC = _repositoryAccessor.HRMS_Basic_Code
                             .FindAll(x => type_Seq.Contains(x.Type_Seq));
@@ -189,18 +189,19 @@ namespace API._Services.Services.SalaryReport
         public async Task<List<KeyValuePair<string, string>>> GetListDepartment(string factory, string language)
         {
             var departments = await Query_Department_List(factory);
-            var departmentsWithLanguage = await _repositoryAccessor.HRMS_Org_Department
-                .FindAll(x => x.Factory == factory
-                           && departments.Select(y => y.Key).Contains(x.Department_Code), true)
-                .GroupJoin(_repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Language_Code.ToLower() == language.ToLower(), true),
-                    x => new { x.Division, x.Factory, x.Department_Code },
-                    y => new { y.Division, y.Factory, y.Department_Code },
+            var HODL = _repositoryAccessor.HRMS_Org_Department_Language
+                .FindAll(x => x.Factory == factory && x.Language_Code.ToLower() == language.ToLower())
+                .ToList();
+            var departmentsWithLanguage = departments
+                .GroupJoin(HODL,
+                    x => new { x.Division, x.Department_Code },
+                    y => new { y.Division, y.Department_Code },
                     (HOD, HODL) => new { HOD, HODL })
                 .SelectMany(x => x.HODL.DefaultIfEmpty(),
                     (x, y) => new { x.HOD, HODL = y })
                 .Select(x => new KeyValuePair<string, string>(x.HOD.Department_Code, $"{x.HOD.Department_Code} - {(x.HODL != null ? x.HODL.Name : x.HOD.Department_Name)}"))
                 .Distinct()
-                .ToListAsync();
+                .ToList();
             return departmentsWithLanguage;
         }
 

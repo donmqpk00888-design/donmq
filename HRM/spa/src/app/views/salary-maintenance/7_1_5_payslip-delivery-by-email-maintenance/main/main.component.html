@@ -48,43 +48,40 @@
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="submit"
                         [disabled]="!param.factory"
-                        class="btn btn-primary mr-2 mt-1 "
+                        class="btn btn-primary mr-2"
                         (click)="search(true)">
                   <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
                 </button>
                 <!-- Clear -->
                 <button type="button"
-                        class="btn btn-danger mr-2 mt-1 "
+                        class="btn btn-danger mr-2"
                         (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
                 </button>
                 <!-- Add -->
                 <button *ngIf="functionUtility.checkFunction('Add')"
                         type="button"
-                        class="btn btn-success mr-2 mt-1 "
+                        class="btn btn-success mr-2"
                         (click)="add()">
                   <i class="{{iconButton.ADD}}"></i> {{"System.Action.Add" | translate }}
                 </button>
                 <!-- Download -->
                 <button *ngIf="functionUtility.checkFunction('Excel')"
                         type="button"
-                        class="btn btn-success mr-2 mt-1"
+                        class="btn btn-success mr-2"
                         [disabled]="!param.factory"
                         (click)="download(false)">
                   <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
                 </button>
                 <!-- Upload -->
-                <label *ngIf="functionUtility.checkFunction('Upload')"
-                       class="btn btn-success mr-2 mt-1 mb-0">
-                  <input class="custom-upload"
-                         type="file"
-                         (change)="upload($event, true)">
-                  <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
-                </label>
+                <file-upload [allowExtensions]="accept"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event,true)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <!-- Download Template -->
                 <button *ngIf="functionUtility.checkFunction('Upload')"
                         type="button"
-                        class="btn btn-primary mr-2 mt-1"
+                        class="btn btn-primary mr-2"
                         (click)="download(true)">
                   <i class="{{iconButton.EXCEL}}"></i>
                   {{'System.Action.ExcelTemplate' | translate }}
@@ -162,7 +159,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -172,7 +169,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

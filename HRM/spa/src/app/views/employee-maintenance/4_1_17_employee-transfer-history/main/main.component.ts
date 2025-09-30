@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { EmployeeTransferHistory, EmployeeTransferHistoryDetail, EmployeeTransferHistoryDetele, EmployeeTransferHistoryEffectiveConfirm, EmployeeTransferHistoryParam, EmployeeTransferHistorySource } from '@models/employee-maintenance/4_1_17_employee-transfer-history';
@@ -7,8 +6,8 @@ import { S_4_1_17_EmployeeTransferHistoryService } from '@services/employee-main
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -17,10 +16,6 @@ import { Observable } from 'rxjs';
 })
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
-  //#region Modals
-  bsModalRef?: BsModalRef;
-
-  //#endregion
 
   //#region Variables
   iconButton = IconButton;
@@ -76,7 +71,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.loadData()
     });
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadData()
     });
@@ -117,49 +112,36 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this[dataProperty] = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   //#region  get value param
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division_After).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListAssignedFactoryAfter() {
-    this.spinnerService.show();
     this.service.getListAssignedFactoryAfter(this.param.assigned_Division_After).subscribe({
       next: (res) => {
         this.listAssignedFactoryAfter = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory_After, this.param.division_After).subscribe({
       next: (res) => {
         this.listDepartment = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListAssignedDepartmentAfter() {
-    this.spinnerService.show();
     this.service.getListDepartmentAfter(this.param.assigned_Factory_After, this.param.assigned_Division_After).subscribe({
       next: (res) => {
         this.listAssignedDepartmentAfter = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -202,6 +184,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.changeParamSearch(this.param);
     this.service.getData(this.pagination, this.param).subscribe({
       next: (res) => {
+        this.spinnerService.hide();
         this.data = res.result;
         this.data.map((val) => {
           val.actingPosition_Start_Before = val.actingPosition_Start_Before != null
@@ -219,9 +202,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
         this.selectAll = false
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+      }
     });
   }
 
@@ -234,7 +215,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -305,11 +285,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   batchDelete() {
+    this.spinnerService.show();
     let items: EmployeeTransferHistoryDetele[] = this.dataSelect.map(item => ({
       history_GUID: item.history_GUID,
       effective_Status: item.effective_Status
@@ -323,7 +303,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.dataSelect = []
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -343,7 +322,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.dataSelect = []
           }
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
     });
   }

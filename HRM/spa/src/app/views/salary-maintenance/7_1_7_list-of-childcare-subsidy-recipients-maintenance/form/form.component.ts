@@ -1,9 +1,8 @@
 import { Component, effect, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { HRMS_Sal_Childcare_SubsidyDto, ListofChildcareSubsidyRecipientsMaintenanceParam } from '@models/salary-maintenance/7_1_7_list-of-child-care-subsidy-recipients-maintenance';
 import { S_7_1_7_ListofChildcareSubsidyRecipientsMaintenanceService } from '@services/salary-maintenance/s_7_1_7_list-of-child-care-subsidy-recipients-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
@@ -13,6 +12,7 @@ import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -50,9 +50,7 @@ export class FormComponent extends InjectBase implements OnInit {
   constructor(private service: S_7_1_7_ListofChildcareSubsidyRecipientsMaintenanceService) {
     super();
     this.getSource();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getListFactory();
         this.getListEmployee();
@@ -83,9 +81,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -102,8 +97,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -162,8 +156,9 @@ export class FormComponent extends InjectBase implements OnInit {
     } else
       action = this.service.addNew(this.data)
     this.spinnerService.show();
-    action.subscribe({
+    action.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide()
         if (result.isSuccess) {
           const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
           this.functionUtility.snotifySuccessError(true, message)
@@ -171,11 +166,8 @@ export class FormComponent extends InjectBase implements OnInit {
         } else {
           this.functionUtility.snotifySuccessError(false, result.error)
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError()
       }
-    }).add(() => this.spinnerService.hide());
+    })
   }
 
   onUpdateTimeChangeAlways() {

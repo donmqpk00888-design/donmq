@@ -1,7 +1,8 @@
+import { CommonService } from '@services/common.service';
 import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { LocalStorageConstants, SessionStorageConstants } from "@constants/local-storage.constants";
-import { AuthProgram, CodeInformation, FunctionInfomation } from "@models/auth/auth";
+import { CodeInformation, FunctionInfomation } from '@models/common';
 import { TranslateService } from "@ngx-translate/core";
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgSnotifyService } from "../services/ng-snotify.service";
@@ -21,7 +22,8 @@ export class FunctionUtility {
   constructor(
     private snotify: NgSnotifyService,
     private translateService: TranslateService,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
+    private commonService: CommonService
   ) { }
 
   /**
@@ -328,7 +330,7 @@ export class FunctionUtility {
    * @returns {string} Tên file đã được tạo.
    */
   getFileNameExport(programCode: string, typeExport: string): string {
-    const codes: CodeInformation[] = JSON.parse(localStorage.getItem(LocalStorageConstants.CODE_LANG)) || [];
+    const codes: CodeInformation[] = this.commonService.systemInfo.code_Information || [];
     const program = codes.find(x => x.code == programCode && x.kind == 'P');
     const program_Lang = program ? program.name.replace(/[^a-zA-Z]/g, '') : ''
     const time_Export = new Date().getFullYear().toString().substring(2) +
@@ -346,8 +348,8 @@ export class FunctionUtility {
    * @param {string} program_Code - Mã program cần set.
    * @returns {void} Không trả về giá trị.
    */
-  setFunction(program_Code: string, authProgram: AuthProgram): void {
-    const selected_Functions = authProgram.functions.filter(val => val.program_Code == program_Code);
+  setFunction(program_Code: string): void {
+    const selected_Functions = this.commonService.systemInfo.functions.filter(val => val.program_Code == program_Code);
     sessionStorage.setItem(SessionStorageConstants.SELECTED_FUNCTIONS, JSON.stringify(selected_Functions))
   }
 
@@ -380,30 +382,21 @@ export class FunctionUtility {
   /**
    * @function snotifySuccessError
    * @description Hiển thị thông báo thành công hoặc lỗi.
-   * @param {boolean} isSuccessError - `true` để hiển thị thông báo thành công, `false` để hiển thị thông báo lỗi.
+   * @param {boolean} isSuccess - `true` để hiển thị thông báo thành công, `false` để hiển thị thông báo lỗi.
    * @param {string} message - Thông điệp cần hiển thị.
    * @param {boolean} [isTranslate=true] - `true` nếu muốn dịch thông điệp, `false` nếu không. Mặc định là `true`.
    * @returns {void} Không trả về giá trị.
    */
-  snotifySuccessError(isSuccessError: boolean, message: string, isTranslate: boolean = true): void {
-    this.snotify[isSuccessError ? 'success' : 'error'](
-      isTranslate ? this.translateService.instant(`${message}`) : message,
-      this.translateService.instant(`System.Caption.${isSuccessError ? 'Success' : 'Error'}`)
-    );
-  }
-
-  /**
-   * @function snotifySystemError
-   * @description Hiển thị thông báo lỗi hệ thống.
-   * @param {boolean} [isHideSpinner=true] - `true` để ẩn spinner, `false` để không ẩn. Mặc định là `true`.
-   * @returns {void} Không trả về giá trị.
-   */
-  snotifySystemError(isHideSpinner: boolean = true): void {
-    if (isHideSpinner)
-      this.spinnerService.hide();
-    this.snotify.error(
-      this.translateService.instant('System.Message.SystemError'),
-      this.translateService.instant('System.Caption.Error')
+  snotifySuccessError(isSuccess: boolean, message: string, isTranslate: boolean = true): void {
+    this.snotify[isSuccess ? 'success' : 'error'](
+      isTranslate
+        ? this.hasTranslation(message)
+          ? this.translateService.instant(message)
+          : `${this.translateService.instant('System.Message.InvalidErrorCode')} : ${message}`
+        : message,
+      isTranslate
+        ? this.translateService.instant(`System.Caption.${isSuccess ? 'Success' : 'Error'}`)
+        : isSuccess ? 'Success!' : 'Error!'
     );
   }
   /**
@@ -494,7 +487,7 @@ export class FunctionUtility {
    */
   getTitle(code: string): string {
     let lang = localStorage.getItem(LocalStorageConstants.LANG)
-    const codes: CodeInformation[] = JSON.parse(localStorage.getItem(LocalStorageConstants.CODE_LANG)) || [];
+    const codes: CodeInformation[] = this.commonService.systemInfo.code_Information || [];
     const program = codes.find(x => x.code == code && x.kind == 'P');
     const program_Lang = program ? program.translations.find(x => x.lang == lang)?.name ?? program.name : ''
     return `${code} ${program_Lang}`

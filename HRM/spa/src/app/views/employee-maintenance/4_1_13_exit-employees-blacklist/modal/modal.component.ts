@@ -59,8 +59,7 @@ export class ModalComponent extends InjectBase implements OnInit {
           res.isSuccess ? 'System.Message.UpdateOKMsg' : 'System.Message.UpdateErrorMsg')
         if (res.isSuccess) this.directive.hide();
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 }

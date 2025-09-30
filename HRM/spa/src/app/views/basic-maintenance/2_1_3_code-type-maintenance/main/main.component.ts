@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { BasicCode, HRMS_Basic_Code_TypeDto, HRMS_Basic_Code_TypeParam, HRMS_Type_Code_Source, ResultMain } from '@models/basic-maintenance/2_1_3_type-code-maintenance';
@@ -8,6 +7,7 @@ import { S_2_1_3_CodeTypeMaintenanceService } from '@services/basic-maintenance/
 import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -38,8 +38,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.getData()
       }
     });
-    this.route.data.pipe(takeUntilDestroyed()).subscribe(res => this.title = res['title']);
-    this.service.currentParamSearch.pipe(takeUntilDestroyed()).subscribe(param => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => this.title = res['title']);
+    this.service.currentParamSearch.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(param => {
       if (param) this.param = param;
     })
     this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res: LangChangeEvent) => {
@@ -74,8 +74,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -108,8 +107,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.getData()
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }

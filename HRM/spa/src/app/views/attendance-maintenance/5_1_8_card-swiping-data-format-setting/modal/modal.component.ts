@@ -9,6 +9,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',
@@ -59,7 +60,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     let action: Observable<OperationResult> = this.action == 'Edit'
       ? this.service.edit(this.data)
       : this.service.addNew(this.data)
-    action.subscribe({
+    action.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result: any) => {
         this.spinnerService.hide()
         if (result.isSuccess) {
@@ -69,10 +70,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         } else {
           this.functionUtility.snotifySuccessError(false, result.error)
         }
-      },
-      error: () => {
-        this.spinnerService.hide()
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -85,14 +82,12 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     if (this.factory)
       this.service.getByFactory(this.factory).subscribe({
         next: (res) => this.data = res,
-        error: () => this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       })
   }
 
   getListFactory() {
     this.service.getByFactoryAddList().subscribe({
-      next: res => this.factorys = res,
-      error: () => this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
+      next: res => this.factorys = res
     });
   }
   deleteProperty(name: string) {

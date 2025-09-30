@@ -213,7 +213,7 @@
                     <tr *ngIf="data.length === 0">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{'System.Message.Nodata' | translate }}
+                        {{'System.Message.NoData' | translate }}
                       </td>
                     </tr>
                   </table>
@@ -223,7 +223,7 @@
             <div class="row">
               <div class="col-8">
                 <div class="d-flex"
-                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                     *ngIf="data?.length > 0 && pagination.totalPage > 1">
                   <pagination [boundaryLinks]="true"
                               [totalItems]="pagination.totalCount"
                               [itemsPerPage]="pagination.pageSize"

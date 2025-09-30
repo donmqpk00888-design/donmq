@@ -1,12 +1,12 @@
 
 import { Component, Input, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Work_Type_DaysDto } from '@models/attendance-maintenance/5_1_3_special-work-type-annual-leave-days-maintenance';
 import { S_5_1_3_SpecialWorkTypeAnnualLeaveDaysMaintenanceService } from '@services/attendance-maintenance/s_5_1_3_special-work-type-annual-leave-days-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -34,7 +34,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_5_1_3_SpecialWorkTypeAnnualLeaveDaysMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListWorkType();
       this.getListDivision();
@@ -53,7 +53,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.getListWorkType();
     if (this.data.division != '')
       this.getListFactory();
-    this.route.data.subscribe(x => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(x => {
       this.action = x.title;
       this.isEdit = x.title == "Edit"
     })
@@ -78,8 +78,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -87,8 +86,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory(this.data.division).subscribe({
       next: (res) => {
         this.listFactory = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -96,8 +94,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListWorkType().subscribe({
       next: (res) => {
         this.listWorkType = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -114,8 +111,9 @@ export class FormComponent extends InjectBase implements OnInit {
     } else
       action = this.service.addNew(this.data)
     this.spinnerService.show();
-    action.subscribe({
+    action.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide();
         if (result.isSuccess) {
           const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
           this.functionUtility.snotifySuccessError(true, message)
@@ -129,15 +127,13 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(false, result.error)
         }
       },
-      error: (e) => {
+      error: (e: any) => {
         const errLeaveDay = e.errors?.Annual_leave_days[0];
         if (errLeaveDay)
           this.functionUtility.snotifySuccessError(false, `AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.${errLeaveDay}`)
-        else
-          this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
         this.resetDateStringDefault();
       }
-    }).add(() => this.spinnerService.hide());
+    })
   }
 
   resetDateStringDefault() {

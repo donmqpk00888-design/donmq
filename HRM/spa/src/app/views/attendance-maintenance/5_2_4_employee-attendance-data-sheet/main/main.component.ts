@@ -7,9 +7,9 @@ import {
   EmployeeAttendanceDataSheetParam
 } from '@models/attendance-maintenance/5_2_4_employee-attendance-data-sheet';
 import { ClassButton, IconButton } from '@constants/common.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -39,7 +39,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.programCode = this.route.snapshot.data['program'];
     this.getDataFromSource();
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListWorkShiftType();
@@ -101,7 +101,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -110,18 +109,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listWorkShiftType = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory).subscribe({
       next: (res) => {
         this.listDepartment = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -140,7 +135,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   paramChanged(): boolean {
@@ -195,7 +189,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.countRecord = res.data.count
         } else this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 

@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -8,6 +7,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_8_1_1_RewardAndPenaltyReasonCodeMaintenanceService } from '@services/reward-and-penalty-maintenance/s_8_1_1_reward-and-penalty-reason-code-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form-add',
@@ -41,7 +41,7 @@ export class FormAddComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
     });
     this.loadDropdownList();
@@ -87,8 +87,7 @@ export class FormAddComponent extends InjectBase implements OnInit {
         }
         else
           this.snotifyService.error(this.translateService.instant(res.error) ??this.translateService.instant('System.Message.CreateErrorMsg'), this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -106,9 +105,6 @@ export class FormAddComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -155,12 +151,6 @@ export class FormAddComponent extends InjectBase implements OnInit {
         .subscribe({
           next: (res) => {
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })

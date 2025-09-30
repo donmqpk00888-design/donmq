@@ -1,13 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmployeeMode, IconButton } from '@constants/common.constants';
-import { SessionStorageConstants } from '@constants/local-storage.constants';
-import { FunctionInfomation } from '@models/auth/auth';
 import { EmployeeBasicInformationMaintenanceSource } from '@models/employee-maintenance/4_1_1_employee-basic-information-maintenance';
 import { EducationUpload, HRMS_Emp_Educational, HRMS_Emp_EducationalParam } from '@models/employee-maintenance/4_1_3-education';
 import { S_4_1_3_EducationService } from '@services/employee-maintenance/s_4_1_3_education.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main-4-1-3',
@@ -63,8 +61,7 @@ export class MainComponent413 extends InjectBase {
           this.spinnerService.hide();
           this.educations = result;
           this.totalItems = result.length;
-        },
-        error: () => this.spinnerService.hide()
+        }
       })
     }
     else this.educations = [];
@@ -102,8 +99,7 @@ export class MainComponent413 extends InjectBase {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.getPaginationData();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }

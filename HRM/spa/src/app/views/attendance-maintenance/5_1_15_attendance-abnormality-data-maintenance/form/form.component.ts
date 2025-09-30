@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Temp_RecordDto } from '@models/attendance-maintenance/5_1_15_attendance-abnormality-data-maintenance';
@@ -13,7 +12,8 @@ import {
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -68,9 +68,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_5_1_15_AttendanceAbnormalityDataMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getDropdownList()
       });
@@ -135,10 +133,7 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         resultList.length = 0;
         resultList.push(...res);
-      },
-      error: () => {
-        this.handleError('System.Message.SystemError');
-      },
+      }
     });
   }
   //#endregion
@@ -157,8 +152,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -218,9 +212,7 @@ export class FormComponent extends InjectBase implements OnInit {
         } else {
           this.handleError(result.error);
         }
-      },
-      error: () => this.handleError('System.Message.SystemError'),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
   //#endregion

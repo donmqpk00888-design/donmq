@@ -16,162 +16,148 @@
             <div class="row border-shadow">
               <!-- Nationality -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="nationality"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="nationality"
-                             name="nationality"
-                             [(ngModel)]="param.nationality"
-                             [clearable]="param.nationality != ''"
-                             (clear)="deleteProperty('nationality')"
-                             placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality' | translate}}"
-                             required>
-                    <ng-option *ngFor="let data of listNationality"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="nationality"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="nationality"
+                           name="nationality"
+                           [(ngModel)]="param.nationality"
+                           [clearable]="param.nationality != ''"
+                           (clear)="deleteProperty('nationality')"
+                           placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality' | translate}}"
+                           required>
+                  <ng-option *ngFor="let data of listNationality"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Division -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="division"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="division"
-                             name="division"
-                             [(ngModel)]="param.division"
-                             [clearable]="param.division != ''"
-                             (clear)="deleteProperty('division')"
-                             (ngModelChange)="onChangeDivision()"
-                             placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division'| translate}}"
-                             required>
-                    <ng-option *ngFor="let data of listDivision"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="division"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="division"
+                           name="division"
+                           [(ngModel)]="param.division"
+                           [clearable]="param.division != ''"
+                           (clear)="deleteProperty('division')"
+                           (ngModelChange)="onChangeDivision()"
+                           placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division'| translate}}"
+                           required>
+                  <ng-option *ngFor="let data of listDivision"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="param.factory"
-                             [clearable]="param.factory != ''"
-                             (clear)="deleteProperty('factory')"
-                             [readonly]="!param.division"
-                             placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory'| translate}}"
-                             required>
-                    <ng-option *ngFor="let data of listFactory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           [readonly]="!param.division"
+                           placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory'| translate}}"
+                           required>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Identification Number -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="identificationNumber"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="identificationNumber"
-                         name="identificationNumber"
-                         maxlength="50"
-                         [(ngModel)]="param.identificationNumber"
-                         placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber'| translate}}"
-                         autocomplete="off" />
-                </div>
+                <label for="identificationNumber"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="identificationNumber"
+                       name="identificationNumber"
+                       maxlength="50"
+                       [(ngModel)]="param.identificationNumber"
+                       placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber'| translate}}"
+                       autocomplete="off" />
               </div>
               <!-- Employee ID -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="employeeID"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="employeeID"
-                         name="employeeID"
-                         maxlength="9"
-                         [(ngModel)]="param.employeeID"
-                         placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID'| translate}}"
-                         autocomplete="off" />
-                </div>
+                <label for="employeeID"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employeeID"
+                       name="employeeID"
+                       maxlength="9"
+                       [(ngModel)]="param.employeeID"
+                       placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID'| translate}}"
+                       autocomplete="off" />
               </div>
               <!-- Local Full Name -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="localFullName"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="localFullName"
-                         name="localFullName"
-                         maxlength="50"
-                         [(ngModel)]="param.localFullName"
-                         placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName'| translate}}"
-                         autocomplete="off" />
-                </div>
+                <label for="localFullName"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="localFullName"
+                       name="localFullName"
+                       maxlength="50"
+                       [(ngModel)]="param.localFullName"
+                       placeholder="{{'EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName'| translate}}"
+                       autocomplete="off" />
               </div>
               <!-- Onboard Date -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.OnboardDate" | translate }}
-                  </label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="onboardDateStart"
-                               [(ngModel)]="param.onboardDateStart"
-                               (ngModelChange)="onDateChange('onboardDateStart')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [maxDate]="param.onboardDateEnd"
-                               [required]="param.onboardDateEnd" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                <label class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.OnboardDate" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="onboardDateStart"
+                             [(ngModel)]="param.onboardDateStart"
+                             (ngModelChange)="onDateChange('onboardDateStart')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.onboardDateEnd"
+                             [required]="param.onboardDateEnd" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
-                      <div class="input-group ml-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="onboardDateEnd"
-                               [(ngModel)]="param.onboardDateEnd"
-                               (ngModelChange)="onDateChange('onboardDateEnd')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [minDate]="param.onboardDateStart"
-                               [required]="param.onboardDateStart" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="onboardDateEnd"
+                             [(ngModel)]="param.onboardDateEnd"
+                             (ngModelChange)="onDateChange('onboardDateEnd')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.onboardDateStart"
+                             [required]="param.onboardDateStart" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
                     </div>
                   </div>
@@ -179,43 +165,41 @@
               </div>
               <!-- Date Of Group Employment -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfGroupEmployment" | translate }}
-                  </label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="groupDateStart"
-                               [(ngModel)]="param.groupDateStart"
-                               (ngModelChange)="onDateChange('groupDateStart')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [maxDate]="param.groupDateEnd"
-                               [required]="param.groupDateEnd" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                <label class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfGroupEmployment" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="groupDateStart"
+                             [(ngModel)]="param.groupDateStart"
+                             (ngModelChange)="onDateChange('groupDateStart')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.groupDateEnd"
+                             [required]="param.groupDateEnd" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
-                      <div class="input-group ml-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="groupDateEnd"
-                               [(ngModel)]="param.groupDateEnd"
-                               (ngModelChange)="onDateChange('groupDateEnd')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [minDate]="param.groupDateStart"
-                               [required]="param.groupDateStart" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="groupDateEnd"
+                             [(ngModel)]="param.groupDateEnd"
+                             (ngModelChange)="onDateChange('groupDateEnd')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.groupDateStart"
+                             [required]="param.groupDateStart" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
                     </div>
                   </div>
@@ -223,51 +207,50 @@
               </div>
               <!-- Date Of Resignation -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label class="badge badge-warning">
-                    {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfResignation" | translate }}
-                  </label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="resignDateStart"
-                               [(ngModel)]="param.resignDateStart"
-                               (ngModelChange)="onDateChange('resignDateStart')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               onpaste="return false;"
-                               placeholder="YYYY/MM/DD"
-                               [maxDate]="param.resignDateEnd"
-                               [required]="param.resignDateEnd" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                <label class="badge badge-warning">
+                  {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfResignation" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="resignDateStart"
+                             [(ngModel)]="param.resignDateStart"
+                             (ngModelChange)="onDateChange('resignDateStart')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             onpaste="return false;"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.resignDateEnd"
+                             [required]="param.resignDateEnd" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
-                      <div class="input-group ml-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="resignDateEnd"
-                               [(ngModel)]="param.resignDateEnd"
-                               (ngModelChange)="onDateChange('resignDateEnd')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               onpaste="return false;"
-                               placeholder="YYYY/MM/DD"
-                               [minDate]="param.resignDateStart"
-                               [required]="param.resignDateStart" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
-                        </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="resignDateEnd"
+                             [(ngModel)]="param.resignDateEnd"
+                             (ngModelChange)="onDateChange('resignDateEnd')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             onpaste="return false;"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.resignDateStart"
+                             [required]="param.resignDateStart" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-12">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="button"
                         class="{{ classButton.SEARCH }}"
@@ -373,7 +356,7 @@
                         <tr>
                           <td colspan="100%"
                               class="table-warning text-center font-weight-bold">
-                            {{ "System.Message.Nodata" | translate }}
+                            {{ "System.Message.NoData" | translate }}
                           </td>
                         </tr>
                       </tbody>
@@ -383,7 +366,7 @@
                 <div class="row">
                   <div class="col-8">
                     <div class="d-flex"
-                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                         *ngIf="data?.length > 0 && pagination.totalPage > 1">
                       <pagination name="pagination"
                                   [boundaryLinks]="true"
                                   [maxSize]="5"

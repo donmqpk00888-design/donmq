@@ -10,11 +10,10 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow"
+          <form class="row border-shadow"
                 autocomplete="off">
             <!-- Division -->
-            <div class="row">
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.Division" | translate}}
                   <span class="text-danger">*</span>
@@ -30,7 +29,7 @@
                 </ng-select>
               </div>
               <!-- Factory -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.Factory" | translate}}
                   <span class="text-danger">*</span>
@@ -47,7 +46,7 @@
                 </ng-select>
               </div>
               <!-- Department -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.Department" | translate}}
                 </label>
@@ -62,7 +61,7 @@
                 </ng-select>
               </div>
               <!-- EmployeeID -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.EmployeeID" | translate}}
                 </label>
@@ -74,7 +73,7 @@
                        placeholder="{{'EmployeeInformationModule.UnpaidLeave.EmployeeID' | translate}}" />
               </div>
               <!-- LocalFullName -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.LocalFullName" | translate}}
                 </label>
@@ -85,7 +84,7 @@
                        placeholder="{{'EmployeeInformationModule.UnpaidLeave.LocalFullName' | translate}}" />
               </div>
               <!-- Onboard Date -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{ "EmployeeInformationModule.UnpaidLeave.OnboardDate" | translate }}
                 </label>
@@ -98,7 +97,7 @@
                              onkeypress="return false;"
                              onpaste="return false;"
                              placeholder="YYYY/MM/DD"
-                             class="form-control bg-white"
+                             class="form-control"
                              id="onboardDate"
                              name="onboardDate"
                              [(ngModel)]="onboardDate"
@@ -112,7 +111,7 @@
                 </div>
               </div>
               <!-- Leave Start Date -->
-              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
                 <div>
                   <label class="badge badge-warning">
                     {{ "EmployeeInformationModule.UnpaidLeave.LeaveStartDate" | translate }}
@@ -160,7 +159,7 @@
                 </div>
               </div>
               <!-- Leave End Date -->
-              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
                 <div>
                   <label class="badge badge-warning">
                     {{ "EmployeeInformationModule.UnpaidLeave.LeaveEndDate" | translate }}
@@ -209,7 +208,7 @@
                 </div>
               </div>
               <!-- Leave of Absence Reason -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.UnpaidLeave.LeaveofAbsenceReason" | translate}}
                 </label>
@@ -223,7 +222,7 @@
                 </ng-select>
               </div>
               <!-- Submit Button -->
-              <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 pb-2 button-container">
+              <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-12 button-container">
                 <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="submit"
@@ -251,7 +250,6 @@
                   <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
                 </button>
               </div>
-            </div>
           </form>
           <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -337,7 +335,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -347,7 +345,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

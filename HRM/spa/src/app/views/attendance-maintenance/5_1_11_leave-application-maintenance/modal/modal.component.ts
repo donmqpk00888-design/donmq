@@ -9,7 +9,7 @@ import {
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { CaptionConstants } from '@constants/message.enum';
 import { LeaveApplicationMaintenance_Main } from '@models/attendance-maintenance/5_1_11_leave-application-maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_11_Leave_Application_Maintenance } from '@services/attendance-maintenance/s_5_1_11_leave-application-maintenance.service';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
@@ -80,18 +80,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             );
             !isBack ? this.clear() : this.directive.hide();
           } else {
-            this.spinnerService.hide();
             this.snotifyService.error(
               this.translateService.instant(`AttendanceMaintenance.LeaveApplicationMaintenance.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         },
       })
   }
@@ -110,8 +102,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -162,13 +153,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         next: (res) => {
           this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }

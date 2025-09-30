@@ -169,7 +169,7 @@
                       <td>{{ item.update_By }}</td>
                       <td>{{ item.update_Time | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
                       <td>
-                        <label class="btn btn-sm ml-2 text-white"
+                        <label class="btn btn-sm ml-2 "
                                [ngClass]="!item.effective_State ? 'btn-disabled' : 'btn-enabled'">
                           {{ (item.effective_State ?
                           'AttendanceMaintenance.ShiftScheduleSetting.EffectiveEnabled' :
@@ -185,7 +185,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{ 'System.Message.Nodata' | translate }}
+                          {{ 'System.Message.NoData' | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -200,7 +200,7 @@
           <div class="row">
             <div class="col-8">
               <div class="d-flex"
-                   *ngIf="workShifts?.length > 0 && pagination.totalPage > 0">
+                   *ngIf="workShifts?.length > 0 && pagination.totalPage > 1">
                 <pagination [boundaryLinks]="true"
                             [totalItems]="pagination.totalCount"
                             [itemsPerPage]="pagination.pageSize"

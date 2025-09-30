@@ -32,14 +32,10 @@ th {
   color: #fff;
   font-size: 15px;
   border: 20px solid !important;
-  /* #20a8d8 */
-  /* #6ec6e6 */
-  /* #f86c6b */
 }
 .after-change {
   background-color: #20a8d8;
   color: #fff;
   font-size: 15px;
   border: 20px solid !important;
-  border-radius: 25px;
 }

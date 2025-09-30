@@ -24,6 +24,7 @@ namespace API.Helper.Constant
         public const string Majors = "21";
         public const string Relationship = "22";
         public const string Technical_Type = "25";
+        public const string Performance_Category = "26";
         public const string Expertise_Category = "27";
         public const string LeaveReason = "31";
         public const string ResignationType = "32";
@@ -51,6 +52,7 @@ namespace API.Helper.Constant
         public const string BenefitsType = "58";
         public const string Method = "63";
         public const string SalaryCategory = "64";
+        public const string BankNameOrBranch = "65";
         public const string RewardPenaltyType = "66";
 
         /// <summary>

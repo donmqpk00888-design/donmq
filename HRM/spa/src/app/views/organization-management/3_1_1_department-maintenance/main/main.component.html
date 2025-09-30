@@ -17,25 +17,23 @@
 
             <!-- Status -->
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-              <div class="form-group">
-                <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.Status" | translate}}</label>
-                <div class="row pl-3">
-                  <div *ngFor="let item of key; index as i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2">
-                          <input id="status-{{i}}"
-                                 class="custom-control-input"
-                                 type="radio"
-                                 name="status-{{i}}"
-                                 [(ngModel)]="param.status"F
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             for="status-{{i}}"><strong> {{ item.value | translate }} </strong> </p>
-                        </div>
+              <label class="badge badge-warning">{{"OrganizationManagement.DepartmentMaintenance.Status" | translate}}</label>
+              <div class="row pl-3">
+                <div *ngFor="let item of key; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="status-{{i}}"
+                               class="custom-control-input"
+                               type="radio"
+                               name="status-{{i}}"
+                               [(ngModel)]="param.status"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           for="status-{{i}}"><strong> {{ item.value | translate }} </strong> </p>
                       </div>
-                    </label>
-                  </div>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -208,7 +206,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{ "System.Message.Nodata" | translate }}
+                          {{ "System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -218,7 +216,7 @@
               <div class="row">
                 <div class=" col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [maxSize]="5"
                                 [totalItems]="pagination.totalCount"

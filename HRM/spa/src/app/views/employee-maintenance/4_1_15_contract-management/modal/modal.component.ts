@@ -78,8 +78,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.CreateOKMsg' : result.error)
           if (result.isSuccess) this.directive.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else {
@@ -89,8 +88,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.UpdateOKMsg' : result.error)
           if (result.isSuccess) this.directive.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -153,8 +151,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         this.spinnerService.hide()
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.CreateOKMsg' : result.error)
         if (result.isSuccess) this.clear()
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -193,8 +190,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             if (!this.functionUtility.checkEmpty(this.data.probation_Start))
               this.getProbationEnd()
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -246,8 +242,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             this.deleteProperty('department')
             this.data.seq = 0
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -256,44 +251,35 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.service.getListDivision().subscribe({
       next: res => {
         this.division = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     })
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.data.division).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.factory = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListContractType() {
-    this.spinnerService.show();
     this.service.getListContractType(this.data.division, this.data.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.contractType = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListAssessmentResult() {
     this.service.getListAssessmentResult().subscribe({
       next: res => {
         this.assessmentResult = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     })
   }
   getEmployeeID() {
     this.service.getEmployeeID().subscribe({
       next: res => {
         this.employeeID = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     })
   }
 

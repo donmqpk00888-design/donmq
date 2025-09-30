@@ -85,8 +85,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -110,8 +109,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = 0
           this.snotifyService.warning(res.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -152,12 +150,10 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion

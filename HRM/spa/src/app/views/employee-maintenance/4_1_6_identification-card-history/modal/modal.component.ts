@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, input, OnDestroy, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Emp_Identity_Card_HistoryDto, HRMS_Emp_Identity_Card_HistoryParam } from '@models/employee-maintenance/4_1_6_identification-card-history';
@@ -7,7 +6,8 @@ import { S_4_1_6_IdentificationCardHistoryService } from '@services/employee-mai
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
+import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -58,12 +58,11 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.param.issued_Date_Before = this.convertDateFormat(this.functionUtility.getUTCDate(this.issuedDateBefore_Value));
     this.service.create(this.param).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         if (result.isSuccess)
           this.directive.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
     })
   }
   close() {
@@ -92,7 +91,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
       next: (res) => {
         this.listNationality = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
   private convertDateFormat(inputDate: Date): string {

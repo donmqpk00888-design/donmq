@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { GradeMaintenanceParam, HRMS_Basic_Level, ParamInMain } from '@models/basic-maintenance/2_1_6_grade-maintenance';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,7 +6,8 @@ import { S_2_1_6_GradeMaintenanceService } from '@services/basic-maintenance/s_2
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -68,8 +68,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this._service.getTypes().subscribe({
       next: res => {
         this.types = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -83,16 +82,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch) this.functionUtility.snotifySuccessError(true, 'BasicMaintenance.2_6_GradeMaintenance.QueryOKMsg')
 
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListLevelCode() {
     this._service.getListLevelCode('main').subscribe({
       next: res => {
         this.ListLevelCode = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   pageChanged(e: PageChangedEvent) {
@@ -133,8 +130,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, `System.Message.${res.isSuccess ? 'DeleteOKMsg' : 'DeleteErrorMsg'}`)
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }
@@ -146,8 +142,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
         this.functionUtility.exportExcel(res.data, fileName);
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -159,8 +154,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(res.isSuccess, `System.Message.${res.isSuccess ? 'UpdateOKMsg' : 'UpdateErrorMsg'}`)
         if (res.isSuccess) this.getData();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

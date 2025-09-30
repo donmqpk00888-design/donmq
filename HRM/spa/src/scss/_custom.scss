@@ -250,10 +250,6 @@ table {
   transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
 }
 
-.snotifyToast__body {
-  white-space: pre-line !important;
-}
-
 .snotify-confirm {
   background-color: #e76d16 !important;
   .snotifyToast__inner:has(> #snotify_9999) ~ ng-snotify-button button {
@@ -291,23 +287,20 @@ table {
   text-align: center;
 }
 .ngx-org-box.ngx-org-border.ngx-org-background:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
   transition: 0.15s linear;
-  box-shadow: 1px 1px 22px rgba(255, 255, 255, 0.5) !important;
 }
 .ngx-org-box {
   box-shadow: none !important;
-  border-bottom: 5px solid;
-  border-bottom-color: white;
-  background: white;
-  padding: 20px !important;
+  background: transparent;
+  padding: 5px !important;
   display: block !important;
   text-decoration: none;
   transition: 0.3s;
 }
-
 .ngx-org-title {
   white-space: pre-line !important;
+  word-wrap: normal !important;
 }
 
 .ngx-org-self-vertical[_ngcontent-ng-c1986298945] {
@@ -320,10 +313,6 @@ table {
 
 .ngx-org-vertical {
   padding: 0 5px !important;
-}
-
-.ngx-org-box {
-  padding: 5px !important;
 }
 
 #file-modal {
@@ -425,4 +414,12 @@ table {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
+}
+.pe-none {
+  pointer-events: none;
+}
+.param-container {
+  border: 1px solid #c8ced3;
+  border-radius: 0.25rem;
+  padding: 1.25rem;
 }

@@ -72,14 +72,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     return !this.functionUtility.checkEmpty(this.param.factory);
   }
   getFactory() {
-    this.spinnerService.show();
     this.service.getFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.factoryList = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -105,9 +100,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch) {
           this.functionUtility.snotifySuccessError(isSearch, 'System.Message.QuerySuccess');
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -130,8 +122,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg');
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }

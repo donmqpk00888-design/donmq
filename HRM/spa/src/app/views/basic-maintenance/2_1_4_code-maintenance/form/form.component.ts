@@ -1,11 +1,11 @@
 import { Component, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { ValidateResult } from '@models/base-source';
 import { HRMS_Basic_Code } from '@models/basic-maintenance/2_1_4_code-maintenance';
 import { S_2_1_4_CodeMaintenanceService } from '@services/basic-maintenance/s_2_1_4-code-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -46,7 +46,7 @@ export class FormComponent extends InjectBase {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res['title']
       this.typeSeqs = res.resolverTypeSeqs
     });
@@ -123,8 +123,7 @@ export class FormComponent extends InjectBase {
             result.isSuccess)
 
           if (result.isSuccess) this.back()
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));

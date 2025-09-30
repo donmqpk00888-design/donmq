@@ -10,8 +10,8 @@ import { IconButton } from '@constants/common.constants';
 import { S_5_1_16_OvertimeTemporaryRecordMaintenanceService } from '@services/attendance-maintenance/s_5_1_16_overtime_temporary_record_maintenance.service';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -92,9 +92,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      }, error: () => {
-        this.snotifyService.error(this.translateService.instant('System.Message.SystemError'), this.translateService.instant('System.Caption.Error'))
-      }
+      },
     })
   }
   onAdd() {
@@ -121,10 +119,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
         }
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError()
-      }
     });
   }
   onDelete(item: HRMS_Att_Overtime_TempDto) {
@@ -134,6 +128,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show()
         this.service.delete(item).subscribe({
           next: (res) => {
+            this.spinnerService.hide()
             if (res.isSuccess) {
               this.getData();
               this.snotifyService.success(
@@ -141,17 +136,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
                 this.translateService.instant('System.Caption.Success'));
             }
             else {
-              this.spinnerService.hide()
               this.snotifyService.error(
                 this.translateService.instant('System.Message.DeleteErrorMsg'),
                 this.translateService.instant('System.Caption.Error'));
             }
-          },
-          error: () => {
-            this.spinnerService.hide()
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.SystemError'),
-              this.translateService.instant('System.Caption.Error'));
           }
         })
       });
@@ -165,11 +153,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: res => {
         this.factory = res
-      }, error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
-      }
+      },
     })
   }
   getListDepartment() {
@@ -177,10 +161,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.service.getListDepartment(this.param.factory).subscribe({
         next: res => {
           this.department = res
-        }, error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.SystemError'),
-            this.translateService.instant('System.Caption.Error'))
         }
       })
   }
@@ -188,11 +168,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListWorkShiftType().subscribe({
       next: res => {
         this.workShiftType = res
-      }, error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
-      }
+      },
     })
   }
 
@@ -237,7 +213,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   download() {
     if (this.data.length == 0)
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.param).subscribe({
@@ -247,7 +223,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onDateChange(name: string) {

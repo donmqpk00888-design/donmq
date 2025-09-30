@@ -145,8 +145,20 @@ import { MonthlySalarySummaryReportModule } from '@views/salary-report/7_2_4_mon
 import { MonthlySalaryDetailReportModule } from '@views/salary-report/7_2_5_monthly-salary-detail-report/monthly-salary-detail-report.module';
 import { MonthlyNonTransferSalaryPaymentReportModule } from '@views/salary-report/7_2_6_monthly-non-transfer-salary-payment-report/monthly-non-transfer-salary-payment-report.module';
 import { MonthlySalaryAdditionsDeductionsSummaryReportModule } from "@views/salary-report/7_2_7_monthly-salary-additions-deductions-summary-report/monthly-salary-additions-deductions-summary-report.module";
+import { SalarySummaryReportExitedEmployeeModule } from "@views/salary-report/7_2_9_salary-summary-report-exited-employee/salary-summary-report-exited-employee.module";
+import { SalarySummaryReportExitedEmployeeByDepartmentModule } from "@views/salary-report/7_2_10_salary-summary-report-exited-employee-by-department/salary-summary-report-exited-employee-by-department.module";
+import { MonthlySalaryTransferDetailsModule } from '@views/salary-report/7_2_12_monthly-salary-transfer-details/monthly-salary-transfer-details.module';
+import { MonthlySalaryTransferDetailsExitedEmployeeModule } from '@views/salary-report/7_2_13_monthly-salary-transfer-details-exited-employee/monthly-salary-transfer-details-exited-employee.module';
 import { TaxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayModule } from "@views/salary-report/7_2_14_tax-paying-employee-monthly-night-shift-extra-and-overtime-pay/tax-paying-employee-monthly-night-shift-extra-and-overtime-pay.module";
 import { MonthlyUnionDuesSummaryModule } from "@views/salary-report/7_2_15_monthly-union-dues-summary/monthly-union-dues-summary.module";
+import { DownloadPersonnelDataToExcelModule } from "@views/salary-report/7_2_16_download-personnel-data-to-excel/download-personnel-data-to-excel.module"
+import { MonthlyPersonalIncomeTaxAmountReportModule } from "@views/salary-report/7_2_17_monthly-personal-income-tax-amount-report/monthly-personal-income-tax-amount-report.module";
+import { AnnualIncomeTaxDetailReportModule } from '@views/salary-report/7_2_18_annual-income-tax-detail-report/annual-income-tax-detail-report.module';
+import { MonthlySalarySummaryReportForFinanceModule } from '@views/salary-report/7_2_19_monthly-salary-summary-report-for-finance/monthly-salary-summary-report-for-finance.module';
+import { MonthlySalarySummaryReportForTaxationModule } from '@views/salary-report/7_2_20_monthly-salary-summary-report-for-taxation/monthly-salary-summary-report-for-taxation.module';
+import { MonthlyAdditionsAndDeductionsSummaryReportForFinanceModule } from '@views/salary-report/7_2_21_monthly-additions-and-deductions-summary-report-for-finance/monthly-additions-and-deductions-summary-report-for-finance.module';
+import { MonthlyAdditionsAndDeductionsSummaryReportModule } from '@views/salary-report/7_2_22_monthly-additions-and-deductions-summary-report/monthly-additions-and-deductions-summary-report.module';
+
 import { RewardAndPenaltyReasonCodeMaintenanceModule } from '@views/reward-and-penalty-maintenance/8_1_1_reward-and-penalty-reason-code-maintenance/reward-and-penalty-reason-code-maintenance.module';
 import { EmployeeRewardAndPenaltyRecordsModule } from '@views/reward-and-penalty-maintenance/8_1_2_employee-reward-and-penalty-records/employee-reward-and-penalty-records.module';
 import { EmployeeRewardAndPenaltyReportModule } from '@views/reward-and-penalty-report/8_2_1_employee-reward-and-penalty-report/employee-reward-and-penalty-report.module';
@@ -285,6 +297,7 @@ export class RoutingService {
   Module_6_1_4 = () => NewEmployeesCompulsoryInsurancePremiumModule
   Module_6_2_1 = () => MonthlyCompulsoryInsuranceDetailedReportModule
   Module_6_2_2 = () => MonthlyCompulsoryInsuranceSummaryReportModule
+
   //Salary Maintenance
   Module_7_1_1 = () => SalaryItemandAmountSettingsModule
   Module_7_1_2 = () => MonthlyExchangeRateSettingModule
@@ -319,8 +332,20 @@ export class RoutingService {
   Module_7_2_5 = () => MonthlySalaryDetailReportModule
   Module_7_2_6 = () => MonthlyNonTransferSalaryPaymentReportModule
   Module_7_2_7 = () => MonthlySalaryAdditionsDeductionsSummaryReportModule
+  Module_7_2_9 = () => SalarySummaryReportExitedEmployeeModule
+  Module_7_2_10 = () => SalarySummaryReportExitedEmployeeByDepartmentModule
+  Module_7_2_12 = () => MonthlySalaryTransferDetailsModule
+  Module_7_2_13 = () => MonthlySalaryTransferDetailsExitedEmployeeModule
   Module_7_2_14 = () => TaxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayModule
   Module_7_2_15 = () => MonthlyUnionDuesSummaryModule
+  Module_7_2_16 = () => DownloadPersonnelDataToExcelModule
+  Module_7_2_17 = () => MonthlyPersonalIncomeTaxAmountReportModule
+  Module_7_2_18 = () => AnnualIncomeTaxDetailReportModule
+  Module_7_2_19 = () => MonthlySalarySummaryReportForFinanceModule
+  Module_7_2_20 = () => MonthlySalarySummaryReportForTaxationModule
+  Module_7_2_21 = () => MonthlyAdditionsAndDeductionsSummaryReportForFinanceModule
+  Module_7_2_22 = () => MonthlyAdditionsAndDeductionsSummaryReportModule
+
   //Reward and Penalty Maintenance
   Module_8_1_1 = () => RewardAndPenaltyReasonCodeMaintenanceModule
   Module_8_1_2 = () => EmployeeRewardAndPenaltyRecordsModule

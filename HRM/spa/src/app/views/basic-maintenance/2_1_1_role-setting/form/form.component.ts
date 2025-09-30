@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { TreeviewItem } from '@ash-mezdo/ngx-treeview';
 import { ClassButton, IconButton } from '@constants/common.constants';
@@ -10,6 +9,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalComponent } from '../modal/modal.component';
 import { AuthService } from '@services/auth/auth.service';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -63,17 +63,17 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.activatedRoute.data.subscribe(
+    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.action = role.title
         this.filterList(role.dataResolved)
       })
-    this.roleSettingService.paramForm.subscribe((res) => {
+    this.roleSettingService.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.selectedRole = res
       this.action == 'Add'
         ? this.getProgramGroupTemp()
         : res == null ? this.back() : this.getData()
-    }).unsubscribe()
+    })
     this.levelListStart = this.levelList.slice();
     this.levelListEnd = this.levelList.slice();
     this.levelListEnd.shift()
@@ -83,8 +83,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -128,8 +127,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.selectedData.role_Setting.role = null
             this.selectedData.role_Setting.description = null
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   getProgramGroupTemp = () => {
@@ -141,8 +139,7 @@ export class FormComponent extends InjectBase implements OnInit {
           let treeData = res.map(x => new TreeviewItem(x));
           this.roleList.length == 0 ? this.roleList = treeData : this.tradeLang(treeData, this.roleList)
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   tradeLang(data: TreeviewItem[], target: TreeviewItem[]) {
@@ -173,8 +170,7 @@ export class FormComponent extends InjectBase implements OnInit {
                 this.translateService.instant('System.Caption.Error')
               );
             }
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         })
     }
     else {
@@ -192,8 +188,7 @@ export class FormComponent extends InjectBase implements OnInit {
               );
             }
             else this.putRole(() => this.back())
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         })
     }
   }
@@ -206,8 +201,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error, res.isSuccess)
           if (res.isSuccess) callbackFn()
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
   back = () => this.router.navigate([this.url]);

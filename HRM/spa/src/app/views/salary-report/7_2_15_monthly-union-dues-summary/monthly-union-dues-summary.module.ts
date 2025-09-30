@@ -7,10 +7,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { MainComponent } from './main/main.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    MainComponent,
+  ],
   imports: [
     CommonModule,
     MonthlyUnionDuesSummaryRoutingModule,

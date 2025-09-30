@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ContributionRateSettingDto, ContributionRateSettingParam, ContributionRateSettingSource } from '@models/compulsory-insurance-management/6_1_2_contribution-rate-setting';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -72,7 +72,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getDataFromSource() {
-    this.service.source.subscribe(source => {
+    this.service.source.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(source => {
       if (source && source != null) {
         this.pagination = source.pagination;
         this.param = source.paramQuery;
@@ -90,7 +90,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           }
         }
       }
-    }).unsubscribe()
+    })
   }
   getData(isSearch?: boolean) {
     this.spinnerService.show();
@@ -101,8 +101,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -119,16 +118,15 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show()
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide()
           if (res.isSuccess) {
             this.getData();
             this.snotifyService.success(this.translateService.instant('System.Message.DeleteOKMsg'), this.translateService.instant('System.Caption.Success'));
           }
           else {
-            this.spinnerService.hide()
             this.snotifyService.error(this.translateService.instant('System.Message.DeleteErrorMsg'), this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }
@@ -150,8 +148,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
 
@@ -174,8 +171,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   checkDisabledButton() {
     this.service.checkSearch(this.param).subscribe({
-      next: (res: boolean) => this.checkSearch = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: boolean) => this.checkSearch = res
     });
   }
 
@@ -184,8 +180,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

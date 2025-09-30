@@ -9,9 +9,9 @@ import {
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { IconButton, Placeholder } from '@constants/common.constants';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -48,9 +48,7 @@ export class MainComponent extends InjectBase implements OnInit {
   ) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
         this.processData()
@@ -119,9 +117,6 @@ export class MainComponent extends InjectBase implements OnInit {
         if (isDelete)
           this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
         this.spinnerService.hide()
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   };
@@ -166,9 +161,6 @@ export class MainComponent extends InjectBase implements OnInit {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });
@@ -176,7 +168,7 @@ export class MainComponent extends InjectBase implements OnInit {
   download() {
     if (this.dataMain.length == 0 && this.functionUtility.checkFunction('Search'))
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.param).subscribe({
@@ -186,7 +178,6 @@ export class MainComponent extends InjectBase implements OnInit {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -216,9 +207,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -228,9 +216,6 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res;
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -239,9 +224,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListSalaryType().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -250,9 +232,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListAdditionsAndDeductionsType().subscribe({
       next: res => {
         this.listAdditionsAndDeductionsType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -261,9 +240,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListAdditionsAndDeductionsItem().subscribe({
       next: res => {
         this.listAdditionsAndDeductionsItem = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

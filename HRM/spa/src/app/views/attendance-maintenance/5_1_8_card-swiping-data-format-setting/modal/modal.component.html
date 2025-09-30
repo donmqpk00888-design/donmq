@@ -3,18 +3,18 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <h5>
+        <h5 id="modalTitle">
           {{ title }} - {{ 'System.Action.' + action | translate}}
         </h5>
         <button type="button"
                 class="btn-close close pull-right"
                 (click)="close()">
-          <span aria-hidden="true"
-                class="visually-hidden">&times;</span>
+          <span class="visually-hidden">&times;</span>
         </button>
       </div>
       <div class="modal-body">

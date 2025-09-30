@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ContractTypeSetup_MainMemory, ContractTypeSetupDto, ContractTypeSetupParam, ContractTypeSetupSource } from '@models/employee-maintenance/4_1_14_contract-type-setup';
@@ -8,6 +7,7 @@ import { S_4_1_14_ContractTypeSetupService } from '@services/employee-maintenanc
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -87,13 +87,12 @@ export class MainComponent extends InjectBase implements OnInit {
 
   getListDivision() {
     this.service.getListDivision().subscribe({
-      next: (res) => this.listDivision = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.listDivision = res
     });
   }
 
   getDataFromSource() {
-    this.service.contractTypeSetupSource$.subscribe(source => {
+    this.service.contractTypeSetupSource$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(source => {
       if (source && source != null) {
         this.pagination = source.pagination;
         this.param = source.paramQuery;
@@ -103,8 +102,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   getLisContractType() {
     this.service.getListContractType(this.param.division, this.param.factory).subscribe({
-      next: (res) =>  this.listContractType = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) =>  this.listContractType = res
     });
   }
 
@@ -126,13 +124,10 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -145,8 +140,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -194,8 +188,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.functionUtility.exportExcel(res.data, fileName);
         }
         else this.functionUtility.snotifySuccessError(res.isSuccess, res.error, false);
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -210,8 +203,7 @@ export class MainComponent extends InjectBase implements OnInit {
             this.getData();
             this.getLisContractType();
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }

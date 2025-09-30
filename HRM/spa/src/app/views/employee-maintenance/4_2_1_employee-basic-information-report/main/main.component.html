@@ -16,339 +16,307 @@
           <div class="row border-shadow">
             <!-- Nationality -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="nationality"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality" | translate }}
-                </label>
-                <ng-select id="nationality"
-                           name="nationality"
-                           [(ngModel)]="param.nationality"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality' | translate }}"
-                           [clearable]="param.nationality != ''"
-                           (clear)="deleteProperty('nationality')">
-                  <ng-option *ngFor="let data of listNationality"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="nationality"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality" | translate }}
+              </label>
+              <ng-select id="nationality"
+                         name="nationality"
+                         [(ngModel)]="param.nationality"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality' | translate }}"
+                         [clearable]="param.nationality != ''"
+                         (clear)="deleteProperty('nationality')">
+                <ng-option *ngFor="let data of listNationality"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Identification Number -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="identificationNumber"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber" | translate }}
-                </label>
-                <input type="text"
-                       class="form-control"
-                       id="identificationNumber"
-                       name="identificationNumber"
-                       maxlength="50"
-                       [(ngModel)]="param.identificationNumber"
-                       placeholder="{{'EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber' | translate }}"
-                       autocomplete="off" />
-              </div>
+              <label for="identificationNumber"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber" | translate }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="identificationNumber"
+                     name="identificationNumber"
+                     maxlength="50"
+                     [(ngModel)]="param.identificationNumber"
+                     placeholder="{{'EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber' | translate }}"
+                     autocomplete="off" />
             </div>
 
             <!-- Deletion Code - Employment Status -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmploymentStatus" | translate }}
-                </label>
-                <div class="row pl-3">
-                  <div *ngFor="let item of employmentStatus; index as i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2">
-                          <input [id]="'employmentStatus' + i"
-                                 class="custom-control-input"
-                                 type="radio"
-                                 checked="checked"
-                                 [name]="'employmentStatus' + i"
-                                 [(ngModel)]="param.employmentStatus"
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             [for]="'employmentStatus' + i">
-                            <strong>
-                              {{ item.value | translate }}
-                            </strong>
-                          </p>
-                        </div>
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmploymentStatus" | translate }}
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of employmentStatus; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input [id]="'employmentStatus' + i"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               [name]="'employmentStatus' + i"
+                               [(ngModel)]="param.employmentStatus"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           [for]="'employmentStatus' + i">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
                       </div>
-                    </label>
-                  </div>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
 
             <!-- Division -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="division"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division" | translate }}
-                  <span class="text-danger text-bold"> *</span>
-                </label>
-                <ng-select id="division"
-                           name="division"
-                           [(ngModel)]="param.division"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division' | translate }}"
-                           (ngModelChange)="onChangeDivision()"
-                           [clearable]="param.division != ''"
-                           (clear)="deleteProperty('division')">
-                  <ng-option *ngFor="let data of listDivision"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="division"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select id="division"
+                         name="division"
+                         [(ngModel)]="param.division"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division' | translate }}"
+                         (ngModelChange)="onChangeDivision()"
+                         [clearable]="param.division != ''"
+                         (clear)="deleteProperty('division')">
+                <ng-option *ngFor="let data of listDivision"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Factory -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="factory"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory" | translate }}
-                  <span class="text-danger text-bold"> *</span>
-                </label>
-                <ng-select [disabled]="listFactory.length == 0"
-                           id="factory"
-                           name="factory"
-                           [(ngModel)]="param.factory"
-                           (ngModelChange)="onChangeFactory()"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory' | translate }}"
-                           [clearable]="param.factory != ''"
-                           (clear)="deleteProperty('factory')">
-                  <ng-option *ngFor="let data of listFactory"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="factory"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select [disabled]="listFactory.length == 0"
+                         id="factory"
+                         name="factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onChangeFactory()"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory' | translate }}"
+                         [clearable]="param.factory != ''"
+                         (clear)="deleteProperty('factory')">
+                <ng-option *ngFor="let data of listFactory"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Employee ID -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="employeeID"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID" | translate }}
-                </label>
-                <input type="text"
-                       class="form-control"
-                       id="employeeID"
-                       name="employeeID"
-                       maxlength="9"
-                       [(ngModel)]="param.employeeID"
-                       placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID' | translate }}"
-                       autocomplete="off" />
-              </div>
+              <label for="employeeID"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID" | translate }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="employeeID"
+                     name="employeeID"
+                     maxlength="9"
+                     [(ngModel)]="param.employeeID"
+                     placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID' | translate }}"
+                     autocomplete="off" />
             </div>
             <!-- Department -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="department"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department" | translate }}
-                </label>
-                <ng-select [disabled]="listDepartment.length == 0"
-                           id="department"
-                           name="department"
-                           [(ngModel)]="param.department"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department' | translate }}"
-                           [clearable]="param.department != ''"
-                           (clear)="deleteProperty('department')">
-                  <ng-option *ngFor="let data of listDepartment"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="department"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department" | translate }}
+              </label>
+              <ng-select [disabled]="listDepartment.length == 0"
+                         id="department"
+                         name="department"
+                         [(ngModel)]="param.department"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department' | translate }}"
+                         [clearable]="param.department != ''"
+                         (clear)="deleteProperty('department')">
+                <ng-option *ngFor="let data of listDepartment"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
 
             <!-- Assigned/Supported Division -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="assignedDivision"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision" | translate }}
-                </label>
-                <ng-select id="assignedDivision"
-                           name="assignedDivision"
-                           [(ngModel)]="param.assignedDivision"
-                           (ngModelChange)="onChangeAssignedDivision()"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision' | translate }}"
-                           [clearable]="param.assignedDivision != ''"
-                           (clear)="deleteProperty('assignedDivision')">
-                  <ng-option *ngFor="let data of listDivision"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="assignedDivision"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision" | translate }}
+              </label>
+              <ng-select id="assignedDivision"
+                         name="assignedDivision"
+                         [(ngModel)]="param.assignedDivision"
+                         (ngModelChange)="onChangeAssignedDivision()"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision' | translate }}"
+                         [clearable]="param.assignedDivision != ''"
+                         (clear)="deleteProperty('assignedDivision')">
+                <ng-option *ngFor="let data of listDivision"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Assigned/Supported Factory -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="assignedFactory"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory" | translate }}
-                </label>
-                <ng-select [disabled]="listAssignedFactory.length == 0"
-                           id="assignedFactory"
-                           name="assignedFactory"
-                           [(ngModel)]="param.assignedFactory"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory' | translate }}"
-                           [clearable]="param.assignedFactory != ''"
-                           (clear)="deleteProperty('assignedFactory')"
-                           (ngModelChange)="onChangeAssignedFactory()">
-                  <ng-option *ngFor="let data of listAssignedFactory"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="assignedFactory"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory" | translate }}
+              </label>
+              <ng-select [disabled]="listAssignedFactory.length == 0"
+                         id="assignedFactory"
+                         name="assignedFactory"
+                         [(ngModel)]="param.assignedFactory"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory' | translate }}"
+                         [clearable]="param.assignedFactory != ''"
+                         (clear)="deleteProperty('assignedFactory')"
+                         (ngModelChange)="onChangeAssignedFactory()">
+                <ng-option *ngFor="let data of listAssignedFactory"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Assigned/Supported Employee ID -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="assignedEmployeeID"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID" | translate }}
-                </label>
-                <input type="text"
-                       class="form-control"
-                       id="assignedEmployeeID"
-                       name="assignedEmployeeID"
-                       maxlength="9"
-                       [(ngModel)]="param.assignedEmployeeID"
-                       placeholder="{{'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID'| translate }}"
-                       autocomplete="off" />
-              </div>
+              <label for="assignedEmployeeID"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID" | translate }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="assignedEmployeeID"
+                     name="assignedEmployeeID"
+                     maxlength="9"
+                     [(ngModel)]="param.assignedEmployeeID"
+                     placeholder="{{'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID'| translate }}"
+                     autocomplete="off" />
             </div>
 
             <!-- Assigned/Supported Department -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-              <div class="form-group">
-                <label for="assignedDepartment"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment" | translate }}
-                </label>
-                <ng-select [disabled]="listAssignedDepartment.length == 0"
-                           id="assignedDepartment"
-                           name="assignedDepartment"
-                           [(ngModel)]="param.assignedDepartment"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment' | translate }}"
-                           [clearable]="param.assignedDepartment != ''"
-                           (clear)="deleteProperty('assignedDepartment')">
-                  <ng-option *ngFor="let data of listAssignedDepartment"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="assignedDepartment"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment" | translate }}
+              </label>
+              <ng-select [disabled]="listAssignedDepartment.length == 0"
+                         id="assignedDepartment"
+                         name="assignedDepartment"
+                         [(ngModel)]="param.assignedDepartment"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment' | translate }}"
+                         [clearable]="param.assignedDepartment != ''"
+                         (clear)="deleteProperty('assignedDepartment')">
+                <ng-option *ngFor="let data of listAssignedDepartment"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
-
 
             <!-- Permission Group -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-              <div class="form-group">
-                <label for="permissionGroup"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup" | translate }}
-                </label>
-                <ng-select id="permissionGroup"
-                           name="permissionGroup"
-                           [(ngModel)]="param.permissionGroup"
-                           placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup' | translate }}">
-                  <ng-option *ngFor="let data of listPermission"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="permissionGroup"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup" | translate }}
+              </label>
+              <ng-select id="permissionGroup"
+                         name="permissionGroup"
+                         [(ngModel)]="param.permissionGroup"
+                         placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup' | translate }}">
+                <ng-option *ngFor="let data of listPermission"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
 
             <!-- Position Grade -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-              <div class="form-group">
-                <label for="positionGrade"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade" | translate }}
-                </label>
-                <div class="row">
-                  <!-- <div class="container_input"> -->
-                    <div class="col-6 custom-colR">
-                      <ng-select id="positionGrade"
-                                 name="positionGrade"
-                                 (change)="filterPositionGrades()"
-                                 (clear)="deleteProperty('positionGrade_Start')"
-                                 [(ngModel)]="param.positionGrade_Start"
-                                 placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade' | translate }}">
-                        <ng-option *ngFor="let data of listPositionGrade_Start"
-                                   [value]="data.key">
-                          {{ data.value }}
-                        </ng-option>
-                      </ng-select>
-                    </div>
-                    <div class="col-6 custom-colL">
-                      <ng-select id="positionGrade"
-                                 name="positionGrade"
-                                 (change)="filterPositionGrades()"
-                                 (clear)="deleteProperty('positionGrade_End')"
-                                 [(ngModel)]="param.positionGrade_End"
-                                 placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade' | translate }}">
-                        <ng-option *ngFor="let data of listPositionGrade_End"
-                                   [value]="data.key">
-                          {{ data.value }}
-                        </ng-option>
-                      </ng-select>
-
-                    </div>
-                  <!-- </div> -->
+              <label for="positionGrade"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade" | translate }}
+              </label>
+              <div class="row">
+                <div class="col-6 custom-colR">
+                  <ng-select id="positionGrade"
+                             name="positionGrade"
+                             (change)="filterPositionGrades()"
+                             (clear)="deleteProperty('positionGrade_Start')"
+                             [(ngModel)]="param.positionGrade_Start"
+                             placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade' | translate }}">
+                    <ng-option *ngFor="let data of listPositionGrade_Start"
+                               [value]="data.key">
+                      {{ data.value }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-6 custom-colL">
+                  <ng-select id="positionGrade"
+                             name="positionGrade"
+                             (change)="filterPositionGrades()"
+                             (clear)="deleteProperty('positionGrade_End')"
+                             [(ngModel)]="param.positionGrade_End"
+                             placeholder="{{ 'EmployeeInformationModule.EmployeeBasicInformationReport.PositionGrade' | translate }}">
+                    <ng-option *ngFor="let data of listPositionGrade_End"
+                               [value]="data.key">
+                      {{ data.value }}
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>
             <!-- Onboard Date -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="effectiveDate"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.OnboardDate" | translate }}
-                </label>
-                <div class="full-width">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="onBoardStart_Date"
-                             [(ngModel)]="onBoardStart_Date"
-                             (blur)="onboardDateChange()"
-                             [maxDate]="onBoardEnd_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+              <label for="effectiveDate"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.OnboardDate" | translate }}
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="onBoardStart_Date"
+                           [(ngModel)]="onBoardStart_Date"
+                           (blur)="onboardDateChange()"
+                           [maxDate]="onBoardEnd_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
-                    <div class="input-group ml-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="onBoardEnd_Date"
-                             [(ngModel)]="onBoardEnd_Date"
-                             (blur)="onboardDateChange(false)"
-                             [minDate]="onBoardStart_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+                  </div>
+                  <div class="input-group ml-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="onBoardEnd_Date"
+                           [(ngModel)]="onBoardEnd_Date"
+                           (blur)="onboardDateChange(false)"
+                           [minDate]="onBoardStart_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
                   </div>
                 </div>
@@ -356,42 +324,40 @@
             </div>
             <!-- Date Of Group Employment -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="effectiveDate"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfGroupEmployment" | translate }}
-                </label>
-                <div class="full-width">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="dateOfGroupStart_Date"
-                             [(ngModel)]="dateOfGroupStart_Date"
-                             (blur)="onDateOfGroupEmploymentChange()"
-                             [maxDate]="dateOfGroupEnd_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+              <label for="effectiveDate"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfGroupEmployment" | translate }}
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="dateOfGroupStart_Date"
+                           [(ngModel)]="dateOfGroupStart_Date"
+                           (blur)="onDateOfGroupEmploymentChange()"
+                           [maxDate]="dateOfGroupEnd_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
-                    <div class="input-group ml-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="dateOfGroupEnd_Date"
-                             [(ngModel)]="dateOfGroupEnd_Date"
-                             (blur)="onDateOfGroupEmploymentChange(false)"
-                             [minDate]="dateOfGroupStart_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+                  </div>
+                  <div class="input-group ml-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="dateOfGroupEnd_Date"
+                           [(ngModel)]="dateOfGroupEnd_Date"
+                           (blur)="onDateOfGroupEmploymentChange(false)"
+                           [minDate]="dateOfGroupStart_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
                   </div>
                 </div>
@@ -399,49 +365,48 @@
             </div>
             <!-- Date Of Resignation -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="effectiveDate"
-                       class="badge badge-warning">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfResignation" | translate }}
-                </label>
-                <div class="full-width">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="dateOfResignationStart_Date"
-                             [(ngModel)]="dateOfResignationStart_Date"
-                             (blur)="onDateOfResignationChange()"
-                             [maxDate]="dateOfResignationEnd_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+              <label for="effectiveDate"
+                     class="badge badge-warning">
+                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfResignation" | translate }}
+              </label>
+              <div class="full-width">
+                <div class="container_input">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="dateOfResignationStart_Date"
+                           [(ngModel)]="dateOfResignationStart_Date"
+                           (blur)="onDateOfResignationChange()"
+                           [maxDate]="dateOfResignationEnd_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
-                    <div class="input-group ml-1">
-                      <input autocomplete="off"
-                             type="text"
-                             class="form-control bg-white"
-                             name="dateOfResignationEnd_Date"
-                             [(ngModel)]="dateOfResignationEnd_Date"
-                             (blur)="onDateOfResignationChange(false)"
-                             [minDate]="dateOfResignationStart_Date"
-                             bsDatepicker
-                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                      </div>
+                  </div>
+                  <div class="input-group ml-1">
+                    <input autocomplete="off"
+                           type="text"
+                           class="form-control"
+                           name="dateOfResignationEnd_Date"
+                           [(ngModel)]="dateOfResignationEnd_Date"
+                           (blur)="onDateOfResignationChange(false)"
+                           [minDate]="dateOfResignationStart_Date"
+                           bsDatepicker
+                           [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 mt-2">
+            <div class="col-12">
+              <label class="d-block">&nbsp;</label>
               <!-- Search -->
               <button *ngIf="functionUtility.checkFunction('Search')"
                       type="button"

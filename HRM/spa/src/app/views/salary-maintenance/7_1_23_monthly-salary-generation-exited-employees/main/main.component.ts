@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { MonthlySalaryGenerationExitedEmployees_Param, MonthlySalaryGenerationExitedEmployees_Memory } from '@models/salary-maintenance/7_1_23_monthly-salary-generation-exited-employees';
 import { S_7_1_23_MonthlySalaryGenerationExitedEmployees } from '@services/salary-maintenance/s_7_1_23_monthly-salary-generation-exited-employees.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -40,6 +40,8 @@ export class MainComponent extends InjectBase implements OnInit {
     { key: "Y", value: "Yes", optional: false },
     { key: "N", value: "No", optional: false }
   ];
+  i18n: string = 'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.'
+
   constructor(private service: S_7_1_23_MonthlySalaryGenerationExitedEmployees) {
     super();
     this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -64,13 +66,13 @@ export class MainComponent extends InjectBase implements OnInit {
     this.tabs = [
       {
         id: 'salaryGeneration',
-        title: this.translateService.instant('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.MonthlySalaryGeneration'),
+        title: this.translateService.instant(this.i18n + 'MonthlySalaryGeneration'),
         isEnable: true,
         content: this.salaryGenerationTab
       },
       {
         id: 'dataLock',
-        title: this.translateService.instant('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.MonthlyDataLock'),
+        title: this.translateService.instant(this.i18n + 'MonthlyDataLock'),
         isEnable: true,
         content: this.dataLockTab
       },
@@ -86,7 +88,7 @@ export class MainComponent extends InjectBase implements OnInit {
   }
   execute() {
     this.snotifyService.confirm(
-      this.translateService.instant('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.ExecuteConfirm'),
+      this.translateService.instant(this.i18n + 'ExecuteConfirm'),
       this.translateService.instant('System.Caption.Confirm'),
       () => {
         this.spinnerService.show();
@@ -99,19 +101,15 @@ export class MainComponent extends InjectBase implements OnInit {
                   this.functionUtility.checkEmpty(res.error)
                     ? this.continueExecute()
                     : this.snotifyService.confirm(
-                      this.translateService.instant(this.getTransKey('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees', res.error)),
+                      this.translateService.instant(`${this.i18n}${res.error}`),
                       this.translateService.instant('System.Caption.Confirm'),
                       () => this.continueExecute()
                     );
                 } else {
-                  this.snotifyService.error(
-                    this.translateService.instant(this.getTransKey('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees', res.error)),
-                    this.translateService.instant('System.Caption.Error')
-                  );
+                  this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
                 }
               }, 1000);
-            },
-            error: () => this.functionUtility.snotifySystemError()
+            }
           }) : this.continueExecute()
       }
     );
@@ -123,20 +121,13 @@ export class MainComponent extends InjectBase implements OnInit {
         if (res.isSuccess) {
           if (res.data.error)
             this.snotifyService.warning(res.data.error, this.translateService.instant('System.Caption.Warning'));
-          this.snotifyService.success(
-            this.translateService.instant('System.Message.CreateOKMsg'),
-            this.translateService.instant('System.Caption.Success')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.CreateOKMsg');
           this[this.selectedTab + '_Param'].total_Rows = this.selectedTab === 'salaryGeneration' ? res.data.count : res.data;
         } else {
-          this.snotifyService.error(
-            this.translateService.instant(this.getTransKey('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees', res.error)),
-            this.translateService.instant('System.Caption.Error')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   clearParam() {
@@ -150,12 +141,6 @@ export class MainComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -185,12 +170,6 @@ export class MainComponent extends InjectBase implements OnInit {
   deleteProperty(name: string) {
     delete this[this.selectedTab + '_Param'][name]
   }
-  getTransKey(parent: string, key: string): string {
-    return this.functionUtility.hasTranslation(`${parent}.${key}`)
-      ? `${parent}.${key}`
-      : `${this.translateService.instant('SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.InvalidErrorCode')} : ${key}`
-  }
-
   validateDecimal(event: any): boolean {
     const inputChar = event.key;
     const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];

@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { MonthlyCompulsoryInsuranceSummaryReport_Source, MonthlyCompulsoryInsuranceSummaryReport_Param } from '@models/compulsory-insurance-management/6_1_6_monthly-compulsory-insurance-summary-report';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,6 +6,7 @@ import { S_6_2_2_MonthlyCompulsoryInsuranceSummaryReportService } from '@service
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +21,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   title: string = ''
   programCode: string = '';
-  
+
   year_Month: Date
   total: number = 0;
   source: MonthlyCompulsoryInsuranceSummaryReport_Source;
@@ -106,8 +106,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   deleteProperty = (name: string) => delete this.param[name]
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
 
@@ -115,8 +114,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getDepartmentList(this.param.factory).subscribe({
       next: res => {
         this.listDepartment = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -125,8 +123,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -134,8 +131,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListInsuranceType().subscribe({
       next: res => {
         this.listInsuranceType = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -164,8 +160,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.total = 0;
           this.snotifyService.warning(this.translateService.instant(result.error), this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -182,8 +177,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
         }
 
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

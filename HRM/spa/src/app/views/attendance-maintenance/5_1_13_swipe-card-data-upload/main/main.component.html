@@ -15,7 +15,7 @@
         <div class="card-body">
           <div class="row border-shadow">
 
-            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
               <label class="badge badge-warning"> {{ 'AttendanceMaintenance.SwipeCardDataUpload.Factory' | translate}} <span class="text-danger text-bold"> *</span></label>
               <ng-select name="factory"
                          [(ngModel)]="param.factory"
@@ -26,7 +26,7 @@
                            [value]="factory.key">{{factory.value}}</ng-option>
               </ng-select>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
               <label class="badge badge-warning"> {{ 'AttendanceMaintenance.SwipeCardDataUpload.ProcessedRecords' | translate}} </label>
               <input type="text"
                      class="form-control"
@@ -41,16 +41,9 @@
                  class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
               <label>&nbsp;</label>
               <div>
-                <label class="btn btn-success"
-                       style="cursor: pointer">
-                  <i [class]="iconButton.UPLOAD"></i>
-                  {{ 'AttendanceMaintenance.SwipeCardDataUpload.UploadTitle' | translate}}
-                  <input #fileInput
-                         type="file"
-                         name="upload"
-                         style="display: none"
-                         (change)="onSelectFile($event)"/>
-                </label>
+                <file-upload [allowExtensions]="accept"
+                             [label]="'AttendanceMaintenance.SwipeCardDataUpload.UploadTitle' | translate "
+                             (filesChange)="upload($event)"></file-upload>
               </div>
             </div>
           </div>

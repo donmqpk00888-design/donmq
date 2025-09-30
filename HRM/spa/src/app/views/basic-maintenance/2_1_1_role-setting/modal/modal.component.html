@@ -3,30 +3,31 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-default">
     <div class="modal-content">
       <div ngClass="bg-primary modal-header">
-        <h4 class="modal-title pull-left">{{'BasicMaintenance.RoleSetting.ProgramGroup' | translate }}</h4>
+        <h4 id="modalTitle"
+            class="modal-title pull-left">{{'BasicMaintenance.RoleSetting.ProgramGroup' | translate }}</h4>
         <button type="button"
                 class="btn-close close pull-right"
-                aria-label="Close"
                 (click)="close()">
-          <span aria-hidden="true"
-                class="visually-hidden">&times;</span>
+          <span class="visually-hidden">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <ngx-treeview [config]="config"
-                      [items]="data">
-        </ngx-treeview>
+        <div class="modal-body-container">
+          <ngx-treeview [config]="config"
+                        [items]="data">
+          </ngx-treeview>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button"
                 class="{{classButton.CLOSE}}"
                 (click)="close()">
-          <i class="{{ IconButton.CLOSE }} mr-1"
-             aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+          <i class="{{ IconButton.CLOSE }} mr-1"></i>{{'System.Action.Close' | translate }}
         </button>
       </div>
     </div>

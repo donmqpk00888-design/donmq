@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
@@ -9,6 +8,7 @@ import { S_7_1_14_IncomeTaxFreeSettingService } from '@services/salary-maintenan
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -42,9 +42,7 @@ export class FormComponent extends InjectBase implements OnInit {
 
   constructor(private service: S_7_1_14_IncomeTaxFreeSettingService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
       });
@@ -53,10 +51,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     this.isEdit = this.formType == 'Edit'
@@ -77,9 +75,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         this.data = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -109,13 +104,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data = res.isSuccess ? [] : res.data
             this.data.map((val: IncomeTaxFreeSetting_SubData) => val.update_Time_Str = this.functionUtility.getDateTimeFormat(new Date(val.update_Time)))
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })
@@ -176,6 +164,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .create(this.param, this.data)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.back();
             this.snotifyService.success(
@@ -191,14 +180,8 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error')
             );
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       })
-      .add(() => {
-        this.spinnerService.hide();
-      });
   }
 
   update() {
@@ -221,10 +204,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.translateService.instant('System.Caption.Error')
           );
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -256,9 +235,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -267,9 +243,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListType().subscribe({
       next: res => {
         this.listType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -278,9 +251,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListSalaryType().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

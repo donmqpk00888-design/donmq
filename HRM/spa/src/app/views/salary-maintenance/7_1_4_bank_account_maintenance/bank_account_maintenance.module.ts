@@ -9,6 +9,7 @@ import { MainComponent } from './main/main.component';
 import { FormComponent } from './form/form.component';
 import { BankAccountMaintenanceRoutingModule } from './bank_account_maintenance-routing.module';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     BsDatepickerModule.forRoot(),
     TranslateModule,
     NgSelectModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    SharedModule
   ],
   declarations: [MainComponent, FormComponent]
 })

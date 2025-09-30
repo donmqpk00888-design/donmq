@@ -130,7 +130,7 @@ namespace API._Services.Services.AttendanceMaintenance
             var data = await GetData(param, userName);
             var export = data.Data as IndividualMonthlyWorkingHoursReportDto;
             if (!export.DataExcels.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
             var results = export.DataExcels;
             var permissions = await GetListPermissionGroup(param.factory, param.language);
             var permissionParams = param.permission_Group.Split(",");

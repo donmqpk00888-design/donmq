@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { SalaryApprovalForm_Param, SalaryApprovalForm_Source } from '@models/salary-report/7_2_1_SalaryApprovalForm';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,6 +6,7 @@ import { S_7_2_1_SalaryApprovalFormService } from '@services/salary-report/s_7_2
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -29,7 +29,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy{
   listPermissionGroup: KeyValuePair[] = [];
   listDepartment: KeyValuePair[] = [];
 
-  
+
   kind: KeyValuePair[] = [
     {
       key: 'O',
@@ -92,12 +92,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy{
     this.getPositionTitles();
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListPermissionGroup() {
@@ -105,22 +103,19 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy{
       next: res => {
         this.listPermissionGroup = res
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListDepartment() {
     this.service.getListDepartment(this.param.factory).subscribe({
       next: res => {
         this.listDepartment = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getPositionTitles() {
     this.service.getPositionTitles().subscribe({
-      next: res => this.listPosition = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listPosition = res
     })
   }
   getTotalRows(isSearch?: boolean) {
@@ -131,8 +126,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy{
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   download() {
@@ -148,8 +142,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy{
           this.totalRows = 0
           this.snotifyService.warning(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   clear() {

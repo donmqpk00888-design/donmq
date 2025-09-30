@@ -69,7 +69,7 @@ namespace API._Services.Services.AttendanceMaintenance
       if (!employeeID.StartsWith(factory + "-"))
         employeeID = $"{factory}-{employeeID}";
       if (string.IsNullOrWhiteSpace(employeeID))
-        return new OperationResult(false, "System.Message.Nodata");
+        return new OperationResult(false, "System.Message.NoData");
 
       var permissionGroupPred = PredicateBuilder.New<HRMS_Basic_Code>(x => x.Type_Seq == BasicCodeTypeConstant.PermissionGroup);
       var permissionGroupCodes = await GetBasicCodes(language, permissionGroupPred);

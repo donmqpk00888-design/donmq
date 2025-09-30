@@ -19,7 +19,7 @@ namespace API._Services.Services.EmployeeMaintenance
                .FirstOrDefaultAsync(x => x.History_GUID == dto.History_GUID);
 
             if (data == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             if (await _repositoryAccessor.HRMS_Emp_Transfer_Operation
                 .AnyAsync(x => x.History_GUID != dto.History_GUID
@@ -114,7 +114,7 @@ namespace API._Services.Services.EmployeeMaintenance
         {
             var emp_Personal = await _repositoryAccessor.HRMS_Emp_Personal.FirstOrDefaultAsync(x => x.USER_GUID == dto.USER_GUID);
             if (emp_Personal == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
             emp_Personal.Division = dto.DivisionAfter;
             emp_Personal.Factory = dto.FactoryAfter;
             emp_Personal.Employee_ID = dto.EmployeeIDAfter;

@@ -1,0 +1,176 @@
+<div class="animated fadeIn">
+  <div>
+    <div class="card">
+      <form class="form-horizontal"
+            autocomplete="off"
+            #mainForm="ngForm">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong class="title-card-cs"> {{title }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <div class="col-12">
+              <div class="row">
+                <!-- Factory -->
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{i18n + 'Factory' | translate }}
+                    <span class="text-danger"> *</span></label>
+                  <ng-select name="factoryGeneration"
+                             [(ngModel)]="param.factory"
+                             (clear)="deleteProperty('factory')"
+                             (ngModelChange)="onFactoryChange()"
+                             [clearable]="param.factory !== null"
+                             placeholder="{{i18n + 'Factory' | translate }}"
+                             required>
+                    <ng-option *ngFor="let item of factoryList"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <!-- Year Month -->
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{i18n + 'YearMonth' | translate }}
+                    <span class="text-danger"> *</span></label>
+                  <div class="full-width">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="YYYY/MM"
+                               name="month"
+                               [bsConfig]="{isAnimated: true, dateInputFormat: 'YYYY/MM', minMode: 'month'}"
+                               class="form-control"
+                               bsDatepicker
+                               [(ngModel)]="param.year_Month"
+                               (ngModelChange)="onDateChange()"
+                               onpaste="return false"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Department -->
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">{{i18n + 'Department' | translate }}</label>
+                  <ng-select name="department"
+                             [(ngModel)]="param.department"
+                             (clear)="deleteProperty('department')"
+                             [clearable]="param.department !== ''"
+                             [disabled]="!param.factory"
+                             placeholder="{{i18n + 'Department' | translate }}">
+                    <ng-option *ngFor="let item of departmentList"
+                               [value]="item.key">{{ item.value }}</ng-option>
+                  </ng-select>
+                </div>
+                <!-- Employee ID -->
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning">
+                    {{i18n + 'EmployeeID' | translate}}
+                  </label>
+                  <input [(ngModel)]="param.employee_ID"
+                         type="text"
+                         class="form-control"
+                         maxlength="9"
+                         name="employee_ID"
+                         placeholder="{{i18n + 'EmployeeID' | translate}}" />
+                </div>
+                <!-- Permission Group -->
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-auto">
+                      <label for="namePermissionGeneration"
+                             class="badge badge-warning"> {{ i18n + 'PermissionGroup' | translate }}
+                        <span class="text-danger text-bold"> *</span>
+                      </label>
+                      <ng-select [items]="permissionGroupList"
+                                 [multiple]="true"
+                                 name="namePermissionGeneration"
+                                 groupBy="allGroup"
+                                 [selectableGroup]="true"
+                                 [selectableGroupAsModel]="false"
+                                 [closeOnSelect]="false"
+                                 bindLabel="value"
+                                 bindValue="key"
+                                 [(ngModel)]="param.permission_Group"
+                                 [disabled]="!param.factory"
+                                 required
+                                 placeholder="{{ i18n + 'PermissionGroup'| translate}}">
+                        <ng-template ng-optgroup-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   name="item-{{ index }}"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   name="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}"> {{ item.value }}</label>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="d-block">&nbsp;</label>
+                  <button *ngIf="functionUtility.checkFunction('Search')"
+                          type="button"
+                          class="{{ classButton.SEARCH }}"
+                          [disabled]="!mainForm.valid"
+                          (click)="callFunction('search')">
+                    <i class="{{ iconButton.SEARCH }}"></i>
+                    {{ "System.Action.Search" | translate }}
+                  </button>
+                  <button *ngIf="functionUtility.checkFunction('Search')"
+                          type="button"
+                          class="{{ classButton.CLEAR }}"
+                          (click)="clear()">
+                    <i class="{{ iconButton.CLEAR }}"></i>
+                    {{ "System.Action.Clear" | translate }}
+                  </button>
+                  <button *ngIf="functionUtility.checkFunction('Excel')"
+                          type="button"
+                          class="{{ classButton.EXCEL }}"
+                          [disabled]="!mainForm.valid"
+                          (click)="callFunction('excel')">
+                    <i class="{{ iconButton.EXCEL }}"></i>
+                    {{ "System.Action.Excel" | translate }}
+                  </button>
+                </div>
+                <div class="col-12 mt-2">
+                  <strong>
+                    {{ i18n + 'Total'| translate }}
+                    <span class="text-primary"> {{param.total_Rows}} </span>
+                    {{ i18n + 'Records' | translate }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

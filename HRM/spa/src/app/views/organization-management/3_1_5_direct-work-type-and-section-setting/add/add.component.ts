@@ -1,11 +1,11 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { DirectWorkTypeAndSectionSettingParam } from '@models/organization-management/3_1_5_organization-management';
 import { S_3_1_5_DirectWorkTypeAndSectionSettingService } from '@services/organization-management/s_3_1_5_direct-work-type-and-section-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
-import { KeyValuePair } from '@utilities/key-value-pair';
+import { KeyValuePair } from '@utilities/key-value-pair';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -39,7 +39,7 @@ export class AddComponent extends InjectBase implements OnInit {
   constructor(
     private service: S_3_1_5_DirectWorkTypeAndSectionSettingService
   ) {
-    super(); this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    super(); this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListSection();
       this.getListDivision();
@@ -71,27 +71,22 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listDivision = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   changeGetFactory() {
-    this.spinnerService.show();
     this.deleteProperty('division')
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
         this.deleteProperty('factory')
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListWorkType() {
     this.service.getListWorkType().subscribe({
       next: (res) => this.listWorkType = res,
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
@@ -99,7 +94,6 @@ export class AddComponent extends InjectBase implements OnInit {
   getListSection() {
     this.service.getListSection().subscribe({
       next: (res) => this.listSection = res,
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
   getDataFromSource() {
@@ -114,11 +108,11 @@ export class AddComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.create(this.param).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         if (result.isSuccess) this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     })
   }
 
@@ -131,7 +125,6 @@ export class AddComponent extends InjectBase implements OnInit {
       !this.functionUtility.checkEmpty(this.param.work_Type_Code)
       ? this.service.checkDuplicate(this.param).subscribe({
         next: result => {
-          this.spinnerService.hide()
           if (result.isSuccess) {
             !this.functionUtility.checkEmpty(this.param.section_Code)
               ? this.isAllow = true
@@ -143,7 +136,6 @@ export class AddComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error'));
           }
         },
-        error: () => this.functionUtility.snotifySystemError(),
       })
       : this.isAllow = false
   }

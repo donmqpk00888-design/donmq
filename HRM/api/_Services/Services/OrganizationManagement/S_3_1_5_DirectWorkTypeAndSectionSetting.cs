@@ -104,7 +104,7 @@ namespace API._Services.Services.OrganizationManagement
         {
             var data = await GetData(param);
             if (!data.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             ExcelResult excelResult = ExcelUtility.DownloadExcel(
                 data, 
@@ -150,7 +150,7 @@ namespace API._Services.Services.OrganizationManagement
                     x.Section_Code == data.Section_Code);
 
             if (item == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             item = Mapper.Map(data).Over(item);
 

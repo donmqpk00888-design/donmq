@@ -13,9 +13,19 @@ html {
   right: 0;
   z-index: 100;
 }
-.pan-zone
-{
+.pan-zone {
   border: 1px solid #c8ced3;
   height: 61vh;
   width: 100%;
+}
+.pdf-print {
+  color: black !important;
+  // background-color: #c8ced3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  .pan-zone {
+    border: 0;
+  }
 }

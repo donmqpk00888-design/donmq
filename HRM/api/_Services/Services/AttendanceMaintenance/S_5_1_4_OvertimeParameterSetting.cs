@@ -60,7 +60,7 @@ namespace API._Services.Services.AttendanceMaintenance
         {
             var data = await GetData(param);
             if (!data.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             List<Cell> dataCells = new()
             {
@@ -150,7 +150,7 @@ namespace API._Services.Services.AttendanceMaintenance
                     x.Work_Shift_Type == data.Work_Shift_Type &&
                     x.Overtime_Start == data.Overtime_Start_Old);
             if (item == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
             HRMS_Att_Overtime_Parameter dataNew = Mapper.Map(data).ToANew<HRMS_Att_Overtime_Parameter>(x => x.MapEntityKeys());
             try
             {

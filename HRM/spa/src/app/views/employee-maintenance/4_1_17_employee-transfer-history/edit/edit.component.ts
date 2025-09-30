@@ -1,11 +1,11 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { EmployeeTransferHistoryDTO } from '@models/employee-maintenance/4_1_17_employee-transfer-history';
 import { S_4_1_17_EmployeeTransferHistoryService } from '@services/employee-maintenance/s_4_1_17_employee-transfer-history.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-edit',
@@ -38,7 +38,7 @@ export class EditComponent extends InjectBase implements OnInit {
     private service: S_4_1_17_EmployeeTransferHistoryService,
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadData()
     });
@@ -80,30 +80,23 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this[dataProperty] = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   getDataSources() {
-    this.spinnerService.show();
     this.service.getListDataSource().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listDataSources = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     })
   }
 
   //#region  get value param
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.factory_After).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -112,18 +105,14 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listAssignedFactoryAfter = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory_After, this.param.division_After).subscribe({
       next: (res) => {
         this.listDepartment = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -143,16 +132,13 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listAssignedDepartmentAfter = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
   getListPositionTitleAfter() {
     this.service.getListPositionTitle(this.param.position_Grade_After ?? 0).subscribe({
       next: (res) => {
         this.listPositionTitleAfter = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -160,9 +146,7 @@ export class EditComponent extends InjectBase implements OnInit {
     this.service.getListPositionTitle(this.param.position_Grade_Before).subscribe({
       next: (res) => {
         this.listPositionTitleBefore = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -228,12 +212,12 @@ export class EditComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.update(this.param).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         if (result.isSuccess)
           this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     })
   }
 

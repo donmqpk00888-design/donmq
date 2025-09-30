@@ -101,7 +101,7 @@ namespace API._Services.Services.EmployeeMaintenance
                .FirstOrDefaultAsync(x => x.History_GUID == dto.History_GUID);
 
             if (data == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             DateTime current = DateTime.Now;
             data.USER_GUID = dto.USER_GUID;

@@ -9,8 +9,8 @@ import {
 import { InjectBase } from '@utilities/inject-base-app';
 import { IconButton } from '@constants/common.constants';
 import { S_1_1_3_SystemLanguageSettingService } from '@services/system-maintenance/s_1_1_3_system-language-setting.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LangChangeEvent } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -22,7 +22,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     pageNumber: 1,
     pageSize: 10,
   };
-  bsModalRef?: BsModalRef;
   iconButton = IconButton;
   data: SystemLanguageSetting_Data[] = [];
   selectedData: SystemLanguageSetting_Data = <SystemLanguageSetting_Data>{};
@@ -71,13 +70,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.data = res.result;
         this.pagination = res.pagination;
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
     });
   }
 
@@ -115,12 +107,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
           this.getData();
         } else this.snotifyService.error(res.error, this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => {
-        this.spinnerService.hide()
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'));
       }
     });
   }

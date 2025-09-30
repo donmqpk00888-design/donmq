@@ -67,8 +67,7 @@ export class ModalFormComponent413 extends InjectBase implements AfterViewInit {
             result.isSuccess ? (this.type == 'Add' ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg') : result.error)
           if (result.isSuccess)
             this.directive.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }

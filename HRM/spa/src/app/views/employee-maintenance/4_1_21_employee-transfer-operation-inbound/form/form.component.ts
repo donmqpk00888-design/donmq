@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { EmployeeTransferOperationInboundDto } from '@models/employee-maintenance/4_1_21_employee-transfer-operation-inbound';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { Observer } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -51,9 +51,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private _service: S_4_1_21_EmployeeTransferOperationInboundService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropDownList();
       });
@@ -66,15 +64,15 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe((role) => {
         this.action = role.title;
       })
-      .unsubscribe();
+      ;
 
-    this._service.paramForm.subscribe((res) => {
+    this._service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (res != null) {
         this.history_GUID = res
         this.getDetail();
       }
       else this.back();
-    }).unsubscribe();
+    });
     this.loadDropDownList();
   }
 
@@ -105,10 +103,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.getListPositionTitleBefore();
         this.spinnerService.hide();
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.back();
-      },
+      error: () => { this.back(); },
     });
   }
 
@@ -144,8 +139,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error)
         if (res.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     }
     isSave
       ? this._service.edit(this.data).subscribe(callBack)

@@ -13,6 +13,7 @@ import { ModalComponent } from './modal/modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PipesModule } from 'src/app/_core/pipes/pipes.module';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     TypeaheadModule.forRoot(),
     TranslateModule,
     NgSelectModule,
-    DocumentManagementRoutingModule
+    DocumentManagementRoutingModule,
+    SharedModule
   ]
 })
 export class DocumentManagementModule { }

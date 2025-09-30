@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ClassButton,
   EmployeeMode,
@@ -16,7 +15,7 @@ import { S_4_1_1_EmployeeBasicInformationMaintenanceService } from '@services/em
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main-4-1-1',
@@ -49,16 +48,13 @@ export class MainComponent411 extends InjectBase implements OnInit {
     { key: 'A', value: 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned' },
     { key: 'S', value: 'EmployeeInformationModule.EmployeeBasicInformationMaintenance.Supported' },
   ];
-  bsModalRef?: BsModalRef;
 
   constructor(
     private _service: S_4_1_1_EmployeeBasicInformationMaintenanceService,
   ) {
     super();
     this.getDataFromSource();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropDownList();
         if (
@@ -201,7 +197,6 @@ export class MainComponent411 extends InjectBase implements OnInit {
         if (isQuery)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError()
     });
   }
 
@@ -253,8 +248,7 @@ export class MainComponent411 extends InjectBase implements OnInit {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : res.error)
           if (res.isSuccess) this.getPagination(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     }
     );

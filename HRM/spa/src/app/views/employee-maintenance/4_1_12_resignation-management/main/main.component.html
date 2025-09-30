@@ -10,11 +10,10 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow"
+          <form class="row border-shadow"
                 autocomplete="off">
             <!-- Division -->
-            <div class="row">
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.ResignationManagement.Division" | translate}}
                   <span class="text-danger">*</span>
@@ -30,7 +29,7 @@
                 </ng-select>
               </div>
               <!-- Factory -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.ResignationManagement.Factory" | translate}}
                   <span class="text-danger">*</span>
@@ -46,7 +45,7 @@
                 </ng-select>
               </div>
               <!-- EmployeeID -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.ResignationManagement.EmployeeID" | translate}}
                 </label>
@@ -58,7 +57,7 @@
                        placeholder="{{'EmployeeInformationModule.ResignationManagement.EmployeeID' | translate}}" />
               </div>
               <!-- LocalFullName -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{"EmployeeInformationModule.ResignationManagement.LocalFullName" | translate}}
                 </label>
@@ -70,7 +69,7 @@
               </div>
 
               <!-- Date of Resignation -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
                 <label class="badge badge-warning">
                   {{'EmployeeInformationModule.ResignationManagement.DateofResignation'|
                   translate}}
@@ -146,7 +145,6 @@
                   <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
                 </button>
               </div>
-            </div>
           </form>
           <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -250,7 +248,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -260,7 +258,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

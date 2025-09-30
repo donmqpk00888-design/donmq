@@ -6,8 +6,8 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { AnnualLeaveCalculationParam, AnnualLeaveCalculationSource } from '@models/attendance-maintenance/5_2_22_annual-leave-calculation';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -90,8 +90,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -120,8 +119,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = 0
           this.snotifyService.warning(res.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -146,19 +144,16 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     })
   }
 
@@ -167,8 +162,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

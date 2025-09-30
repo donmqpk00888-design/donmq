@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -8,6 +7,7 @@ import { S_7_1_12_AdditionDeductionItemAndAmountSettingsService } from '@service
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -52,9 +52,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_7_1_12_AdditionDeductionItemAndAmountSettingsService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
       });
@@ -63,10 +61,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
       this.getSource()
-    }).unsubscribe();
+    });
   }
   async getSource() {
     this.isEdit = this.formType == 'Edit'
@@ -94,9 +92,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.back();
           }
           resolve(true)
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       })
     })
@@ -196,8 +191,8 @@ export class FormComponent extends InjectBase implements OnInit {
       update_Time: current,
       update_Time_Str: this.functionUtility.getDateTimeFormat(current),
       isNew: true,
-      onjob_Print:'N',
-      resigned_Print:'N'
+      onjob_Print: 'N',
+      resigned_Print: 'N'
     })
   }
 
@@ -221,6 +216,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .create(this.param, this.data)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.back();
             this.snotifyService.success(
@@ -235,14 +231,8 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error')
             );
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       })
-      .add(() => {
-        this.spinnerService.hide();
-      });
   }
 
   edit() {
@@ -265,10 +255,6 @@ export class FormComponent extends InjectBase implements OnInit {
           );
         }
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
   //#endregion
@@ -287,9 +273,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -299,10 +282,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.listPermissionGroup = res;
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       });
   }
 
@@ -310,9 +290,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListSalaryType().subscribe({
       next: (res) => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -322,9 +299,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listAdditionsAndDeductionsType = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -332,9 +306,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListAdditionsAndDeductionsItem().subscribe({
       next: (res) => {
         this.listAdditionsAndDeductionsItem = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }

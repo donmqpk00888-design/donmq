@@ -59,7 +59,7 @@ namespace API._Services.Services.SalaryReport
           ws.Cells["B6"].PutValue(string.Join(" ", departmentData.SelectMany(x => x.List_Employee_ID).Distinct()));
 
           ws.Cells["A8"].PutValue(departmentData.Count);
-          ws.Cells["B8"].PutValue(departmentData.Sum(x => x.Actual_Amount));
+          ws.Cells["B8"].PutValue(departmentData.Sum(x => x.Actual_Amount).ToString("N0"));
 
           ws.Cells["B10"].PutValue(departmentData.Sum(x => x.tt_h50));
           ws.Cells["C10"].PutValue(departmentData.Sum(x => x.tt_200));
@@ -143,12 +143,13 @@ namespace API._Services.Services.SalaryReport
         var factory = item.HSM.Factory;
         var employeeID = item.HSM.Employee_ID;
         var yearMonthValue = item.HSM.Sal_Month;
+        var tax = item.HSM.Tax;
 
         // --正項合計 (Add)
         decimal wk_add = await Query_Sal_Monthly_Detail_Add_Sum("Y", factory, yearMonthValue, employeeID);
 
         // --扣項合計 (Deduct)
-        decimal wk_sub = await Query_Sal_Monthly_Detail_Ded_Sum("Y", factory, yearMonthValue, employeeID);
+        decimal wk_sub = (await Query_Sal_Monthly_Detail_Ded_Sum("Y", factory, yearMonthValue, employeeID)) + tax;
 
         // --實領 (Amount)
         decimal wk_sum = wk_add - wk_sub;
@@ -199,17 +200,15 @@ namespace API._Services.Services.SalaryReport
     public async Task<List<KeyValuePair<string, string>>> GetListDepartment(string factory, string language)
     {
       var HOD = await Query_Department_List(factory);
-      var HODL = _repositoryAccessor.HRMS_Org_Department_Language
-          .FindAll(x => x.Factory == factory
-                     && x.Language_Code.ToLower() == language.ToLower());
+      var HODL = _repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Factory == factory&& x.Language_Code.ToLower() == language.ToLower()).ToList();
 
       var deparment = HOD.GroupJoin(HODL,
-                  x => x.Key,
-                  y => y.Department_Code,
+                  x => new { x.Division, x.Department_Code },
+                  y => new { y.Division, y.Department_Code },
                   (x, y) => new { dept = x, hodl = y })
                   .SelectMany(x => x.hodl.DefaultIfEmpty(),
                   (x, y) => new { x.dept, hodl = y })
-                  .Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{x.dept.Key}-{(x.hodl != null ? x.hodl.Name : x.dept.Value)}"))
+                  .Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{x.dept.Department_Code}-{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}"))
                   .ToList();
       return deparment;
     }

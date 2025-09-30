@@ -14,451 +14,454 @@
         </div>
       </div>
       <div class="card-body">
-        <form class="form-horizontal"
-              #dataForm="ngForm"
-              autocomplete="off">
-          <!-- Details  -->
-          <div class="row">
-            <!-- Factory -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.Factory" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="data.factory"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of listFactory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
+        <div class="param-container">
+          <form class="form-horizontal"
+                #dataForm="ngForm"
+                autocomplete="off">
+            <!-- Details  -->
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.Factory" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="factory"
+                               name="factory"
+                               [(ngModel)]="data.factory"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of listFactory"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Department -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.Department"
+              <!-- Department -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.Department"
                   | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="department"
-                             name="department"
-                             [(ngModel)]="data.department"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of listDepartment"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="department"
+                               name="department"
+                               [(ngModel)]="data.department"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of listDepartment"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Employee ID -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="employeeID"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" |
+              <!-- Employee ID -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="employeeID"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" |
                   translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         id="employeeID"
-                         name="employeeID"
-                         maxlength="16"
-                         [(ngModel)]="data.employee_ID"
-                         autocomplete="off"
-                         disabled />
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           id="employeeID"
+                           name="employeeID"
+                           maxlength="16"
+                           [(ngModel)]="data.employee_ID"
+                           autocomplete="off"
+                           disabled />
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Local Full Name -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="LocalFullName"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.LocalFullName" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         id="LocalFullName"
-                         name="LocalFullName"
-                         maxlength="16"
-                         [(ngModel)]="data.local_Full_Name"
-                         autocomplete="off"
-                         disabled />
+              <!-- Local Full Name -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="LocalFullName"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.LocalFullName" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           id="LocalFullName"
+                           name="LocalFullName"
+                           maxlength="16"
+                           [(ngModel)]="data.local_Full_Name"
+                           autocomplete="off"
+                           disabled />
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Employment Status -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="employmentStatus"
-                             name="employmentStatus"
-                             [(ngModel)]="data.employment_Status"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of listEmploymentStatus"
-                               [value]="data.key">
-                      {{ data.value | translate }}
-                    </ng-option>
-                  </ng-select>
+              <!-- Employment Status -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="employmentStatus"
+                               name="employmentStatus"
+                               [(ngModel)]="data.employment_Status"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of listEmploymentStatus"
+                                 [value]="data.key">
+                        {{ data.value | translate }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Position Grade -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="position_Grade"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.PositionGrade" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="number"
-                         class="form-control"
-                         id="position_Grade"
-                         name="position_Grade"
-                         min="0"
-                         max="9"
-                         [(ngModel)]="data.position_Grade"
-                         autocomplete="off"
-                         disabled />
+              <!-- Position Grade -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="position_Grade"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.PositionGrade" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="number"
+                           class="form-control"
+                           id="position_Grade"
+                           name="position_Grade"
+                           min="0"
+                           max="9"
+                           [(ngModel)]="data.position_Grade"
+                           autocomplete="off"
+                           disabled />
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Position Title -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="position_Title"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="position_Title"
-                             name="position_Title"
-                             [(ngModel)]="data.position_Title"
-                             disabled>
-                    <ng-option *ngFor="let data of listPositionTitle"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
+              <!-- Position Title -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="position_Title"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="position_Title"
+                               name="position_Title"
+                               [(ngModel)]="data.position_Title"
+                               disabled>
+                      <ng-option *ngFor="let data of listPositionTitle"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!--Period of Acting Position -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ 'SalaryMaintenance.SalaryMasterFile.PeriodofActingPosition' | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="full-width">
-                    <div class="date_container">
+              <!--Period of Acting Position -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ 'SalaryMaintenance.SalaryMasterFile.PeriodofActingPosition' | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="full-width">
+                      <div class="date_container">
+                        <div class="input-group mr-1">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="dateFrom"
+                                 name="dateFrom"
+                                 [(ngModel)]="data.actingPosition_Start"
+                                 disabled />
+                        </div>
+                        <div class="input-group ml-1">
+                          <input autocomplete="off"
+                                 type="text"
+                                 class="form-control"
+                                 id="date_To"
+                                 name="date_To"
+                                 [(ngModel)]="data.actingPosition_End"
+                                 disabled />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Technical Type -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.TechnicalType" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="technical_Type"
+                               name="technical_Type"
+                               [(ngModel)]="data.technical_Type"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of listTechnicalType"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- Expertise Category -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.ExpertiseCategory" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="expertise_Category"
+                               name="expertise_Category"
+                               [(ngModel)]="data.expertise_Category"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of listExpertiseCategory"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- Onboard Date -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="onboard_Date"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.OnboardDate" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="input-group">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="onboard_Date"
+                             name="onboard_Date"
+                             [(ngModel)]="data.onboard_Date"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Effective Date -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="effective_Date"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.EffectiveDate" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="input-group">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="effective_Date"
+                             name="effective_Date"
+                             [(ngModel)]="data.effective_Date"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Permission Group -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.SalaryMasterFile.PermissionGroup" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="permission_Group"
+                               name="permission_Group"
+                               [(ngModel)]="data.permission_Group"
+                               [clearable]="false"
+                               disabled>
+                      <ng-option *ngFor="let data of permissionGroups"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- Salary Type -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="salary_Type"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select id="salary_Type"
+                               name="salary_Type"
+                               [(ngModel)]="data.salary_Type"
+                               disabled>
+                      <ng-option *ngFor="let data of listSalaryType"
+                                 [value]="data.key">
+                        {{ data.value }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- Salary Level -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="salary_Type"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.Salary" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="container_input">
                       <div class="input-group mr-1">
-                        <input autocomplete="off"
-                               type="text"
+                        <input type="number"
                                class="form-control"
-                               id="dateFrom"
-                               name="dateFrom"
-                               [(ngModel)]="data.actingPosition_Start"
-                               disabled />
+                               id="salary_Grade"
+                               name="salary_Grade"
+                               min="0"
+                               max="15"
+                               [(ngModel)]="data.salary_Grade"
+                               disabled
+                               autocomplete="off" />
+                        <div class="input-group-append">
+                          <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}</span>
+                        </div>
                       </div>
                       <div class="input-group ml-1">
-                        <input autocomplete="off"
-                               type="text"
+                        <input type="number"
                                class="form-control"
-                               id="date_To"
-                               name="date_To"
-                               [(ngModel)]="data.actingPosition_End"
+                               id="salary_Level"
+                               name="salary_Level"
+                               min="0"
+                               max="9"
+                               [(ngModel)]="data.salary_Level"
+                               autocomplete="off"
                                disabled />
+                        <div class="input-group-append">
+                          <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- Technical Type -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.TechnicalType" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="technical_Type"
-                             name="technical_Type"
-                             [(ngModel)]="data.technical_Type"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of listTechnicalType"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <!-- Expertise Category -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.ExpertiseCategory" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="expertise_Category"
-                             name="expertise_Category"
-                             [(ngModel)]="data.expertise_Category"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of listExpertiseCategory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <!-- Onboard Date -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="onboard_Date"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.OnboardDate" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="input-group">
-                    <input autocomplete="off"
-                           type="text"
+              <!-- Currency -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="currency"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.Currency" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
                            class="form-control"
-                           id="onboard_Date"
-                           name="onboard_Date"
-                           [(ngModel)]="data.onboard_Date"
+                           id="currency"
+                           name="currency"
+                           [(ngModel)]="data.currency"
+                           autocomplete="off"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+              <!-- Update by -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="update_By"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.UpdateBy" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           id="update_By"
+                           name="update_By"
+                           [(ngModel)]="data.update_By"
+                           autocomplete="off"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+              <!-- Update time -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="update_Time"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{ "SalaryMaintenance.SalaryMasterFile.UpdateTime" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           id="update_Time"
+                           name="update_Time"
+                           [(ngModel)]="data.update_Time"
+                           autocomplete="off"
                            disabled />
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Effective Date -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="effective_Date"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.EffectiveDate" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="input-group">
-                    <input autocomplete="off"
-                           type="text"
-                           class="form-control"
-                           id="effective_Date"
-                           name="effective_Date"
-                           [(ngModel)]="data.effective_Date"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Permission Group -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.SalaryMasterFile.PermissionGroup" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="permission_Group"
-                             name="permission_Group"
-                             [(ngModel)]="data.permission_Group"
-                             [clearable]="false"
-                             disabled>
-                    <ng-option *ngFor="let data of permissionGroups"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <!-- Salary Type -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="salary_Type"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select id="salary_Type"
-                             name="salary_Type"
-                             [(ngModel)]="data.salary_Type"
-                             disabled>
-                    <ng-option *ngFor="let data of listSalaryType"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <!-- Salary Level -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="salary_Type"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.Salary" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input type="number"
-                             class="form-control"
-                             id="salary_Grade"
-                             name="salary_Grade"
-                             min="0"
-                             max="15"
-                             [(ngModel)]="data.salary_Grade"
-                             disabled
-                             autocomplete="off" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}</span>
-                      </div>
-                    </div>
-                    <div class="input-group ml-1">
-                      <input type="number"
-                             class="form-control"
-                             id="salary_Level"
-                             name="salary_Level"
-                             min="0"
-                             max="9"
-                             [(ngModel)]="data.salary_Level"
-                             autocomplete="off"
-                             disabled />
-                      <div class="input-group-append">
-                        <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Currency -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="currency"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.Currency" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         id="currency"
-                         name="currency"
-                         [(ngModel)]="data.currency"
-                         autocomplete="off"
-                         disabled />
-                </div>
-              </div>
-            </div>
-            <!-- Update by -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="update_By"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.UpdateBy" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         id="update_By"
-                         name="update_By"
-                         [(ngModel)]="data.update_By"
-                         autocomplete="off"
-                         disabled />
-                </div>
-              </div>
-            </div>
-            <!-- Update time -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="update_Time"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{ "SalaryMaintenance.SalaryMasterFile.UpdateTime" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         id="update_Time"
-                         name="update_Time"
-                         [(ngModel)]="data.update_Time"
-                         autocomplete="off"
-                         disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+          </form>
 
-        <div class="row justify-content-md-center">
-          <div class="col-xxl-8 col-xl-12 mt-2">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr class="text-center">
-                    <th>{{"SalaryMaintenance.SalaryMasterFile.SalaryItem" | translate }}</th>
-                    <th>{{"SalaryMaintenance.SalaryMasterFile.Amount" | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of salaryItems"
-                      class="text-center">
-                    <td class="table-warning text-center">{{item?.salary_Item}}</td>
-                    <td class="text-center">{{item?.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
-                  </tr>
-                  <tr *ngIf="salaryItems?.length === 0">
-                    <td class="table-warning text-center font-weight-bold"
-                        colspan="100%">
-                      {{"System.Message.Nodata" | translate }}</td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr class="text-center">
-                    <td colspan="8">
-                      <span>{{ 'SalaryMaintenance.SalaryMasterFile.TotalSalary' | translate}}: <strong> {{total_Salary | mask: 'separator' : {thousandSeparator: ','} }}</strong></span>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <div class="row">
-              <div class="col-8">
-                <div class="d-flex"
-                     *ngIf="salaryItems?.length > 0 && pagination.totalPage > 1">
-                  <pagination [boundaryLinks]="true"
-                              [maxSize]="5"
-                              [totalItems]="pagination.totalCount"
-                              [itemsPerPage]="pagination.pageSize"
-                              (pageChanged)="pageChanged($event)"
-                              [(ngModel)]="pagination.pageNumber"
-                              previousText="&lsaquo;"
-                              nextText="&rsaquo;"
-                              firstText="&laquo;"
-                              lastText="&raquo;">
-                  </pagination>
-                  <span class="cs-page ml-2">
-                    Page - {{ pagination.pageNumber }} /
-                    {{ pagination.totalPage }}
-                  </span>
+          <div class="row justify-content-md-center">
+            <div class="col-xxl-8 col-xl-12 mt-2">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="text-center">
+                      <th>{{"SalaryMaintenance.SalaryMasterFile.SalaryItem" | translate }}</th>
+                      <th>{{"SalaryMaintenance.SalaryMasterFile.Amount" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of salaryItems"
+                        class="text-center">
+                      <td class="table-warning text-center">{{item?.salary_Item}}</td>
+                      <td class="text-center">{{item?.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
+                    </tr>
+                    <tr *ngIf="salaryItems?.length === 0">
+                      <td class="table-warning text-center font-weight-bold"
+                          colspan="100%">
+                        {{"System.Message.NoData" | translate }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="text-center">
+                      <td colspan="8">
+                        <span>{{ 'SalaryMaintenance.SalaryMasterFile.TotalSalary' | translate}}: <strong> {{total_Salary | mask: 'separator' : {thousandSeparator: ','} }}</strong></span>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="salaryItems?.length > 0 && pagination.totalPage > 1">
+                    <pagination [boundaryLinks]="true"
+                                [maxSize]="5"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                (pageChanged)="pageChanged($event)"
+                                [(ngModel)]="pagination.pageNumber"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{ pagination.pageNumber }} /
+                      {{ pagination.totalPage }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

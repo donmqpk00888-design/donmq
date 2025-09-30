@@ -21,1222 +21,1066 @@
           <form class="form-horizontal"
                 #addEditForm="ngForm"
                 autocomplete="off">
-            <div class="card">
-              <div class="card-body">
-                <!-- Details  -->
-                <div class="row">
-                  <!-- Nationality -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="nationality"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="nationality"
-                                   name="nationality"
-                                   [ngModel]="data.nationality"
-                                   disabled>
-                          <ng-option *ngFor="let data of listNationality"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Identification Number -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="identificationNumber"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="identificationNumber"
-                               name="identificationNumber"
-                               maxlength="50"
-                               [ngModel]="data.identificationNumber"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Issued Date -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="issuedDate"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IssuedDate" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="issuedDate"
-                               name="issuedDate"
-                               [ngModel]="data.issuedDate"
-                               disabled
-                               readonly
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Company -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="company"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Company" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="company"
-                               name="company"
-                               maxlength="1"
-                               [ngModel]="data.company"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Deletion Code -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmploymentStatus" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of deletionCode; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'deletionCode' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         name="deletionCode"
-                                         [ngModel]="data.deletionCode"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'deletionCode' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Division -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="division"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="division"
-                                   name="division"
-                                   [ngModel]="data.division"
-                                   disabled>
-                          <ng-option *ngFor="let data of listDivision"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Factory -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="factory"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="factory"
-                                   name="factory"
-                                   [ngModel]="data.factory"
-                                   disabled>
-                          <ng-option *ngFor="let data of listFactory"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Employee ID -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="employeeID"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="employeeID"
-                               name="employeeID"
-                               maxlength="12"
-                               [ngModel]="data.employeeID"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Department -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="department"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Department" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="department"
-                                   name="department"
-                                   [ngModel]="data.department"
-                                   disabled>
-                          <ng-option *ngFor="let data of listDepartment"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Assigned/Supported Division -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="assignedDivision"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedDivision" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="assignedDivision"
-                                   name="assignedDivision"
-                                   [ngModel]="data.assignedDivision"
-                                   disabled>
-                          <ng-option *ngFor="let data of listDivision"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Assigned/Supported Factory -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="assignedFactory"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedFactory" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="assignedFactory"
-                                   name="assignedFactory"
-                                   [ngModel]="data.assignedFactory"
-                                   disabled>
-                          <ng-option *ngFor="let data of listAssignedFactory"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Assigned/Supported Employee ID -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="assignedEmployeeID"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedEmployeeID"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="assignedEmployeeID"
-                               name="assignedEmployeeID"
-                               maxlength="12"
-                               [ngModel]="data.assignedEmployeeID"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Assigned/Supported Department -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="assignedDepartment"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedDepartment"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="assignedDepartment"
-                                   name="assignedDepartment"
-                                   [ngModel]="data.assignedDepartment"
-                                   disabled>
-                          <ng-option *ngFor="let data of listAssignedDepartment"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Permission Group -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="permissionGroup"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PermissionGroup" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="permissionGroup"
-                                   name="permissionGroup"
-                                   [ngModel]="data.permissionGroup"
-                                   disabled>
-                          <ng-option *ngFor="let data of listPermission"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Employment Status -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.CrossFactoryStatus" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of employmentStatus; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'employmentStatus' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         checked="checked"
-                                         name="employmentStatus"
-                                         [ngModel]="data.employmentStatus"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'employmentStatus' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Performance Assessment Responsibility Division -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="performanceAssessmentResponsibilityDivision"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PerformanceAssessmentResponsibilityDivision" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="performanceAssessmentResponsibilityDivision"
-                                   name="performanceAssessmentResponsibilityDivision"
-                                   [ngModel]="data.performanceAssessmentResponsibilityDivision"
-                                   disabled>
-                          <ng-option *ngFor="let data of listDivision"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Identity Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="identityType"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentityType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="identityType"
-                                   name="identityType"
-                                   [ngModel]="data.identityType"
-                                   disabled>
-                          <ng-option *ngFor="let data of listIdentityType"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
+            <div class="param-container">
+              <!-- Details  -->
+              <div class="row">
+                <!-- Nationality -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="nationality"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Nationality"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="nationality"
+                                 name="nationality"
+                                 [ngModel]="data.nationality"
+                                 disabled>
+                        <ng-option *ngFor="let data of listNationality"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
                     </div>
                   </div>
                 </div>
-                <hr class="hr" />
-                <div class="row">
-                  <!-- Local Full Name -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="localFullName"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="localFullName"
-                               name="localFullName"
-                               maxlength="50"
-                               [ngModel]="data.localFullName"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Preferred English Full Name -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="preferredEnglishFullName"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PreferredEnglishFullName" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="preferredEnglishFullName"
-                               name="preferredEnglishFullName"
-                               maxlength="50"
-                               [ngModel]="data.preferredEnglishFullName"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Chinese Name -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="chineseName"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.ChineseName" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="chineseName"
-                               name="chineseName"
-                               maxlength="20"
-                               [ngModel]="data.chineseName"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Passport Full Name -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="passportFullName"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PassportFullName" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="passportFullName"
-                               name="passportFullName"
-                               [ngModel]="data.passportFullName"
-                               readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Gender -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Gender" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of gender; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'gender' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         checked="checked"
-                                         name="gender"
-                                         [ngModel]="data.gender"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'gender' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Blood Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.BloodType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of bloodType; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'bloodType' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         checked="checked"
-                                         name="bloodType"
-                                         [ngModel]="data.bloodType"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'bloodType' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Marital Status -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MaritalStatus" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of maritalStatus; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'maritalStatus' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         checked="checked"
-                                         name="maritalStatus"
-                                         [ngModel]="data.maritalStatus"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'maritalStatus' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Date of Birth -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="dateOfBirth"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfBirth"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="dateOfBirth"
-                               name="dateOfBirth"
-                               [ngModel]="data.dateOfBirth"
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               disabled
-                               readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Phone Number -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="phoneNumber"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PhoneNumber" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="phoneNumber"
-                               name="phoneNumber"
-                               maxlength="20"
-                               onkeypress="return /[0-9]/i.test(event.key)"
-                               [ngModel]="data.phoneNumber"
-                               disabled
-                               readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Mobile Phone Number -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label id="for"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MobilePhoneNumber" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="mobilePhoneNumber"
-                               name="mobilePhoneNumber"
-                               maxlength="20"
-                               onkeypress="return /[0-9]/i.test(event.key)"
-                               [ngModel]="data.mobilePhoneNumber"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Education -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="education"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Education" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="education"
-                                   name="education"
-                                   [ngModel]="data.education"
-                                   disabled>
-                          <ng-option *ngFor="let data of listEducation"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Religion -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="religion"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Religion" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="religion"
-                                   name="religion"
-                                   [ngModel]="data.religion"
-                                   disabled>
-                          <ng-option *ngFor="let data of listReligion"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Transportation Method -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="transportationMethod"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.TransportationMethod" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="transportationMethod"
-                                   name="transportationMethod"
-                                   [ngModel]="data.transportationMethod"
-                                   disabled>
-                          <ng-option *ngFor="let data of listTransportationMethod"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Vehicle Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="vehicleType"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.VehicleType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="vehicleType"
-                                   name="vehicleType"
-                                   [ngModel]="data.vehicleType"
-                                   disabled>
-                          <ng-option *ngFor="let data of listVehicleType"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- License Plate Number -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="licensePlateNumber"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LicensePlateNumber" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="licensePlateNumber"
-                               name="licensePlateNumber"
-                               maxlength="15"
-                               [ngModel]="data.licensePlateNumber"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Number Of Dependents -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="numberOfDependents"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.NumberOfDependents" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="numberOfDependents"
-                               name="numberOfDependents"
-                               maxlength="2"
-                               [ngModel]="data.numberOfDependents"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-8"></div>
-                  <!-- Registered Province Directly -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="registeredProvinceDirectly"
-                             class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredProvinceDirectly" | translate }}
-                      </label>
-                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                        <ng-select id="registeredProvinceDirectly"
-                                   name="registeredProvinceDirectly"
-                                   [ngModel]="data.registeredProvinceDirectly"
-                                   disabled>
-                          <ng-option *ngFor="let data of listProvinceDirectly"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Registered City -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="registeredCity"
-                             class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredCity" | translate }}
-                      </label>
-                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                        <ng-select id="registeredCity"
-                                   name="registeredCity"
-                                   [ngModel]="data.registeredCity"
-                                   disabled>
-                          <ng-option *ngFor="let data of listRegisteredCity"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Registered Address -->
-                  <div class="col-12">
-                    <div class="form-group row">
-                      <label for="registeredAddress"
-                             class="col-2 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredAddress" | translate }}
-                      </label>
-                      <div class="col-10">
-                        <input type="text"
-                               class="form-control"
-                               id="registeredAddress"
-                               name="registeredAddress"
-                               maxlength="255"
-                               [ngModel]="data.registeredAddress"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Mailing Province Directly -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="mailingProvinceDirectly"
-                             class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingProvinceDirectly" | translate }}
-                      </label>
-                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                        <ng-select id="mailingProvinceDirectly"
-                                   name="mailingProvinceDirectly"
-                                   [ngModel]="data.mailingProvinceDirectly"
-                                   disabled>
-                          <ng-option *ngFor="let data of listProvinceDirectly"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Mailing City -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="mailingCity"
-                             class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingCity" | translate }}
-                      </label>
-                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                        <ng-select id="mailingCity"
-                                   name="mailingCity"
-                                   [ngModel]="data.mailingCity"
-                                   disabled>
-                          <ng-option *ngFor="let data of listMailingCity"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Mailing Address -->
-                  <div class="col-12">
-                    <div class="form-group row">
-                      <label for="mailingAddress"
-                             class="col-2 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingAddress" | translate }}
-                      </label>
-                      <div class="col-10">
-                        <input type="text"
-                               class="form-control"
-                               id="mailingAddress"
-                               name="mailingAddress"
-                               maxlength="255"
-                               [ngModel]="data.mailingAddress"
-                               disabled />
-                      </div>
+                <!-- Identification Number -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="identificationNumber"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentificationNumber"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="identificationNumber"
+                             name="identificationNumber"
+                             maxlength="50"
+                             [ngModel]="data.identificationNumber"
+                             disabled />
                     </div>
                   </div>
                 </div>
-                <hr class="hr" />
-                <div class="row">
-                  <!-- Work Shift Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="workShiftType"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkShiftType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="workShiftType"
-                                   name="workShiftType"
-                                   [ngModel]="data.workShiftType"
-                                   disabled>
-                          <!-- <ng-option value="A001">A001</ng-option> -->
-                          <ng-option *ngFor="let data of listWorkTypeShift"
-                                     [value]="data.key">{{ data.value }}</ng-option>
-                        </ng-select>
-                      </div>
+                <!-- Issued Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="issuedDate"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IssuedDate" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="issuedDate"
+                             name="issuedDate"
+                             [ngModel]="data.issuedDate"
+                             disabled
+                             readonly
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
                     </div>
                   </div>
-                  <!-- Swipe Card Option -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SwipeCardOption" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <div class="row pl-4">
-                          <div *ngFor="let item of swipeCardOption; index as i">
-                            <label class="container">
-                              <div class="row">
-                                <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'swipeCardOption' + i"
-                                         class="custom-control-input"
-                                         type="radio"
-                                         checked="checked"
-                                         name="swipeCardOption"
-                                         [ngModel]="data.swipeCardOption"
-                                         disabled
-                                         [value]="item.key" />
-                                  <p class="custom-control-label"
-                                     [for]="'swipeCardOption' + i">
-                                    <strong>
-                                      {{ item.value | translate }}
-                                    </strong>
-                                  </p>
-                                </div>
+                </div>
+                <!-- Company -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="company"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Company" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="company"
+                             name="company"
+                             maxlength="1"
+                             [ngModel]="data.company"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Deletion Code -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmploymentStatus" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of deletionCode; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'deletionCode' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       name="deletionCode"
+                                       [ngModel]="data.deletionCode"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'deletionCode' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
                               </div>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Swipe Card Number -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label id="for"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SwipeCardNumber" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="swipeCardNumber"
-                               name="swipeCardNumber"
-                               maxlength="10"
-                               [ngModel]="data.swipeCardNumber"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Position Grade -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="positionGrade"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PositionGrade"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="positionGrade"
-                                   name="positionGrade"
-                                   [ngModel]="data.positionGrade"
-                                   disabled>
-                          <ng-option *ngFor="let data of listPositionGrade"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Position Title -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PositionTitle" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="positionTitle"
-                                   [ngModel]="data.positionTitle"
-                                   disabled>
-                          <ng-option *ngFor="let data of listPositionTitle"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Work Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="workType"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="workType"
-                                   name="workType"
-                                   [ngModel]="data.workType"
-                                   disabled>
-                          <ng-option *ngFor="let data of listWorkType"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Restaurant -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="restaurant"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Restaurant" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="restaurant"
-                                   name="restaurant"
-                                   [ngModel]="data.restaurant"
-                                   disabled>
-                          <ng-option *ngFor="let data of listRestaurant"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Salary Type -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="salaryType"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SalaryType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="salaryType"
-                               name="salaryType"
-                               readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Salary Payment Method -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="salaryPaymentMethod"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SalaryPaymentMethod" | translate}}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="salaryPaymentMethod"
-                               name="salaryPaymentMethod"
-                               readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Work Location -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="workLocation"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkLocation" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="workLocation"
-                                   name="workLocation"
-                                   [ngModel]="data.workLocation"
-                                   disabled>
-                          <ng-option *ngFor="let data of listWorkLocation"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Union Membership -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <div class="form-group row">
-                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                          {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UnionMembership" | translate }}
-
-                        </label>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                          <div class="row pl-4">
-                            <div *ngFor="let item of unionMembership; index as i">
-                              <label class="container">
-                                <div class="row">
-                                  <div class="custom-control custom-radio pt-2">
-                                    <input [id]="'unionMembership' + i"
-                                           class="custom-control-input"
-                                           type="radio"
-                                           checked="checked"
-                                           name="unionMembership"
-                                           [ngModel]="data.unionMembership"
-                                           disabled
-                                           [value]="item.key" />
-                                    <p class="custom-control-label"
-                                       [for]="'unionMembership' + i">
-                                      <strong>
-                                        {{ item.value | translate }}
-                                      </strong>
-                                    </p>
-                                  </div>
-                                </div>
-                              </label>
                             </div>
-                          </div>
+                          </label>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Onboard Date -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="onboardDate"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.OnboardDate"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="onboardDate"
-                               name="onboardDate"
-                               [ngModel]="data.onboardDate"
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               disabled />
+                </div>
+                <!-- Division -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="division"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Division" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="division"
+                                 name="division"
+                                 [ngModel]="data.division"
+                                 disabled>
+                        <ng-option *ngFor="let data of listDivision"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="factory"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Factory" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="factory"
+                                 name="factory"
+                                 [ngModel]="data.factory"
+                                 disabled>
+                        <ng-option *ngFor="let data of listFactory"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Employee ID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="employeeID"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.EmployeeID"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="employeeID"
+                             name="employeeID"
+                             maxlength="12"
+                             [ngModel]="data.employeeID"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Department -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="department"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Department" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="department"
+                                 name="department"
+                                 [ngModel]="data.department"
+                                 disabled>
+                        <ng-option *ngFor="let data of listDepartment"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Assigned/Supported Division -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="assignedDivision"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedDivision" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="assignedDivision"
+                                 name="assignedDivision"
+                                 [ngModel]="data.assignedDivision"
+                                 disabled>
+                        <ng-option *ngFor="let data of listDivision"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Assigned/Supported Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="assignedFactory"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedFactory" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="assignedFactory"
+                                 name="assignedFactory"
+                                 [ngModel]="data.assignedFactory"
+                                 disabled>
+                        <ng-option *ngFor="let data of listAssignedFactory"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Assigned/Supported Employee ID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="assignedEmployeeID"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedEmployeeID"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="assignedEmployeeID"
+                             name="assignedEmployeeID"
+                             maxlength="12"
+                             [ngModel]="data.assignedEmployeeID"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Assigned/Supported Department -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="assignedDepartment"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Assigned/SupportedDepartment"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="assignedDepartment"
+                                 name="assignedDepartment"
+                                 [ngModel]="data.assignedDepartment"
+                                 disabled>
+                        <ng-option *ngFor="let data of listAssignedDepartment"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Permission Group -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="permissionGroup"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PermissionGroup" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="permissionGroup"
+                                 name="permissionGroup"
+                                 [ngModel]="data.permissionGroup"
+                                 disabled>
+                        <ng-option *ngFor="let data of listPermission"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Employment Status -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.CrossFactoryStatus" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of employmentStatus; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'employmentStatus' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       checked="checked"
+                                       name="employmentStatus"
+                                       [ngModel]="data.employmentStatus"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'employmentStatus' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Date Of Group Employment -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="dateOfGroupEmployment"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfGroupEmployment" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="dateOfGroupEmployment"
-                               name="dateOfGroupEmployment"
-                               [ngModel]="data.dateOfGroupEmployment"
-                               disabled
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                </div>
+                <!-- Performance Assessment Responsibility Division -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="performanceAssessmentResponsibilityDivision"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PerformanceAssessmentResponsibilityDivision" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="performanceAssessmentResponsibilityDivision"
+                                 name="performanceAssessmentResponsibilityDivision"
+                                 [ngModel]="data.performanceAssessmentResponsibilityDivision"
+                                 disabled>
+                        <ng-option *ngFor="let data of listDivision"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Identity Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="identityType"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.IdentityType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="identityType"
+                                 name="identityType"
+                                 [ngModel]="data.identityType"
+                                 disabled>
+                        <ng-option *ngFor="let data of listIdentityType"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hr" />
+              <div class="row">
+                <!-- Local Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="localFullName"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LocalFullName" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="localFullName"
+                             name="localFullName"
+                             maxlength="50"
+                             [ngModel]="data.localFullName"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Preferred English Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="preferredEnglishFullName"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PreferredEnglishFullName" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="preferredEnglishFullName"
+                             name="preferredEnglishFullName"
+                             maxlength="50"
+                             [ngModel]="data.preferredEnglishFullName"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Chinese Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="chineseName"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.ChineseName" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="chineseName"
+                             name="chineseName"
+                             maxlength="20"
+                             [ngModel]="data.chineseName"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Passport Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="passportFullName"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PassportFullName" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="passportFullName"
+                             name="passportFullName"
+                             [ngModel]="data.passportFullName"
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Gender -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Gender" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of gender; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'gender' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       checked="checked"
+                                       name="gender"
+                                       [ngModel]="data.gender"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'gender' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Seniority Start Date -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="seniorityStartDate"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SeniorityStartDate"| translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="seniorityStartDate"
-                               name="seniorityStartDate"
-                               [ngModel]="data.seniorityStartDate"
-                               disabled
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                </div>
+                <!-- Blood Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.BloodType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of bloodType; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'bloodType' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       checked="checked"
+                                       name="bloodType"
+                                       [ngModel]="data.bloodType"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'bloodType' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Annual Leave Seniority Start Date -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="annualLeaveSeniorityStartDate"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.AnnualLeaveSeniorityStartDate" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class=" form-control"
-                               id="annualLeaveSeniorityStartDate"
-                               name="annualLeaveSeniorityStartDate"
-                               [ngModel]="data.annualLeaveSeniorityStartDate"
-                               disabled
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                </div>
+                <!-- Marital Status -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MaritalStatus" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of maritalStatus; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'maritalStatus' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       checked="checked"
+                                       name="maritalStatus"
+                                       [ngModel]="data.maritalStatus"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'maritalStatus' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Date Of Resignation -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="dateOfResignation"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfResignation" | translate }}</label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="dateOfResignation"
-                               name="dateOfResignation"
-                               [ngModel]="data.dateOfResignation"
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               disabled
-                               readonly />
+                </div>
+                <!-- Date of Birth -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="dateOfBirth"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfBirth"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="dateOfBirth"
+                             name="dateOfBirth"
+                             [ngModel]="data.dateOfBirth"
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             disabled
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Phone Number -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="phoneNumber"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PhoneNumber" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="phoneNumber"
+                             name="phoneNumber"
+                             maxlength="20"
+                             onkeypress="return /[0-9]/i.test(event.key)"
+                             [ngModel]="data.phoneNumber"
+                             disabled
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Mobile Phone Number -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label id="for"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MobilePhoneNumber" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="mobilePhoneNumber"
+                             name="mobilePhoneNumber"
+                             maxlength="20"
+                             onkeypress="return /[0-9]/i.test(event.key)"
+                             [ngModel]="data.mobilePhoneNumber"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Education -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="education"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Education" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="education"
+                                 name="education"
+                                 [ngModel]="data.education"
+                                 disabled>
+                        <ng-option *ngFor="let data of listEducation"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Religion -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="religion"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Religion" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="religion"
+                                 name="religion"
+                                 [ngModel]="data.religion"
+                                 disabled>
+                        <ng-option *ngFor="let data of listReligion"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Transportation Method -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="transportationMethod"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.TransportationMethod" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="transportationMethod"
+                                 name="transportationMethod"
+                                 [ngModel]="data.transportationMethod"
+                                 disabled>
+                        <ng-option *ngFor="let data of listTransportationMethod"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Vehicle Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="vehicleType"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.VehicleType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="vehicleType"
+                                 name="vehicleType"
+                                 [ngModel]="data.vehicleType"
+                                 disabled>
+                        <ng-option *ngFor="let data of listVehicleType"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- License Plate Number -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="licensePlateNumber"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.LicensePlateNumber" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="licensePlateNumber"
+                             name="licensePlateNumber"
+                             maxlength="15"
+                             [ngModel]="data.licensePlateNumber"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Number Of Dependents -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="numberOfDependents"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.NumberOfDependents" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="numberOfDependents"
+                             name="numberOfDependents"
+                             maxlength="2"
+                             [ngModel]="data.numberOfDependents"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-8"></div>
+                <!-- Registered Province Directly -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="registeredProvinceDirectly"
+                           class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredProvinceDirectly" | translate }}
+                    </label>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <ng-select id="registeredProvinceDirectly"
+                                 name="registeredProvinceDirectly"
+                                 [ngModel]="data.registeredProvinceDirectly"
+                                 disabled>
+                        <ng-option *ngFor="let data of listProvinceDirectly"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Registered City -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="registeredCity"
+                           class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredCity" | translate }}
+                    </label>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <ng-select id="registeredCity"
+                                 name="registeredCity"
+                                 [ngModel]="data.registeredCity"
+                                 disabled>
+                        <ng-option *ngFor="let data of listRegisteredCity"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Registered Address -->
+                <div class="col-12">
+                  <div class="form-group row">
+                    <label for="registeredAddress"
+                           class="col-2 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.RegisteredAddress" | translate }}
+                    </label>
+                    <div class="col-10">
+                      <input type="text"
+                             class="form-control"
+                             id="registeredAddress"
+                             name="registeredAddress"
+                             maxlength="255"
+                             [ngModel]="data.registeredAddress"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Mailing Province Directly -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="mailingProvinceDirectly"
+                           class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingProvinceDirectly" | translate }}
+                    </label>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <ng-select id="mailingProvinceDirectly"
+                                 name="mailingProvinceDirectly"
+                                 [ngModel]="data.mailingProvinceDirectly"
+                                 disabled>
+                        <ng-option *ngFor="let data of listProvinceDirectly"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Mailing City -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="mailingCity"
+                           class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingCity" | translate }}
+                    </label>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <ng-select id="mailingCity"
+                                 name="mailingCity"
+                                 [ngModel]="data.mailingCity"
+                                 disabled>
+                        <ng-option *ngFor="let data of listMailingCity"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Mailing Address -->
+                <div class="col-12">
+                  <div class="form-group row">
+                    <label for="mailingAddress"
+                           class="col-2 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.MailingAddress" | translate }}
+                    </label>
+                    <div class="col-10">
+                      <input type="text"
+                             class="form-control"
+                             id="mailingAddress"
+                             name="mailingAddress"
+                             maxlength="255"
+                             [ngModel]="data.mailingAddress"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hr" />
+              <div class="row">
+                <!-- Work Shift Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="workShiftType"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkShiftType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="workShiftType"
+                                 name="workShiftType"
+                                 [ngModel]="data.workShiftType"
+                                 disabled>
+                        <!-- <ng-option value="A001">A001</ng-option> -->
+                        <ng-option *ngFor="let data of listWorkTypeShift"
+                                   [value]="data.key">{{ data.value }}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Swipe Card Option -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SwipeCardOption" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of swipeCardOption; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'swipeCardOption' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       checked="checked"
+                                       name="swipeCardOption"
+                                       [ngModel]="data.swipeCardOption"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'swipeCardOption' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Reason for Resignation -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="reasonResignation"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.ReasonForResignation" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select id="reasonResignation"
-                                   name="reasonResignation"
-                                   [ngModel]="data.reasonResignation"
-                                   disabled>
-                          <ng-option *ngFor="let data of listReasonResignation"
-                                     [value]="data.key">
-                            {{ data.value }}
-                          </ng-option>
-                        </ng-select>
-                      </div>
+                </div>
+                <!-- Swipe Card Number -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label id="for"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SwipeCardNumber" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="swipeCardNumber"
+                             name="swipeCardNumber"
+                             maxlength="10"
+                             [ngModel]="data.swipeCardNumber"
+                             disabled />
                     </div>
                   </div>
-                  <!-- Blacklist -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                </div>
+                <!-- Position Grade -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="positionGrade"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PositionGrade"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="positionGrade"
+                                 name="positionGrade"
+                                 [ngModel]="data.positionGrade"
+                                 disabled>
+                        <ng-option *ngFor="let data of listPositionGrade"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Position Title -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.PositionTitle" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select name="positionTitle"
+                                 [ngModel]="data.positionTitle"
+                                 disabled>
+                        <ng-option *ngFor="let data of listPositionTitle"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="workType"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="workType"
+                                 name="workType"
+                                 [ngModel]="data.workType"
+                                 disabled>
+                        <ng-option *ngFor="let data of listWorkType"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Restaurant -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="restaurant"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Restaurant" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="restaurant"
+                                 name="restaurant"
+                                 [ngModel]="data.restaurant"
+                                 disabled>
+                        <ng-option *ngFor="let data of listRestaurant"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Salary Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="salaryType"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SalaryType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="salaryType"
+                             name="salaryType"
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Salary Payment Method -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="salaryPaymentMethod"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SalaryPaymentMethod" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="salaryPaymentMethod"
+                             name="salaryPaymentMethod"
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Location -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="workLocation"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.WorkLocation" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="workLocation"
+                                 name="workLocation"
+                                 [ngModel]="data.workLocation"
+                                 disabled>
+                        <ng-option *ngFor="let data of listWorkLocation"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Union Membership -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group">
                     <div class="form-group row">
                       <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Blacklist" | translate }}
+                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UnionMembership" | translate }}
+
                       </label>
                       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                         <div class="row pl-4">
-                          <div *ngFor="let item of blacklist; index as i">
+                          <div *ngFor="let item of unionMembership; index as i">
                             <label class="container">
                               <div class="row">
                                 <div class="custom-control custom-radio pt-2">
-                                  <input [id]="'blacklist' + i"
+                                  <input [id]="'unionMembership' + i"
                                          class="custom-control-input"
                                          type="radio"
-                                         name="blacklist"
-                                         [ngModel]="data.blacklist"
-                                         [value]="item.key"
+                                         checked="checked"
+                                         name="unionMembership"
+                                         [ngModel]="data.unionMembership"
                                          disabled
-                                         readonly />
+                                         [value]="item.key" />
                                   <p class="custom-control-label"
-                                     [for]="'blacklist' + i">
+                                     [for]="'unionMembership' + i">
                                     <strong>
                                       {{ item.value | translate }}
                                     </strong>
@@ -1249,41 +1093,195 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Update Time -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="updateTime"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UpdateTime" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input autocomplete="off"
-                               type="text"
-                               class="form-control"
-                               id="updateTime"
-                               name="updateTime"
-                               [ngModel]="data.updateTime"
-                               bsDatepicker
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
-                               disabled />
+                </div>
+                <!-- Onboard Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="onboardDate"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.OnboardDate"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="onboardDate"
+                             name="onboardDate"
+                             [ngModel]="data.onboardDate"
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Date Of Group Employment -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="dateOfGroupEmployment"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfGroupEmployment" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="dateOfGroupEmployment"
+                             name="dateOfGroupEmployment"
+                             [ngModel]="data.dateOfGroupEmployment"
+                             disabled
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                    </div>
+                  </div>
+                </div>
+                <!-- Seniority Start Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="seniorityStartDate"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.SeniorityStartDate"| translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="seniorityStartDate"
+                             name="seniorityStartDate"
+                             [ngModel]="data.seniorityStartDate"
+                             disabled
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                    </div>
+                  </div>
+                </div>
+                <!-- Annual Leave Seniority Start Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="annualLeaveSeniorityStartDate"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.AnnualLeaveSeniorityStartDate" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class=" form-control"
+                             id="annualLeaveSeniorityStartDate"
+                             name="annualLeaveSeniorityStartDate"
+                             [ngModel]="data.annualLeaveSeniorityStartDate"
+                             disabled
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" />
+                    </div>
+                  </div>
+                </div>
+                <!-- Date Of Resignation -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="dateOfResignation"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.DateOfResignation" | translate }}</label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="dateOfResignation"
+                             name="dateOfResignation"
+                             [ngModel]="data.dateOfResignation"
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             disabled
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Reason for Resignation -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="reasonResignation"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.ReasonForResignation" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="reasonResignation"
+                                 name="reasonResignation"
+                                 [ngModel]="data.reasonResignation"
+                                 disabled>
+                        <ng-option *ngFor="let data of listReasonResignation"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Blacklist -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.Blacklist" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of blacklist; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div class="custom-control custom-radio pt-2">
+                                <input [id]="'blacklist' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       name="blacklist"
+                                       [ngModel]="data.blacklist"
+                                       [value]="item.key"
+                                       disabled
+                                       readonly />
+                                <p class="custom-control-label"
+                                   [for]="'blacklist' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <!-- Update By -->
-                  <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group row">
-                      <label for="updateBy"
-                             class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UpdateBy" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input type="text"
-                               class="form-control"
-                               id="updateBy"
-                               name="updateBy"
-                               [ngModel]="data.updateBy"
-                               disabled />
-                      </div>
+                </div>
+                <!-- Update Time -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="updateTime"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UpdateTime" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             id="updateTime"
+                             name="updateTime"
+                             [ngModel]="data.updateTime"
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Update By -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="updateBy"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{ "EmployeeInformationModule.ExitEmployeeMasterFileHistoricalData.UpdateBy" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="updateBy"
+                             name="updateBy"
+                             [ngModel]="data.updateBy"
+                             disabled />
                     </div>
                   </div>
                 </div>

@@ -15,7 +15,7 @@
                 #mainForm="ngForm">
             <div class="row">
               <!-- Factory -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Factory" | translate}}
                   <span class="text-danger">*</span>
@@ -32,7 +32,7 @@
                 </ng-select>
               </div>
               <!-- Department -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Department" | translate}}
                 </label>
@@ -46,7 +46,7 @@
                 </ng-select>
               </div>
               <!-- EmployeeID -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.EmployeeID" | translate}}
                 </label>
@@ -58,7 +58,7 @@
                        placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.EmployeeID' | translate}}" />
               </div>
               <!-- Work Shift Type -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.WorkShiftType" | translate}}
                 </label>
@@ -72,7 +72,7 @@
                 </ng-select>
               </div>
               <!-- Update Reason -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.UpdateReason" | translate}}
                 </label>
@@ -86,7 +86,7 @@
                 </ng-select>
               </div>
               <!-- Date -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 ">
                 <div>
                   <label class="badge badge-warning">
                     {{ "AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Date" | translate }}
@@ -104,7 +104,7 @@
                                [bsConfig]="bsConfig"
                                onpaste="return false;"
                                placeholder="YYYY/MM/DD"
-                               [maxDate]="param.att_Date_To"/>
+                               [maxDate]="param.att_Date_To" />
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                         </div>
@@ -120,7 +120,7 @@
                                [bsConfig]="bsConfig"
                                onpaste="return false;"
                                placeholder="YYYY/MM/DD"
-                               [minDate]="param.att_Date_From"/>
+                               [minDate]="param.att_Date_From" />
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                         </div>
@@ -131,41 +131,52 @@
               </div>
               <!-- Attendance -->
               <div class="col-auto">
-                <div class="form-group">
-                  <label class="badge badge-warning">{{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance" | translate}}</label>
-                  <ng-select name="listAttendance"
-                             [multiple]="true"
-                             [items]="listAttendance"
-                             [selectableGroup]="true"
-                             [selectableGroupAsModel]="false"
-                             [closeOnSelect]="false"
-                             groupBy="allGroup"
-                             bindLabel="value"
-                             bindValue="key"
-                             (clear)="param.list_Attendance = []"
-                             [(ngModel)]="param.list_Attendance"
-                             placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance' | translate }}">
-                    <ng-template ng-optgroup-tmp
-                                 let-item="item"
-                                 let-item$="item$"
-                                 let-index="index">
+                <label class="badge badge-warning">{{"AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance" | translate}}</label>
+                <ng-select name="listAttendance"
+                           [multiple]="true"
+                           [items]="listAttendance"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           groupBy="allGroup"
+                           bindLabel="value"
+                           bindValue="key"
+                           (clear)="param.list_Attendance = []"
+                           [(ngModel)]="param.list_Attendance"
+                           placeholder="{{'AttendanceMaintenance.AttendanceAbnormalityDataMaintenance.Attendance' | translate }}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <div class="custom-control custom-checkbox pe-none">
                       <input id="item-{{ index }}"
                              type="checkbox"
+                             class="custom-control-input"
                              name="item-{{ index }}"
-                             [ngModel]="item$.selected" /> {{'System.Action.SelectAll' | translate }}</ng-template>
-                    <ng-template ng-option-tmp
-                                 let-item="item"
-                                 let-item$="item$"
-                                 let-index="index">
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <div class="custom-control custom-checkbox pe-none">
                       <input id="item-{{ index }}"
                              name="item-{{ index }}"
                              type="checkbox"
-                             [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
-                  </ng-select>
-                </div>
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
+                  </ng-template>
+                </ng-select>
               </div>
               <!-- Submit Button -->
               <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                <label class="d-block">&nbsp;</label>
                 <!-- Search -->
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="submit"
@@ -330,7 +341,7 @@
                         <tr class="no-data">
                           <td colspan="100%"
                               class="table-warning text-center font-weight-bold">
-                            {{"System.Message.Nodata" | translate }}
+                            {{"System.Message.NoData" | translate }}
                           </td>
                         </tr>
                       </ng-template>
@@ -343,7 +354,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

@@ -129,11 +129,24 @@ import { S_7_2_1_SalaryApprovalFormService } from './salary-report/s_7_2_1_salar
 import { S_7_2_2_UtilityWorkersQualificationSeniorityPrinting } from './salary-report/s_7_2_2_utility-workers-qualification-seniority-printing.service';
 import { S_7_2_4_MonthlySalarySummaryReportService } from './salary-report/s_7_2_4_monthly-salary-summary-report.service';
 import { S_7_2_5_MonthlySalaryDetailReportService } from './salary-report/s_7_2_5_monthly-salary-detail-report.service';
-import { S_7_2_6_MonthlyNonTransferSalaryPaymentReportService } from './salary-report/s-7-2-6-monthly-non-transfer-salary-payment-report.service';
+import { S_7_2_6_MonthlyNonTransferSalaryPaymentReportService } from './salary-report/s_7_2_6_monthly-non-transfer-salary-payment-report.service';
 import { S_7_2_7_MonthlySalaryAdditionsDeductionsSummaryReportService } from "./salary-report/s_7_2_7_monthly-salary-additions-deductions-summary-report.service";
+import { S_7_2_9_SalarySummaryReportExitedEmployeeService } from "./salary-report/s_7_2_9_salary-summary-report-exited-employee.service";
+import { S_7_2_10_SalarySummaryReportExitedEmployeeByDepartmentService } from "./salary-report/s_7_2_10_salary-summary-report-exited-employee-by-department.service";
+import { S_7_2_12_MonthlySalaryTransferDetailsService } from './salary-report/s-7-2-12-monthly-salary-transfer-details.service';
+import { S_7_2_13_MonthlySalaryTransferDetailsExitedEmployeeService } from './salary-report/s-7-2-13-monthly-salary-transfer-details-exited-employee.service';
+import { S_7_2_14_taxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayService } from "./salary-report/s_7_2_14_tax-paying-employee-monthly-night-shift-extra-and-overtime-pay.service";
+import { S_7_2_15_monthlyUnionDuesSummaryService } from "./salary-report/s_7_2_15_monthly-union-dues-summary.service";
+import { S_7_2_16_DownloadPersonnelDataToExcelService } from './salary-report/s_7_2_16-download-personnel-data-to-excel.service';
+import { S_7_2_17_MonthlyPersonalIncomeTaxAmountReportService } from './salary-report/s_7_2_17_monthly-personal-income-tax-amount-report.service';
+import { S_7_2_18_AnnualIncomeTaxDetailReportService } from './salary-report/s_7_2_18-annual-income-tax-detail-report.service';
+import { S_7_2_19_MonthlySalarySummaryReportForFinance } from './salary-report/s_7_2_19_monthly-salary-summary-report-for-finance.service';
+import { S_7_2_20_MonthlySalarySummaryReportForTaxation } from './salary-report/s-7-2-20-monthly-salary-summary-report-for-taxation.service';
+import { S_7_2_21_MonthlyAdditionsAndDeductionsSummaryReportForFinanceService } from './salary-report/s_7_2_21_monthly-additions-and-deductions-summary-report-for-finance.service';
+import { S_7_2_22_MonthlyAdditionsAndDeductionsSummaryReport } from './salary-report/s_7_2_22_monthly-additions-and-deductions-summary-report.service';
 import { S_8_1_1_RewardAndPenaltyReasonCodeMaintenanceService } from './reward-and-penalty-maintenance/s_8_1_1_reward-and-penalty-reason-code-maintenance.service';
-import { S_8_2_1_EmployeeRewardAndPenaltyReportService } from './reward-and-penalty-report/s_8_2_1_employee-reward-and-penalty-report.service';
 import { S_8_1_2_EmployeeRewardAndPenaltyRecordsService } from "./reward-and-penalty-maintenance/s_8_1_2_employee-reward-and-penalty-records.service";
+import { S_8_2_1_EmployeeRewardAndPenaltyReportService } from './reward-and-penalty-report/s_8_2_1_employee-reward-and-penalty-report.service';
 
 export interface IClearCache { clearParams: () => void }
 @Injectable({
@@ -266,6 +279,19 @@ export class CacheService {
     protected service_7_2_5: S_7_2_5_MonthlySalaryDetailReportService,
     protected service_7_2_6: S_7_2_6_MonthlyNonTransferSalaryPaymentReportService,
     protected service_7_2_7: S_7_2_7_MonthlySalaryAdditionsDeductionsSummaryReportService,
+    protected service_7_2_9: S_7_2_9_SalarySummaryReportExitedEmployeeService,
+    protected service_7_2_10: S_7_2_10_SalarySummaryReportExitedEmployeeByDepartmentService,
+    protected service_7_2_12: S_7_2_12_MonthlySalaryTransferDetailsService,
+    protected service_7_2_13: S_7_2_13_MonthlySalaryTransferDetailsExitedEmployeeService,
+    protected service_7_2_14: S_7_2_14_taxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayService,
+    protected service_7_2_15: S_7_2_15_monthlyUnionDuesSummaryService,
+    protected service_7_2_16: S_7_2_16_DownloadPersonnelDataToExcelService,
+    protected service_7_2_17: S_7_2_17_MonthlyPersonalIncomeTaxAmountReportService,
+    protected service_7_2_18: S_7_2_18_AnnualIncomeTaxDetailReportService,
+    protected service_7_2_19: S_7_2_19_MonthlySalarySummaryReportForFinance,
+    protected service_7_2_20: S_7_2_20_MonthlySalarySummaryReportForTaxation,
+    protected service_7_2_21: S_7_2_21_MonthlyAdditionsAndDeductionsSummaryReportForFinanceService,
+    protected service_7_2_22: S_7_2_22_MonthlyAdditionsAndDeductionsSummaryReport,
     protected service_8_1_1: S_8_1_1_RewardAndPenaltyReasonCodeMaintenanceService,
     protected service_8_1_2: S_8_1_2_EmployeeRewardAndPenaltyRecordsService,
     protected service_8_2_1: S_8_2_1_EmployeeRewardAndPenaltyReportService,

@@ -9,8 +9,8 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { CaptionConstants } from '@constants/message.enum';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -49,7 +49,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.getDataPagination(false);
     });
 
-    this._service.paramSearch$.pipe(takeUntilDestroyed()).subscribe(memory => {
+    this._service.paramSearch$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(memory => {
       if (memory) {
         this.params = memory.params;
         this.pagination = memory.pagination;
@@ -59,8 +59,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       }
     })
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
-      this.params.language = res.lang;
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListDepartment();
@@ -86,14 +85,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this._service.setParamSearch(data);
   }
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactoryByUser()
       .subscribe({
         next: (res) => {
           this.factories = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -105,15 +101,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListDepartment() {
-    this.spinnerService.show();
-
     this._service.getListDepartment(this.params.factory)
       .subscribe({
         next: (res) => {
           this.departments = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -137,8 +129,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             );
 
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -226,7 +217,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error);
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -238,7 +228,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   clear() {
-    this.params = <ResignedEmployeeParam>{ language: localStorage.getItem(LocalStorageConstants.LANG) }
+    this.params = <ResignedEmployeeParam>{}
     this.att_Month_Start = null;
     this.att_Month_End = null;
     this.departments = [];

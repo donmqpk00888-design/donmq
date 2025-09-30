@@ -4,8 +4,7 @@ export const LocalStorageConstants = {
   USER: 'HRM_User',
   LANG: "HRM_Language",
   ROUTING: 'HRM_Routing',
-  AUTH_PROGRAM: 'HRM_Auth_Program',
-  CODE_LANG: 'HRM_Code_Lang',
+  SYSTEM_INFO: 'HRM_System_Info',
 } as const;
 export const SessionStorageConstants = {
   SELECTED_FUNCTIONS: 'HRM_Selected_Functions',

@@ -10,10 +10,10 @@ import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { S_5_1_22_MonthlyAttendanceDataMaintenanceActiveEmployeesService } from '@services/attendance-maintenance/s_5_1_22_monthly-attendance-data-maintenance-active-employees.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { CaptionConstants } from '@constants/message.enum';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -59,9 +59,7 @@ export class MainComponent extends InjectBase implements OnInit {
       }
     });
 
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.param.language = res.lang;
         this.getListFactory();
@@ -69,7 +67,7 @@ export class MainComponent extends InjectBase implements OnInit {
         if(this.data.length > 0){
           if(!this.checkParam() && this.functionUtility.checkFunction('Search'))
             this.query(false);
-          else 
+          else
             this.clear();
         }
       });
@@ -155,7 +153,6 @@ export class MainComponent extends InjectBase implements OnInit {
 
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -200,7 +197,6 @@ export class MainComponent extends InjectBase implements OnInit {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error);
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#region Get List
@@ -209,7 +205,6 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -220,7 +215,6 @@ export class MainComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.listDepartment = res;
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
   onDateChange(name: string) {

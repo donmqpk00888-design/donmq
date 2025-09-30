@@ -9,8 +9,8 @@ import {
   OvertimeHoursReportParam,
 } from '@models/attendance-maintenance/5_2_19_overtime-hours-report';
 import { S_5_2_19_OvertimeHoursReportService } from '@services/attendance-maintenance/s_5_2_19_overtime-hours-report.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -71,9 +71,7 @@ export class MainComponent extends InjectBase implements OnInit {
       }
     });
 
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.params.lang = res.lang;
         this.getListFactory();
@@ -109,52 +107,39 @@ export class MainComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactoryAdd().subscribe({
       next: (res) => {
         this.factories = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListDepartment() {
-    this.spinnerService.show();
     this._service
       .getListDepartment(this.params.factory)
       .subscribe({
         next: (res) => {
           this.departments = res;
-          this.spinnerService.hide();
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
   getListWorkShiftType() {
-    this.spinnerService.show();
     this._service.getListWorkShiftType().subscribe({
       next: (res) => {
         this.workshifttypes = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   GetListPermissionGroup() {
-    this.spinnerService.show();
     this._service
       .GetListPermissionGroup(this.params.factory)
       .subscribe({
         next: (res) => {
           this.permissiongroup = res;
           this.selectAllForDropdownItems(this.permissiongroup)
-          this.spinnerService.hide();
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
   private selectAllForDropdownItems(items: KeyValuePair[]) {
@@ -223,7 +208,6 @@ export class MainComponent extends InjectBase implements OnInit {
           );
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   setSource() {

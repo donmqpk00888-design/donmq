@@ -16,26 +16,24 @@
                         <div class="row border-shadow">
                             <!-- Factory -->
                             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="factory"
-                                           class="badge badge-warning">
-                                        {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Factory" | translate }}
-                                        <span class="text-danger text-bold"> *</span>
-                                    </label>
-                                    <ng-select id="factory"
-                                               name="factory"
-                                               [(ngModel)]="param.factory"
-                                               (ngModelChange)="onSelectFactory()"
-                                               [clearable]="param.factory != ''"
-                                               (clear)="deleteProperty('factory')"
-                                               required
-                                               placeholder="{{ 'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Factory' | translate }}">
-                                        <ng-option *ngFor="let item of listFactory"
-                                                   [value]="item.key">
-                                            {{ item.value }}
-                                        </ng-option>
-                                    </ng-select>
-                                </div>
+                                <label for="factory"
+                                       class="badge badge-warning">
+                                    {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Factory" | translate }}
+                                    <span class="text-danger text-bold"> *</span>
+                                </label>
+                                <ng-select id="factory"
+                                           name="factory"
+                                           [(ngModel)]="param.factory"
+                                           (ngModelChange)="onSelectFactory()"
+                                           [clearable]="param.factory != ''"
+                                           (clear)="deleteProperty('factory')"
+                                           required
+                                           placeholder="{{ 'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Factory' | translate }}">
+                                    <ng-option *ngFor="let item of listFactory"
+                                               [value]="item.key">
+                                        {{ item.value }}
+                                    </ng-option>
+                                </ng-select>
                             </div>
                             <!-- Year Month -->
                             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -48,7 +46,7 @@
                                         <div class="input-group mr-1">
                                             <input autocomplete="off"
                                                    type="text"
-                                                   class="form-control bg-white"
+                                                   class="form-control"
                                                    name="yearMonth"
                                                    [(ngModel)]="yearMonth"
                                                    (ngModelChange)="onDateChange()"
@@ -68,71 +66,66 @@
                             </div>
                             <!-- Number of month -->
                             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="factory"
-                                           class="badge badge-warning">
-                                        {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.NumberofMonth" | translate }}
-                                        <span class="text-danger text-bold"> *</span>
-                                    </label>
-                                    <div class="input-group mr-1">
-                                        <input autocomplete="off"
-                                               type="number"
-                                               placeholder="{{'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.NumberofMonth' | translate }}"
-                                               class="form-control"
-                                               min="0"
-                                               max="99999"
-                                               maxlength="5"
-                                               name="numberOfMonth"
-                                               [(ngModel)]="param.numberOfMonth"
-                                               typeaheadOptionField="key"
-                                               typeaheadScrollable="true"
-                                               (clear)="deleteProperty('numberOfMonth')"
-                                               (input)="onNumberOfMonthChange($event)"
-                                               required />
-                                    </div>
+                                <label for="factory"
+                                       class="badge badge-warning">
+                                    {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.NumberofMonth" | translate }}
+                                    <span class="text-danger text-bold"> *</span>
+                                </label>
+                                <div class="input-group mr-1">
+                                    <input autocomplete="off"
+                                           type="number"
+                                           placeholder="{{'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.NumberofMonth' | translate }}"
+                                           class="form-control"
+                                           min="0"
+                                           max="99999"
+                                           maxlength="5"
+                                           name="numberOfMonth"
+                                           [(ngModel)]="param.numberOfMonth"
+                                           typeaheadOptionField="key"
+                                           typeaheadScrollable="true"
+                                           (clear)="deleteProperty('numberOfMonth')"
+                                           (input)="onNumberOfMonthChange($event)"
+                                           required />
                                 </div>
                             </div>
                             <!-- Department -->
                             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="factory"
-                                           class="badge badge-warning">
-                                        {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Department" | translate }}
-                                    </label>
-                                    <ng-select id="department"
-                                               name="department"
-                                               [(ngModel)]="param.department"
-                                               [clearable]="param.department != ''"
-                                               (clear)="deleteProperty('department')"
-                                               [disabled]="!param.factory"
-                                               placeholder="{{ 'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Department' | translate }}">
-                                        <ng-option *ngFor="let item of listDepartment"
-                                                   [value]="item.key">
-                                            {{ item.value }}
-                                        </ng-option>
-                                    </ng-select>
-                                </div>
+                                <label for="factory"
+                                       class="badge badge-warning">
+                                    {{ "SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Department" | translate }}
+                                </label>
+                                <ng-select id="department"
+                                           name="department"
+                                           [(ngModel)]="param.department"
+                                           [clearable]="param.department != ''"
+                                           (clear)="deleteProperty('department')"
+                                           [disabled]="!param.factory"
+                                           placeholder="{{ 'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.Department' | translate }}">
+                                    <ng-option *ngFor="let item of listDepartment"
+                                               [value]="item.key">
+                                        {{ item.value }}
+                                    </ng-option>
+                                </ng-select>
                             </div>
                             <!-- Employee ID -->
                             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label class="badge badge-warning"> {{"SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.EmployeeID" | translate }}
-                                    </label>
-                                    <div class="input-group mr-1">
-                                        <input autocomplete="off"
-                                            type="text"
-                                            placeholder="{{'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.EmployeeID' | translate }}"
-                                            class="form-control"
-                                            maxlength="9"
-                                            name="employee_ID"
-                                            [(ngModel)]="param.employee_ID"
-                                            typeaheadOptionField="key"
-                                            typeaheadScrollable="true"
-                                            (clear)="deleteProperty('employee_ID')" />
-                                    </div>
+                                <label class="badge badge-warning"> {{"SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.EmployeeID" | translate }}
+                                </label>
+                                <div class="input-group mr-1">
+                                    <input autocomplete="off"
+                                           type="text"
+                                           placeholder="{{'SalaryReport.UtilityWoAppModulerkersQualificationSeniorityPrinting.EmployeeID' | translate }}"
+                                           class="form-control"
+                                           maxlength="9"
+                                           name="employee_ID"
+                                           [(ngModel)]="param.employee_ID"
+                                           typeaheadOptionField="key"
+                                           typeaheadScrollable="true"
+                                           (clear)="deleteProperty('employee_ID')" />
                                 </div>
                             </div>
                             <div class="col-12 pb-2">
+                                <label class="d-block">&nbsp;</label>
                                 <button type="submit"
                                         class="btn btn-primary mr-1"
                                         (click)="getTotalRows(true)"

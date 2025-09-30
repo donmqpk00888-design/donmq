@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Work_Type_DaysDto, SpecialWorkTypeAnnualLeaveDaysMaintenanceParam, SpecialWorkTypeAnnualLeaveDaysMaintenanceSource } from '@models/attendance-maintenance/5_1_3_special-work-type-annual-leave-days-maintenance';
@@ -8,7 +7,8 @@ import { S_5_1_3_SpecialWorkTypeAnnualLeaveDaysMaintenanceService } from '@servi
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -41,9 +41,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     super();
     this.programCode = this.route.snapshot.data['program'];
     this.getDataFromSource();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getListDivision();
         this.getListFactory();
@@ -82,17 +80,15 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
-    }).add(() => this.spinnerService.hide());
+      }
+    })
   }
 
   getListDivision() {
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -100,8 +96,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -172,8 +167,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 

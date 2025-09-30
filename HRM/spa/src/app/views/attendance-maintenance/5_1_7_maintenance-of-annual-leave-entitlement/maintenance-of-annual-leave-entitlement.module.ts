@@ -1,3 +1,4 @@
+import { SharedModule } from '@views/_shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -31,7 +32,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     DragScrollComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    SharedModule
   ]
 })
 export class MaintenanceofAnnualLeaveEntitlementModule { }

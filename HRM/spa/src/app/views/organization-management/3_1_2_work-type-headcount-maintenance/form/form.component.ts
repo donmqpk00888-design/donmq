@@ -1,10 +1,10 @@
 import { Component, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Org_Work_Type_Headcount, HRMS_Org_Work_Type_HeadcountParam, HRMS_Org_Work_Type_HeadcountUpdate } from '@models/organization-management/3_1_2_work-type-headcount-maintenance';
 import { S_3_1_2_WorktypeHeadcountMaintenanceService } from '@services/organization-management/s_3_1_2_work-type-headcount-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -52,7 +52,7 @@ export class FormComponent extends InjectBase {
 
   constructor(private workTypeHeadcountMaintermanceServices: S_3_1_2_WorktypeHeadcountMaintenanceService) {
     super()
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getDivisions();
       this.getFactories();
@@ -65,7 +65,7 @@ export class FormComponent extends InjectBase {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res['title']
       this.divisions = res.resolverDivisions;
     });
@@ -189,10 +189,6 @@ export class FormComponent extends InjectBase {
           if (codeName != null || codeName != undefined) x.work_Type_Name = codeName.value;
           else x.work_Type_Name = '';
         })
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.warning(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
       }
     })
   }
@@ -265,10 +261,6 @@ export class FormComponent extends InjectBase {
               this.back();
             }
             else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
           }
         })
       }
@@ -285,10 +277,6 @@ export class FormComponent extends InjectBase {
               this.back();
             }
             else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
           }
         })
       }

@@ -67,31 +67,19 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
   getListFactory() {
     this.service.getListFactory().subscribe({
       next: res => this.listFactory = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
-      }
+
     })
   }
   getListWorkShiftType() {
     this.service.getListWorkShiftType().subscribe({
       next: res => this.workShiftType = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
-      }
+
     })
   }
   getListHoliday() {
     this.service.getListHoliday().subscribe({
       next: res => this.listHoliday = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
-      }
+
     })
   }
   getShiftTimeByWorkShift() {
@@ -105,13 +93,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             const time = res.value as string
             !time.isNullOrWhiteSpace() ? this.data.shift_Time = res.value : this.deleteProperty('shift_Time')
           },
-          error: () => {
-            this.deleteProperty('shift_Time')
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.SystemError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-          },
+          error: () => { this.deleteProperty('shift_Time') },
         });
   }
 

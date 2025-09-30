@@ -45,9 +45,7 @@ export class Tab2Component extends InjectBase implements OnInit {
 
   constructor(private _service: S_7_1_15_ChildcareSubsidyGenerationService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.loadDropDownList();
       });
   }
@@ -95,8 +93,7 @@ export class Tab2Component extends InjectBase implements OnInit {
         }
         else this.functionUtility.snotifySuccessError(false, res.error)
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   //#endregion
@@ -133,7 +130,6 @@ export class Tab2Component extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -145,7 +141,6 @@ export class Tab2Component extends InjectBase implements OnInit {
       next: (res) => {
         this.totalRows = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -157,7 +152,6 @@ export class Tab2Component extends InjectBase implements OnInit {
         this.listPermissionGroup = res;
         this.selectAllForDropdownItems(this.listPermissionGroup)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

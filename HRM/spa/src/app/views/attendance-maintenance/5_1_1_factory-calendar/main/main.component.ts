@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Day, FactoryCalendar_MainData, FactoryCalendar_MainMemory, FactoryCalendar_MainParam, FactoryCalendar_Table } from '@models/attendance-maintenance/5_1_1_factory-calendar';
@@ -7,8 +6,10 @@ import { S_5_1_1_FactoryCalendar } from '@services/attendance-maintenance/s_5_1_
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -81,11 +82,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         minMode: this.minMode
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.filterList(role.dataResolved)
-      }).unsubscribe();
+      });
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<FactoryCalendar_MainMemory>{
@@ -99,15 +100,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
     this.factoryList = structuredClone(keys.filter((x: { key: string; }) => x.key == "FA")).map(x => <KeyValuePair>{ key: x.key = x.value.substring(0, x.value.indexOf('-')), value: x.value })
     this.divisionList = structuredClone(keys.filter((x: { key: string; }) => x.key == "DI")).map(x => <KeyValuePair>{ key: x.key = x.value.substring(0, x.value.indexOf('-')), value: x.value })
   }
-  getData = (isSearch: boolean) => {
+  getData = (isSearch: boolean = false) => {
     this.spinnerService.show();
     this.param.lang = localStorage.getItem(LocalStorageConstants.LANG)
     this.service
@@ -122,8 +122,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('System.Message.SearchOKMsg'),
               this.translateService.instant('System.Caption.Success')
             );
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   search = () => {
@@ -187,8 +186,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.FactoryCalendar.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   delete(e: FactoryCalendar_Table) {
@@ -196,6 +194,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show()
       this.service.deleteData(e).subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.snotifyService.success(
               this.translateService.instant('System.Message.DeleteOKMsg'),
@@ -209,8 +208,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('System.Caption.Success')
             );
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }
@@ -250,8 +248,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.FactoryCalendar.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   download() {
@@ -263,53 +260,30 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileFormat = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileFormat)) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.InvalidFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      } else {
-        const formData = new FormData();
-        formData.append('file', event.target.files[0]);
-        this.service.uploadExcel(formData).subscribe({
-          next: (res) => {
-            this.inputRef.nativeElement.value = '';
-            this.spinnerService.hide();
-            if (res.isSuccess) {
-              this.snotifyService.success(
-                this.translateService.instant('System.Message.UploadOKMsg'),
-                this.translateService.instant('System.Caption.Success'))
-            } else {
-              if (!this.functionUtility.checkEmpty(res.data)) {
-                const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-                this.functionUtility.exportExcel(res.data, fileName);
-              }
-              this.snotifyService.error(
-                res.error,
-                this.translateService.instant('System.Caption.Error')
-              );
-            }
-          },
-          error: () => {
-            event.target.value = '';
-            this.functionUtility.snotifySystemError()
-          },
-        });
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
+          }
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        }
       }
-    }
+    });
   }
   onDateClick(day: Day) {
-    if (day.style != 'gray-date') {
+    if (day.style != 'disabled-date') {
       this.spinnerService.show();
       this.service.checkExistedData(day.division, day.factory, day.date_String)
         .subscribe({
@@ -338,8 +312,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               });
               this.router.navigate([`${this.router.routerState.snapshot.url}/add`]);
             }
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }

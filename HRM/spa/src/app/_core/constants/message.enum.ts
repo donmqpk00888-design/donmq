@@ -31,6 +31,8 @@ export enum MessageConstants {
 
   UN_KNOWN_ERROR = 'Oops! Sorry, an error occurred while processing your request',
   SYSTEM_ERROR_MSG = 'An error occurred while connecting to the server',
+  SESSION_EXPIRED = "Your session has expired, please log in again.",
+  TRANSACTION_ERROR_MSG = 'A database transaction is already active. Please try againt later',
 
   NO_DATA = 'No Data!',
   DATA_FOUND = 'Data Not Found!',

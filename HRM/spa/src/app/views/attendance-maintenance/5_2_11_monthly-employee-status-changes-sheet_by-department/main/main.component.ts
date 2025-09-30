@@ -3,7 +3,6 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { S_5_2_11_monthlyEmployeeStatusChangesSheet_byDepartmentService } from '@services/attendance-maintenance/s_5_2_11_monthly-employee-status-changes-sheet_by-department.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
 import {
   MonthlyEmployeeStatus_ByDepartmentParam,
@@ -11,6 +10,7 @@ import {
 } from '@models/attendance-maintenance/5_2_11_monthly-employee-status-changes-sheet_by-department';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -85,8 +85,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -105,20 +104,18 @@ export class MainComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.downloadExcel(this.param).subscribe({
       next: (result) => {
+        this.spinnerService.hide()
         if (result.isSuccess) {
-          this.spinnerService.hide()
           this.totalRows = result.data.count
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data.result, fileName);
           this.param.permissionName = []
         }
         else {
-          this.spinnerService.hide()
           this.totalRows = 0
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   onSelectFactory() {
@@ -126,18 +123,15 @@ export class MainComponent extends InjectBase implements OnInit {
     this.getListPermissionGroup()
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListLevel() {
     this.service.getListLevel().subscribe({
-      next: res => this.listLevel = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listLevel = res
     })
   }
   getListPermissionGroup() {
@@ -145,8 +139,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   private selectAllForDropdownItems(items: KeyValuePair[]) {

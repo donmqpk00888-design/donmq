@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { ApplySocialInsuranceBenefitsMaintenanceDto } from '@models/compulsory-insurance-management/6_1_3_apply_social_insurance_benefits_maintenance';
 import { S_6_1_3_ApplySocialInsuranceBenefitsMaintenanceService } from '@services/compulsory-insurance-management/s_6_1_3_apply_social_insurance_benefits_maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -40,7 +40,7 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => {
         this.isEdit = res.title == 'Edit';
         this.action = res.title;
@@ -48,7 +48,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.getListFactory();
         this.getListBenefitsKind();
         this.getSource()
-      }).unsubscribe()
+      })
   }
   getSource() {
     if (this.isEdit) {
@@ -74,24 +74,18 @@ export class FormComponent extends InjectBase implements OnInit {
   deleteProperty = (name: string) => delete this.data[name];
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListBenefitsKind() {
-    this.spinnerService.show();
     this.service.getListBenefitsKind().subscribe({
       next: (res) => {
         this.listBenefitsKind = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   save(isNext: boolean) {
@@ -99,8 +93,9 @@ export class FormComponent extends InjectBase implements OnInit {
       ? this.service.update(this.data)
       : this.service.create(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
+        this.spinnerService.hide()
         if (result.isSuccess) {
           this.functionUtility.snotifySuccessError(
             result.isSuccess,
@@ -113,17 +108,14 @@ export class FormComponent extends InjectBase implements OnInit {
             result.error
           );
         }
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
 
   getListEmployee() {
     if (this.data.factory) {
       this.commonService.getListEmployeeAdd(this.data.factory).subscribe({
-        next: res => this.employeeList = res,
-        error: () => this.functionUtility.snotifySystemError()
+        next: res => this.employeeList = res
       })
     }
   }
@@ -224,10 +216,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.clearAdditionData();
           }
         },
-        error: () => {
-          this.clearAdditionData();
-          this.functionUtility.snotifySystemError()
-        },
+        error: () => { this.clearAdditionData(); },
       });
   }
 
@@ -250,15 +239,12 @@ export class FormComponent extends InjectBase implements OnInit {
           if (res.isSuccess) {
             this.validDate = true
             this.calculate();
-          }else {
+          } else {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error, false)
             this.clearCalculation()
           }
         },
-        error: () => {
-          this.clearCalculation()
-          this.functionUtility.snotifySystemError()
-        }
+        error: () => { this.clearCalculation() }
       });
     }
   }
@@ -267,6 +253,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.formula(this.data).subscribe({
       next: (res) => {
+        this.spinnerService.hide()
         if (res.isSuccess) {
           this.data.annual_Accumulated_Days = res?.data.annual_Accumulated_Days;
           this.data.amt = res?.data.amt;
@@ -276,13 +263,8 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
         }
       },
-      error: () => {
-        this.clearCalculation()
-        this.functionUtility.snotifySystemError()
-      }
+      error: () => { this.clearCalculation() }
     });
-    this.spinnerService.hide();
-
   }
   clearCalculation() {
     this.validDate = false

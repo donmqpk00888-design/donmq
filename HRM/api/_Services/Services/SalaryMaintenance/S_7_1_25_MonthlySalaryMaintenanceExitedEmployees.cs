@@ -159,6 +159,7 @@ public class S_7_1_25_MonthlySalaryMaintenanceExitedEmployees : BaseServices, I_
             Permission_Group = salaryData.Permission_Group,
             Salary_Type = salaryData.Salary_Type,
             Transfer = salaryData.BankTransfer,
+            Currency = salaryData.Currency,
             Tax = tax,
             Monthly_Attendance = query_Att_Monthly,
             Update_By = salaryData.Update_By,
@@ -250,12 +251,12 @@ public class S_7_1_25_MonthlySalaryMaintenanceExitedEmployees : BaseServices, I_
                        && x.Language_Code.ToLower() == language.ToLower());
 
         var deparment = HOD.GroupJoin(HODL,
-                    x => x.Key,
-                    y => y.Department_Code,
+                    x => new {x.Division, x.Department_Code},
+                    y => new {y.Division, y.Department_Code},
                     (x, y) => new { dept = x, hodl = y })
                     .SelectMany(x => x.hodl.DefaultIfEmpty(),
                     (x, y) => new { x.dept, hodl = y })
-                    .Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{x.dept.Key}-{(x.hodl != null ? x.hodl.Name : x.dept.Value)}"))
+                    .Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{x.dept.Department_Code}-{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}"))
                     .ToList();
         return deparment;
     }
@@ -365,7 +366,7 @@ public class S_7_1_25_MonthlySalaryMaintenanceExitedEmployees : BaseServices, I_
         };
     }
 
-    private List<D_7_25_Salary_Item_Sal_Monthly_Detail_Values> ConvertToSalaryItemValues(
+    private static List<D_7_25_Salary_Item_Sal_Monthly_Detail_Values> ConvertToSalaryItemValues(
         List<Sal_Monthly_Detail_Values> salaryDetails,
         string typeSeq,
         string addDedType,

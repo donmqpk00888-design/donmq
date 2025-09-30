@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton } from '@constants/common.constants';
 import { HRMS_Att_Change_RecordDto } from '@models/attendance-maintenance/5_1_18_attendance-change-record-maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_18_AttendanceChangeRecordMaintenanceService } from '@services/attendance-maintenance/s_5_1_18_attendance-change-record-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -42,9 +42,7 @@ export class FormComponent extends InjectBase implements OnInit {
    */
   constructor(private service: S_5_1_18_AttendanceChangeRecordMaintenanceService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
       });
@@ -102,9 +100,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
   getListEmployee() {
@@ -113,8 +108,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -122,9 +116,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.commonService.getListWorkShiftType().subscribe({
       next: res => {
         this.listWorkShiftType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -133,9 +124,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.commonService.getListAttendanceOrLeave().subscribe({
       next: res => {
         this.listAttendance = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -144,9 +132,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.commonService.getListReasonCode().subscribe({
       next: res => {
         this.listReasonCode = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -155,9 +140,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListHoliday('39', 1, 'Attendance').subscribe({
       next: res => {
         this.listHoliday = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -232,6 +214,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .addNew(this.dataMain)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             isNext ? this.setDefaultParam() : this.back();
             this.snotifyService.success(res.error,
@@ -241,15 +224,8 @@ export class FormComponent extends InjectBase implements OnInit {
             this.snotifyService.error(res.error,
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       })
-      .add(() => {
-        this.spinnerService.hide();
-      });
-
   }
   clearEmpInfo() {
     this.deleteProperty('useR_GUID')

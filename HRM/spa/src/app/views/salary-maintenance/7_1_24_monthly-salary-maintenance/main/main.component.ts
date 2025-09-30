@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, Placeholder } from '@constants/common.constants';
 import {
   MonthlySalaryMaintenance_Basic,
@@ -11,6 +10,7 @@ import { S_7_1_24_MonthlySalaryMaintenanceService } from '@services/salary-maint
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -83,13 +83,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.getListPermissionGroup();
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -100,7 +97,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: (res) => {
           this.listDepartment = res
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
     }
   }
@@ -112,8 +108,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: res => {
           this.listPermissionGroup = res
           this.selectAllForDropdownItems(this.listPermissionGroup)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -132,7 +127,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -183,30 +177,25 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.router.navigate([`${this.router.routerState.snapshot.url}/${action}`]);
   }
   delete(item: MonthlySalaryMaintenanceDto) {
-      this.snotifyService.confirm(
-        this.translateService.instant('System.Message.ConfirmDelete'),
-        this.translateService.instant('System.Action.Delete'),
-        () => {
-          this.spinnerService.show();
-          
-          
-          let deleteItem = <MonthlySalaryMaintenance_Delete>{
-            sal_Month: this.functionUtility.getDateFormat(item.sal_Month.toDate()),
-            employee_ID: item.employee_ID,
-            factory: item.factory,
-          }
-          this.service.delete(deleteItem).subscribe({
-            next: (result) => {
-              if (result.isSuccess) {
-                this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-                this.getData(false);
-              }
-              else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-            },
-            error: () => this.functionUtility.snotifySystemError(),
-            complete: () => this.spinnerService.hide()
-          });
+    this.snotifyService.confirm(
+      this.translateService.instant('System.Message.ConfirmDelete'),
+      this.translateService.instant('System.Action.Delete'),
+      () => {
+        this.spinnerService.show();
+        let deleteItem = <MonthlySalaryMaintenance_Delete>{
+          sal_Month: this.functionUtility.getDateFormat(item.sal_Month.toDate()),
+          employee_ID: item.employee_ID,
+          factory: item.factory,
         }
-      );
-    }
+        this.service.delete(deleteItem).subscribe({
+          next: (result) => {
+            this.spinnerService.hide()
+            this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
+            if (result.isSuccess)
+              this.getData(false);
+          },
+        });
+      }
+    );
+  }
 }

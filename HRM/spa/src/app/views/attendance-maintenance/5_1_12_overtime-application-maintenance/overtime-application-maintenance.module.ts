@@ -15,6 +15,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SharedModule } from '@views/_shared/shared.module';
 @NgModule({
   declarations: [
     MainComponent,
@@ -36,7 +37,8 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgSelectModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    OvertimeApplicationMaintenanceRoutingModule
+    OvertimeApplicationMaintenanceRoutingModule,
+    SharedModule
   ]
 })
 export class OvertimeApplicationMaintenanceModule { }

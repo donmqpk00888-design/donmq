@@ -1,14 +1,21 @@
-<form class="form-horizontal border-shadow" #monthlyeDataGenerationForm="ngForm" autocomplete="off">
+<form class="form-horizontal border-shadow"
+      #monthlyeDataGenerationForm="ngForm"
+      autocomplete="off">
   <div class="row">
     <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
       <label class="badge badge-warning">
         {{"SalaryMaintenance.ChildcareSubsidyGeneration.Factory" | translate }}
         <span class="text-danger text-bold">*</span>
       </label>
-      <ng-select name="factory" [(ngModel)]="param.factory" [clearable]="param.factory !== ''"
-        (ngModelChange)="onFactoryChange()" (clear)="onFactoryClear()"
-        placeholder="{{'SalaryMaintenance.ChildcareSubsidyGeneration.Factory' | translate }}" required>
-        <ng-option *ngFor="let data of listFactory" [value]="data.key">{{data.value}}
+      <ng-select name="factory"
+                 [(ngModel)]="param.factory"
+                 [clearable]="param.factory !== ''"
+                 (ngModelChange)="onFactoryChange()"
+                 (clear)="onFactoryClear()"
+                 placeholder="{{'SalaryMaintenance.ChildcareSubsidyGeneration.Factory' | translate }}"
+                 required>
+        <ng-option *ngFor="let data of listFactory"
+                   [value]="data.key">{{data.value}}
         </ng-option>
       </ng-select>
     </div>
@@ -20,9 +27,17 @@
       <div class="full-width">
         <div class="container_date">
           <div class="input-group mr-1">
-            <input autocomplete="off" (keydown.backspace)="year_Month = null" onpaste="return false;" type="text"
-              placeholder='YYYY/MM' class="form-control bg-white" name="year_Month" [(ngModel)]="year_Month"
-              bsDatepicker [bsConfig]="bsConfigMonthly" required />
+            <input autocomplete="off"
+                   (keydown.backspace)="year_Month = null"
+                   onpaste="return false;"
+                   type="text"
+                   placeholder='YYYY/MM'
+                   class="form-control"
+                   name="year_Month"
+                   [(ngModel)]="year_Month"
+                   bsDatepicker
+                   [bsConfig]="bsConfigMonthly"
+                   required />
             <div class="input-group-append">
               <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
             </div>
@@ -30,7 +45,7 @@
         </div>
       </div>
     </div>
-     <!-- ResignedDate -->
+    <!-- ResignedDate -->
     <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
       <label class="badge badge-warning">
         {{"SalaryMaintenance.ChildcareSubsidyGeneration.ResignedDate" |
@@ -48,7 +63,7 @@
                    bsDatepicker
                    [(ngModel)]="dateFrom"
                    [maxDate]="dateTo"
-                   onpaste="return false"/>
+                   onpaste="return false" />
             <div class="input-group-append">
               <span class="input-group-text">
                 <i class="{{ iconButton.CALENDAR }}"></i>
@@ -65,7 +80,7 @@
                    bsDatepicker
                    [(ngModel)]="dateTo"
                    [minDate]="dateFrom"
-                   onpaste="return false"/>
+                   onpaste="return false" />
             <div class="input-group-append">
               <span class="input-group-text">
                 <i class="{{ iconButton.CALENDAR }}"></i>
@@ -77,23 +92,27 @@
     </div>
     <!-- Kind -->
     <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6">
-      <div class="form-group">
-        <label for="kind" class="badge badge-warning">{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.Kind'
-          | translate }} <span class="text-danger text-bold"> *</span></label>
-        <div class="row pl-3">
-          <div *ngFor="let item of listKind; let i">
-            <label class="container">
-              <div class="row">
-                <div class="custom-control custom-radio pt-2 mr-2">
-                  <input [id]="'kind_' + i" class="custom-control-input" type="radio" name="kind"
-                    [(ngModel)]="param.kind_Tab1" [value]="item.key" />
-                  <p class="custom-control-label" [for]="'kind' + i">
-                    {{ item.value | translate }}
-                  </p>
-                </div>
+      <label for="kind"
+             class="badge badge-warning">{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.Kind'
+        | translate }} <span class="text-danger text-bold"> *</span></label>
+      <div class="row pl-3">
+        <div *ngFor="let item of listKind; let i">
+          <label class="container">
+            <div class="row">
+              <div class="custom-control custom-radio pt-2 mr-2">
+                <input [id]="'kind_' + i"
+                       class="custom-control-input"
+                       type="radio"
+                       name="kind"
+                       [(ngModel)]="param.kind_Tab1"
+                       [value]="item.key" />
+                <p class="custom-control-label"
+                   [for]="'kind' + i">
+                  {{ item.value | translate }}
+                </p>
               </div>
-            </label>
-          </div>
+            </div>
+          </label>
         </div>
       </div>
     </div>
@@ -101,30 +120,63 @@
     <div class="col-12">
       <div class="row">
         <div class="col-auto">
-          <div class="form-group mb-0">
+          <div class="mb-0">
             <label class="badge badge-warning">
               {{ "SalaryMaintenance.ChildcareSubsidyGeneration.PermissionGroup" | translate }}
               <span class="text-danger text-bold"> *</span>
             </label>
-            <ng-select [items]="listPermissionGroup" [multiple]="true" name="namePermission" [disabled]="!param.factory"
-              groupBy="allGroup" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
-              bindLabel="value" bindValue="key" [(ngModel)]="param.permissionGroupMultiple" required
-              placeholder="{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.PermissionGroup' | translate }}">
-              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-                <input id="item-{{ index }}" type="checkbox" name="item-{{ index }}" [ngModel]="item$.selected" /> {{
-                'System.Action.SelectAll' | translate }}</ng-template>
-              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                <input id="item-{{ index }}" name="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{
-                item.value }} </ng-template>
+            <ng-select [items]="listPermissionGroup"
+                       [multiple]="true"
+                       name="namePermission"
+                       [disabled]="!param.factory"
+                       groupBy="allGroup"
+                       [selectableGroup]="true"
+                       [selectableGroupAsModel]="false"
+                       [closeOnSelect]="false"
+                       bindLabel="value"
+                       bindValue="key"
+                       [(ngModel)]="param.permissionGroupMultiple"
+                       required
+                       placeholder="{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.PermissionGroup' | translate }}">
+              <ng-template ng-optgroup-tmp
+                           let-item="item"
+                           let-item$="item$"
+                           let-index="index">
+                <div class="custom-control custom-checkbox pe-none">
+                  <input id="item-{{ index }}"
+                         type="checkbox"
+                         class="custom-control-input"
+                         name="item-{{ index }}"
+                         [ngModel]="item$.selected" />
+                  <label class="custom-control-label"
+                         for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                </div>
+              </ng-template>
+              <ng-template ng-option-tmp
+                           let-item="item"
+                           let-item$="item$"
+                           let-index="index">
+                <div class="custom-control custom-checkbox pe-none">
+                  <input id="item-{{ index }}"
+                         name="item-{{ index }}"
+                         type="checkbox"
+                         class="custom-control-input"
+                         [ngModel]="item$.selected" />
+                  <label class="custom-control-label"
+                         for="item-{{ index }}"> {{ item.value }}</label>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-12 margin-style" *ngIf="this.functionUtility.checkFunction('Execute')">
-      <button type="button" class="{{ classButton.SAVE }}"
-        [disabled]="!monthlyeDataGenerationForm.valid || param.factory == '' || !isValidDateRange()"
-        (click)="childcareSubsidyGenerationExecute()">
+    <div class="col-12 margin-style"
+         *ngIf="this.functionUtility.checkFunction('Execute')">
+      <button type="button"
+              class="{{ classButton.SAVE }}"
+              [disabled]="!monthlyeDataGenerationForm.valid || param.factory == '' || !isValidDateRange()"
+              (click)="childcareSubsidyGenerationExecute()">
         {{ "System.Action.Execute" | translate }}
       </button>
     </div>

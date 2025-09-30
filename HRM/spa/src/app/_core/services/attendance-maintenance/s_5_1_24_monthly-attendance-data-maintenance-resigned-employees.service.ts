@@ -72,22 +72,27 @@ export class S_5_1_24_MonthlyAttendanceDataMaintenanceResignedEmployeesService i
   }
 
   getDataPagination(pagination: Pagination, params: ResignedEmployeeParam) {
+    params.language = this.language
     return this._http.get<PaginationResult<ResignedEmployeeMain>>(`${this.apiUrl}/GetDataPagination`, { params: { ...pagination, ...params } });
   }
 
   query(params: ResignedEmployeeParam) {
+    params.language = this.language
     return this._http.get<ResignedEmployeeDetail>(`${this.apiUrl}/Query`, { params: { ...params } });
   }
 
   getEmpInfo(params: ResignedEmployeeParam) {
+    params.language = this.language
     return this._http.get<OperationResult>(`${this.apiUrl}/GetEmpInfo`, { params: { ...params } });
   }
 
   getResignedDetail(params: ResignedEmployeeDetailParam) {
+    params.language = this.language
     return this._http.get(`${this.apiUrl}/GetResignedDetail`, { params: { ...params } });
   }
 
   exportExcel(params: ResignedEmployeeParam) {
+    params.language = this.language
     return this._http.get<OperationResult>(`${this.apiUrl}/ExportExcel`, { params: { ...params } });
   }
   getEmployeeIDByFactorys(factory: string) {

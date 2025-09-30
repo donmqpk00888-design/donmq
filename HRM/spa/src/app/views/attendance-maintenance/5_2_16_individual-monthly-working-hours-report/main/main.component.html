@@ -96,20 +96,29 @@
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="item-{{ index }}"
-                               type="checkbox"
-                               name="item-{{ index }}"
-                               [ngModel]="item$.selected" />
-                        {{ "System.Action.SelectAll" | translate }}</ng-template>
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
                       <ng-template ng-option-tmp
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="item-{{ index }}"
-                               name="item-{{ index }}"
-                               type="checkbox"
-                               [ngModel]="item$.selected" />
-                        {{ item.value }}
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
                       </ng-template>
                     </ng-select>
                   </div>

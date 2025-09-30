@@ -1,3 +1,4 @@
+import { SharedModule } from '@views/_shared/shared.module';
 import { MainComponent } from './main/main.component';
 import { FormComponent } from './form/form.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -26,6 +27,7 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgxMaskDirective,
     NgxMaskPipe,
     TypeaheadModule.forRoot(),
+    SharedModule
   ]
 })
 export class PayslipDeliverybyEmailMaintenanceModule { }

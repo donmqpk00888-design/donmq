@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ChildcareSubsidyGenerationParam, ChildcareSubsidyGenerationSourceTab1 } from '@models/salary-maintenance/7_1_15_childcare-subsidy-generation';
@@ -8,6 +7,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { log } from 'console';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'child-subsidy-is-generated',
@@ -53,9 +53,7 @@ export class Tab1Component extends InjectBase implements OnInit {
 
   constructor(private _service: S_7_1_15_ChildcareSubsidyGenerationService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.loadDropDownList();
       });
   }
@@ -118,10 +116,7 @@ export class Tab1Component extends InjectBase implements OnInit {
                 this.translateService.instant('System.Caption.Error')
               );
             }
-          },
-          error: () => {
-            this.spinnerService.hide();
-          },
+          }
         });
       });
   }
@@ -145,7 +140,6 @@ export class Tab1Component extends InjectBase implements OnInit {
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -183,7 +177,6 @@ export class Tab1Component extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -195,7 +188,6 @@ export class Tab1Component extends InjectBase implements OnInit {
         this.listPermissionGroup = res;
         this.selectAllForDropdownItems(this.listPermissionGroup)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

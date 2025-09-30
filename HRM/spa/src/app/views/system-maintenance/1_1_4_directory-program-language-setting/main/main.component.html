@@ -45,7 +45,7 @@
               <input autocomplete="off"
                      type="text"
                      placeholder="{{ 'SystemMaintenance.DirectoryProgramLanguageSetting.Code' | translate}}"
-                     class="form-control bg-white"
+                     class="form-control"
                      name="code"
                      [(ngModel)]="param.code" />
             </div>
@@ -56,7 +56,7 @@
               <input autocomplete="off"
                      type="text"
                      placeholder="{{ 'SystemMaintenance.DirectoryProgramLanguageSetting.Name' | translate }}"
-                     class="form-control bg-white"
+                     class="form-control"
                      name="name"
                      [(ngModel)]="param.name" />
             </div>
@@ -128,7 +128,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{ "System.Message.Nodata" | translate }}
+                          {{ "System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -138,7 +138,7 @@
               <div class="row">
                 <div class=" col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [maxSize]="5"
                                 [totalItems]="pagination.totalCount"

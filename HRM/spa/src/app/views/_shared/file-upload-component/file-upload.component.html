@@ -1,0 +1,13 @@
+<label type="button"
+       [class]="classButton.UPLOAD"
+       style="cursor: pointer; margin-bottom: 0"
+       [ngClass]="{ labelDisable: disabled() }"
+       *ngIf="!hidden()">
+  <i [class]="iconButton.UPLOAD"></i> {{ label() }}
+  <input #inputRef
+         [multiple]="multiple()"
+         type="file"
+         name="upload"
+         style="display: none"
+         (change)="checkFiles($event)" />
+</label>

@@ -12,96 +12,125 @@ public class S_Common : BaseServices, I_Common
     public S_Common(DBContext dbContext) : base(dbContext)
     {
     }
-    public async Task<AuthProgram> GetAuthProgram(string username)
+    public async Task<SystemInfo> GetSystemInfo(string username)
     {
-        var user = _repositoryAccessor.HRMS_Basic_Account.FindAll(x => x.Account.Trim() == username.Trim());
-        var roleUsers = _repositoryAccessor.HRMS_Basic_Account_Role.FindAll(x => x.Account.Trim() == username.Trim());
+        var roleUsers = _repositoryAccessor.HRMS_Basic_Account_Role.FindAll(x => x.Account == username);
         var roles = _repositoryAccessor.HRMS_Basic_Role.FindAll();
         var groupRoles = _repositoryAccessor.HRMS_Basic_Role_Program_Group.FindAll();
-        var sys_Directory = _repositoryAccessor.HRMS_SYS_Directory.FindAll();
-        var sys_Program = _repositoryAccessor.HRMS_SYS_Program.FindAll();
+        var sys_Directory = _repositoryAccessor.HRMS_SYS_Directory.FindAll()
+            .Select(x => new
+            {
+                x.Seq,
+                x.Parent_Directory_Code,
+                Code = x.Directory_Code,
+                Name = x.Directory_Name,
+                Kind = "D"
+            });
+        var sys_Program = _repositoryAccessor.HRMS_SYS_Program.FindAll()
+            .Select(x => new
+            {
+                Seq = x.Seq != null ? x.Seq.ToString() : "0",
+                x.Parent_Directory_Code,
+                Code = x.Program_Code,
+                Name = x.Program_Name,
+                Kind = "P"
+            });
         var sys_Function = _repositoryAccessor.HRMS_SYS_Program_Function.FindAll();
+        var sys_Lang = _repositoryAccessor.HRMS_SYS_Program_Language.FindAll();
 
-        var data = await user
-           .GroupJoin(roleUsers,
-               x => x.Account,
-               y => y.Account,
-               (x, y) => new { user = x, roleUsers = y })
-           .SelectMany(x => x.roleUsers.DefaultIfEmpty(),
-               (x, y) => new { x.user, roleUsers = y })
-           .GroupJoin(roles,
-               x => x.roleUsers.Role,
-               y => y.Role,
-               (x, y) => new { x.user, x.roleUsers, roles = y })
-           .SelectMany(x => x.roles.DefaultIfEmpty(),
-               (x, y) => new { x.user, x.roleUsers, roles = y })
-           .GroupJoin(groupRoles,
-               x => x.roles.Role,
-               y => y.Role,
-               (x, y) => new { x.user, x.roleUsers, x.roles, groupRoles = y })
-           .SelectMany(x => x.groupRoles.DefaultIfEmpty(),
-               (x, y) => new { x.user, x.roleUsers, x.roles, groupRoles = y })
-           .GroupJoin(sys_Program,
-               x => x.groupRoles.Program_Code,
-               y => y.Program_Code,
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, sys_Program = y })
-           .SelectMany(x => x.sys_Program.DefaultIfEmpty(),
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, sys_Program = y })
-           .GroupJoin(sys_Directory,
-               x => x.sys_Program.Parent_Directory_Code,
-               y => y.Directory_Code,
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, x.sys_Program, sys_Directory = y })
-           .SelectMany(x => x.sys_Directory.DefaultIfEmpty(),
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, x.sys_Program, sys_Directory = y })
-           .GroupJoin(sys_Function,
-               x => new { x.groupRoles.Program_Code, x.groupRoles.Fuction_Code },
-               y => new { y.Program_Code, y.Fuction_Code },
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, x.sys_Program, x.sys_Directory, sys_Function = y })
-           .SelectMany(x => x.sys_Function.DefaultIfEmpty(),
-               (x, y) => new { x.user, x.roleUsers, x.roles, x.groupRoles, x.sys_Program, x.sys_Directory, sys_Function = y })
-           .GroupBy(x => x.user)
-           .ToListAsync();
-        var userLogged = data
-            .Select(x => new AuthProgram
-            {
-                Directories = x.Where(y => y.sys_Directory != null)
-                    .GroupBy(y => y.sys_Directory)
-                    .OrderBy(y => y.Key.Seq)
-                    .Select(y => new DirectoryInfomation
-                    {
-                        Seq = y.Key.Seq,
-                        Directory_Code = y.Key.Directory_Code,
-                        Directory_Name = y.Key.Directory_Name
-                    }),
-                Programs = x.Where(y => y.sys_Program != null)
-                    .GroupBy(y => y.sys_Program).OrderBy(y => y.Key.Parent_Directory_Code).ThenBy(y => y.Key.Seq)
-                    .Select(y => new ProgramInfomation
-                    {
-                        Seq = y.Key.Seq != null ? (int)y.Key.Seq : 0,
-                        Parent_Directory_Code = y.Key.Parent_Directory_Code,
-                        Program_Code = y.Key.Program_Code,
-                        Program_Name = y.Key.Program_Name,
-                    }),
-                Functions = x.Where(y => y.sys_Function != null)
-                    .GroupBy(y => y.sys_Function).OrderBy(y => y.Key.Program_Code).ThenBy(y => y.Key.Fuction_Code)
-                    .Select(y => new FunctionInfomation
-                    {
-                        Program_Code = y.Key.Program_Code,
-                        Function_Code = y.Key.Fuction_Code,
-                    })
-            }).FirstOrDefault();
-        if (!userLogged.Programs.Any(x => x.Program_Code == "2.1.8"))
+        var data = await roleUsers
+            .GroupJoin(roles,
+                x => x.Role,
+                y => y.Role,
+                (x, y) => new { roles = y })
+            .SelectMany(x => x.roles.DefaultIfEmpty(),
+                (x, y) => new { roles = y })
+            .GroupJoin(groupRoles,
+                x => x.roles.Role,
+                y => y.Role,
+                (x, y) => new { groupRoles = y })
+            .SelectMany(x => x.groupRoles.DefaultIfEmpty(),
+                (x, y) => new { groupRoles = y })
+            .GroupJoin(sys_Program,
+                x => x.groupRoles.Program_Code,
+                y => y.Code,
+                (x, y) => new { x.groupRoles, sys_Program = y })
+            .SelectMany(x => x.sys_Program.DefaultIfEmpty(),
+                (x, y) => new { x.groupRoles, sys_Program = y })
+            .GroupJoin(sys_Function,
+                x => new { x.groupRoles.Program_Code, x.groupRoles.Fuction_Code },
+                y => new { y.Program_Code, y.Fuction_Code },
+                (x, y) => new { x.sys_Program, sys_Function = y })
+            .SelectMany(x => x.sys_Function.DefaultIfEmpty(),
+                (x, y) => new { x.sys_Program, sys_Function = y })
+            .GroupJoin(sys_Directory,
+                x => x.sys_Program.Parent_Directory_Code,
+                y => y.Code,
+                (x, y) => new { x.sys_Program, x.sys_Function, sys_Directory = y })
+            .SelectMany(x => x.sys_Directory.DefaultIfEmpty(),
+                (x, y) => new { x.sys_Program, x.sys_Function, sys_Directory = y })
+            .ToListAsync();
+        var result = new SystemInfo
         {
-            var resetPasswordRole = sys_Program.Where(x => x.Program_Code == "2.1.8").Select(x => new ProgramInfomation
+            Directories = data.Where(y => y.sys_Directory != null)
+                .GroupBy(y => y.sys_Directory)
+                .OrderBy(y => y.Key.Seq)
+                .Select(y => new DirectoryInfomation
+                {
+                    Seq = y.Key.Seq,
+                    Directory_Code = y.Key.Code,
+                    Directory_Name = y.Key.Name
+                }),
+            Programs = data.Where(y => y.sys_Program != null)
+                .GroupBy(y => y.sys_Program).OrderBy(y => y.Key.Parent_Directory_Code).ThenBy(y => y.Key.Seq)
+                .Select(y => new ProgramInfomation
+                {
+                    Seq = y.Key.Seq,
+                    Parent_Directory_Code = y.Key.Parent_Directory_Code,
+                    Program_Code = y.Key.Code,
+                    Program_Name = y.Key.Name,
+                }),
+            Functions = data.Where(y => y.sys_Function != null && y.sys_Function.Program_Code != null)
+                .GroupBy(y => y.sys_Function).OrderBy(y => y.Key.Program_Code).ThenBy(y => y.Key.Fuction_Code)
+                .Select(y => new FunctionInfomation
+                {
+                    Program_Code = y.Key.Program_Code,
+                    Function_Code = y.Key.Fuction_Code,
+                }),
+            Code_Information = data.Select(x => x.sys_Directory)
+                .Union(data.Select(x => x.sys_Program))
+                .GroupJoin(sys_Lang,
+                    x => new { x.Code, x.Kind },
+                    y => new { y.Code, y.Kind },
+                    (x, y) => new { sys_Code = x, sys_Lang = y })
+                .SelectMany(x => x.sys_Lang.DefaultIfEmpty(),
+                    (x, y) => new { x.sys_Code, sys_Lang = y })
+                .GroupBy(x => x.sys_Code)
+                .Select(x => new CodeInformation
+                {
+                    Code = x.Key.Code,
+                    Name = x.Key.Name,
+                    Kind = x.Key.Kind,
+                    Translations = x.Where(y => y.sys_Lang.Code != null)
+                        .Select(y => new CodeLang
+                        {
+                            Lang = y.sys_Lang.Language_Code.ToLower(),
+                            Name = y.sys_Lang.Name
+                        })
+                })
+        };
+        if (!result.Programs.Any(x => x.Program_Code == "2.1.8"))
+        {
+            var resetPasswordRole = sys_Program.Where(x => x.Code == "2.1.8").Select(x => new ProgramInfomation
             {
-                Seq = x.Seq != null ? (int)x.Seq : 0,
+                Seq = x.Seq,
                 Parent_Directory_Code = x.Parent_Directory_Code,
-                Program_Code = x.Program_Code,
-                Program_Name = x.Program_Name,
+                Program_Code = x.Code,
+                Program_Name = x.Name,
             }).FirstOrDefault();
-            userLogged.Programs = userLogged.Programs.Append(resetPasswordRole);
+            result.Programs = result.Programs.Append(resetPasswordRole);
         }
-        return userLogged;
+        return result;
     }
     public async Task<bool?> GetPasswordReset(string username)
     {

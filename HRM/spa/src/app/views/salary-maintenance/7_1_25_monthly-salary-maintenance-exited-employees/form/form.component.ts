@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -14,6 +13,7 @@ import { S_7_1_25_MonthlySalaryMaintenanceExitedEmployeesService } from '@servic
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -106,10 +106,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title
       this.getSource();
-    }).unsubscribe();
+    });
     if (this.isEdit)
       this.data.probation = "";
   }
@@ -243,19 +243,15 @@ export class FormComponent extends InjectBase implements OnInit {
             this.dataDetail.monthly_Attendance_Data.table_Right_Allowance.forEach(item => item.days = 0);
         }
         this.recal(res);
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -273,14 +269,10 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.update(this.data_update).subscribe({
       next: result => {
         this.spinnerService.hide();
-        if (result.isSuccess) {
-          this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
+        this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
+        if (result.isSuccess)
           this.back();
-        } else {
-          this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-        }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -298,13 +290,10 @@ export class FormComponent extends InjectBase implements OnInit {
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.data.factory).subscribe({
       next: (res) => {
         this.listDepartment = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -313,8 +302,7 @@ export class FormComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -322,9 +310,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListSalaryType().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

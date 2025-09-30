@@ -459,7 +459,7 @@ public class S_5_1_19_LeaveRecordModificationMaintenance : BaseServices, I_5_1_1
     {
         var data = await GetData(param);
         if (!data.Any())
-            return new OperationResult(false, "System.Message.Nodata");
+            return new OperationResult(false, "System.Message.NoData");
 
         List<Cell> dataCells = new()
         {

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { OvertimeModificationMaintenanceDto, OvertimeModificationMaintenanceParam } from '@models/attendance-maintenance/5_1_20_overtime-modification-maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_20_OvertimeModificationMaintenanceService } from '@services/attendance-maintenance/s_5_1_20_overtime-modification-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -74,8 +74,7 @@ export class FormComponent extends InjectBase implements OnInit {
           res.isSuccess ? 'System.Message.CreateOKMsg' : res.error ?? 'System.Message.CreateErrorMsg')
         if (res.isSuccess)
           isContinues ? this.clearModel() : this.back()
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -126,21 +125,18 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   private getListFactory() {
     this.service.getListFactory().subscribe({
-      next: res => this.factories = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.factories = res
     })
   }
   private getListWorkShiftType() {
     this.commonService.getListWorkShiftType().subscribe({
-      next: res => this.workShiftTypes = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: res => this.workShiftTypes = res
     })
   }
 
   private getListHoliday() {
     this.service.getListHoliday().subscribe({
-      next: res => this.holidays = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.holidays = res
     })
   }
   private getListEmployee() {
@@ -149,14 +145,12 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
   private getWorkShiftType(): boolean | void {
     if (this.model.factory && this.model.employee_ID && this.model.overtime_Date_Str) {
-      this.spinnerService.show();
       let param = <OvertimeModificationMaintenanceParam>{
         factory: this.model.factory,
         employee_ID: this.model.employee_ID,
@@ -164,14 +158,10 @@ export class FormComponent extends InjectBase implements OnInit {
       }
       this.service.getWorkShiftType(param).subscribe({
         next: res => {
-          this.spinnerService.hide();
           if (res.isSuccess) {
             this.model.work_Shift_Type = res.data.work_Shift_Type
             this.getWorkShiftTypeTime()
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       })
     }
@@ -203,10 +193,8 @@ export class FormComponent extends InjectBase implements OnInit {
   private getClockTime() {
     if (!this.model.employee_ID || !this.model.overtime_Date_Str)
       return this.clearClockTime()
-    this.spinnerService.show();
     this.service.getClockTime(this.model.employee_ID, this.model.overtime_Date_Str).subscribe({
       next: res => {
-        this.spinnerService.hide();
         if (res) {
           this.model.clock_In_Time = res?.clock_In_Time;
           this.model.clock_Out_Time = res?.clock_Out_Time;
@@ -214,10 +202,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.clearClockTime()
         }
       },
-      error: () => {
-        this.clearClockTime()
-        this.functionUtility.snotifySystemError()
-      }
+      error: () => { this.clearClockTime() }
     });
   }
   private clearClockTime() {
@@ -227,19 +212,14 @@ export class FormComponent extends InjectBase implements OnInit {
   private getWorkShiftTypeTime(): boolean | void {
     if (!this.model.factory || !this.model.work_Shift_Type || !this.model.overtime_Date_Str)
       return this.deleteProperty('work_Shift_Type_Time')
-    this.spinnerService.show();
     this.service.getWorkShiftTypeTime(this.model.work_Shift_Type, this.model.overtime_Date_Str, this.model.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         if (res)
           this.model.work_Shift_Type_Time = res?.work_Shift_Type_Time;
         else
           this.deleteProperty('work_Shift_Type_Time')
       },
-      error: () => {
-        this.deleteProperty('work_Shift_Type_Time')
-        this.functionUtility.snotifySystemError()
-      }
+      error: () => { this.deleteProperty('work_Shift_Type_Time') }
     })
   }
 

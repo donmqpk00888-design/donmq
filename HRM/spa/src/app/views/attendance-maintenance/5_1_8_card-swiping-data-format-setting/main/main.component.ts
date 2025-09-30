@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { CardSwipingDataFormatSettingMain, CardSwipingDataFormatSettingSource } from '@models/attendance-maintenance/5_1_8_hrms_att_swipecard_set';
 import { S_5_1_8_CardSwipingDataFormatSettingService } from '@services/attendance-maintenance/s_5_1_8_card-swiping-data-format-setting.service'
@@ -8,6 +7,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -27,9 +27,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     private modalService: ModalService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.processData()
       });
@@ -63,9 +61,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getFactoryMain().subscribe({
       next: res => {
         this.factorys = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -79,11 +74,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
-    }).add(() => this.spinnerService.hide());
+    })
   }
 
   clear() {

@@ -14,7 +14,7 @@
           <div class="card-body">
             <div class="row border-shadow">
               <!-- Factories -->
-              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 ">
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.Factory' | translate}} <span class="text-danger text-bold"> *</span></label>
                 <ng-select name="factory"
                            [(ngModel)]="param.factory"
@@ -27,7 +27,7 @@
                 </ng-select>
               </div>
               <!-- Clock Out Date of the previout Working day -->
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ClockOutDate' | translate}} <span class="text-danger text-bold"> *</span></label>
                 <input class="form-control"
                        name="offWorkDate"
@@ -39,7 +39,7 @@
                        [bsConfig]="bsDatepickerConfig">
               </div>
               <!-- Clock In Date of the current day -->
-              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 ">
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ClockInDate' | translate}} <span class="text-danger text-bold"> *</span></label>
                 <input class="form-control"
                        name="workOnDayDate"
@@ -50,7 +50,7 @@
                        [bsConfig]="bsDatepickerConfig">
               </div>
               <!-- Holiday Date -->
-              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 ">
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.HolidayDate' | translate}}</label>
                 <input class="form-control"
                        name="holidayDate"
@@ -62,7 +62,7 @@
                        [bsConfig]="bsDatepickerConfig">
               </div>
               <!--National Holiday Date -->
-              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 ">
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.NationalHoliday' | translate}}</label>
                 <input class="form-control"
                        name="NationalHoliday"
@@ -73,7 +73,7 @@
                        [dateCustomClasses]="nationalHolidayCustomClass"
                        [bsConfig]="bsDatepickerConfig">
               </div>
-              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mt-2">
+              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12">
                 <!-- ACTIONS -->
                 <label class="badge badge-warning"> {{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ProcessedRecords' | translate}} </label>
                 <input type="text"
@@ -83,7 +83,7 @@
                        [(ngModel)]="processedRecords"
                        placeholder="{{ 'AttendanceMaintenance.EmployeeDailyAttendanceDataGeneration.ProcessedRecords' | translate}}">
               </div>
-              <div class="col-xl-4 col-lg-2 col-md-6 col-sm-6 mt-2"
+              <div class="col-xl-4 col-lg-2 col-md-6 col-sm-6"
                    *ngIf="functionUtility.checkFunction('Execute')">
                 <label> &nbsp; </label>
                 <div>

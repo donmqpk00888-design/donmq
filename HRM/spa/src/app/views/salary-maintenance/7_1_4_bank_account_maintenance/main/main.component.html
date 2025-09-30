@@ -28,7 +28,7 @@
 
               <div class="col-xxl-4 col-xl-3 col-lg-6 col-sm-12 col-md-6">
                 <label class="badge badge-warning"> {{"SalaryMaintenance.BankAccountMaintenance.EmployeeID" | translate }}</label>
-                <div class="input-group mr-1">
+                <div class="input-group mr-2">
                   <input type="text"
                          class="form-control"
                          maxlength="9"
@@ -41,34 +41,29 @@
               <div class="col-12 p-0 ml-3">
                 <label class="d-block">&nbsp;</label>
                 <button type="submit"
-                        class="btn btn-primary mr-1"
+                        class="btn btn-primary mr-2"
                         (click)="search(true)"
                         *ngIf="functionUtility.checkFunction('Search')"
                         [disabled]="!param.factory">
                   <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
                 </button>
                 <button type="button"
-                        class="btn btn-danger  mr-1"
+                        class="btn btn-danger  mr-2"
                         (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
                 </button>
                 <button type="button"
                         (click)="onForm()"
-                        class="btn btn-success mr-1"
+                        class="btn btn-success mr-2"
                         *ngIf="functionUtility.checkFunction('Add')">
                   <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
                 </button>
-                <label class="btn btn-success  mr-1 btn-upload"
-                       *ngIf="functionUtility.checkFunction('Upload')">
-                  <i [class]="iconButton.UPLOAD"></i> {{"System.Action.Upload" | translate }}
-                  <input #inputRef
-                         type="file"
-                         name="upload"
-                         (change)="upload($event)"
-                         class="input-upload">
-                </label>
+                <file-upload [allowExtensions]="extensions"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <button type="submit"
-                        class="btn btn-success  mr-1"
+                        class="btn btn-success  mr-2"
                         id="excel"
                         (click)="download()"
                         *ngIf="functionUtility.checkFunction('Excel')">
@@ -137,7 +132,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -147,7 +142,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

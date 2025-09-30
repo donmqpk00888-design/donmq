@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmployeeMode, IconButton } from '@constants/common.constants';
 import { SessionStorageConstants } from '@constants/local-storage.constants';
 import { EmployeeBasicInformationMaintenanceSource } from '@models/employee-maintenance/4_1_1_employee-basic-information-maintenance';
@@ -9,8 +8,9 @@ import { S_4_1_5_ExternalExperienceService } from '@services/employee-maintenanc
 import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main-4-1-5',
@@ -70,8 +70,7 @@ export class MainComponent415 extends InjectBase implements OnInit {
           }
         });
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -99,9 +98,8 @@ export class MainComponent415 extends InjectBase implements OnInit {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, `System.Message.${res.isSuccess ? 'DeleteOKMsg' : 'DeleteErrorMsg'}`)
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
-      }).add(() => this.spinnerService.hide());
+        }
+      })
     });
   }
 

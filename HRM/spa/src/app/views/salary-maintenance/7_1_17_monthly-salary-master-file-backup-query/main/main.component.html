@@ -23,7 +23,7 @@
       <!-- Year Month -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.YearMonth'| translate}}
+          {{this.i18n + 'YearMonth'| translate}}
           <span class="text-danger">*</span>
         </label>
         <div class="full-width">
@@ -51,7 +51,7 @@
       <!-- Factory -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory" | translate}}
+          {{this.i18n + "Factory" | translate}}
           <span class="text-danger">*</span>
         </label>
         <ng-select name="factory"
@@ -59,7 +59,7 @@
                    (clear)="deleteProperty('factory')"
                    [clearable]="salarySearch_Param.factory !== ''"
                    (ngModelChange)="onChangeFactory()"
-                   placeholder='{{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory" | translate}}'
+                   placeholder='{{this.i18n + "Factory" | translate}}'
                    required>
           <ng-option *ngFor="let i of listFactory"
                      [value]="i.key">{{i.value}}</ng-option>
@@ -69,14 +69,14 @@
       <!-- Department -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Department" | translate}}
+          {{this.i18n + "Department" | translate}}
         </label>
         <ng-select name="department"
                    [(ngModel)]="salarySearch_Param.department"
                    (clear)="deleteProperty('department')"
                    [clearable]="salarySearch_Param.department !== ''"
                    [disabled]="!salarySearch_Param.factory"
-                   placeholder='{{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Department" | translate}}'>
+                   placeholder='{{this.i18n + "Department" | translate}}'>
           <ng-option *ngFor="let i of listDepartment"
                      [value]="i.key">{{i.value}}</ng-option>
         </ng-select>
@@ -85,26 +85,26 @@
       <!-- EmployeeID -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmployeeID" | translate}}
+          {{this.i18n + "EmployeeID" | translate}}
         </label>
         <input type="text"
                class="form-control"
                maxlength="16"
                name="employee_ID"
                [(ngModel)]="salarySearch_Param.employee_ID"
-               placeholder="{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmployeeID' | translate}}" />
+               placeholder="{{this.i18n + 'EmployeeID' | translate}}" />
       </div>
 
       <!-- Employment Status -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmploymentStatus" | translate}}
+          {{this.i18n + "EmploymentStatus" | translate}}
         </label>
         <ng-select name="employment_Status"
                    [(ngModel)]="salarySearch_Param.employment_Status"
                    (clear)="deleteProperty('employment_Status')"
                    [clearable]="salarySearch_Param.employment_Status !== ''"
-                   placeholder='{{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmploymentStatus" | translate}}'>
+                   placeholder='{{this.i18n + "EmploymentStatus" | translate}}'>
           <ng-option *ngFor="let i of listEmploymentStatus"
                      [value]="i.key">{{i.value | translate}}</ng-option>
         </ng-select>
@@ -113,13 +113,13 @@
       <!-- Position Title -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionTitle" | translate}}
+          {{this.i18n + "PositionTitle" | translate}}
         </label>
         <ng-select name="position_Title"
                    [(ngModel)]="salarySearch_Param.position_Title"
                    (clear)="deleteProperty('position_Title')"
                    [clearable]="salarySearch_Param.position_Title !== ''"
-                   placeholder='{{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionTitle" | translate}}'>
+                   placeholder='{{this.i18n + "PositionTitle" | translate}}'>
           <ng-option *ngFor="let i of listPositionTitle"
                      [value]="i.key">{{i.value}}</ng-option>
         </ng-select>
@@ -128,13 +128,13 @@
       <!-- Salary Type -->
       <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-2">
         <label class="badge badge-warning">
-          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryType" | translate}}
+          {{this.i18n + "SalaryType" | translate}}
         </label>
         <ng-select name="salary_Type"
                    [(ngModel)]="salarySearch_Param.salary_Type"
                    (clear)="deleteProperty('salary_Type')"
                    [clearable]="salarySearch_Param.salary_Type !== ''"
-                   placeholder='{{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryType" | translate}}'>
+                   placeholder='{{this.i18n + "SalaryType" | translate}}'>
           <ng-option *ngFor="let i of listSalaryType"
                      [value]="i.key">{{i.value}}</ng-option>
         </ng-select>
@@ -182,9 +182,9 @@
       <div class="col-12">
         <div class="row">
           <div class="col-auto">
-            <div class="form-group mb-0">
+            <div class="mb-0">
               <label class="badge badge-warning">
-                {{ "SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PermissionGroup" | translate }}
+                {{ this.i18n + "PermissionGroup" | translate }}
                 <span class="text-danger text-bold"> *</span>
               </label>
               <ng-select id="permission_Group"
@@ -198,27 +198,35 @@
                          bindLabel="value"
                          bindValue="key"
                          [(ngModel)]="salarySearch_Param.permission_Group"
-                         placeholder="{{ 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PermissionGroup' | translate }}"
+                         placeholder="{{ this.i18n + 'PermissionGroup' | translate }}"
                          required>
                 <ng-template ng-optgroup-tmp
                              let-item="item"
                              let-item$="item$"
                              let-index="index">
-                  <input id="item-{{ index }}"
-                         type="checkbox"
-                         name="item-{{ index }}"
-                         [ngModel]="item$.selected" />
-                  {{ 'System.Action.SelectAll' | translate }}
+                  <div class="custom-control custom-checkbox pe-none">
+                    <input id="item-{{ index }}"
+                           type="checkbox"
+                           class="custom-control-input"
+                           name="item-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    <label class="custom-control-label"
+                           for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                  </div>
                 </ng-template>
                 <ng-template ng-option-tmp
                              let-item="item"
                              let-item$="item$"
                              let-index="index">
-                  <input id="item-{{ index }}"
-                         name="item-{{ index }}"
-                         type="checkbox"
-                         [ngModel]="item$.selected" />
-                  {{ item.value }}
+                  <div class="custom-control custom-checkbox pe-none">
+                    <input id="item-{{ index }}"
+                           name="item-{{ index }}"
+                           type="checkbox"
+                           class="custom-control-input"
+                           [ngModel]="item$.selected" />
+                    <label class="custom-control-label"
+                           for="item-{{ index }}"> {{ item.value }}</label>
+                  </div>
                 </ng-template>
               </ng-select>
             </div>
@@ -233,13 +241,13 @@
         <button *ngIf="functionUtility.checkFunction('Search')"
                 type="submit"
                 [disabled]="!salarySearchSubForm.valid"
-                class="btn btn-primary mr-2 mt-1 "
+                class="btn btn-primary mr-2 "
                 (click)="search(true)">
           <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
         </button>
         <!-- Clear -->
         <button type="button"
-                class="btn btn-danger mr-2 mt-1 "
+                class="btn btn-danger mr-2 "
                 (click)="clear()">
           <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
         </button>
@@ -262,52 +270,52 @@
                 <th *ngIf="functionUtility.checkFunction('Query') "
                     class="text-center vertical-align-middle"
                     [attr.colspan]="functionUtility.getColspan(['Query'])">
-                  {{ 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Operation' | translate }}
+                  {{ this.i18n + 'Operation' | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Probation" | translate }}
+                  {{this.i18n + "Probation" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.YearMonth" | translate }}
+                  {{this.i18n + "YearMonth" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory" | translate }}
+                  {{this.i18n + "Factory" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Department" | translate }}
+                  {{this.i18n + "Department" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmployeeID" | translate }}
+                  {{this.i18n + "EmployeeID" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.LocalFullName" | translate }}
+                  {{this.i18n + "LocalFullName" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmploymentStatus" | translate }}
+                  {{this.i18n + "EmploymentStatus" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionTitle" | translate }}
+                  {{this.i18n + "PositionTitle" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PermissionGroup" | translate }}
+                  {{this.i18n + "PermissionGroup" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryType" | translate }}
+                  {{this.i18n + "SalaryType" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryGrade" | translate }}
+                  {{this.i18n + "SalaryGrade" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryLevel" | translate }}
+                  {{this.i18n + "SalaryLevel" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Currency" | translate }}
+                  {{this.i18n + "Currency" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateBy" | translate }}
+                  {{this.i18n + "UpdateBy" | translate }}
                 </th>
                 <th class="text-center vertical-align-middle">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateTime" | translate }}
+                  {{this.i18n + "UpdateTime" | translate }}
                 </th>
               </tr>
             </thead>
@@ -345,7 +353,7 @@
                 <tr>
                   <td colspan="100%"
                       class="table-warning text-center font-weight-bold">
-                    {{"System.Message.Nodata" | translate }}
+                    {{"System.Message.NoData" | translate }}
                   </td>
                 </tr>
               </tbody>
@@ -355,7 +363,7 @@
         <div class="row">
           <div class="col-8">
             <div class="d-flex"
-                 *ngIf="salarySearch_Data?.length > 0 && pagination.totalPage > 0">
+                 *ngIf="salarySearch_Data?.length > 0 && pagination.totalPage > 1">
               <pagination name="pagination"
                           [boundaryLinks]="true"
                           [totalItems]="pagination.totalCount"
@@ -389,14 +397,14 @@
         <div class="row">
           <!-- Factory -->
           <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'Factory' | translate }}
               <span class="text-danger"> *</span></label>
             <ng-select name="factoryMonthSalary"
                        [ngModel]="batchData_Param.factory"
                        (clear)="deleteProperty('factory')"
                        (ngModelChange)="batchData_Param.factory = $event"
                        [clearable]="batchData_Param.factory!== ''"
-                       placeholder="{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory' | translate }}"
+                       placeholder="{{this.i18n + 'Factory' | translate }}"
                        required>
               <ng-option *ngFor="let item of listFactory"
                          [value]="item.key">{{ item.value }}</ng-option>
@@ -404,7 +412,7 @@
           </div>
           <!-- Year Month -->
           <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.YearMonth' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'YearMonth' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="full-width">
               <div class="container_input">
@@ -427,7 +435,8 @@
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Execute')"
                     type="button"
                     class="{{ classButton.SAVE }}"

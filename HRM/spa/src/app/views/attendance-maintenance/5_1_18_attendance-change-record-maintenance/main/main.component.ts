@@ -12,11 +12,11 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaptionConstants } from '@constants/message.enum';
 import { S_5_1_18_AttendanceChangeRecordMaintenanceService } from '@services/attendance-maintenance/s_5_1_18_attendance-change-record-maintenance.service'
 import { ModalService } from '@services/modal.service';
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -135,11 +135,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide()
           resolve()
         },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-          reject()
-
-        }
+        error: () => { reject() }
       })
     })
   };
@@ -160,9 +156,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           } else {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });
@@ -188,9 +181,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -199,9 +189,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListDepartment(this.params.factory).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -210,9 +197,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListWorkShiftType().subscribe({
       next: res => {
         this.listWorkShiftType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -221,9 +205,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListAttendanceOrLeave().subscribe({
       next: res => {
         this.listAttendance = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -232,9 +213,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListReasonCode().subscribe({
       next: res => {
         this.listReasonCode = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -243,9 +221,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListHoliday('39', 1, 'Attendance').subscribe({
       next: res => {
         this.listHoliday = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -263,13 +238,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             : this.snotifyService.error(
               this.translateService.instant(`EmployeeInformationModule.DocumentManagement.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }

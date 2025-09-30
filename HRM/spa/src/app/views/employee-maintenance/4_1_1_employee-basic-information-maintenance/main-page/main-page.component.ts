@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
   ClassButton,
@@ -10,7 +9,8 @@ import { EmployeeBasicInformationMaintenanceSource } from '@models/employee-main
 import { CommonService } from '@services/common.service';
 import { S_4_1_1_EmployeeBasicInformationMaintenanceService } from '@services/employee-maintenance/s_4_1_1_employee-basic-information-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
-import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
+import { TabComponentModel } from '@views/_shared/tab-component/tab.component';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -41,18 +41,18 @@ export class MainPageComponent411 extends InjectBase implements OnInit, OnDestro
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.initTab()
     });
-    this._service.parentFun.pipe(takeUntilDestroyed()).subscribe(() => this.back());
-    this._service.tranferChange.pipe(takeUntilDestroyed()).subscribe((event) => this.reloadTranfer(event));
+    this._service.parentFun.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.back());
+    this._service.tranferChange.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => this.reloadTranfer(event));
   }
 
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.activatedRoute.data.subscribe((role) => {
+    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((role) => {
       this.source.mode = role.title.toLowerCase();
       this.action = role.title
-    }).unsubscribe();
-    this._service.paramForm.subscribe((res) => {
+    });
+    this._service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (
         this.source.mode == this.mode.edit ||
         this.source.mode == this.mode.query ||
@@ -60,15 +60,14 @@ export class MainPageComponent411 extends InjectBase implements OnInit, OnDestro
       ) {
         res != null ? (this.source = res) : this.back();
       }
-    }).unsubscribe();
+    });
     this.initTab()
   }
   ngOnDestroy(): void {
     this.elementRef.nativeElement.remove();
   }
   changeTab(event: string) {
-    const authProgram = this.commonService.authPrograms
-    this.functionUtility.setFunction(event, authProgram)
+    this.functionUtility.setFunction(event)
   }
   initTab() {
     this.tabs = [
@@ -114,8 +113,8 @@ export class MainPageComponent411 extends InjectBase implements OnInit, OnDestro
   }
 
   checkRole(role: string) {
-    const authProgram = this.commonService.authPrograms
-    if (authProgram.programs == null || this.source?.mode == this.mode.add) return false;
-    return authProgram.programs.some((item) => item.program_Code == role);
+    const systemInfo = this.commonService.systemInfo
+    if (systemInfo.programs == null || this.source?.mode == this.mode.add) return false;
+    return systemInfo.programs.some((item) => item.program_Code == role);
   }
 }

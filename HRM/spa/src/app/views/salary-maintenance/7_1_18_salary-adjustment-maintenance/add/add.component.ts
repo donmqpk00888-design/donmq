@@ -1,6 +1,5 @@
 import { Event } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -10,6 +9,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add',
@@ -74,9 +74,9 @@ export class AddComponent extends InjectBase implements OnInit {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
     this.getDropdownList();
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   getDropdownList() {
@@ -96,7 +96,6 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.dataTypeaHead = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -126,8 +125,7 @@ export class AddComponent extends InjectBase implements OnInit {
             this.deleteEmpInfo()
             this.functionUtility.snotifySuccessError(false, "Employee ID not exists")
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     } else this.deleteEmpInfo()
     this.onDataChange()
@@ -152,8 +150,7 @@ export class AddComponent extends InjectBase implements OnInit {
   }
   getlistFactory() {
     this.service.getlistFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
   getlistDepartment() {
@@ -162,32 +159,27 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res: KeyValuePair[]) => {
         this.listDepartment = res
 
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
   getlistPositionTitle() {
     this.service.getlistPositionTitle().subscribe({
-      next: (res: KeyValuePair[]) => this.listPositionTitle = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listPositionTitle = res
     });
   }
   getlistPermissionGroup() {
     this.service.getlistPermissionGroup().subscribe({
-      next: (res: KeyValuePair[]) => this.listPermissionGroup = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listPermissionGroup = res
     });
   }
   getlistTechnicalType() {
     this.service.getlistTechnicalType().subscribe({
-      next: (res: KeyValuePair[]) => this.listTechnicalType = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listTechnicalType = res
     });
   }
   getlistExpertiseCategory() {
     this.service.getlistExpertiseCategory().subscribe({
-      next: (res: KeyValuePair[]) => this.listExpertiseCategory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listExpertiseCategory = res
     });
   }
   checkEffectiveDate() {
@@ -200,8 +192,7 @@ export class AddComponent extends InjectBase implements OnInit {
           this.snotifyService.clear()
           if (!res.checkEffectiveDate)
             this.functionUtility.snotifySuccessError(false, "The effective date cannot be earlier than already stored effective dates in the transaction table.")
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
     this.onDataChange()
   }
@@ -212,20 +203,17 @@ export class AddComponent extends InjectBase implements OnInit {
     this.service.getlistReasonForChange().subscribe({
       next: (res: KeyValuePair[]) => {
         this.listReasonForChange = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
   getlistSalaryType() {
     this.service.getlistSalaryType().subscribe({
-      next: (res: KeyValuePair[]) => this.listSalaryType = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listSalaryType = res
     });
   }
   getlistCurrency() {
     this.service.getlistCurrency().subscribe({
-      next: (res: KeyValuePair[]) => this.listCurrency = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listCurrency = res
     });
   }
   getlistSalaryItem() {
@@ -233,16 +221,13 @@ export class AddComponent extends InjectBase implements OnInit {
       this.service.getListSalaryItem(this.data.history_GUID,).subscribe({
         next: (res) => {
           this.listSalaryItem = res
-        },
-        error: () => {
         }
       })
     }
   }
   getSalaryItemsAsync() {
     this.service.getSalaryItemsAsync(this.data.factory, this.after.permission_Group, this.after.salary_Type, 'after', this.data.employee_ID).subscribe({
-      next: (res) => this.after.item = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.after.item = res
     });
   }
   save() {
@@ -260,8 +245,7 @@ export class AddComponent extends InjectBase implements OnInit {
         }
         else
           this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   validateDecimal(event: KeyboardEvent, maxValue: number): boolean {
@@ -306,8 +290,7 @@ export class AddComponent extends InjectBase implements OnInit {
   }
   onReasonForChange() {
     this.service.checkReasonForChange(this.data.reason_For_Change).subscribe({
-      next: (res: boolean) => this.isReasonForChange = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: boolean) => this.isReasonForChange = res
     });
   }
   isValidProbationSalaryMonth(): boolean {

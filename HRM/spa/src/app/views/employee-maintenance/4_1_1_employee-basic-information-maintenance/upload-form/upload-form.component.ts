@@ -6,8 +6,9 @@ import { S_4_1_2_EmployeeEmergencyContactsService } from '@services/employee-mai
 import { InjectBase } from '@utilities/inject-base-app';
 import { OperationResult } from '@utilities/operation-result';
 import { Observable } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModalService } from '@services/modal.service';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-upload-form-4-1-1',
@@ -43,7 +44,7 @@ export class UploadFormComponent411 extends InjectBase implements OnInit {
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
     this.title2 = this.functionUtility.getTitle('4.1.2');
 
-    this.route.data.subscribe(res =>
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res =>
       this.action = `System.Action.${res.title}`
     );
   }
@@ -61,65 +62,45 @@ export class UploadFormComponent411 extends InjectBase implements OnInit {
       fileName = this.functionUtility.getFileNameExport('4.1.2', 'Template');
     }
 
-    downloadService.subscribe({
+    downloadService.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result: any) => {
         this.spinnerService.hide();
         this.functionUtility.exportExcel(result.data, fileName);
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
-  upload(event: any, type: 'basic' | 'emergency') {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.accept.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel, type: 'basic' | 'emergency') {
+    this.spinnerService.show();
+    let service: Observable<OperationResult> = type === 'basic'
+      ? this.basicService.uploadExcel(event.formData)
+      : this.emergencyService.uploadExcel(event.formData);
+    service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      let service: Observable<OperationResult> = type === 'basic'
-        ? this.basicService.uploadExcel(formData)
-        : this.emergencyService.uploadExcel(formData);
-      service.subscribe({
-        next: (res) => {
-          event.target.value = '';
-          this.spinnerService.hide();
-          if (res.data != null) {
-            this.modalService.open(<UploadResultDto>{
-              total: res.data.total,
-              success: res.data.success,
-              error: res.data.error
-            },'modal-4-1-1')
-          }
-          if (res.isSuccess)
-            this.functionUtility.snotifySuccessError(
-              res.isSuccess,
-              this.translateService.instant('System.Message.UploadOKMsg'))
-          else {
-            if (res.data?.errorReport) {
-              const fileName = type === 'basic'
-                ? this.functionUtility.getFileNameExport(this.programCode, 'Report')
-                : this.functionUtility.getFileNameExport('4.1.2', 'Report')
-              this.functionUtility.exportExcel(res.data.errorReport, fileName);
-            }
-
-            this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
-          }
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
+        if (res.data != null) {
+          this.modalService.open(<UploadResultDto>{
+            total: res.data.total,
+            success: res.data.success,
+            error: res.data.error
+          }, 'modal-4-1-1')
         }
-      });
-    }
-  }
+        if (res.isSuccess)
+          this.functionUtility.snotifySuccessError(
+            res.isSuccess,
+            this.translateService.instant('System.Message.UploadOKMsg'))
+        else {
+          if (res.data?.errorReport) {
+            const fileName = type === 'basic'
+              ? this.functionUtility.getFileNameExport(this.programCode, 'Report')
+              : this.functionUtility.getFileNameExport('4.1.2', 'Report')
+            this.functionUtility.exportExcel(res.data.errorReport, fileName);
+          }
 
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        }
+      }
+    });
+  }
   back = () => this.router.navigate([this.url]);
 }

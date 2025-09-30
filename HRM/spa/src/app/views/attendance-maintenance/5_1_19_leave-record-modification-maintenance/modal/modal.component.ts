@@ -85,28 +85,24 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
 
   getListFactory() {
     this.commonService.getFactoryMain().subscribe({
-      next: res => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listFactory = res
     });
   }
 
   getListDepartment() {
     this.commonService.getListDepartment(this.data.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     });
   }
 
   getListWorkShiftType() {
     this.commonService.getListWorkShiftType().subscribe({
-      next: res => this.listWorkShiftType = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listWorkShiftType = res
     });
   }
   getListLeave() {
     this.service.GetListLeave().subscribe({
-      next: res => this.listLeave = res,
-      error: () => this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
+      next: res => this.listLeave = res
     });
   }
   onDataChange() {

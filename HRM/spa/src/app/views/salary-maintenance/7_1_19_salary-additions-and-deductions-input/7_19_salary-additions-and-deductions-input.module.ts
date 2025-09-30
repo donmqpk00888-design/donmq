@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DragScrollComponent } from 'ngx-drag-scroll';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgSelectModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    SharedModule
   ],
   declarations: [MainComponent, FormComponent]
 })

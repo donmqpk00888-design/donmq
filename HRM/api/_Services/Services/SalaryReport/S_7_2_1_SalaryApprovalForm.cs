@@ -96,26 +96,26 @@ namespace API._Services.Services.SalaryMaintenance
                 }
 
                 var Sal_Detail_Values = new List<SalaryDetailValueDto>();
-                if (Sal_Detail_Temp.Any() == true)
-                {
-                    Sal_Detail_Values = Sal_Detail_Temp
-                        .GroupJoin(Sal_Setting_Temp,
+                if (Sal_Setting_Temp.Any())
+                {                
+                    Sal_Detail_Values = Sal_Setting_Temp
+                        .GroupJoin(Sal_Detail_Temp,
                             x => x.Salary_Item,
                             y => y.Salary_Item,
-                            (x, Salary) => new { x, Salary })
-                        .SelectMany(x => x.Salary.DefaultIfEmpty(),
+                            (x, SalaryDetail) => new { x, SalaryDetail })
+                        .SelectMany(x => x.SalaryDetail.DefaultIfEmpty(),
                             (x, s) => new SalaryDetailValueDto
                             {
-                                USER_GUID = x.x.USER_GUID,
-                                Division = x.x.Division,
-                                Factory = x.x.Factory,
-                                Employee_ID = x.x.Employee_ID,
+                                USER_GUID = s?.USER_GUID,
+                                Division = s?.Division,
+                                Factory = s?.Factory,
+                                Employee_ID = s?.Employee_ID,
                                 SalaryItem = x.x.Salary_Item,
                                 SalaryItem_Name = listBasicCode.FirstOrDefault(a => a.Key == x.x.Salary_Item),
-                                Amount = x.x.Amount,
-                                Update_By = x.x.Update_By,
-                                Update_Time = x.x.Update_Time,
-                                Seq = s?.Seq ?? 0
+                                Amount = s != null ? s.Amount : 0,
+                                Update_By = s?.Update_By,
+                                Update_Time = s?.Update_Time,
+                                Seq = x.x.Seq
                             })
                         .OrderBy(x => x.Seq).ToList();
                 }

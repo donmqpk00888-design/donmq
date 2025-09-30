@@ -216,7 +216,7 @@ namespace API._Services.Services.SalaryMaintenance
                     errorMessage.Add("Cost Center is invalid.\n");
 
                 var dept = await Query_Department_List(factory);
-                List<string> checkDepartment = dept.Select(x => x.Key).ToList();
+                List<string> checkDepartment = dept.Select(x => x.Department_Code).ToList();
                 // 4. Department
                 if (string.IsNullOrWhiteSpace(department))
                     errorMessage.Add("Department is invalid.\n");
@@ -340,12 +340,12 @@ namespace API._Services.Services.SalaryMaintenance
                            && x.Language_Code.ToLower() == language.ToLower());
 
             var deparment = HOD.GroupJoin(HODL,
-                        x => x.Key,
-                        y => y.Department_Code,
+                        x => new {x.Division, x.Department_Code},
+                        y => new {y.Division, y.Department_Code},
                         (x, y) => new { dept = x, hodl = y })
                         .SelectMany(x => x.hodl.DefaultIfEmpty(),
                         (x, y) => new { x.dept, hodl = y })
-                        .Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{x.dept.Key}-{(x.hodl != null ? x.hodl.Name : x.dept.Value)}"))
+                        .Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{x.dept.Department_Code}-{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}"))
                         .ToList();
             return deparment;
         }

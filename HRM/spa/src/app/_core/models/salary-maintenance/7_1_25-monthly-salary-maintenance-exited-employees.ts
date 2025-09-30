@@ -25,6 +25,7 @@ export interface D_7_25_MonthlySalaryMaintenanceExitedEmployeesMain {
   fiN_Pass_Status: string;
   transfer: string;
   tax: number;
+  currency: string;
   // Monthly attendance data can be expanded/collapsed
   monthly_Attendance: D_7_25_Query_Att_MonthlyResult;
   update_By: string;

@@ -19,7 +19,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
 {
   public class S_8_1_2_EmployeeRewardPenaltyRecords : BaseServices, I_8_1_2_EmployeeRewardPenaltyRecords
   {
-    private readonly string folder = "uploaded\\RewardandPenaltyRecords\\8_1_2_EmployeeRewardPenaltyRecords";
+    private readonly string folder = "uploaded\\RewardandPenaltyMaintenance\\8_1_2_EmployeeRewardPenaltyRecords";
     private static readonly SemaphoreSlim semaphore = new(1, 1);
     public S_8_1_2_EmployeeRewardPenaltyRecords(DBContext dbContext) : base(dbContext)
     {
@@ -247,7 +247,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
     {
       string path = Path.Combine(
           Directory.GetCurrentDirectory(),
-          "Resources\\Template\\RewardandPenaltyRecords\\8_1_2_EmployeeRewardPenaltyRecords\\Template.xlsx"
+          "Resources\\Template\\RewardandPenaltyMaintenance\\8_1_2_EmployeeRewardPenaltyRecords\\Template.xlsx"
       );
       if (!File.Exists(path))
         return await Task.FromResult(new OperationResult(false, "NotExitedFile"));
@@ -292,7 +292,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
       {
         ExcelResult resp = ExcelUtility.CheckExcel(
             file,
-            "Resources\\Template\\RewardandPenaltyRecords\\8_1_2_EmployeeRewardPenaltyRecords\\Template.xlsx"
+            "Resources\\Template\\RewardandPenaltyMaintenance\\8_1_2_EmployeeRewardPenaltyRecords\\Template.xlsx"
         );
         if (!resp.IsSuccess)
           return new OperationResult(false, resp.Error);
@@ -353,7 +353,6 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
             if (!string.IsNullOrWhiteSpace(factory) && !HEP.Any(x => x.Employee_ID == employeeID && x.Factory == factory))
               errorMessage += $"Employee ID does not exist.\n";
           }
-
           if (string.IsNullOrWhiteSpace(reward_Date))
             errorMessage += $"Reward Date is not valid.\n";
           if (!DateTime.TryParseExact(reward_Date, "yyyy/MM/dd", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime reward_Date_value))
@@ -374,8 +373,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
             if (!string.IsNullOrWhiteSpace(factory) && !HRR.Any(x => x.Code == reason_Code && x.Factory == factory))
               errorMessage += $"Reason Code or Factory is not valid.\n";
           }
-
-          var validYearMonth = DateTime.TryParseExact(yearly_Month, "yyyy-MM", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime yearly_Month_Value);
+          var validYearMonth = DateTime.TryParseExact(yearly_Month, "yyyy/MM", new CultureInfo("en-US"), DateTimeStyles.None, out DateTime yearly_Month_Value);
           if (!string.IsNullOrEmpty(yearly_Month))
           {
             if (!validYearMonth)
@@ -434,7 +432,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
           MemoryStream memoryStream = new();
           string fileLocation = Path.Combine(
               Directory.GetCurrentDirectory(),
-              "Resources\\Template\\RewardandPenaltyRecords\\8_1_2_EmployeeRewardPenaltyRecords\\Report.xlsx"
+              "Resources\\Template\\RewardandPenaltyMaintenance\\8_1_2_EmployeeRewardPenaltyRecords\\Report.xlsx"
           );
           WorkbookDesigner workbookDesigner = new() { Workbook = new Workbook(fileLocation) };
           Worksheet worksheet = workbookDesigner.Workbook.Worksheets[0];
@@ -448,7 +446,7 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
         _repositoryAccessor.HRMS_Rew_EmpRecords.AddMultiple(addData);
         await _repositoryAccessor.Save();
         await _repositoryAccessor.CommitAsync();
-        string folder = "uploaded\\excels\\RewardandPenaltyRecords\\8_1_2_EmployeeRewardPenaltyRecords\\Creates";
+        string folder = "uploaded\\excels\\RewardandPenaltyMaintenance\\8_1_2_EmployeeRewardPenaltyRecords\\Creates";
         await FilesUtility.SaveFile(file, folder, $"EmployeeLunchBreakTimeSetting_{DateTime.Now:yyyyMMddHHmmss}");
         return new OperationResult(true, "Upload data successfully!");
       }
@@ -591,12 +589,24 @@ namespace API._Services.Services.RewardandPenaltyMaintenance
                 x.SerNum == HRE.SerNum &&
                 x.Program_Code == "8.1.2"
             ).ToListAsync();
+        string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
         if (!data.File_List.Any())
         {
-          string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
           string path = $"{webRootPath}\\{location}";
           if (Directory.Exists(path))
             Directory.Delete(path, true);
+        } else {
+          
+          var removeList = oldHEFs.Where(x => !data.File_List.Any(n => x.FileName == n.Name)).ToList();
+          if (removeList.Any())
+          {
+            foreach (var item in removeList)
+            {
+              string path = $"{webRootPath}\\{location}\\{item.FileName}";
+              if (File.Exists(path))
+                File.Delete(path);
+            }
+          }
         }
         List<HRMS_Emp_File> newHREs = new();
         foreach (var file in data.File_List)

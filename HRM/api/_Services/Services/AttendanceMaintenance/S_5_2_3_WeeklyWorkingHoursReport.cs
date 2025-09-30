@@ -21,7 +21,7 @@ namespace API._Services.Services.AttendanceMaintenance
         {
             var data = await GetData(param);
             if (!data.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
             var dataLevel = await GetListLevel(param.language);
             var dataDepartment = await GetListDepartment(param.language, param.Factory);
             List<Cell> dataCells = new()

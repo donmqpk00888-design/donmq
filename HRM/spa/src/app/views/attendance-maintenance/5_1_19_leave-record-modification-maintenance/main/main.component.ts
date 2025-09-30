@@ -10,10 +10,10 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaptionConstants } from '@constants/message.enum';
 import { S_5_1_19_LeaveRecordModificationMaintenanceService } from '@services/attendance-maintenance/s_5_1_19_leave-record-modification-maintenance.service'
-import { ModalService } from '@services/modal.service';
+import { ModalService } from '@services/modal.service';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -51,9 +51,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   ) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.processData()
       });
@@ -123,13 +121,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.spinnerService.hide()
             resolve()
           },
-          error: () => {
-            this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
-            reject()
-          }
+          error: () => { reject() }
         })
       }
-
     })
   };
 
@@ -151,9 +145,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             } else {
               this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
             }
-          },
-          error: () => {
-            this.functionUtility.snotifySystemError();
           }
         });
       });
@@ -179,9 +170,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -190,9 +178,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListDepartment(this.params.factory).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -201,9 +186,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.commonService.getListWorkShiftType().subscribe({
       next: res => {
         this.listWorkShiftType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -212,9 +194,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.GetListLeave().subscribe({
       next: res => {
         this.listLeave = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -223,9 +202,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListPermissionGroup().subscribe({
       next: res => {
         this.listPermissionGroup = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
     });
   }
@@ -245,13 +221,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`EmployeeInformationModule.DocumentManagement.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -271,8 +240,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
         }
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   deleteProperty(name: string) {
@@ -282,7 +250,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   download() {
     if (this.dataMain.length == 0)
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.params).subscribe({
@@ -292,7 +260,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onDateChange(name: string) {

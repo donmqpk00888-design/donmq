@@ -9,9 +9,10 @@ import {
   HRMS_Att_Overtime_Parameter_Basic
 } from '@models/attendance-maintenance/5_1_4_overtime-parameter-setting';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaptionConstants, MessageConstants } from '@constants/message.enum';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -39,7 +40,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.programCode = this.route.snapshot.data['program'];
     this.getDataFromSource();
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -83,7 +84,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     else this.deleteProperty('effective_Month');
   }
 
-  getData(isSearch?: boolean) {
+  getData(isSearch: boolean = false) {
     this.spinnerService.show();
     this.param.effective_Month = (!this.functionUtility.checkEmpty(this.effective_Month_Value)
       && (this.effective_Month_Value.toString() != 'Invalid Date' && this.effective_Month_Value.toString() != 'NaN/NaN'))
@@ -105,7 +106,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.translateService.instant('System.Caption.Success')
           );
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -158,7 +158,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   downloadExcelTemplate() {
@@ -169,55 +168,34 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result.data, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.extensions.includes(fileNameExtension)) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.upload(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide()
-        return this.snotifyService.error(MessageConstants.INVALID_FILE, CaptionConstants.ERROR);
-      }
-      else {
-        const formData = new FormData();
-        formData.append('file', event.target.files[0]);
-        this.service.upload(formData).subscribe({
-          next: (res) => {
-            this.inputRef.nativeElement.value = "";
-            this.spinnerService.hide()
-            if (res.isSuccess) {
-              if (!this.functionUtility.checkFunction('Search'))
-                this.clear(false);
-              if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
-                this.search(false);
-              this.snotifyService.success(MessageConstants.UPLOADED_OK_MSG, CaptionConstants.SUCCESS);
-            } else {
-              this.snotifyService.error(res.error, CaptionConstants.ERROR);
-            }
-          },
-          error: () => {
-            event.target.value = '';
-            this.spinnerService.hide()
-            this.snotifyService.error(
-              MessageConstants.UPLOAD_ERROR_MSG,
-              CaptionConstants.ERROR);
-          }
-        })
-      }
-    }
-  }
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.search(false);
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
 
+          this.snotifyService.success(MessageConstants.UPLOADED_OK_MSG, CaptionConstants.SUCCESS);
+        } else {
+          this.functionUtility.snotifySuccessError(false, 'System.Message.UploadOKMsg')
+
+          this.snotifyService.error(res.error, CaptionConstants.ERROR);
+        }
+      }
+    });
+  }
   //#region
   getListWorkShiftType() {
     this.service.getListWorkShiftType().subscribe({
       next: (res) => {
         this.listWorkShiftType = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -226,18 +204,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listDivision = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

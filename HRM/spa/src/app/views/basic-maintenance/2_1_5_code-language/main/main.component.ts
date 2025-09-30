@@ -1,14 +1,12 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
-import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Code_Language, Code_LanguageParam, Code_LanguageSource } from '@models/basic-maintenance/2_1_5_code-language';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { S_2_1_5_CodeLanguageService } from '@services/basic-maintenance/s_2_1_5_code-language.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { OperationResult } from '@utilities/operation-result';
 import { Pagination } from '@utilities/pagination-utility';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -27,7 +25,6 @@ export class MainComponent extends InjectBase implements OnInit {
 
   param: Code_LanguageParam = <Code_LanguageParam>{}
 
-  bsModalRef?: BsModalRef;
   iconButton = IconButton;
   title: string = '';
   programCode: string = '';
@@ -75,8 +72,7 @@ export class MainComponent extends InjectBase implements OnInit {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
 
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -101,10 +97,10 @@ export class MainComponent extends InjectBase implements OnInit {
       this.spinnerService.show();
       this.service.deleteData(item).subscribe({
         next: (result: OperationResult) => {
+          this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }
@@ -132,12 +128,12 @@ export class MainComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.exportExcel(this.param).subscribe({
       next: (result) => {
+        this.spinnerService.hide()
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
         this.functionUtility.exportExcel(result.data, fileName);
-      },
-      error: () => this.functionUtility.snotifySuccessError(false,'BasicMaintenance.CodeLanguage.QueryErrorMsg')
+      }
     })
-    .add(() => this.spinnerService.hide());
+
   }
 
 }

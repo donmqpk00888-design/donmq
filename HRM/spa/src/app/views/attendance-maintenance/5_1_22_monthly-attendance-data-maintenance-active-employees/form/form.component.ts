@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { CaptionConstants } from '@constants/message.enum';
@@ -14,6 +13,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -72,9 +72,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ) {
     super();
 
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getListFactoryAdd();
         this.getEmpInfo(this.data.employee_ID);
@@ -104,9 +102,9 @@ export class FormComponent extends InjectBase implements OnInit {
       this.getListSalaryType();
     }
 
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   getDetail() {
@@ -114,6 +112,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getDetail(this.param)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res) {
             this.data = res;
             // Set default value
@@ -123,9 +122,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.getEmpInfo(this.data.employee_ID, this.param.action == "edit" ? true : false);
             this.invalid = false;
           }
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -167,6 +164,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .getEmpInfo(params)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.invalid = false;
             this.data.useR_GUID = res.data.useR_GUID;
@@ -189,9 +187,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data.allowances = [];
             this.invalid = true;
           }
-          this.spinnerService.hide();
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
 
@@ -215,6 +211,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .getLeaveAllowance(param)
       .subscribe({
         next: (res: any) => {
+          this.spinnerService.hide();
           if (res) {
             this.data.leaves = res.leave;
             this.data.allowances = res.allowance;
@@ -222,10 +219,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data.leaves = [];
             this.data.allowances = [];
           }
-
-          this.spinnerService.hide();
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
 
@@ -248,6 +242,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service[this.param.action](this.data)
       .subscribe({
         next: (res: OperationResult) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.snotifyService.success(
               this.translateService.instant(success),
@@ -260,9 +255,7 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error')
             );
           }
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 
@@ -286,14 +279,9 @@ export class FormComponent extends InjectBase implements OnInit {
     this.data.leaves = [];
     this.data.allowances = [];
     this.getListDepartment();
-    this.spinnerService.show();
     this._service.getEmployeeIDByFactorys(this.data.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.employeeIDs = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -304,7 +292,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -313,7 +300,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listPermissionGroup = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -322,7 +308,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listSalaryType = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -333,7 +318,6 @@ export class FormComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.listDepartment = res;
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
   //#endregion

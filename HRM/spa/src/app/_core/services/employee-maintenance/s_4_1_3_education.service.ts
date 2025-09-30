@@ -14,7 +14,7 @@ import {
   HRMS_Emp_Educational_FileUpload
 } from '@models/employee-maintenance/4_1_3-education';
 import { IClearCache } from '@services/cache.service';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 
 @Injectable({
   providedIn: 'root'

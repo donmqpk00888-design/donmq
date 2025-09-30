@@ -5,9 +5,9 @@ import { AnnualOvertimeHoursReportParam, AnnualOvertimeHoursReportSource } from 
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { S_5_2_20_AnnualOvertimeHoursReportService } from "@services/attendance-maintenance/s_5_2_20_annual-overtime-hours-report.service";
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -76,8 +76,7 @@ export class MainComponent extends InjectBase implements OnInit  {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -100,8 +99,7 @@ export class MainComponent extends InjectBase implements OnInit  {
           this.totalRows = 0
           this.snotifyService.warning(res.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -124,19 +122,16 @@ export class MainComponent extends InjectBase implements OnInit  {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     })
   }
   //#endregion

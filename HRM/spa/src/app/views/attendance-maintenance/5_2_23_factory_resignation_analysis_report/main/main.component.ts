@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { FactoryResignationAnalysisReport_Param } from '@models/attendance-maintenance/5_2_23_factory_resignation_analysis_report';
 import { S_5_2_23_FactoryResignationAnalysisReport } from '@services/attendance-maintenance/s_5_2_23_factory_resignation_analysis_report.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -13,6 +13,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
   styleUrl: './main.component.scss'
 })
 export class MainComponent extends InjectBase implements OnInit {
+  i18n: string = 'AttendanceMaintenance.FactoryResignationAnalysisReport.'
   title: string = '';
   programCode: string = '';
   bsConfig: Partial<BsDatepickerConfig> = <Partial<BsDatepickerConfig>>{
@@ -23,7 +24,6 @@ export class MainComponent extends InjectBase implements OnInit {
   classButton = ClassButton;
 
   param: FactoryResignationAnalysisReport_Param = <FactoryResignationAnalysisReport_Param>{}
-  i18n: string = 'AttendanceMaintenance.FactoryResignationAnalysisReport.'
   factoryList: KeyValuePair[] = [];
   permissionGroupList: KeyValuePair[] = [];
 
@@ -54,19 +54,12 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         if (res.isSuccess) {
-          this.snotifyService.success(
-            this.translateService.instant('System.Message.SearchOKMsg'),
-            this.translateService.instant('System.Caption.Success')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.SearchOKMsg');
           this.param.total_Rows = res.data
         } else {
-          this.snotifyService.error(
-            this.translateService.instant(this.getTransKey(res.error)),
-            this.translateService.instant('System.Caption.Error')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -78,19 +71,15 @@ export class MainComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.spinnerService.hide();
           if (res.isSuccess) {
-            if (res.data.count > 0){
+            if (res.data.count > 0) {
               const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
               this.functionUtility.exportExcel(res.data.result, fileName);
             }
             this.param.total_Rows = res.data.count
           } else {
-            this.snotifyService.error(
-              this.translateService.instant(this.getTransKey( res.error)),
-              this.translateService.instant('System.Caption.Error')
-            );
+            this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -103,12 +92,6 @@ export class MainComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -120,7 +103,7 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   onDateChange(item: string) {
-    this.param[item + '_Str'] = this.functionUtility.isValidDate(new Date( this.param[item]))
+    this.param[item + '_Str'] = this.functionUtility.isValidDate(new Date(this.param[item]))
       ? this.functionUtility.getDateFormat(new Date(this.param[item]))
       : '';
   }
@@ -132,10 +115,5 @@ export class MainComponent extends InjectBase implements OnInit {
 
   deleteProperty(name: string) {
     delete this.param[name]
-  }
-  getTransKey(key: string): string {
-    return this.functionUtility.hasTranslation(`${this.i18n}${key}`)
-      ? `${this.i18n}${key}`
-      : `${this.translateService.instant(`${this.i18n}InvalidErrorCode`)} : ${key}`
   }
 }

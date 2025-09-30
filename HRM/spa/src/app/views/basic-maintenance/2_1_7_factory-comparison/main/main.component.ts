@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Basic_Factory_Comparison, HRMS_Basic_Factory_ComparisonSource } from '@models/basic-maintenance/2_1_7_factory-comparison';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,6 +6,7 @@ import { S_2_1_7_FactoryComparisonService } from '@services/basic-maintenance/s_
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -73,8 +73,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch) {
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -113,8 +112,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.search(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     })
   }

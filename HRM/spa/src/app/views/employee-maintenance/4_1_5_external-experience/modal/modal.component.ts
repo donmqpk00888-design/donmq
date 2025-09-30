@@ -69,8 +69,7 @@ export class ModalComponent415 extends InjectBase implements AfterViewInit {
         if (result.isSuccess)
           this.directive.hide()
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     })
   }
 
@@ -82,8 +81,7 @@ export class ModalComponent415 extends InjectBase implements AfterViewInit {
   getDataFromSource() {
     if (this.type == 'Add') {
       this.service.getSeq(this.model).subscribe({
-        next: res => this.model.seq = res,
-        error: () => this.functionUtility.snotifySystemError()
+        next: res => this.model.seq = res
       })
     } else {
       this.time_start = this.functionUtility.checkEmpty(this.model.tenure_Start) ? null : new Date(this.model.tenure_Start);

@@ -10,6 +10,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { MainComponent } from './main/main.component';
 import { FormComponent } from './form/form.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { SharedModule } from '@views/_shared/shared.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BsDatepickerModule.forRoot(),
     TranslateModule,
     NgSelectModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    SharedModule
   ]
 })
 export class PersonalIncomeTaxNumberMaintenanceModule { }

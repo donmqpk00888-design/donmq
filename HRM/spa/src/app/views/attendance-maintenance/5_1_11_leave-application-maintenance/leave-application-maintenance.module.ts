@@ -1,3 +1,4 @@
+import { SharedModule } from '@views/_shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -35,7 +36,8 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgSelectModule,
     LeaveApplicationMaintenanceRoutingModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    SharedModule
   ]
 })
 export class LeaveApplicationMaintenanceModule { }

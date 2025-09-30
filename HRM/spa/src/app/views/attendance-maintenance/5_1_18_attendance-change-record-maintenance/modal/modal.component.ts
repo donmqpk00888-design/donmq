@@ -88,10 +88,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           this.snotifyService.success(res.error, this.translateService.instant('System.Caption.Success'));
         } else this.snotifyService.error(res.error, this.translateService.instant('System.Caption.Error'));
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError()
-      }
     });
   }
   close() {
@@ -111,9 +107,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.commonService.getFactoryMain().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -122,9 +115,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.commonService.getListDepartment(this.data.factory).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -133,9 +123,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.commonService.getListWorkShiftType().subscribe({
       next: res => {
         this.listWorkShiftType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -144,9 +131,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.commonService.getListAttendanceOrLeave().subscribe({
       next: res => {
         this.listAttendance = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -155,9 +139,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.commonService.getListReasonCode().subscribe({
       next: res => {
         this.listReasonCode = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -166,9 +147,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this._service.getListHoliday('39', 1, 'Attendance').subscribe({
       next: res => {
         this.listHoliday = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

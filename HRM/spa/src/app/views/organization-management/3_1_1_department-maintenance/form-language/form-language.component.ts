@@ -5,6 +5,7 @@ import { S_3_1_1_DepartmentMaintenanceService } from '@services/organization-man
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',
@@ -64,8 +65,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
               this.back()
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else {
@@ -79,8 +79,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
             this.directive.hide();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -95,8 +94,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
         if (this.language.department_Code == null || this.language.department_Code == undefined)
           this.language.department_Code = this.department[0].key;
         this.getLanguage();
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -107,8 +105,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
           language_Code: x.key,
           department_Name: x.key === 'TW' ? this.department.find(y => y.key == this.language.department_Code).value : ''
         });
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     })
   }
   getDetail() {
@@ -119,8 +116,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
           for (const detailItem of this.language.detail)
             if (detailItem.language_Code === 'TW' && detailItem.department_Name == null)
               detailItem.department_Name = this.language.department_Name;
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       })
   }
 

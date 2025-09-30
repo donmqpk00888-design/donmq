@@ -9,7 +9,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { OperationResult } from '@utilities/operation-result';
 import { IClearCache } from '@services/cache.service';
 import { SessionStorageConstants } from '@constants/local-storage.constants';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 
 @Injectable({
   providedIn: 'root'

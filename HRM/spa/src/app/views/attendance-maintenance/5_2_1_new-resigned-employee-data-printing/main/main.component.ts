@@ -5,9 +5,9 @@ import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
 import { S_5_2_1_NewResignedEmployeeDataPrintingService } from '@services/attendance-maintenance/s_5_2_1_new-resigned-employee-data-printing.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -44,7 +44,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   constructor(private service: S_5_2_1_NewResignedEmployeeDataPrintingService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListDepartment();
@@ -107,9 +107,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         resultList.length = 0;
         resultList.push(...res);
       },
-      error: () => {
-        this.functionUtility.snotifySystemError()
-      },
     });
   }
   //#endregion
@@ -129,7 +126,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
         this.spinnerService.hide()
       }
-    }).catch(() => this.functionUtility.snotifySystemError());
+    })
   }
 
   search(isSearch: boolean) {
@@ -139,14 +136,12 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   //#region clear
   clear() {
-    this.spinnerService.show();
     this.param = <NewResignedEmployeeDataPrintingParam>{};
     this.listDepartment = [];
     this.dateFrom = null;
     this.dateTo = null;
     this.selectedKey = 'NewHired';
     this.total = 0;
-    this.spinnerService.hide()
   }
   //#endregion
 
@@ -166,11 +161,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.exportExcel(res.data, fileName);
           await this.getTotal();
         } else
-          this.functionUtility.snotifySuccessError(false, 'System.Message.Nodata');
+          this.functionUtility.snotifySuccessError(false, 'System.Message.NoData');
         this.spinnerService.hide()
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

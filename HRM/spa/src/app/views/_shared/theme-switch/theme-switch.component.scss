@@ -1,0 +1,23 @@
+.theme-switch {
+  font-size: large;
+  z-index: 9999;
+  position: fixed;
+  cursor: move;
+  background: rgb(141 141 141 / 28%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 80px;
+}
+.theme-icon {
+  margin: 5px 5px 5px 10px;
+  cursor: move;
+}
+.switch {
+  margin: 5px 10px 5px 5px;
+}

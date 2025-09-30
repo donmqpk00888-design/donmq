@@ -10,7 +10,9 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow" autocomplete="off" #mainForm="ngForm">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
             <div class="row">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
@@ -18,13 +20,17 @@
                   {{"AttendanceMaintenance.WorkingHoursReport.Factory" | translate}}
                   <span class="text-danger">*</span>
                 </label>
-                <ng-select name="factory" [(ngModel)]="param.factory" (ngModelChange)="onFactoryChange()"
-                  [clearable]="false" placeholder='{{"AttendanceMaintenance.WorkingHoursReport.Factory" | translate}}'
-                  required>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           [clearable]="false"
+                           placeholder='{{"AttendanceMaintenance.WorkingHoursReport.Factory" | translate}}'
+                           required>
                   <ng-option [value]="''">
                     {{"System.SelectAll" | translate }}
                   </ng-option>
-                  <ng-option *ngFor="let i of listFactory" [value]="i.key">{{i.value}}</ng-option>
+                  <ng-option *ngFor="let i of listFactory"
+                             [value]="i.key">{{i.value}}</ng-option>
                 </ng-select>
               </div>
 
@@ -38,17 +44,35 @@
                   <div class="full-width">
                     <div class="container_input">
                       <div class="input-group mr-1">
-                        <input type="text" autocomplete="off" class="form-control" bsDatepicker name="dateFrom"
-                          [(ngModel)]="dateFrom" [bsConfig]="bsConfig" onpaste="return false;"
-                          (keydown.backspace)="dateFrom = null" placeholder="YYYY/MM/DD" [maxDate]="dateTo" readonly />
+                        <input type="text"
+                               autocomplete="off"
+                               class="form-control"
+                               bsDatepicker
+                               name="dateFrom"
+                               [(ngModel)]="dateFrom"
+                               [bsConfig]="bsConfig"
+                               onpaste="return false;"
+                               (keydown.backspace)="dateFrom = null"
+                               placeholder="YYYY/MM/DD"
+                               [maxDate]="dateTo"
+                               readonly />
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                         </div>
                       </div>
                       <div class="input-group ml-1">
-                        <input type="text" autocomplete="off" class="form-control" bsDatepicker name="dateTo"
-                          [(ngModel)]="dateTo" [bsConfig]="bsConfig" onpaste="return false;"
-                          (keydown.backspace)="dateTo = null" placeholder="YYYY/MM/DD" [minDate]="dateFrom" readonly />
+                        <input type="text"
+                               autocomplete="off"
+                               class="form-control"
+                               bsDatepicker
+                               name="dateTo"
+                               [(ngModel)]="dateTo"
+                               [bsConfig]="bsConfig"
+                               onpaste="return false;"
+                               (keydown.backspace)="dateTo = null"
+                               placeholder="YYYY/MM/DD"
+                               [minDate]="dateFrom"
+                               readonly />
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                         </div>
@@ -63,13 +87,16 @@
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.WorkingHoursReport.Department" | translate}}
                 </label>
-                <ng-select name="department" [(ngModel)]="param.department" [clearable]="false"
-                  [disabled]="!param.factory"
-                  placeholder='{{"AttendanceMaintenance.WorkingHoursReport.Department" | translate}}'>
+                <ng-select name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="false"
+                           [disabled]="!param.factory"
+                           placeholder='{{"AttendanceMaintenance.WorkingHoursReport.Department" | translate}}'>
                   <ng-option [value]="''">
                     {{"System.SelectAll" | translate }}
                   </ng-option>
-                  <ng-option *ngFor="let i of listDepartment" [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+                  <ng-option *ngFor="let i of listDepartment"
+                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
                 </ng-select>
               </div>
 
@@ -79,28 +106,42 @@
                   {{"AttendanceMaintenance.WorkingHoursReport.SalaryWorkDays" | translate}}
                   <span class="text-danger">*</span>
                 </label>
-                <input [(ngModel)]="param.salary_WorkDays" type="number" class="form-control" maxlength="5"
-                  name="salary_WorkDays" inputmode="numeric" (keypress)="isNumberKey($event)" step="1" min="0"
-                  onpaste="return false;"
-                  placeholder="{{'AttendanceMaintenance.WorkingHoursReport.SalaryWorkDays' | translate}}" />
+                <input [(ngModel)]="param.salary_WorkDays"
+                       type="number"
+                       class="form-control"
+                       maxlength="5"
+                       name="salary_WorkDays"
+                       inputmode="numeric"
+                       (keypress)="isNumberKey($event)"
+                       step="1"
+                       min="0"
+                       onpaste="return false;"
+                       placeholder="{{'AttendanceMaintenance.WorkingHoursReport.SalaryWorkDays' | translate}}" />
               </div>
 
               <!-- Submit Button -->
               <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12">
+                <label class="d-block">&nbsp;</label>
                 <!-- Search -->
-                <button *ngIf="functionUtility.checkFunction('Search')" type="submit"
-                  class="btn btn-primary mr-2 custom-margin-top" (click)="search(true)"
-                  [disabled]="!checkRequiredParams()">
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="submit"
+                        class="btn btn-primary mr-2 custom-margin-top"
+                        (click)="search(true)"
+                        [disabled]="!checkRequiredParams()">
                   <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
                 </button>
                 <!-- Clear -->
-                <button type="button" class="btn btn-danger mr-2 custom-margin-top" (click)="clear()">
+                <button type="button"
+                        class="btn btn-danger mr-2 custom-margin-top"
+                        (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
                 </button>
                 <!-- EXCEL -->
-                <button *ngIf="functionUtility.checkFunction('Excel')" type="button"
-                  class="btn btn-success mr-2 custom-margin-top" (click)="download()"
-                  [disabled]="!checkRequiredParams()">
+                <button *ngIf="functionUtility.checkFunction('Excel')"
+                        type="button"
+                        class="btn btn-success mr-2 custom-margin-top"
+                        (click)="download()"
+                        [disabled]="!checkRequiredParams()">
                   <i class="{{ iconButton.EXCEL }}"></i> {{"System.Action.Excel" | translate }}
                 </button>
               </div>

@@ -1,0 +1,18 @@
+@if (!isProduction) {
+<div class="theme-switch"
+     cdkDrag
+     cdkDragBoundary="html"
+     [cdkDragFreeDragPosition]="dragPosition"
+     (cdkDragEnded)="onDragEnded($event)">
+  <label class="theme-icon"><i [ngClass]="isDarkMode() ? 'fa fa-moon-o' : 'fa fa-sun-o'"></i></label>
+  <label class="switch switch-3d switch-dark switch-sm">
+    <input type="checkbox"
+           class="switch-input"
+           [checked]="isDarkMode()"
+           (change)="toggleTheme()">
+    <span class="switch-slider"
+          data-checked="Dark"
+          data-unchecked="Light"></span>
+  </label>
+</div>
+}

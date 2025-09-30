@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton, Placeholder } from '@constants/common.constants';
 import {
   D_7_25_MonthlySalaryMaintenanceExitedEmployeesMain,
@@ -12,6 +11,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -99,8 +99,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getDropdownList() {
@@ -123,15 +122,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
   getListDepartment() {
     if (this.param.factory)
       this.service.getListDepartment(this.param.factory).subscribe({
-        next: (res: KeyValuePair[]) => this.listDepartment = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listDepartment = res
       });
   }
 
@@ -141,8 +138,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: res => {
           this.listPermissionGroup = res
           this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 
@@ -158,14 +154,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
               this.getData(false);
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
+
         });
       }
     );

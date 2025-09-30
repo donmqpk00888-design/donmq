@@ -10,6 +10,7 @@ import { S_2_1_3_CodeTypeMaintenanceService } from '@services/basic-maintenance/
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',
@@ -84,6 +85,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
     this.spinnerService.show();
     this.service[!this.isEdit ? 'createLanguage' : 'EditLanguageCode'](this.language).subscribe({
       next: (result) => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess,
           result.isSuccess ? (!this.isEdit ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg') : result.error,
           result.isSuccess);
@@ -91,11 +93,7 @@ export class FormLanguageComponent extends InjectBase implements AfterViewInit {
           this.directive.hide();
           this.back();
         }
-      },
-      error: () => this.functionUtility.snotifySuccessError(
-        false,
-        !this.isEdit ? 'System.Message.CreateErrorMsg' : 'System.Message.UpdateErrorMsg'),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
 }

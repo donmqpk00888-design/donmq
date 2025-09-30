@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -9,6 +8,7 @@ import { S_4_1_14_ContractTypeSetupService } from '@services/employee-maintenanc
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -78,7 +78,7 @@ export class FormComponent extends InjectBase implements OnInit {
       item.update_By = this.getCurrentUser();
       item.update_Time = new Date();
     });
-    this.route.data.subscribe(res => this.formType = res.title);
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => this.formType = res.title);
   }
 
   getCurrentUser() {
@@ -116,8 +116,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -130,11 +129,9 @@ export class FormComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.data.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
     });
   }
@@ -157,21 +154,17 @@ export class FormComponent extends InjectBase implements OnInit {
   }
 
   getListAlertRule() {
-    this.spinnerService.show();
     this.service.getListAlertRule().subscribe({
       next: (res) => {
         this.listAlertRule = res;
-        this.spinnerService.hide();
       },
     })
   }
 
   getListScheduleFrequency() {
-    this.spinnerService.show();
     this.service.getListScheduleFrequency().subscribe({
       next: (res) => {
         this.listScheduleFrequency = res;
-        this.spinnerService.hide();
       },
     })
   }
@@ -278,8 +271,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.spinnerService.hide();
             this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.CreateOKMsg' : res.error)
             if (res.isSuccess) this.back();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
       } else {
         let dataAll: ContractTypeSetupDto = {
@@ -292,8 +284,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.spinnerService.hide();
             this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : 'System.Message.UpdateErrorMsg')
             if (res.isSuccess) this.back();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
       }
     }

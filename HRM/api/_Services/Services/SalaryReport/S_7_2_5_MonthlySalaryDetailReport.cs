@@ -144,6 +144,8 @@ namespace API._Services.Services.SalaryReport
                                        Permission_Group = x.Salary.Permission_Group,
                                        Salary_Type = x.Salary.Salary_Type,
                                        Tax = x.Salary.Tax,
+                                       Currency = x.Salary.Currency,
+                                       Transfer = x.Salary.BankTransfer
                                    })
                                    .OrderBy(x => x.Department)
                                    .ThenBy(x => x.Employee_ID)
@@ -166,6 +168,8 @@ namespace API._Services.Services.SalaryReport
                                        Permission_Group = x.Salary.Permission_Group,
                                        Salary_Type = x.Salary.Salary_Type,
                                        Tax = x.Salary.Tax,
+                                       Currency = x.Salary.Currency,
+                                       Transfer = x.Salary.BankTransfer
                                    })
                                    .OrderBy(x => x.Department)
                                    .ThenBy(x => x.Employee_ID)
@@ -187,6 +191,7 @@ namespace API._Services.Services.SalaryReport
             var salBackupDetail = await Sal_Backup(param.Kind, param.Factory, yearMonth, employeeIds);
             var listPositionTitle = await GetHRMS_Basic_Code(BasicCodeTypeConstant.JobTitle, param.Lang);
             var listworkType = await GetHRMS_Basic_Code(BasicCodeTypeConstant.WorkType, param.Lang);
+            var listSalaryType = await GetHRMS_Basic_Code(BasicCodeTypeConstant.SalaryType, param.Lang);
             var leaveDayDetail = await Query_Att_Monthly_Detail(param.Kind, param.Factory, yearMonth, employeeIds, "1");
             var attMonthlyDetail = await Query_Att_Monthly(param.Kind, param.Factory, yearMonth, employeeIds);
             var overtimeHoursDetail = await Query_Att_Monthly_Detail(param.Kind, param.Factory, yearMonth, employeeIds, "2");
@@ -210,6 +215,11 @@ namespace API._Services.Services.SalaryReport
                            && param.Permission_Group.Contains(x.Permission_Group))
                 ?.MaxAsync(x => (decimal?)x.Salary_Days);
 
+            var data_49_B_B54_Amt = await Sal_Add_Ded(param.Kind, param.Factory, yearMonth, employeeIds, "49", "B", "B54");
+            var data_49_B_B55_Amt = await Sal_Add_Ded(param.Kind, param.Factory, yearMonth, employeeIds, "49", "B", "B55");
+            var data_49_B_B56_Amt = await Sal_Add_Ded(param.Kind, param.Factory, yearMonth, employeeIds, "49", "B", "B56");
+            var data_49_B_B57_Amt = await Sal_Add_Ded(param.Kind, param.Factory, yearMonth, employeeIds, "49", "B", "B57");
+
             var result = new List<MonthlySalaryDetailReportDto>();
 
             foreach (var emp in Sal_Monthly)
@@ -217,12 +227,13 @@ namespace API._Services.Services.SalaryReport
                 var sal_Backup = salBackupDetail.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID);
                 var positionTitle = listPositionTitle.FirstOrDefault(x => x.Key == sal_Backup.Position_Title).Value;
                 var workType = listworkType.FirstOrDefault(x => x.Key == emp.Work_Type).Value;
+                var salary_Type = listSalaryType.FirstOrDefault(x => x.Key == emp.Salary_Type).Value;
                 var att_Monthly = attMonthlyDetail.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID);
                 var departmentName = departmentNames.FirstOrDefault(x => x.Key == emp.Department);
                 var leave_Days = leaveDayDetail.Where(x => x.Employee_ID == emp.Employee_ID);
                 var overtime_Hours = overtimeHoursDetail.Where(x => x.Employee_ID == emp.Employee_ID);
                 // Total paid days
-                var actual_Days = att_Monthly.Actual_Days;
+                var actual_Days = att_Monthly?.Actual_Days ?? 0;
                 var totalLeaveDays = leave_Days.Where(x => paidLeaveCodes.Contains(x.Leave_Code)).Sum(x => x.Days);
                 var paid_Days = actual_Days + totalLeaveDays;
 
@@ -238,6 +249,13 @@ namespace API._Services.Services.SalaryReport
                 var amt_49B = total49B.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
                 var amt_45A = total45A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
                 var amt_42A = total42A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
+
+                var amt_49BB54 = data_49_B_B54_Amt.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
+                var amt_49BB55 = data_49_B_B55_Amt.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
+                var amt_49BB56 = data_49_B_B56_Amt.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
+                var amt_49BB57 = data_49_B_B57_Amt.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
+                var meal_Total = amt_49BB54 + amt_49BB55 + amt_49BB56 + amt_49BB57;
+
                 // Insurance Deduction
                 var insurance_Deduction = insuranceDeductionDetail.Where(x => x.Employee_ID == emp.Employee_ID);
                 var unionFee = totalUnionFee.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0;
@@ -254,23 +272,27 @@ namespace API._Services.Services.SalaryReport
                     Department_Name = departmentName.Value,
                     Employee_ID = emp.Employee_ID,
                     Local_Full_Name = emp.Local_Full_Name,
+                    Currency = emp.Currency,
+                    Salary_Type = salary_Type,
+                    Transfer = emp.Transfer,
                     Position_Title = positionTitle,
                     Work_Type = workType,
                     Actual_Days = actual_Days,
                     Leave_Days = leave_Days.Select(x => new KeyValuePair<string, decimal>(x.Leave_Code, x.Days)).ToList(),
-                    Delay_Early = att_Monthly.Delay_Early,
+                    Delay_Early = att_Monthly?.Delay_Early ?? 0,
                     Overtime_Hours = overtime_Hours.Select(x => new KeyValuePair<string, decimal>(x.Leave_Code, x.Days)).ToList(),
                     Total_Paid_Days = paid_Days,
                     Salary_Allowance = salary_Allowance,
-                    Hourly_Wage = salary_Day != null ? Math.Round((decimal)salary_Allowance / salary_Day.Value * 8) : 0,
+                    Hourly_Wage = salary_Day != null ? Math.Round((decimal)salary_Allowance / (salary_Day.Value * 8), 3) : 0,
                     Salary_Item = salary_Item.Select(x => new KeyValuePair<string, decimal>(x.Item, x.Amount)).ToList(),
-                    DayShift_Food = att_Monthly.DayShift_Food ?? 0,
-                    Food_Expenses = att_Monthly.Food_Expenses,
-                    Night_Eat_Times = att_Monthly.Night_Eat_Times,
-                    NightShift_Food = att_Monthly.NightShift_Food ?? 0,
+                    DayShift_Food = att_Monthly?.DayShift_Food ?? 0,
+                    Food_Expenses = att_Monthly?.Food_Expenses ?? 0,
+                    Night_Eat_Times = att_Monthly?.Night_Eat_Times ?? 0,
+                    NightShift_Food = att_Monthly?.NightShift_Food ?? 0,
                     Overtime_Allowance = overtime_Allowance.Select(x => new KeyValuePair<string, decimal>(x.Item, x.Amount)).ToList(),
                     B49_amt = b49_amt,
-                    Other_Additions = amt_49A + amt_49B - b49_amt,
+                    Meal_Total = meal_Total,
+                    Other_Additions = amt_49A + amt_49B - b49_amt - meal_Total,
                     Total_Addition_Item = Add_Sum,
                     Loaned_Amount = 0,
                     Insurance_Deduction = insurance_Deduction.Select(x => new KeyValuePair<string, decimal>(x.Item, x.Amount)).ToList(),
@@ -362,12 +384,14 @@ namespace API._Services.Services.SalaryReport
         #region Sal_Backup_SUM
         private async Task<List<CalculationList>> Sal_Backup_SUM(string kind, string factory, DateTime yearMonth, List<string> employeeIds)
         {
+            List<string> salaryItems = new() { "A01", "A02" };
             if (kind == "Y")
             {
                 return await _repositoryAccessor.HRMS_Sal_MasterBackup_Detail
                     .FindAll(x => x.Factory == factory &&
                                  x.Sal_Month == yearMonth &&
-                                 employeeIds.Contains(x.Employee_ID), true)
+                                 employeeIds.Contains(x.Employee_ID) &&
+                                 (salaryItems.Contains(x.Salary_Item) || x.Salary_Item.StartsWith("B")), true)
                     .GroupBy(x => x.Employee_ID)
                     .Select(x => new CalculationList
                     {
@@ -380,7 +404,8 @@ namespace API._Services.Services.SalaryReport
             {
                 return await _repositoryAccessor.HRMS_Sal_Master_Detail
                     .FindAll(x => x.Factory == factory &&
-                                 employeeIds.Contains(x.Employee_ID), true)
+                                 employeeIds.Contains(x.Employee_ID) &&
+                                 (salaryItems.Contains(x.Salary_Item) || x.Salary_Item.StartsWith("B")), true)
                     .GroupBy(x => x.Employee_ID)
                     .Select(x => new CalculationList
                     {
@@ -578,9 +603,12 @@ namespace API._Services.Services.SalaryReport
                 new Cell("C5", param.Lang == "en" ? "Department Name" : "部門名稱"),
                 new Cell("D5", param.Lang == "en" ? "Employee ID" : "工號"),
                 new Cell("E5", param.Lang == "en" ? "Local Full Name" : "本地姓名"),
-                new Cell("F5", param.Lang == "en" ? "Position Title" : "職稱"),
-                new Cell("G5", param.Lang == "en" ? "Work Type/Job" : "工種/職務"),
-                new Cell("H5",param.Lang == "en" ? "Actual Work Days" : "實際上班天數"),
+                new Cell("F5", param.Lang == "en" ? "Currency" : "幣別"),
+                new Cell("G5", param.Lang == "en" ? "Salary Type" : "薪資計別"),
+                new Cell("H5", param.Lang == "en" ? "Transfer" : "轉帳否"),
+                new Cell("I5", param.Lang == "en" ? "Position Title" : "職稱"),
+                new Cell("J5", param.Lang == "en" ? "Work Type/Job" : "工種/職務"),
+                new Cell("K5",param.Lang == "en" ? "Actual Work Days" : "實際上班天數"),
 
                 new Cell("B2",factory),
                 new Cell("D2", Convert.ToDateTime(param.Year_Month_Str).ToString("yyyy/MM")),
@@ -605,6 +633,10 @@ namespace API._Services.Services.SalaryReport
             Aspose.Cells.Style decimalStyle = new Aspose.Cells.CellsFactory().CreateStyle();
             decimalStyle.Number = 4;
             decimalStyle.Custom = "#,##0.00000";
+
+            Aspose.Cells.Style decimalStyle3 = new Aspose.Cells.CellsFactory().CreateStyle();
+            decimalStyle3.Number = 3;
+            decimalStyle3.Custom = "#,##0.000";
 
             Aspose.Cells.Style labelStyle = new Aspose.Cells.CellsFactory().CreateStyle();
             labelStyle.Font.Color = Color.FromArgb(0, 0, 255);
@@ -647,6 +679,11 @@ namespace API._Services.Services.SalaryReport
                 }
             }
 
+            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Day Shift Meal Times" : "白班伙食次數", borderStyle));
+            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Overtime Meal Times" : "加班伙食費", borderStyle));
+            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Night Shift Allowance Times" : "夜點費次數", borderStyle));
+            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Night Shift Meal Times" : "夜班伙食次數", borderStyle));
+
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Total paid days" : "有薪天數", borderStyle));
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Salary & Allowance" : "底薪&津貼", borderStyle));
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Hourly Wage" : "時薪", borderStyle));
@@ -662,10 +699,6 @@ namespace API._Services.Services.SalaryReport
                 }
             }
 
-            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Day Shift Meal Times" : "白班伙食次數", borderStyle));
-            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Overtime Meal Times" : "加班伙食費", borderStyle));
-            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Night Shift Allowance Times" : "夜點費次數", borderStyle));
-            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Night Shift Meal Times" : "夜班伙食次數", borderStyle));
 
             // Overtime and Night Shift Allowance
             if (overtimeAllowance_Name.Any())
@@ -679,6 +712,7 @@ namespace API._Services.Services.SalaryReport
             }
 
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Social-Health - Unemployment insurance 21.5%" : "醫/社保", borderStyle));
+            cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Meal Total" : "餐費合計", borderStyle));
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Addition Item" : "其他加項", borderStyle));
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Total Addition Item " : "正項合計", borderStyle));
             cells.Add(new Cell(4, currentColumn++, param.Lang == "en" ? "Loaned Amount" : "借支金額扣", borderStyle));
@@ -726,10 +760,14 @@ namespace API._Services.Services.SalaryReport
                         SetCell(i + 5, colIndex++, cells, overtimeItem.Value, amountStyle);
                     }
                 }
+                SetCell(i + 5, colIndex++, cells, (decimal)rowData.DayShift_Food, amountStyle);
+                SetCell(i + 5, colIndex++, cells, rowData.Food_Expenses, amountStyle);
+                SetCell(i + 5, colIndex++, cells, rowData.Night_Eat_Times, amountStyle);
+                SetCell(i + 5, colIndex++, cells, (decimal)rowData.NightShift_Food, amountStyle);
 
-                cells.Add(new Cell(i + 5, colIndex++, rowData.Total_Paid_Days, decimalStyle));
+                SetCell(i + 5, colIndex++, cells, rowData.Total_Paid_Days, decimalStyle);
                 SetCell(i + 5, colIndex++, cells, rowData.Salary_Allowance, amountStyle);
-                cells.Add(new Cell(i + 5, colIndex++, rowData.Hourly_Wage, amountStyle));
+                SetCell(i + 5, colIndex++, cells, rowData.Hourly_Wage, decimalStyle3);
 
                 // Salary
                 if (salary_Name.Any())
@@ -741,10 +779,7 @@ namespace API._Services.Services.SalaryReport
                     }
                 }
 
-                SetCell(i + 5, colIndex++, cells, (decimal)rowData.DayShift_Food, amountStyle);
-                SetCell(i + 5, colIndex++, cells, rowData.Food_Expenses, amountStyle);
-                SetCell(i + 5, colIndex++, cells, rowData.Night_Eat_Times, amountStyle);
-                SetCell(i + 5, colIndex++, cells, (decimal)rowData.NightShift_Food, amountStyle);
+
 
                 // Overtime and Night Shift Allowance
                 if (overtimeAllowance_Name.Any())
@@ -757,6 +792,7 @@ namespace API._Services.Services.SalaryReport
                 }
 
                 SetCell(i + 5, colIndex++, cells, rowData.B49_amt, amountStyle);
+                SetCell(i + 5, colIndex++, cells, rowData.Meal_Total, amountStyle);
                 SetCell(i + 5, colIndex++, cells, rowData.Other_Additions, amountStyle);
                 SetCell(i + 5, colIndex++, cells, rowData.Total_Addition_Item, amountStyle);
                 SetCell(i + 5, colIndex++, cells, rowData.Loaned_Amount, amountStyle);

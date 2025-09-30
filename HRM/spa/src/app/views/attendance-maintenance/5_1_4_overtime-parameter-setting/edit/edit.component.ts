@@ -1,11 +1,11 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Overtime_ParameterDTO } from '@models/attendance-maintenance/5_1_4_overtime-parameter-setting';
 import { S_5_1_4_OvertimeParameterSettingService } from '@services/attendance-maintenance/s_5_1_4_overtime-parameter-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-edit',
@@ -24,7 +24,7 @@ export class EditComponent extends InjectBase implements OnInit {
     private service: S_5_1_4_OvertimeParameterSettingService,
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -58,7 +58,6 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listWorkShiftType = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -67,18 +66,14 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listDivision = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.data.division).subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -100,14 +95,13 @@ export class EditComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.update(this.data).subscribe({
       next: result => {
+        this.spinnerService.hide();
         if (result.isSuccess) {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           this.back();
         }
         else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+      }
     })
   }
   back = () => this.router.navigate([this.url]);

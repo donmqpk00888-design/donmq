@@ -74,7 +74,7 @@
                                  onpaste="return false;"
                                  type="text"
                                  placeholder="{{placeholder.YearMonth}}"
-                                 [class]="!isEdit ? 'form-control bg-white' : 'form-control'"
+                                 [class]="!isEdit ? 'form-control' : 'form-control'"
                                  name="effective_Month"
                                  [(ngModel)]="param.effective_Month"
                                  (ngModelChange)="onEffectiveMonthChange()"
@@ -168,7 +168,7 @@
                         class="no-data">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{'System.Message.Nodata' | translate }}
+                        {{'System.Message.NoData' | translate }}
                       </td>
                     </tr>
                     <tr class="no-data"

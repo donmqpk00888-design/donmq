@@ -11,9 +11,9 @@ import {
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { S_5_1_20_OvertimeModificationMaintenanceService } from '@services/attendance-maintenance/s_5_1_20_overtime-modification-maintenance.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModalService } from '@services/modal.service';
 import { FormGroup, NgForm } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -102,15 +102,13 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
 
   getWorkShiftTypes() {
     this.commonService.getListWorkShiftType().subscribe({
-      next: res => this.workShiftTypes = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: res => this.workShiftTypes = res
     })
   }
 
   getFactorys() {
     this.service.getListFactory().subscribe({
-      next: res => this.factorys = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: res => this.factorys = res
     })
   }
 
@@ -122,13 +120,10 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
 
   getDepartments() {
     if (!this.functionUtility.checkEmpty(this.param.factory)) {
-      this.spinnerService.show();
       this.service.getListDepartment(this.param.factory).subscribe({
         next: res => {
           this.departments = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -146,8 +141,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(isSearch, 'BasicMaintenance.2_6_GradeMaintenance.QueryOKMsg');
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -174,8 +168,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg');
           if (res.isSuccess) this.getData(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }

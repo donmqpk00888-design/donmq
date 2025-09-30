@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InjectBase } from '@utilities/inject-base-app';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
@@ -12,7 +11,8 @@ import { ShiftManagementProgram_Main, TypeheadKeyValue } from '@models/attendanc
 import { S_5_1_10_ShiftManagementProgram } from '@services/attendance-maintenance/s_5_1_10_shift-management-program.service';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { OperationResult } from '@utilities/operation-result';
-import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
+import { TabComponentModel } from '@views/_shared/tab-component/tab.component';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -79,14 +79,14 @@ export class FormComponent extends InjectBase implements OnInit {
         dateInputFormat: 'YYYY/MM/DD',
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.action = role.title;
         this.initTab();
         this.filterList(role.dataResolved)
-      }).unsubscribe()
+      })
 
-    this.service.paramForm.subscribe((res) => {
+    this.service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (this.action == 'Edit') {
         if (res == null)
           this.back()
@@ -102,7 +102,7 @@ export class FormComponent extends InjectBase implements OnInit {
           }
         }
       }
-    }).unsubscribe()
+    })
     this.retryGetDropDownList()
     this.getDepartment()
     this.setTypehead()
@@ -150,13 +150,6 @@ export class FormComponent extends InjectBase implements OnInit {
               x.update_Time = currentDate;
               x.update_Time_Str = this.functionUtility.getDateTimeFormat(new Date(x.update_Time))
             })
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     } else
@@ -219,13 +212,6 @@ export class FormComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.filterList(res, selectedTab)
           this.spinnerService.hide()
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -253,13 +239,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.spinnerService.hide();
             this.workShiftTypeOldList_Department = res.filter((x: { key: string; }) => x.key == "O").map(x => <KeyValuePair>{ key: x.key = x.value.substring(0, x.value.indexOf('-')), value: x.value })
             this.workShiftTypeNewList_Department = res.filter((x: { key: string; }) => x.key == "N").map(x => <KeyValuePair>{ key: x.key = x.value.substring(0, x.value.indexOf('-')), value: x.value })
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     }
@@ -280,13 +259,6 @@ export class FormComponent extends InjectBase implements OnInit {
             selectedTab == 'employee' ? this.departmentList_Empployee = res : this.departmentList_Department = res
             if (onFactoryChange)
               this.deleteProperty('department', selectedTab)
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     }
@@ -438,13 +410,6 @@ export class FormComponent extends InjectBase implements OnInit {
           next: (res) => {
             this.spinnerService.hide();
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })
@@ -500,13 +465,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.translateService.instant(`AttendanceMaintenance.ShiftManagementProgram.${res.error}`),
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.UnknowError'),
-          this.translateService.instant('System.Caption.Error')
-        );
       }
     }
     this.action == 'Add'

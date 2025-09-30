@@ -33,7 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxOrgChartModule } from '@tots/ngx-org-chart';
-import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-alt-snotify';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ngx-snotify-sdteam';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxBreadcrumbModule } from "ngx-dynamic-breadcrumb";
@@ -49,6 +49,7 @@ import { LoginComponent } from './views/login/login.component';
 import { NgProgressModule } from "ngx-progressbar";
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { MainComponent } from './views/salary-report/7_2_2_utility-workers-qualification-seniority-printing/main/main.component';
+import { SharedModule } from '@views/_shared/shared.module';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -84,6 +85,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxBreadcrumbModule.forRoot(),
     NgxMaskDirective,
     NgxMaskPipe,
+    SharedModule,
     NgProgressModule.withConfig({ spinner: false}),
     NgProgressHttpModule,
     TranslateModule.forRoot({

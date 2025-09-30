@@ -4,6 +4,7 @@ import { EducationFile, EducationUpload } from '@models/employee-maintenance/4_1
 import { S_4_1_3_EducationService } from '@services/employee-maintenance/s_4_1_3_education.service';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -65,8 +66,7 @@ export class ModalUploadComponent413 extends InjectBase implements AfterViewInit
               isDownload: true
             }
           })
-        },
-        error: () => this.spinnerService.hide()
+        }
       })
     }
   }
@@ -79,8 +79,7 @@ export class ModalUploadComponent413 extends InjectBase implements AfterViewInit
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.getEducationFiles();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     })
   }
@@ -111,21 +110,12 @@ export class ModalUploadComponent413 extends InjectBase implements AfterViewInit
           this.model.files = [];
           this.getEducationFiles();
         }
-      },
-      error: () => this.spinnerService.hide()
+      }
     })
   }
 
-  onSelectFile(event: any) {
-    const files = Array.from(event.target.files as File[])
-    event.target.value = ''
-    const errorFiles = files.filter(file => file.size > 30000000).map(x => x.name)
-    if (errorFiles.length > 0)
-      return this.snotifyService.error(
-        `${this.translateService.instant('System.Message.FileLimit')} : \n${errorFiles.join('\n')}`,
-        this.translateService.instant('System.Caption.Error')
-      );
-    const fileNames = this.model.files.map(x => x.fileName).concat(files.map(x => x.name))
+  upload(event: FileResultModel) {
+    const fileNames = this.model.files.map(x => x.fileName).concat(event.fileModel.map(x => x.name));
     const lookup = fileNames.reduce((a, e) => {
       a[e] = ++a[e] || 0;
       return a;
@@ -136,17 +126,16 @@ export class ModalUploadComponent413 extends InjectBase implements AfterViewInit
         `${this.translateService.instant('System.Message.ExistedFile')} : \n${duplicateFiles.join('\n')}`,
         this.translateService.instant('System.Caption.Error')
       );
-    this.model.files.push(...files.map(file => <EducationFile>{
+    this.model.files.push(...event.fileModel.map(x => <EducationFile>{
       uSER_GUID: this.model.useR_GUID,
       fileID: null,
       serNum: null,
       isDownload: false,
-      fileName: file.name,
-      fileSize: file.size,
-      file: file,
-    }));
+      fileName: x.name,
+      fileSize: x.size,
+      file: x.file,
+    }))
   }
-
   onRemoveFile(index: number, item: EducationFile) {
     if (item.file != null)
       this.model.files = this.model.files.filter((x, i) => i != index);
@@ -168,8 +157,7 @@ export class ModalUploadComponent413 extends InjectBase implements AfterViewInit
           }
           else this.functionUtility.snotifySuccessError(false, result.error, false)
 
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 }

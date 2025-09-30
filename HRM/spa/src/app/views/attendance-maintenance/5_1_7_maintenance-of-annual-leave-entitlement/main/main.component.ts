@@ -10,10 +10,11 @@ import { Pagination } from '@utilities/pagination-utility';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaptionConstants } from '@constants/message.enum';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ModalService } from '@services/modal.service';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -105,14 +106,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factories = res;;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -124,26 +122,20 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this._service.getListDepartment(this.params.factory)
       .subscribe({
         next: (res) => {
           this.departments = res
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
   getListLeaveCode() {
-    this.spinnerService.show();
     this._service.getListLeaveCode()
       .subscribe({
         next: (res) => {
           this.leaveCodes = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -173,10 +165,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.spinnerService.hide();
               resolve()
             },
-            error: () => {
-              this.functionUtility.snotifySystemError()
-              reject()
-            }
+            error: () => { reject() }
           });
       }
     })
@@ -252,54 +241,31 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               );
             }
             this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
       });
   }
   //#endregion
 
   //#region upload
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.accept.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this._service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          'System.Message.AllowExcelFile',
-          'System.Caption.Error'
-        );
-      }
-      this._service.uploadExcel(event.target.files[0],).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          this.spinnerService.hide();
-          if (res.isSuccess) {
-            this.snotifyService.success(
-              this.translateService.instant('System.Message.UploadOKMsg'),
-              this.translateService.instant('System.Caption.Success')
-            );
-            this.functionUtility.checkFunction('Search') ? this.search(false) : this.clear();
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, this.functionUtility.getFileName(fileName));
-            }
-            this.snotifyService.error(
-              res.error ?? this.translateService.instant('System.Message.UploadErrorMsg'),
-              this.translateService.instant('System.Caption.Error')
-            );
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.search(false);
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-        },
-        error: () => {
-          event.target.value = '';
-          this.spinnerService.hide();
-          this.functionUtility.snotifySystemError()
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error ?? this.translateService.instant('System.Message.UploadErrorMsg'))
         }
-      });
-    }
+      }
+    });
   }
   //#endregion
 
@@ -312,7 +278,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   download() {
@@ -333,8 +298,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.spinnerService.hide();
               const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
               this.functionUtility.exportExcel(result.data, fileName);
-            },
-            error: () => this.functionUtility.snotifySystemError()
+            }
           });
       }
     })

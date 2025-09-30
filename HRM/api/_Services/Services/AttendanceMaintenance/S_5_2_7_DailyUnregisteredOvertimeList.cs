@@ -39,12 +39,12 @@ namespace API._Services.Services.AttendanceMaintenance
                         x.Language_Code.ToLower() == param.Lang.ToLower())
                     .ToList();
                 var dataDept = comparisonDepartment.GroupJoin(HODL,
-                        x => x.Key,
-                        y => y.Department_Code,
+                        x => new {x.Division, x.Department_Code},
+                        y => new {y.Division, y.Department_Code},
                         (x, y) => new { dept = x, hodl = y })
                         .SelectMany(x => x.hodl.DefaultIfEmpty(),
                         (x, y) => new { x.dept, hodl = y });
-                result.AddRange(dataDept.Select(x => new KeyValuePair<string, string>("DE", $"{x.dept.Key}-{(x.hodl != null ? x.hodl.Name : x.dept.Value)}")).Distinct().ToList());
+                result.AddRange(dataDept.Select(x => new KeyValuePair<string, string>("DE", $"{x.dept.Department_Code}-{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}")).Distinct().ToList());
             }
             return result;
         }

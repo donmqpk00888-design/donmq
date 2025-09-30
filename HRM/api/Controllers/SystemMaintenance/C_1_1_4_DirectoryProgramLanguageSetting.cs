@@ -63,11 +63,5 @@ namespace API.Controllers.SystemMaintenance
         {
             return Ok(await _services.GetCodeDirectory());
         }
-
-        [HttpGet("GetNameCode")]
-        public async Task<IActionResult> GetNameCode(string kind, string code)
-        {
-            return Ok(await _services.GetNameCode(kind, code));
-        }
     }
 }

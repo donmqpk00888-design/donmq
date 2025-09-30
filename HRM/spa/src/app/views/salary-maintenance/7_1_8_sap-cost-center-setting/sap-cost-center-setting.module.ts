@@ -12,6 +12,7 @@ import { DragScrollComponent } from 'ngx-drag-scroll';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { MainComponent } from './main/main.component';
 import { FormComponent } from './form/form.component';
+import { SharedModule } from '@views/_shared/shared.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { FormComponent } from './form/form.component';
     DragScrollComponent,
     TypeaheadModule.forRoot(),
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    SharedModule
   ]
 })
 export class SAPCostCenterSettingModule { }

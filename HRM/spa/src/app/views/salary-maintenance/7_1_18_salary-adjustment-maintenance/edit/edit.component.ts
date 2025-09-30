@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { concat, Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-edit',
@@ -60,10 +60,10 @@ export class EditComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     this.isQuery = this.action == 'Query'
@@ -77,17 +77,14 @@ export class EditComponent extends InjectBase implements OnInit {
     } else this.back()
   }
   getListSalaryItem() {
-    this.spinnerService.show();
     this.service.getListSalaryItem(this.data.history_GUID).subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         if (!this.functionUtility.isEmptyObject(res)) {
           this.data.salary_Item = res;
         } else {
           this.back();
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getDropdownList() {
@@ -104,14 +101,14 @@ export class EditComponent extends InjectBase implements OnInit {
       this.callList('listDepartment', this.data.factory)
     ]
     concat(...observableList).subscribe({
-      error: () => { this.functionUtility.snotifySystemError(false) },
+      error: () => { },
       complete: () => { this.spinnerService.hide() }
     })
   }
   callList(name: string, param: any = null): Observable<KeyValuePair[]> {
     return new Observable((observer: any) => {
       const _function: Observable<KeyValuePair[]> = param != null ? this.service['get' + name](param) : this.service['get' + name]()
-      _function.subscribe({
+      _function.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (res) => observer.next(this[name] = res),
         error: () => observer.error(),
         complete: (() => observer.complete())
@@ -120,6 +117,7 @@ export class EditComponent extends InjectBase implements OnInit {
   }
 
   save() {
+    this.spinnerService.show()
     this.service.update(this.data).subscribe({
       next: result => {
         this.spinnerService.hide()
@@ -129,8 +127,7 @@ export class EditComponent extends InjectBase implements OnInit {
         }
         else
           this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   validateDecimal(event: KeyboardEvent, maxValue: number): boolean {

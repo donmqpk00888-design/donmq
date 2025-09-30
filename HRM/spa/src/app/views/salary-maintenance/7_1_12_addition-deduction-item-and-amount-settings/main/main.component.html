@@ -1,305 +1,311 @@
 <div class="animated fadeIn">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="row border-title">
-              <div class="col-md-12">
-                <strong>{{ title }}</strong>
-              </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>{{ title }}</strong>
             </div>
           </div>
-          <div class="card-body">
-            <form class="form-horizontal border-shadow"
-                  autocomplete="off"
-                  #mainForm="ngForm">
-              <div class="row">
-                <!-- Factory -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label for="factory"
-                         class="badge badge-warning">
-                    {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="param.factory"
-                             placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory' | translate }}"
-                             [clearable]="param.factory != ''"
-                             (ngModelChange)="onChangeFactory()"
-                             (clear)="deleteProperty('factory')"
-                             required>
-                    <ng-option *ngFor="let data of listFactory"
-                               [value]="data.key">{{ data.value }}</ng-option>
-                  </ng-select>
-                </div>
-                <!-- Salary Type -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label for="salary_Type"
-                         class="badge badge-warning">
-                    {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType" | translate }}
-                  </label>
-                  <ng-select id="salary_Type"
-                             name="salary_Type"
-                             [(ngModel)]="param.salary_Type"
-                             placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType' | translate }}"
-                             [clearable]="param.salary_Type != ''"
-                             (clear)="deleteProperty('salary_Type')">
-                    <ng-option *ngFor="let data of listSalaryType"
-                               [value]="data.key">{{ data.value }}</ng-option>
-                  </ng-select>
-                </div>
+        </div>
+        <div class="card-body">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off"
+                #mainForm="ngForm">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory' | translate }}"
+                           [clearable]="param.factory != ''"
+                           (ngModelChange)="onChangeFactory()"
+                           (clear)="deleteProperty('factory')"
+                           required>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">{{ data.value }}</ng-option>
+                </ng-select>
+              </div>
+              <!-- Salary Type -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="salary_Type"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType" | translate }}
+                </label>
+                <ng-select id="salary_Type"
+                           name="salary_Type"
+                           [(ngModel)]="param.salary_Type"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType' | translate }}"
+                           [clearable]="param.salary_Type != ''"
+                           (clear)="deleteProperty('salary_Type')">
+                  <ng-option *ngFor="let data of listSalaryType"
+                             [value]="data.key">{{ data.value }}</ng-option>
+                </ng-select>
+              </div>
 
-                <!-- Effective Month -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
-                  <label class="badge badge-warning">
-                    {{"SalaryMaintenance.AdditionDeductionItemAndAmountSettings.EffectiveMonth" | translate }}
-                  </label>
-                  <div class="full-width">
-                    <div class="container_date">
-                      <div class="input-group mr-1">
-                        <input autocomplete="off"
-                               (keydown.backspace)="effective_Month = null"
-                               onpaste="return false;"
-                               type="text"
-                               placeholder="{{placeholder.YearMonth}}"
-                               class="form-control bg-white"
-                               name="effective_Month"
-                               [(ngModel)]="effective_Month"
-                               (ngModelChange)="onChangeEffectiveMonth()"
-                               bsDatepicker
-                               [bsConfig]="bsConfig"/>
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+              <!-- Effective Month -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"SalaryMaintenance.AdditionDeductionItemAndAmountSettings.EffectiveMonth" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             (keydown.backspace)="effective_Month = null"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder="{{placeholder.YearMonth}}"
+                             class="form-control"
+                             name="effective_Month"
+                             [(ngModel)]="effective_Month"
+                             (ngModelChange)="onChangeEffectiveMonth()"
+                             bsDatepicker
+                             [bsConfig]="bsConfig" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Addtion and Dedtion Type -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="addDed_Type"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="addDed_Type"
+                           name="addDed_Type"
+                           [(ngModel)]="param.addDed_Type"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType' | translate }}"
+                           [clearable]="param.addDed_Type != ''"
+                           (clear)="deleteProperty('addDed_Type')"
+                           required>
+                  <ng-option *ngFor="let data of listAdditionsAndDeductionsType"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Addtion and Dedtion Item -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="addDed_Item"
+                       class="badge badge-warning">
+                  {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem" | translate }}
+                </label>
+                <ng-select id="addDed_Item"
+                           name="addDed_Item"
+                           [(ngModel)]="param.addDed_Item"
+                           placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem' | translate }}"
+                           [clearable]="param.addDed_Item != ''"
+                           (clear)="deleteProperty('addDed_Item')">
+                  <ng-option *ngFor="let data of listAdditionsAndDeductionsItem"
+                             [value]="data.key">{{ data.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <label class="badge badge-warning">
+                      {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select id="permission_Group"
+                               name="permission_Group"
+                               [items]="listPermissionGroup"
+                               [multiple]="true"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permission_Group"
+                               [disabled]="!param.factory"
+                               required
+                               placeholder="{{ 'AttendanceMaintenance.AnnualLeaveCalculation.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Addtion and Dedtion Type -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label for="addDed_Type"
-                         class="badge badge-warning">
-                    {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="addDed_Type"
-                             name="addDed_Type"
-                             [(ngModel)]="param.addDed_Type"
-                             placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType' | translate }}"
-                             [clearable]="param.addDed_Type != ''"
-                             (clear)="deleteProperty('addDed_Type')"
-                             required>
-                    <ng-option *ngFor="let data of listAdditionsAndDeductionsType"
-                               [value]="data.key">
-                               {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
-                <!-- Addtion and Dedtion Item -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label for="addDed_Item" class="badge badge-warning">
-                    {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem" | translate }}
-                  </label>
-                  <ng-select id="addDed_Item"
-                             name="addDed_Item"
-                             [(ngModel)]="param.addDed_Item"
-                             placeholder="{{'SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem' | translate }}"
-                             [clearable]="param.addDed_Item != ''"
-                             (clear)="deleteProperty('addDed_Item')">
-                    <ng-option *ngFor="let data of listAdditionsAndDeductionsItem"
-                               [value]="data.key">{{ data.value }}</ng-option>
-                  </ng-select>
-                </div>
-
-                <!-- Permission Group -->
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-auto">
-                      <div class="form-group">
-                        <label class="badge badge-warning">
-                          {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup" | translate }}
-                          <span class="text-danger text-bold"> *</span>
-                        </label>
-                        <ng-select id="permission_Group"
-                          name="permission_Group"
-                          [items]="listPermissionGroup"
-                          [multiple]="true"
-                          groupBy="allGroup"
-                          [selectableGroup]="true"
-                          [selectableGroupAsModel]="false"
-                          [closeOnSelect]="false"
-                          bindLabel="value"
-                          bindValue="key"
-                          [(ngModel)]="param.permission_Group"
-                          [disabled]="!param.factory"
-                          required
-                          placeholder="{{ 'AttendanceMaintenance.AnnualLeaveCalculation.PermissionGroup' | translate }}">
-                          <ng-template ng-optgroup-tmp
+                      </ng-template>
+                      <ng-template ng-option-tmp
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                            <input id="item-{{ index }}"
-                                 type="checkbox"
-                                 name="item-{{ index }}"
-                                 [ngModel]="item$.selected" />
-                                 {{ 'System.Action.SelectAll' | translate }}
-                          </ng-template>
-                          <ng-template ng-option-tmp
-                                   let-item="item"
-                                   let-item$="item$"
-                                   let-index="index">
-                            <input id="item-{{ index }}"
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
                                  name="item-{{ index }}"
                                  type="checkbox"
+                                 class="custom-control-input"
                                  [ngModel]="item$.selected" />
-                                 {{ item.value }}
-                          </ng-template>
-                        </ng-select>
-                      </div>
-                    </div>
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
                   </div>
                 </div>
-                <!-- Button -->
-                <div class="col">
-                  <label class="d-block">&nbsp;</label>
-                  <button *ngIf="functionUtility.checkFunction('Search')"
-                          [disabled]="!mainForm.valid"
-                          type="button"
-                          class="btn btn-primary"
-                          (click)="search(true)">
-                    <i class="{{ iconButton.SEARCH }}"></i>
-                    {{ "System.Action.Search" | translate }}
-                  </button>
-                  <button type="button"
-                          class="btn btn-danger ml-1"
-                          (click)="clear()">
-                    <i class="{{ iconButton.CLEAR }}"></i>
-                    {{ "System.Action.Clear" | translate }}
-                  </button>
-                  <button *ngIf="functionUtility.checkFunction('Add')"
-                          type="button"
-                          class="btn btn-success ml-1"
-                          (click)="onAdd()">
-                    <i class="{{ iconButton.ADD }}"></i>
-                    {{ "BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}
-                  </button>
-                   <button type="submit"
+              </div>
+              <!-- Button -->
+              <div class="col">
+                <label class="d-block">&nbsp;</label>
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid"
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="search(true)">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{ "System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger ml-1"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{ "System.Action.Clear" | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Add')"
+                        type="button"
+                        class="btn btn-success ml-1"
+                        (click)="onAdd()">
+                  <i class="{{ iconButton.ADD }}"></i>
+                  {{ "BasicMaintenance.2_6_GradeMaintenance.Add" | translate }}
+                </button>
+                <button type="submit"
                         class="btn btn-success ml-1"
                         id="excel"
                         (click)="download()"
                         *ngIf="functionUtility.checkFunction('Excel')">
                   <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
                 </button>
-                </div>
               </div>
-            </form>
-            <div class="row justify-content-md-center">
-              <div class="col-12">
-                <div class="table-responsive">
-                  <drag-scroll id="dragscroll"
-                               (dragStart)="functionUtility.setTextSelector(false)"
-                               (dragEnd)="functionUtility.setTextSelector(true)">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr class="text-center">
-                          <th *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
-                              class="text-center"
-                              [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
-                            {{ "System.Action.Operation" | translate }}
-                          </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.EffectiveMonth"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Amount"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.OnjobPrint"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.ResignedPrint"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.UpdateBy"| translate}} </th>
-                          <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.UpdateTime"| translate}} </th>
-                        </tr>
-                      </thead>
-                      <tbody *ngIf="dataMain?.length > 0; else elseTemplate">
-                        <tr *ngFor="let item of dataMain;let i =index"
-                            class="text-center">
-                          <!-- Item view -->
-                          <ng-container *ngIf="!item.isEdit">
-                            <td class="text-center"
-                                *ngIf="functionUtility.checkFunction('Edit')">
-                              <button type="button"
-                                      name="btnEdit"
-                                      class="btn btn-warning btn-sm text-dark"
-                                      (click)="onEdit(item)"
-                                      [disabled]="item.isDisable">
-                                <i class="{{ iconButton.EDIT }}"></i>
-                                {{ "System.Action.Edit" | translate }}
-                              </button>
-                            </td>
-                            <td class="text-center"
-                                *ngIf="functionUtility.checkFunction('Delete')">
-                              <button type="button"
-                                      name="btnDelete"
-                                      class="btn btn-danger btn-sm"
-                                      (click)="onDelete(item, true)"
-                                      [disabled]="item.isDisable">
-                                <i class="{{ iconButton.DELETE }}"></i>
-                                {{ "System.Action.Delete" | translate }}
-                              </button>
-                            </td>
-                            <td>{{ item?.factory }}</td>
-                            <td>{{ item?.effective_Month | date : "YYYY/MM"}}</td>
-                            <td>{{ item?.permission_Group_Title }}</td>
-                            <td>{{ item?.salary_Type_Title }}</td>
-                            <td>{{ item?.addDed_Type_Title }}</td>
-                            <td>{{ item?.addDed_Item_Title }}</td>
-                            <td>{{ item?.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
-                            <td>{{ item?.onjob_Print }}</td>
-                            <td>{{ item?.resigned_Print }}</td>
-                            <td>{{ item?.update_By }}</td>
-                            <td>{{ item?.update_Time | date : "YYYY/MM/dd HH:mm:ss" }}</td>
-                          </ng-container>
+            </div>
+          </form>
+          <div class="row justify-content-md-center">
+            <div class="col-12">
+              <div class="table-responsive">
+                <drag-scroll id="dragscroll"
+                             (dragStart)="functionUtility.setTextSelector(false)"
+                             (dragEnd)="functionUtility.setTextSelector(true)">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="text-center">
+                        <th *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                            class="text-center"
+                            [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])">
+                          {{ "System.Action.Operation" | translate }}
+                        </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Factory"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.EffectiveMonth"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.PermissionGroup"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.SalaryType"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionType"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.AddtionDedtionItem"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.Amount"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.OnjobPrint"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.ResignedPrint"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.UpdateBy"| translate}} </th>
+                        <th> {{ "SalaryMaintenance.AdditionDeductionItemAndAmountSettings.UpdateTime"| translate}} </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="dataMain?.length > 0; else elseTemplate">
+                      <tr *ngFor="let item of dataMain;let i =index"
+                          class="text-center">
+                        <!-- Item view -->
+                        <ng-container *ngIf="!item.isEdit">
+                          <td class="text-center"
+                              *ngIf="functionUtility.checkFunction('Edit')">
+                            <button type="button"
+                                    name="btnEdit"
+                                    class="btn btn-warning btn-sm "
+                                    (click)="onEdit(item)"
+                                    [disabled]="item.isDisable">
+                              <i class="{{ iconButton.EDIT }}"></i>
+                              {{ "System.Action.Edit" | translate }}
+                            </button>
+                          </td>
+                          <td class="text-center"
+                              *ngIf="functionUtility.checkFunction('Delete')">
+                            <button type="button"
+                                    name="btnDelete"
+                                    class="btn btn-danger btn-sm"
+                                    (click)="onDelete(item, true)"
+                                    [disabled]="item.isDisable">
+                              <i class="{{ iconButton.DELETE }}"></i>
+                              {{ "System.Action.Delete" | translate }}
+                            </button>
+                          </td>
+                          <td>{{ item?.factory }}</td>
+                          <td>{{ item?.effective_Month | date : "YYYY/MM"}}</td>
+                          <td>{{ item?.permission_Group_Title }}</td>
+                          <td>{{ item?.salary_Type_Title }}</td>
+                          <td>{{ item?.addDed_Type_Title }}</td>
+                          <td>{{ item?.addDed_Item_Title }}</td>
+                          <td>{{ item?.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
+                          <td>{{ item?.onjob_Print }}</td>
+                          <td>{{ item?.resigned_Print }}</td>
+                          <td>{{ item?.update_By }}</td>
+                          <td>{{ item?.update_Time | date : "YYYY/MM/dd HH:mm:ss" }}</td>
+                        </ng-container>
+                      </tr>
+                    </tbody>
+                    <ng-template #elseTemplate>
+                      <tbody>
+                        <tr class="no-data">
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{ "System.Message.NoData" | translate }}
+                          </td>
                         </tr>
                       </tbody>
-                      <ng-template #elseTemplate>
-                        <tbody>
-                          <tr class="no-data">
-                            <td colspan="100%"
-                                class="table-warning text-center font-weight-bold">
-                              {{ "System.Message.Nodata" | translate }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </ng-template>
-                    </table>
-                  </drag-scroll>
+                    </ng-template>
+                  </table>
+                </drag-scroll>
+              </div>
+              <div class="row  mt-3">
+                <div class="col-8">
+                  <div class="d-flex"
+                       *ngIf="dataMain?.length > 0  && pagination.totalPage > 1">
+                    <pagination name="pagination"
+                                [boundaryLinks]="true"
+                                [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                previousText="&lsaquo;"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [maxSize]="5">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{ pagination.pageNumber }} /
+                      {{ pagination.totalPage }}</span>
+                  </div>
                 </div>
-                <div class="row  mt-3">
-                  <div class="col-8">
-                    <div class="d-flex"
-                         *ngIf="dataMain?.length > 0  && pagination.totalPage > 0">
-                      <pagination name="pagination"
-                                  [boundaryLinks]="true"
-                                  [totalItems]="pagination.totalCount"
-                                  [itemsPerPage]="pagination.pageSize"
-                                  previousText="&lsaquo;"
-                                  [(ngModel)]="pagination.pageNumber"
-                                  (pageChanged)="pageChanged($event)"
-                                  nextText="&rsaquo;"
-                                  firstText="&laquo;"
-                                  lastText="&raquo;"
-                                  [maxSize]="5">
-                      </pagination>
-                      <span class="cs-page ml-2">
-                        Page - {{ pagination.pageNumber }} /
-                        {{ pagination.totalPage }}</span>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <span class="cs-page float-right">{{ "System.Rows" | translate }} :
-                      {{ pagination.totalCount }}</span>
-                  </div>
+                <div class="col-4">
+                  <span class="cs-page float-right">{{ "System.Rows" | translate }} :
+                    {{ pagination.totalCount }}</span>
                 </div>
               </div>
             </div>
@@ -308,3 +314,4 @@
       </div>
     </div>
   </div>
+</div>

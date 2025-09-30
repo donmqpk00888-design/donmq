@@ -1,461 +1,460 @@
 <form class="form-horizontal"
       #addEditForm="ngForm"
       autocomplete="off">
-  <div class="card">
-    <div class="card-body">
-      <!-- Details  -->
-      <div class="row">
-        <!-- Nationality -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="nationality"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.nationality)}">
-              <ng-select id="nationality"
-                         name="nationality"
-                         [clearable]="false"
-                         [(ngModel)]="data.nationality"
-                         (ngModelChange)="onChangeNationality()"
-                         [disabled]="disableModeViewEdit()"
-                         required>
-                <ng-option *ngFor="let data of listNationality"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+  <div class="param-container">
+    <!-- Details  -->
+    <div class="row">
+      <!-- Nationality -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="nationality"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Nationality"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.nationality)}">
+            <ng-select id="nationality"
+                       name="nationality"
+                       [clearable]="false"
+                       [(ngModel)]="data.nationality"
+                       (ngModelChange)="onChangeNationality()"
+                       [disabled]="disableModeViewEdit()"
+                       required>
+              <ng-option *ngFor="let data of listNationality"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Identification Number -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="identificationNumber"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.identificationNumber)}">
-              <input type="text"
-                     class="form-control"
-                     id="identificationNumber"
-                     name="identificationNumber"
-                     maxlength="50"
-                     [(ngModel)]="data.identificationNumber"
-                     (blur)="onChangeIdentificationNumber()"
-                     [disabled]="disableModeViewEdit()"
-                     required />
-            </div>
+      </div>
+      <!-- Identification Number -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="identificationNumber"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentificationNumber"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.identificationNumber)}">
+            <input type="text"
+                   class="form-control"
+                   id="identificationNumber"
+                   name="identificationNumber"
+                   maxlength="50"
+                   [(ngModel)]="data.identificationNumber"
+                   (blur)="onChangeIdentificationNumber()"
+                   [disabled]="disableModeViewEdit()"
+                   required />
           </div>
         </div>
-        <!-- Issued Date -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="issuedDate"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IssuedDate" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.issuedDate)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]="!disableModeViewEdit() ? 'form-control bg-white' : 'form-control'"
-                     id="issuedDate"
-                     name="issuedDate"
-                     [(ngModel)]="data.issuedDate"
-                     [disabled]="disableModeViewEdit()"
-                     readonly
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
+      </div>
+      <!-- Issued Date -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="issuedDate"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IssuedDate" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.issuedDate)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="issuedDate"
+                   name="issuedDate"
+                   [(ngModel)]="data.issuedDate"
+                   [disabled]="disableModeViewEdit()"
+                   readonly
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
           </div>
         </div>
-        <!-- Company -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="company"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Company" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.company)}">
-              <input type="text"
-                     class="form-control"
-                     id="company"
-                     name="company"
-                     maxlength="1"
-                     [(ngModel)]="data.company"
-                     [disabled]="disableModeViewEdit()"
-                     required />
-            </div>
+      </div>
+      <!-- Company -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="company"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Company" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.company)}">
+            <input type="text"
+                   class="form-control"
+                   id="company"
+                   name="company"
+                   maxlength="1"
+                   [(ngModel)]="data.company"
+                   [disabled]="disableModeViewEdit()"
+                   required />
           </div>
         </div>
-        <!-- Employment Status -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmploymentStatus" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of listEmploymentStatus; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2">
-                        <input [id]="'employmentStatus' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               [name]="'employmentStatus' + i"
-                               [(ngModel)]="data.employmentStatus"
-                               disabled
-                               [value]="item.key" />
-                        <p class="custom-control-label"
-                           [for]="'employmentStatus' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
+      </div>
+      <!-- Employment Status -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmploymentStatus" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of listEmploymentStatus; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2">
+                      <input [id]="'employmentStatus' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             [name]="'employmentStatus' + i"
+                             [(ngModel)]="data.employmentStatus"
+                             disabled
+                             [value]="item.key" />
+                      <p class="custom-control-label"
+                         [for]="'employmentStatus' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
                     </div>
-                  </label>
-                </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- Division -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="division"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.division)}">
-              <ng-select id="division"
-                         name="division"
-                         [(ngModel)]="data.division"
-                         (ngModelChange)="onChangeDivision()"
-                         [disabled]="disableModeViewEdit()"
-                         required>
-                <ng-option *ngFor="let data of listDivision"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Division -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="division"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Division" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.division)}">
+            <ng-select id="division"
+                       name="division"
+                       [(ngModel)]="data.division"
+                       (ngModelChange)="onChangeDivision()"
+                       [disabled]="disableModeViewEdit()"
+                       required>
+              <ng-option *ngFor="let data of listDivision"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Factory -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="factory"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.factory)}">
-              <ng-select id="factory"
-                         name="factory"
-                         [(ngModel)]="data.factory"
-                         (ngModelChange)="onChangeFactory()"
-                         [disabled]="disableModeViewEdit()"
-                         required>
-                <ng-option *ngFor="let data of listFactory"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Factory -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="factory"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Factory" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.factory)}">
+            <ng-select id="factory"
+                       name="factory"
+                       [(ngModel)]="data.factory"
+                       (ngModelChange)="onChangeFactory()"
+                       [disabled]="disableModeViewEdit()"
+                       required>
+              <ng-option *ngFor="let data of listFactory"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Employee ID -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="employeeID"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.employeeID)}">
-              <input type="text"
-                     class="form-control"
-                     id="employeeID"
-                     name="employeeID"
-                     maxlength="9"
-                     [(ngModel)]="data.employeeID"
-                     [disabled]="disableModeViewEdit()"
-                     (blur)="onChangeEmployeeID()"
-                     required />
-            </div>
+      </div>
+      <!-- Employee ID -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="employeeID"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.EmployeeID"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.employeeID)}">
+            <input type="text"
+                   class="form-control"
+                   id="employeeID"
+                   name="employeeID"
+                   maxlength="9"
+                   [(ngModel)]="data.employeeID"
+                   [disabled]="disableModeViewEdit()"
+                   (blur)="onChangeEmployeeID()"
+                   required />
           </div>
         </div>
-        <!-- Department -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="department"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.department)}">
-              <ng-select id="department"
-                         name="department"
-                         [(ngModel)]="data.department"
-                         [disabled]="disableModeViewEdit()"
-                         required>
-                <ng-option *ngFor="let data of listDepartment"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Department -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="department"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Department" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.department)}">
+            <ng-select id="department"
+                       name="department"
+                       [(ngModel)]="data.department"
+                       [disabled]="disableModeViewEdit()"
+                       required>
+              <ng-option *ngFor="let data of listDepartment"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Assigned/Supported Division -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="assignedDivision"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="assignedDivision"
-                         name="assignedDivision"
-                         [(ngModel)]="data.assignedDivision"
-                         (ngModelChange)="onChangeAssignedDivision()"
-                         [disabled]="disableModeViewEdit()">
-                <ng-option *ngFor="let data of listDivision"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Assigned/Supported Division -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="assignedDivision"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDivision" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="assignedDivision"
+                       name="assignedDivision"
+                       [(ngModel)]="data.assignedDivision"
+                       (ngModelChange)="onChangeAssignedDivision()"
+                       [disabled]="disableModeViewEdit()">
+              <ng-option *ngFor="let data of listDivision"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Assigned/Supported Factory -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="assignedFactory"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="assignedFactory"
-                         name="assignedFactory"
-                         [(ngModel)]="data.assignedFactory"
-                         (ngModelChange)="onChangeAssignedFactory()"
-                         [disabled]="disableModeViewEdit()">
-                <ng-option *ngFor="let data of listAssignedFactory"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Assigned/Supported Factory -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="assignedFactory"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedFactory" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="assignedFactory"
+                       name="assignedFactory"
+                       [(ngModel)]="data.assignedFactory"
+                       (ngModelChange)="onChangeAssignedFactory()"
+                       [disabled]="disableModeViewEdit()">
+              <ng-option *ngFor="let data of listAssignedFactory"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Assigned/Supported Employee ID -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="assignedEmployeeID"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID"| translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="assignedEmployeeID"
-                     name="assignedEmployeeID"
-                     maxlength="9"
-                     [(ngModel)]="data.assignedEmployeeID"
-                     (blur)="onChangeAssginedEmployeeID()"
-                     [disabled]="disableModeViewEdit()" />
-            </div>
+      </div>
+      <!-- Assigned/Supported Employee ID -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="assignedEmployeeID"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedEmployeeID"| translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="assignedEmployeeID"
+                   name="assignedEmployeeID"
+                   maxlength="9"
+                   [(ngModel)]="data.assignedEmployeeID"
+                   (blur)="onChangeAssginedEmployeeID()"
+                   [disabled]="disableModeViewEdit()" />
           </div>
         </div>
-        <!-- Assigned/Supported Department -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="assignedDepartment"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment"| translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="assignedDepartment"
-                         name="assignedDepartment"
-                         [(ngModel)]="data.assignedDepartment"
-                         [disabled]="disableModeViewEdit()">
-                <ng-option *ngFor="let data of listAssignedDepartment"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Assigned/Supported Department -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="assignedDepartment"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Assigned/SupportedDepartment"| translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="assignedDepartment"
+                       name="assignedDepartment"
+                       [(ngModel)]="data.assignedDepartment"
+                       [disabled]="disableModeViewEdit()">
+              <ng-option *ngFor="let data of listAssignedDepartment"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Permission Group -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="permissionGroup"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.permissionGroup)}">
-              <ng-select id="permissionGroup"
-                         name="permissionGroup"
-                         [(ngModel)]="data.permissionGroup"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listPermission"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Permission Group -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="permissionGroup"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PermissionGroup" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.permissionGroup)}">
+            <ng-select id="permissionGroup"
+                       name="permissionGroup"
+                       [(ngModel)]="data.permissionGroup"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listPermission"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Cross Factory Status -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.CrossFactoryStatus" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of listCrossFactoryStatus; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2">
-                        <input [id]="'crossFactoryStatus' + i"
-                               class="custom-control-input"
-                               type="checkbox"
-                               [name]="'crossFactoryStatus' + i"
-                               (click)="onChangeCrossFactoryStatus($event, item.key)"
-                               [(ngModel)]="item.optional"
-                               [disabled]="disableModeView()"
-                               [value]="item.key" />
-                        <p class="custom-control-label"
-                           [for]="'crossFactoryStatus' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
+      </div>
+      <!-- Cross Factory Status -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.CrossFactoryStatus" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of listCrossFactoryStatus; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2">
+                      <input [id]="'crossFactoryStatus' + i"
+                             class="custom-control-input"
+                             type="checkbox"
+                             [name]="'crossFactoryStatus' + i"
+                             (click)="onChangeCrossFactoryStatus($event, item.key)"
+                             [(ngModel)]="item.optional"
+                             [disabled]="disableModeView()"
+                             [value]="item.key" />
+                      <p class="custom-control-label"
+                         [for]="'crossFactoryStatus' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
                     </div>
-                  </label>
-                </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- Performance Assessment Responsibility Division -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="performanceAssessmentResponsibilityDivision"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PerformanceAssessmentResponsibilityDivision" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="performanceAssessmentResponsibilityDivision"
-                         name="performanceAssessmentResponsibilityDivision"
-                         [(ngModel)]="data.performanceAssessmentResponsibilityDivision"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listDivision"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Performance Assessment Responsibility Division -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="performanceAssessmentResponsibilityDivision"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PerformanceAssessmentResponsibilityDivision" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="performanceAssessmentResponsibilityDivision"
+                       name="performanceAssessmentResponsibilityDivision"
+                       [(ngModel)]="data.performanceAssessmentResponsibilityDivision"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listDivision"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Identity Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="identityType"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentityType" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.identityType)}">
-              <ng-select id="identityType"
-                         name="identityType"
-                         [(ngModel)]="data.identityType"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listIdentityType"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
+      </div>
+      <!-- Identity Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="identityType"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.IdentityType" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.identityType)}">
+            <ng-select id="identityType"
+                       name="identityType"
+                       [(ngModel)]="data.identityType"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listIdentityType"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
-        <!-- Supervisor Type -->
-        <div *ngIf="tranfer.mode != mode.add"
-             class="col-12">
-          <button type="button"
-                  class="btn btn-primary"
-                  (click)="isCollapsed = !isCollapsed"
-                  [attr.aria-expanded]="!isCollapsed"
-                  aria-controls="collapseBasic">
-            <i class="{{ iconButton.ADD }}"
-               [hidden]="!isCollapsed"></i>
-            <i class="{{ iconButton.MINUS }}"
-               [hidden]="isCollapsed"></i>
-            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DepartmentSupervisorList" | translate }}
-          </button>
-          <div id="collapseBasic"
-               class="mt-2"
-               [collapse]="isCollapsed"
-               [isAnimated]="true">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
+      </div>
+      <!-- Supervisor Type -->
+      <div *ngIf="tranfer.mode != mode.add"
+           class="col-12">
+        <button type="button"
+                class="btn btn-primary"
+                (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed"
+                aria-controls="collapseBasic">
+          <i class="{{ iconButton.ADD }}"
+             [hidden]="!isCollapsed"></i>
+          <i class="{{ iconButton.MINUS }}"
+             [hidden]="isCollapsed"></i>
+          {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DepartmentSupervisorList" | translate }}
+        </button>
+        <div id="collapseBasic"
+             class="mt-2"
+             [collapse]="isCollapsed"
+             [isAnimated]="true">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center col-3">
+                    {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SupervisorType" | translate }}
+                  </th>
+                  <th class="text-center col-9">
+                    {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DepartmentSupervisor" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="listDepartmentSupervisor?.length > 0; else elseTemplate">
+                <tr *ngFor="let item of listDepartmentSupervisor; index as i">
+                  <td class="text-center col-3">{{ item.supervisorType }}</td>
+                  <td class="text-center col-9">{{ item.departmentSupervisor}}</td>
+                </tr>
+              </tbody>
+              <ng-template #elseTemplate>
+                <tbody>
                   <tr>
-                    <th class="text-center col-3">
-                      {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SupervisorType" | translate }}
-                    </th>
-                    <th class="text-center col-9">
-                      {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DepartmentSupervisor" | translate }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody *ngIf="listDepartmentSupervisor?.length > 0; else elseTemplate">
-                  <tr *ngFor="let item of listDepartmentSupervisor; index as i">
-                    <td class="text-center col-3">{{ item.supervisorType }}</td>
-                    <td class="text-center col-9">{{ item.departmentSupervisor}}</td>
+                    <td colspan="100%"
+                        class="table-warning text-center font-weight-bold">
+                      {{ "System.Message.NoData" | translate }}
+                    </td>
                   </tr>
                 </tbody>
-                <ng-template #elseTemplate>
-                  <tbody>
-                    <tr>
-                      <td colspan="100%"
-                          class="table-warning text-center font-weight-bold">
-                        {{ "System.Message.Nodata" | translate }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </ng-template>
-              </table>
-            </div>
+              </ng-template>
+            </table>
           </div>
         </div>
-        <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      </div>
+      <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
           <div class="form-group row">
             <label for="supervisorType" class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
               {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SupervisorType" | translate }}
@@ -465,8 +464,8 @@
             </div>
           </div>
         </div> -->
-        <!-- Department Supervisor List -->
-        <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <!-- Department Supervisor List -->
+      <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
           <div class="form-group row">
             <label for="departmentSupervisor" class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
               {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DepartmentSupervisorList" | translate }}
@@ -476,142 +475,776 @@
             </div>
           </div>
         </div> -->
+    </div>
+    <hr class="hr" />
+    <div class="row">
+      <!-- Local Full Name -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="localFullName"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.LocalFullName" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.localFullName)}">
+            <input type="text"
+                   class="form-control"
+                   id="localFullName"
+                   name="localFullName"
+                   maxlength="50"
+                   [(ngModel)]="data.localFullName"
+                   [disabled]="disableModeView()"
+                   required />
+          </div>
+        </div>
       </div>
-      <hr class="hr" />
-      <div class="row">
-        <!-- Local Full Name -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="localFullName"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.LocalFullName" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.localFullName)}">
-              <input type="text"
-                     class="form-control"
-                     id="localFullName"
-                     name="localFullName"
-                     maxlength="50"
-                     [(ngModel)]="data.localFullName"
-                     [disabled]="disableModeView()"
-                     required />
-            </div>
+      <!-- Preferred English Full Name -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="preferredEnglishFullName"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PreferredEnglishFullName" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="preferredEnglishFullName"
+                   name="preferredEnglishFullName"
+                   maxlength="50"
+                   [(ngModel)]="data.preferredEnglishFullName"
+                   [disabled]="disableModeView()" />
           </div>
         </div>
-        <!-- Preferred English Full Name -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="preferredEnglishFullName"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PreferredEnglishFullName" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="preferredEnglishFullName"
-                     name="preferredEnglishFullName"
-                     maxlength="50"
-                     [(ngModel)]="data.preferredEnglishFullName"
-                     [disabled]="disableModeView()" />
-            </div>
+      </div>
+      <!-- Chinese Name -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="chineseName"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.ChineseName" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="chineseName"
+                   name="chineseName"
+                   maxlength="20"
+                   [(ngModel)]="data.chineseName"
+                   [disabled]="disableModeView()" />
           </div>
         </div>
-        <!-- Chinese Name -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="chineseName"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.ChineseName" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="chineseName"
-                     name="chineseName"
-                     maxlength="20"
-                     [(ngModel)]="data.chineseName"
-                     [disabled]="disableModeView()" />
-            </div>
+      </div>
+      <!-- Passport Full Name -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="passportFullName"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PassportFullName" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="passportFullName"
+                   name="passportFullName"
+                   [(ngModel)]="data.passportFullName"
+                   readonly />
           </div>
         </div>
-        <!-- Passport Full Name -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="passportFullName"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PassportFullName" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="passportFullName"
-                     name="passportFullName"
-                     [(ngModel)]="data.passportFullName"
-                     readonly />
-            </div>
-          </div>
-        </div>
-        <!-- Gender -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Gender" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of gender; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2"
-                           [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.gender)}">
-                        <input [id]="'gender' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               checked="checked"
-                               name="gender"
-                               [(ngModel)]="data.gender"
-                               [disabled]="disableModeView()"
-                               [value]="item.key"
-                               required />
-                        <p class="custom-control-label"
-                           [for]="'gender' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
+      </div>
+      <!-- Gender -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Gender" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of gender; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2"
+                         [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.gender)}">
+                      <input [id]="'gender' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             checked="checked"
+                             name="gender"
+                             [(ngModel)]="data.gender"
+                             [disabled]="disableModeView()"
+                             [value]="item.key"
+                             required />
+                      <p class="custom-control-label"
+                         [for]="'gender' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
                     </div>
-                  </label>
-                </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- Blood Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      </div>
+      <!-- Blood Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.BloodType" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of bloodType; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2">
+                      <input [id]="'bloodType' + i"
+                             class="custom-control-input"
+                             type="checkbox"
+                             [name]="'bloodType' + i"
+                             [(ngModel)]="item.optional"
+                             (click)="onChangeBloodType($event, item.key)"
+                             [disabled]="disableModeView()"
+                             [value]="item.key" />
+                      <p class="custom-control-label"
+                         [for]="'bloodType' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Marital Status -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MaritalStatus" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of maritalStatus; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2"
+                         [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.maritalStatus)}">
+                      <input [id]="'maritalStatus' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             checked="checked"
+                             name="maritalStatus"
+                             [(ngModel)]="data.maritalStatus"
+                             [disabled]="disableModeView()"
+                             [value]="item.key"
+                             required />
+                      <p class="custom-control-label"
+                         [for]="'maritalStatus' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Date of Birth -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="dateOfBirth"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfBirth"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.dateOfBirth)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="dateOfBirth"
+                   name="dateOfBirth"
+                   [(ngModel)]="data.dateOfBirth"
+                   [maxDate]="maxBirthDay"
+                   [disabled]="disableModeView()"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Phone Number -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="phoneNumber"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PhoneNumber" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.phoneNumber)}">
+            <input type="text"
+                   class="form-control"
+                   id="phoneNumber"
+                   name="phoneNumber"
+                   maxlength="20"
+                   onkeypress="return /[0-9]/i.test(event.key)"
+                   [(ngModel)]="data.phoneNumber"
+                   [disabled]="disableModeView()"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Mobile Phone Number -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label id="for"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MobilePhoneNumber" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="mobilePhoneNumber"
+                   name="mobilePhoneNumber"
+                   maxlength="20"
+                   onkeypress="return /[0-9]/i.test(event.key)"
+                   [(ngModel)]="data.mobilePhoneNumber"
+                   [disabled]="disableModeView()" />
+          </div>
+        </div>
+      </div>
+      <!-- Education -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="education"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Education" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.education)}">
+            <ng-select id="education"
+                       name="education"
+                       [(ngModel)]="data.education"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listEducation"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Religion -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="religion"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Religion" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="religion"
+                       name="religion"
+                       [(ngModel)]="data.religion"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listReligion"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Transportation Method -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="transportationMethod"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.TransportationMethod" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="transportationMethod"
+                       name="transportationMethod"
+                       [(ngModel)]="data.transportationMethod"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listTransportationMethod"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Vehicle Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="vehicleType"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.VehicleType" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="vehicleType"
+                       name="vehicleType"
+                       [(ngModel)]="data.vehicleType"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listVehicleType"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- License Plate Number -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="licensePlateNumber"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.LicensePlateNumber" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="licensePlateNumber"
+                   name="licensePlateNumber"
+                   maxlength="15"
+                   [(ngModel)]="data.licensePlateNumber"
+                   [disabled]="disableModeView()" />
+          </div>
+        </div>
+      </div>
+      <!-- Number Of Dependents -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="numberOfDependents"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.NumberOfDependents" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="numberOfDependents"
+                   name="numberOfDependents"
+                   maxlength="2"
+                   [(ngModel)]="data.numberOfDependents"
+                   disabled
+                   readonly />
+          </div>
+        </div>
+      </div>
+      <div class="col-8"></div>
+      <!-- Registered Province Directly -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="registeredProvinceDirectly"
+                 class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredProvinceDirectly" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredProvinceDirectly)}">
+            <ng-select id="registeredProvinceDirectly"
+                       name="registeredProvinceDirectly"
+                       [(ngModel)]="data.registeredProvinceDirectly"
+                       (ngModelChange)="onChangeRegisteredProvinceDirectly()"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listProvinceDirectly"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Registered City -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="registeredCity"
+                 class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredCity" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredCity)}">
+            <ng-select id="registeredCity"
+                       name="registeredCity"
+                       [(ngModel)]="data.registeredCity"
+                       (ngModelChange)="onChangeRegisteredCity()"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listRegisteredCity"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Registered Address -->
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="registeredAddress"
+                 class="col-2 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredAddress" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-10"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredAddress)}">
+            <input type="text"
+                   class="form-control"
+                   id="registeredAddress"
+                   name="registeredAddress"
+                   maxlength="255"
+                   [(ngModel)]="data.registeredAddress"
+                   (ngModelChange)="onChangeRegisteredAddress()"
+                   [disabled]="disableModeView()"
+                   required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Same Registered  -->
+      <div class="col-12"
+           *ngIf="!disableModeView()">
+        <div class="form-group row">
+          <div class="custom-control custom-checkbox mt-2 ml-3">
+            <input class="custom-control-input"
+                   id="sameRegistered"
+                   name="sameRegistered"
+                   [(ngModel)]="isSameRegisteredChecked"
+                   (change)="onSameRegisteredChange($event)"
+                   type="checkbox">
+            <label for="sameRegistered"
+                   class="custom-control-label">
+              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SameRegistered" | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mailing Province Directly -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="mailingProvinceDirectly"
+                 class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingProvinceDirectly" | translate }}
+          </label>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <ng-select id="mailingProvinceDirectly"
+                       name="mailingProvinceDirectly"
+                       [(ngModel)]="data.mailingProvinceDirectly"
+                       (ngModelChange)="onChangeMailingProvinceDirectly()"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listProvinceDirectly"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Mailing City -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="mailingCity"
+                 class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingCity" | translate }}
+          </label>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <ng-select id="mailingCity"
+                       name="mailingCity"
+                       [(ngModel)]="data.mailingCity"
+                       (ngModelChange)="onChangeMailingCity()"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listMailingCity"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Mailing Address -->
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="mailingAddress"
+                 class="col-2 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingAddress" | translate }}
+          </label>
+          <div class="col-10">
+            <input type="text"
+                   class="form-control"
+                   id="mailingAddress"
+                   name="mailingAddress"
+                   maxlength="255"
+                   [(ngModel)]="data.mailingAddress"
+                   (ngModelChange)="onChangeMailingAddress()"
+                   [disabled]="disableModeView()" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="hr" />
+    <div class="row">
+      <!-- Work Shift Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="workShiftType"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkShiftType" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.workShiftType)}">
+            <ng-select id="workShiftType"
+                       name="workShiftType"
+                       [(ngModel)]="data.workShiftType"
+                       [disabled]="disableModeView()"
+                       [clearable]="false"
+                       required>
+              <ng-option *ngFor="let data of listWorkTypeShift"
+                         [value]="data.key">{{ data.value }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Swipe Card Option -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SwipeCardOption" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of swipeCardOption; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2"
+                         [ngClass]="{'invalid-data': data.swipeCardOption == null}">
+                      <input [id]="'swipeCardOption' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             checked="checked"
+                             name="swipeCardOption"
+                             [(ngModel)]="data.swipeCardOption"
+                             (ngModelChange)="onChangeSwipeCardOption()"
+                             [disabled]="disableModeView()"
+                             [value]="item.key"
+                             required />
+                      <p class="custom-control-label"
+                         [for]="'swipeCardOption' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Swipe Card Number -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label id="for"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SwipeCardNumber" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.swipeCardNumber)}">
+            <input type="text"
+                   class="form-control"
+                   id="swipeCardNumber"
+                   name="swipeCardNumber"
+                   maxlength="10"
+                   [(ngModel)]="data.swipeCardNumber"
+                   [disabled]="disableModeView()"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Position Grade -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="positionGrade"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PositionGrade"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': data.positionGrade == null}">
+            <ng-select id="positionGrade"
+                       name="positionGrade"
+                       [(ngModel)]="data.positionGrade"
+                       (ngModelChange)="onChangePositionGrade()"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listPositionGrade"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Position Title -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PositionTitle" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.positionTitle)}">
+            <ng-select name="positionTitle"
+                       [(ngModel)]="data.positionTitle"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listPositionTitle"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Work Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="workType"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkType" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.workType)}">
+            <ng-select id="workType"
+                       name="workType"
+                       [(ngModel)]="data.workType"
+                       [disabled]="disableModeView()"
+                       required>
+              <ng-option *ngFor="let data of listWorkType"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Restaurant -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="restaurant"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Restaurant" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="restaurant"
+                       name="restaurant"
+                       [(ngModel)]="data.restaurant"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listRestaurant"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Salary Type -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="salaryType"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SalaryType" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="salaryType"
+                   name="salaryType"
+                   readonly />
+          </div>
+        </div>
+      </div>
+      <!-- Salary Payment Method -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="salaryPaymentMethod"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SalaryPaymentMethod" | translate}}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="salaryPaymentMethod"
+                   name="salaryPaymentMethod"
+                   readonly />
+          </div>
+        </div>
+      </div>
+      <!-- Work Location -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="workLocation"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkLocation" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="workLocation"
+                       name="workLocation"
+                       [(ngModel)]="data.workLocation"
+                       [disabled]="disableModeView()">
+              <ng-option *ngFor="let data of listWorkLocation"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Union Membership -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
           <div class="form-group row">
             <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.BloodType" | translate }}
+              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UnionMembership" | translate }}
             </label>
             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
               <div class="row pl-4">
-                <div *ngFor="let item of bloodType; index as i">
+                <div *ngFor="let item of unionMembership; index as i">
                   <label class="container">
                     <div class="row">
                       <div class="custom-control custom-radio pt-2">
-                        <input [id]="'bloodType' + i"
+                        <input [id]="'unionMembership' + i"
                                class="custom-control-input"
                                type="checkbox"
-                               [name]="'bloodType' + i"
+                               [name]="'unionMembership' + i"
                                [(ngModel)]="item.optional"
-                               (click)="onChangeBloodType($event, item.key)"
+                               (click)="onChangeUnionMembership($event, item.key)"
                                [disabled]="disableModeView()"
                                [value]="item.key" />
                         <p class="custom-control-label"
-                           [for]="'bloodType' + i">
+                           [for]="'unionMembership' + i">
                           <strong>
                             {{ item.value | translate }}
                           </strong>
@@ -621,893 +1254,258 @@
                   </label>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- Marital Status -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MaritalStatus" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of maritalStatus; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2"
-                           [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.maritalStatus)}">
-                        <input [id]="'maritalStatus' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               checked="checked"
-                               name="maritalStatus"
-                               [(ngModel)]="data.maritalStatus"
-                               [disabled]="disableModeView()"
-                               [value]="item.key"
-                               required />
-                        <p class="custom-control-label"
-                           [for]="'maritalStatus' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Date of Birth -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="dateOfBirth"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfBirth"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.dateOfBirth)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]=" !disableModeView() ? 'form-control bg-white' : 'form-control'"
-                     id="dateOfBirth"
-                     name="dateOfBirth"
-                     [(ngModel)]="data.dateOfBirth"
-                     [maxDate]="maxBirthDay"
-                     [disabled]="disableModeView()"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Phone Number -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="phoneNumber"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PhoneNumber" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.phoneNumber)}">
-              <input type="text"
-                     class="form-control"
-                     id="phoneNumber"
-                     name="phoneNumber"
-                     maxlength="20"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     [(ngModel)]="data.phoneNumber"
-                     [disabled]="disableModeView()"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Mobile Phone Number -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label id="for"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MobilePhoneNumber" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="mobilePhoneNumber"
-                     name="mobilePhoneNumber"
-                     maxlength="20"
-                     onkeypress="return /[0-9]/i.test(event.key)"
-                     [(ngModel)]="data.mobilePhoneNumber"
-                     [disabled]="disableModeView()"/>
-            </div>
-          </div>
-        </div>
-        <!-- Education -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="education"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Education" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.education)}">
-              <ng-select id="education"
-                         name="education"
-                         [(ngModel)]="data.education"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listEducation"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Religion -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="religion"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Religion" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="religion"
-                         name="religion"
-                         [(ngModel)]="data.religion"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listReligion"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Transportation Method -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="transportationMethod"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.TransportationMethod" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="transportationMethod"
-                         name="transportationMethod"
-                         [(ngModel)]="data.transportationMethod"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listTransportationMethod"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Vehicle Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="vehicleType"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.VehicleType" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="vehicleType"
-                         name="vehicleType"
-                         [(ngModel)]="data.vehicleType"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listVehicleType"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- License Plate Number -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="licensePlateNumber"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.LicensePlateNumber" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="licensePlateNumber"
-                     name="licensePlateNumber"
-                     maxlength="15"
-                     [(ngModel)]="data.licensePlateNumber"
-                     [disabled]="disableModeView()" />
-            </div>
-          </div>
-        </div>
-        <!-- Number Of Dependents -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="numberOfDependents"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.NumberOfDependents" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="numberOfDependents"
-                     name="numberOfDependents"
-                     maxlength="2"
-                     [(ngModel)]="data.numberOfDependents"
-                     disabled
-                     readonly />
-            </div>
-          </div>
-        </div>
-        <div class="col-8"></div>
-        <!-- Registered Province Directly -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="registeredProvinceDirectly"
-                   class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredProvinceDirectly" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredProvinceDirectly)}">
-              <ng-select id="registeredProvinceDirectly"
-                         name="registeredProvinceDirectly"
-                         [(ngModel)]="data.registeredProvinceDirectly"
-                         (ngModelChange)="onChangeRegisteredProvinceDirectly()"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listProvinceDirectly"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Registered City -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="registeredCity"
-                   class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredCity" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredCity)}">
-              <ng-select id="registeredCity"
-                         name="registeredCity"
-                         [(ngModel)]="data.registeredCity"
-                         (ngModelChange)="onChangeRegisteredCity()"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listRegisteredCity"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Registered Address -->
-        <div class="col-12">
-          <div class="form-group row">
-            <label for="registeredAddress"
-                   class="col-2 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.RegisteredAddress" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-10"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.registeredAddress)}">
-              <input type="text"
-                     class="form-control"
-                     id="registeredAddress"
-                     name="registeredAddress"
-                     maxlength="255"
-                     [(ngModel)]="data.registeredAddress"
-                     (ngModelChange)="onChangeRegisteredAddress()"
-                     [disabled]="disableModeView()"
-                     required />
-            </div>
-          </div>
-        </div>
-
-        <!-- Same Registered  -->
-        <div class="col-12" *ngIf="!disableModeView()">
-          <div class="form-group row">
-              <div class="custom-control custom-checkbox mt-2 ml-3">
-                <input class="custom-control-input"
-                       id="sameRegistered"
-                       name="sameRegistered"
-                       [(ngModel)]="isSameRegisteredChecked"
-                       (change)="onSameRegisteredChange($event)"
-                       type="checkbox">
-                <label for="sameRegistered"
-                       class="custom-control-label">
-                  {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SameRegistered" | translate }}
-                </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mailing Province Directly -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="mailingProvinceDirectly"
-                   class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingProvinceDirectly" | translate }}
-            </label>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-              <ng-select id="mailingProvinceDirectly"
-                         name="mailingProvinceDirectly"
-                         [(ngModel)]="data.mailingProvinceDirectly"
-                         (ngModelChange)="onChangeMailingProvinceDirectly()"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listProvinceDirectly"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Mailing City -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="mailingCity"
-                   class="col-xl-6 col-lg65 col-md-6 col-sm-6 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingCity" | translate }}
-            </label>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-              <ng-select id="mailingCity"
-                         name="mailingCity"
-                         [(ngModel)]="data.mailingCity"
-                         (ngModelChange)="onChangeMailingCity()"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listMailingCity"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Mailing Address -->
-        <div class="col-12">
-          <div class="form-group row">
-            <label for="mailingAddress"
-                   class="col-2 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.MailingAddress" | translate }}
-            </label>
-            <div class="col-10">
-              <input type="text"
-                     class="form-control"
-                     id="mailingAddress"
-                     name="mailingAddress"
-                     maxlength="255"
-                     [(ngModel)]="data.mailingAddress"
-                     (ngModelChange)="onChangeMailingAddress()"
-                     [disabled]="disableModeView()" />
             </div>
           </div>
         </div>
       </div>
-      <hr class="hr" />
-      <div class="row">
-        <!-- Work Shift Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="workShiftType"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkShiftType" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.workShiftType)}">
-              <ng-select id="workShiftType"
-                         name="workShiftType"
-                         [(ngModel)]="data.workShiftType"
-                         [disabled]="disableModeView()"
-                         [clearable]="false"
-                         required>
-                <ng-option *ngFor="let data of listWorkTypeShift"
-                           [value]="data.key">{{ data.value }}</ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Swipe Card Option -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SwipeCardOption" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of swipeCardOption; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2"
-                           [ngClass]="{'invalid-data': data.swipeCardOption == null}">
-                        <input [id]="'swipeCardOption' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               checked="checked"
-                               name="swipeCardOption"
-                               [(ngModel)]="data.swipeCardOption"
-                               (ngModelChange)="onChangeSwipeCardOption()"
-                               [disabled]="disableModeView()"
-                               [value]="item.key"
-                               required />
-                        <p class="custom-control-label"
-                           [for]="'swipeCardOption' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
+      <!-- Work8hours -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Work8hours" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of work8hours; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2">
+                      <input [id]="'work8hours' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             name="work8hours"
+                             [(ngModel)]="data.work8hours"
+                             [disabled]="disableModeView()"
+                             [value]="item.key" />
+                      <p class="custom-control-label"
+                         [for]="'work8hours' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
                     </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Swipe Card Number -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label id="for"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SwipeCardNumber" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.swipeCardNumber)}">
-              <input type="text"
-                     class="form-control"
-                     id="swipeCardNumber"
-                     name="swipeCardNumber"
-                     maxlength="10"
-                     [(ngModel)]="data.swipeCardNumber"
-                     [disabled]="disableModeView()"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Position Grade -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="positionGrade"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PositionGrade"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': data.positionGrade == null}">
-              <ng-select id="positionGrade"
-                         name="positionGrade"
-                         [(ngModel)]="data.positionGrade"
-                         (ngModelChange)="onChangePositionGrade()"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listPositionGrade"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Position Title -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.PositionTitle" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.positionTitle)}">
-              <ng-select name="positionTitle"
-                         [(ngModel)]="data.positionTitle"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listPositionTitle"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Work Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="workType"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkType" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.workType)}">
-              <ng-select id="workType"
-                         name="workType"
-                         [(ngModel)]="data.workType"
-                         [disabled]="disableModeView()"
-                         required>
-                <ng-option *ngFor="let data of listWorkType"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Restaurant -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="restaurant"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Restaurant" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="restaurant"
-                         name="restaurant"
-                         [(ngModel)]="data.restaurant"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listRestaurant"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Salary Type -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="salaryType"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SalaryType" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="salaryType"
-                     name="salaryType"
-                     readonly />
-            </div>
-          </div>
-        </div>
-        <!-- Salary Payment Method -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="salaryPaymentMethod"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SalaryPaymentMethod" | translate}}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="salaryPaymentMethod"
-                     name="salaryPaymentMethod"
-                     readonly />
-            </div>
-          </div>
-        </div>
-        <!-- Work Location -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="workLocation"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.WorkLocation" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="workLocation"
-                         name="workLocation"
-                         [(ngModel)]="data.workLocation"
-                         [disabled]="disableModeView()">
-                <ng-option *ngFor="let data of listWorkLocation"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Union Membership -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group">
-            <div class="form-group row">
-              <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UnionMembership" | translate }}
-              </label>
-              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                <div class="row pl-4">
-                  <div *ngFor="let item of unionMembership; index as i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2">
-                          <input [id]="'unionMembership' + i"
-                                 class="custom-control-input"
-                                 type="checkbox"
-                                 [name]="'unionMembership' + i"
-                                 [(ngModel)]="item.optional"
-                                 (click)="onChangeUnionMembership($event, item.key)"
-                                 [disabled]="disableModeView()"
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             [for]="'unionMembership' + i">
-                            <strong>
-                              {{ item.value | translate }}
-                            </strong>
-                          </p>
-                        </div>
-                      </div>
-                    </label>
                   </div>
-                </div>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- Work8hours -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Work8hours" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of work8hours; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2">
-                        <input [id]="'work8hours' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               name="work8hours"
-                               [(ngModel)]="data.work8hours"
-                               [disabled]="disableModeView()"
-                               [value]="item.key" />
-                        <p class="custom-control-label"
-                           [for]="'work8hours' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
+      </div>
+      <!-- Onboard Date -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="onboardDate"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.OnboardDate"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.onboardDate)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="onboardDate"
+                   name="onboardDate"
+                   [(ngModel)]="data.onboardDate"
+                   [disabled]="disableModeView()"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Date Of Group Employment -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="dateOfGroupEmployment"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfGroupEmployment" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.dateOfGroupEmployment)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="dateOfGroupEmployment"
+                   name="dateOfGroupEmployment"
+                   [(ngModel)]="data.dateOfGroupEmployment"
+                   [disabled]="disableModeView()"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Seniority Start Date -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="seniorityStartDate"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SeniorityStartDate"| translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.seniorityStartDate)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="seniorityStartDate"
+                   name="seniorityStartDate"
+                   [(ngModel)]="data.seniorityStartDate"
+                   [disabled]="disableModeView()"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Annual Leave Seniority Start Date -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="annualLeaveSeniorityStartDate"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.AnnualLeaveSeniorityStartDate" | translate }}
+            <span class="text-danger text-bold">*</span>
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+               [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.annualLeaveSeniorityStartDate)}">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="annualLeaveSeniorityStartDate"
+                   name="annualLeaveSeniorityStartDate"
+                   [(ngModel)]="data.annualLeaveSeniorityStartDate"
+                   [disabled]="disableModeView()"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   placeholder="YYYY/MM/DD"
+                   required />
+          </div>
+        </div>
+      </div>
+      <!-- Date Of Resignation -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="dateOfResignation"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfResignation" | translate }}</label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="dateOfResignation"
+                   name="dateOfResignation"
+                   [(ngModel)]="data.dateOfResignation"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                   disabled
+                   readonly />
+          </div>
+        </div>
+      </div>
+      <!-- Reason for Resignation -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label for="reasonResignation"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.ReasonForResignation" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <ng-select id="reasonResignation"
+                       name="reasonResignation"
+                       [(ngModel)]="data.reasonResignation"
+                       disabled
+                       readonly>
+              <ng-option *ngFor="let data of listReasonResignation"
+                         [value]="data.key">
+                {{ data.value }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- Blacklist -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group row">
+          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Blacklist" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <div class="row pl-4">
+              <div *ngFor="let item of blacklist; index as i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2">
+                      <input [id]="'blacklist' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             name="blacklist"
+                             [(ngModel)]="data.blacklist"
+                             [value]="item.key"
+                             disabled
+                             readonly />
+                      <p class="custom-control-label"
+                         [for]="'blacklist' + i">
+                        <strong>
+                          {{ item.value | translate }}
+                        </strong>
+                      </p>
                     </div>
-                  </label>
-                </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- Onboard Date -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="onboardDate"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.OnboardDate"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.onboardDate)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]=" !disableModeView() ? 'form-control bg-white' : 'form-control'"
-                     id="onboardDate"
-                     name="onboardDate"
-                     [(ngModel)]="data.onboardDate"
-                     [disabled]="disableModeView()"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
+      </div>
+      <!-- Update Time -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+           [hidden]="!disableModeViewEdit()">
+        <div class="form-group row">
+          <label for="updateTime"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UpdateTime" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input autocomplete="off"
+                   type="text"
+                   class="form-control"
+                   id="updateTime"
+                   name="updateTime"
+                   [(ngModel)]="data.updateTime"
+                   bsDatepicker
+                   [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
+                   disabled />
           </div>
         </div>
-        <!-- Date Of Group Employment -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="dateOfGroupEmployment"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfGroupEmployment" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.dateOfGroupEmployment)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]=" !disableModeView() ? 'form-control bg-white' : 'form-control'"
-                     id="dateOfGroupEmployment"
-                     name="dateOfGroupEmployment"
-                     [(ngModel)]="data.dateOfGroupEmployment"
-                     [disabled]="disableModeView()"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Seniority Start Date -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="seniorityStartDate"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.SeniorityStartDate"| translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.seniorityStartDate)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]="!disableModeView() ? 'form-control bg-white' : 'form-control'"
-                     id="seniorityStartDate"
-                     name="seniorityStartDate"
-                     [(ngModel)]="data.seniorityStartDate"
-                     [disabled]="disableModeView()"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Annual Leave Seniority Start Date -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="annualLeaveSeniorityStartDate"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.AnnualLeaveSeniorityStartDate" | translate }}
-              <span class="text-danger text-bold">*</span>
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                 [ngClass]="{'invalid-data': functionUtility.checkEmpty(data.annualLeaveSeniorityStartDate)}">
-              <input autocomplete="off"
-                     type="text"
-                     [class]="  !disableModeView() ? 'form-control bg-white' : 'form-control'"
-                     id="annualLeaveSeniorityStartDate"
-                     name="annualLeaveSeniorityStartDate"
-                     [(ngModel)]="data.annualLeaveSeniorityStartDate"
-                     [disabled]="disableModeView()"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     placeholder="YYYY/MM/DD"
-                     required />
-            </div>
-          </div>
-        </div>
-        <!-- Date Of Resignation -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="dateOfResignation"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.DateOfResignation" | translate }}</label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input autocomplete="off"
-                     type="text"
-                     class="form-control"
-                     id="dateOfResignation"
-                     name="dateOfResignation"
-                     [(ngModel)]="data.dateOfResignation"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                     disabled
-                     readonly />
-            </div>
-          </div>
-        </div>
-        <!-- Reason for Resignation -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label for="reasonResignation"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.ReasonForResignation" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <ng-select id="reasonResignation"
-                         name="reasonResignation"
-                         [(ngModel)]="data.reasonResignation"
-                         disabled
-                         readonly>
-                <ng-option *ngFor="let data of listReasonResignation"
-                           [value]="data.key">
-                  {{ data.value }}
-                </ng-option>
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <!-- Blacklist -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-          <div class="form-group row">
-            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.Blacklist" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <div class="row pl-4">
-                <div *ngFor="let item of blacklist; index as i">
-                  <label class="container">
-                    <div class="row">
-                      <div class="custom-control custom-radio pt-2">
-                        <input [id]="'blacklist' + i"
-                               class="custom-control-input"
-                               type="radio"
-                               name="blacklist"
-                               [(ngModel)]="data.blacklist"
-                               [value]="item.key"
-                               disabled
-                               readonly />
-                        <p class="custom-control-label"
-                           [for]="'blacklist' + i">
-                          <strong>
-                            {{ item.value | translate }}
-                          </strong>
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Update Time -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
-             [hidden]="!disableModeViewEdit()">
-          <div class="form-group row">
-            <label for="updateTime"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UpdateTime" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input autocomplete="off"
-                     type="text"
-                     class="form-control"
-                     id="updateTime"
-                     name="updateTime"
-                     [(ngModel)]="data.updateTime"
-                     bsDatepicker
-                     [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD HH:mm:ss' }"
-                     disabled />
-            </div>
-          </div>
-        </div>
-        <!-- Update By -->
-        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
-             [hidden]="!disableModeViewEdit()">
-          <div class="form-group row">
-            <label for="updateBy"
-                   class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-              {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UpdateBy" | translate }}
-            </label>
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-              <input type="text"
-                     class="form-control"
-                     id="updateBy"
-                     name="updateBy"
-                     [(ngModel)]="data.updateBy"
-                     disabled />
-            </div>
+      </div>
+      <!-- Update By -->
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12"
+           [hidden]="!disableModeViewEdit()">
+        <div class="form-group row">
+          <label for="updateBy"
+                 class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+            {{ "EmployeeInformationModule.EmployeeBasicInformationMaintenance.UpdateBy" | translate }}
+          </label>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <input type="text"
+                   class="form-control"
+                   id="updateBy"
+                   name="updateBy"
+                   [(ngModel)]="data.updateBy"
+                   disabled />
           </div>
         </div>
       </div>
     </div>
   </div>
 </form>
-<div class="row justify-content-md-center mt-3"
-    >
+<div class="row justify-content-md-center mt-3">
   <div class="col-lg-12 col-md-12 col-sm-12">
     <div class="table-responsive text-right">
       <button type="button"

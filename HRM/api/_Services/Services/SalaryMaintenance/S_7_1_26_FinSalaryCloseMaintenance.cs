@@ -24,7 +24,7 @@ namespace API._Services.Services.SalaryMaintenance
             List<FinSalaryCloseMaintenance_MainData> data = result.Data as List<FinSalaryCloseMaintenance_MainData>;
 
             if (!data.Any())
-                return new OperationResult(true, "Nodata");
+                return new OperationResult(true, "NoData");
             List<Table> tables = new()
             {
                 new Table("result", data)

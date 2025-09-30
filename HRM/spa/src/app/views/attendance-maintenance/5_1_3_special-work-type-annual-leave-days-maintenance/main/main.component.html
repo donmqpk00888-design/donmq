@@ -15,56 +15,52 @@
             <!-- Division -->
             <div class="row">
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="division"
-                         class="badge badge-warning">
-                    {{ "AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Division" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="division"
-                             name="division"
-                             [(ngModel)]="param.division"
-                             (ngModelChange)="onChangeDivision()"
-                             [clearable]="param.division != ''"
-                             (clear)="param.division = ''">
-                    <ng-option [value]="''">
-                      {{"System.SelectAll" | translate }}
-                    </ng-option>
-                    <ng-option *ngFor="let data of listDivision"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                  </div>
+                <label for="division"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Division" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="division"
+                           name="division"
+                           [(ngModel)]="param.division"
+                           (ngModelChange)="onChangeDivision()"
+                           [clearable]="param.division != ''"
+                           (clear)="param.division = ''">
+                  <ng-option [value]="''">
+                    {{"System.SelectAll" | translate }}
+                  </ng-option>
+                  <ng-option *ngFor="let data of listDivision"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
 
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory"
-                         class="badge badge-warning">
-                    {{ "AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Factory" | translate }}
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Factory" | translate }}
                   <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="param.factory"
-                             [clearable]="param.factory != ''"
-                             (clear)="param.factory = ''"
-                             [disabled]="!param.division">
-                    <ng-option [value]="''">
-                      {{"System.SelectAll" | translate }}
-                    </ng-option>
-                    <ng-option *ngFor="let data of listFactory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="param.factory = ''"
+                           [disabled]="!param.division">
+                  <ng-option [value]="''">
+                    {{"System.SelectAll" | translate }}
+                  </ng-option>
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
 
               <!-- operation area -->
-              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
+              <div class="col-12">
                 <label class="d-block">&nbsp;</label>
                 <button type="submit"
                         class="btn btn-primary mr-2"
@@ -86,9 +82,10 @@
                   {{"System.Action.Add" | translate }}
                 </button>
                 <button type="button"
-                        class="{{ classButton.EXCEL}}" *ngIf="functionUtility.checkFunction('Excel')"
-                        (click)="download()" [disabled]="!param.division || !param.factory"
-                        >
+                        class="{{ classButton.EXCEL}}"
+                        *ngIf="functionUtility.checkFunction('Excel')"
+                        (click)="download()"
+                        [disabled]="!param.division || !param.factory">
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{'System.Action.Excel' | translate }}
                 </button>
@@ -129,7 +126,7 @@
                         {{item.update_Time | date:'yyyy/MM/dd HH:mm:ss'}}
                       </td>
                       <td class="text-center custom-style-td">
-                        <label class="btn btn-sm ml-2 text-white"
+                        <label class="btn btn-sm ml-2 "
                                [ngClass]="!item.effective_State ? 'btn-disabled' : 'btn-enabled'">
                           {{ (!item.effective_State ? 'AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Disable' : 'AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.Enabled') | translate }}
                         </label>
@@ -142,7 +139,7 @@
                       <tr class="no-data">
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -152,7 +149,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

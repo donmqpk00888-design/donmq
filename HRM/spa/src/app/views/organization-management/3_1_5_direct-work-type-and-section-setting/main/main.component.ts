@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -10,7 +9,8 @@ import {
 import { S_3_1_5_DirectWorkTypeAndSectionSettingService } from '@services/organization-management/s_3_1_5_direct-work-type-and-section-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { Pagination } from '@utilities/pagination-utility';
+import { Pagination } from '@utilities/pagination-utility';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -53,10 +53,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.getListWorkType();
       this.changeGetFactory();
     });
-    this.service.paramSearchSource$.pipe(takeUntilDestroyed()).subscribe(param => {
+    this.service.paramSearchSource$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(param => {
       if (param) this.param = param;
     })
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListSection();
       this.getListDivision();
@@ -100,7 +100,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -114,7 +113,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -123,7 +121,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listDivision = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onDivisionChange() {
@@ -132,13 +129,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.changeGetFactory();
   }
   changeGetFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -147,7 +141,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listWorkType = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -156,7 +149,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listSection = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 

@@ -1,17 +1,22 @@
 <div class="animated fadeIn">
-    <div class="card">
-      <div class="card-header">
-        <div class="row border-title">
-          <div class="col-md-12">
-            <strong> {{ title }} - {{'System.Action.' + action | translate }}</strong>
-            <button type="button" class="{{classButton.BACK}}" (click)="back()">
-              <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
-            </button>
-          </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="row border-title">
+        <div class="col-md-12">
+          <strong> {{ title }} - {{'System.Action.' + action | translate }}</strong>
+          <button type="button"
+                  class="{{classButton.BACK}}"
+                  (click)="back()">
+            <i class="{{ iconButton.BACK }}"></i> {{'System.Action.Back' | translate }}
+          </button>
         </div>
       </div>
-      <tab-component [tabs]="tabs" (tabIdChange)="changeTab($event)"></tab-component>
     </div>
+    <div class="card-body p-0">
+      <tab-component [tabs]="tabs"
+                     (tabIdChange)="changeTab($event)"></tab-component>
+    </div>
+  </div>
 </div>
 <ng-template #form411>
   <app-form-4-1-1 [tranfer]="source"></app-form-4-1-1>

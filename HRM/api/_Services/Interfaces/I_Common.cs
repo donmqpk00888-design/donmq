@@ -7,7 +7,7 @@ namespace API._Services.Interfaces;
 [DependencyInjection(ServiceLifetime.Scoped)]
 public interface I_Common
 {
-    Task<AuthProgram> GetAuthProgram(string username);
+    Task<SystemInfo> GetSystemInfo(string username);
     Task<bool?> GetPasswordReset(string username);
     // code = 2 (2.2.Query_HRMS_Basic_Code_List )
     Task<List<KeyValuePair<string, string>>> GetListFactoryMain(string language);

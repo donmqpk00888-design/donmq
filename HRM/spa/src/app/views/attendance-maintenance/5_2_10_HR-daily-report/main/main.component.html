@@ -3,8 +3,8 @@
     <div class="col-lg-12">
       <div class="card">
         <form class="form-horizontal"
-          autocomplete="off"
-          #mainForm="ngForm">
+              autocomplete="off"
+              #mainForm="ngForm">
           <div class="card-header">
             <div class="row border-title">
               <div class="col-md-12">
@@ -16,146 +16,166 @@
             <div class="row border-shadow">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
                   <label for="factory"
-                    class="badge badge-warning">
+                         class="badge badge-warning">
                     {{ "AttendanceMaintenance.HRDailyReport.Factory" | translate }}
                     <span class="text-danger text-bold"> *</span>
                   </label>
-                  <ng-select id="factory" required
-                    name="factory"
-                    [(ngModel)]="param.factory"
-                     (ngModelChange)="onSelectFactory()"
-                    [clearable]="param.factory != ''"
-                    (clear)="deleteProperty('factory')"
-                    placeholder="{{ 'AttendanceMaintenance.HRDailyReport.Factory' | translate }}">
+                  <ng-select id="factory"
+                             required
+                             name="factory"
+                             [(ngModel)]="param.factory"
+                             (ngModelChange)="onSelectFactory()"
+                             [clearable]="param.factory != ''"
+                             (clear)="deleteProperty('factory')"
+                             placeholder="{{ 'AttendanceMaintenance.HRDailyReport.Factory' | translate }}">
                     <ng-option *ngFor="let item of listFactory"
-                      [value]="item.key">
+                               [value]="item.key">
                       {{ item.value }}
                     </ng-option>
                   </ng-select>
-                </div>
               </div>
 
               <!-- Date -->
-               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
                 <label class="badge badge-warning">
                   {{ "AttendanceMaintenance.HRDailyReport.Date" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-              </label>
+                  <span class="text-danger text-bold"> *</span>
+                </label>
                 <div class="full-width">
-                    <div class="container_input">
-                        <div class="input-group mr-1">
-                            <input autocomplete="off" type="text" class="form-control bg-white" name="date" [(ngModel)]="date" (blur)="dateChange()" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" placeholder="YYYY/MM/DD" required/>
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             name="date"
+                             [(ngModel)]="date"
+                             (blur)="dateChange()"
+                             bsDatepicker
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                      </div>
                     </div>
+                  </div>
                 </div>
               </div>
 
               <!-- Level -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
                   <label for="level"
-                    class="badge badge-warning">
+                         class="badge badge-warning">
                     {{ "AttendanceMaintenance.HRDailyReport.Level" | translate }}
                     <span class="text-danger text-bold"> *</span>
                   </label>
                   <ng-select id="level"
-                    name="level"
-                    [(ngModel)]="param.level"
-                    [clearable]="param.level != ''"
-                    (clear)="deleteProperty('level')"
-                    required
-                    placeholder="{{ 'AttendanceMaintenance.HRDailyReport.Level' | translate }}">
+                             name="level"
+                             [(ngModel)]="param.level"
+                             [clearable]="param.level != ''"
+                             (clear)="deleteProperty('level')"
+                             required
+                             placeholder="{{ 'AttendanceMaintenance.HRDailyReport.Level' | translate }}">
                     <ng-option *ngFor="let item of listLevel"
-                      [value]="item.key">
+                               [value]="item.key">
                       {{ item.value }}
                     </ng-option>
                   </ng-select>
-                </div>
               </div>
 
-               <!-- list Permission group -->
-                <!-- Permission Group -->
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-auto">
-                      <label for="factory"
-                             class="badge badge-warning">
-                        {{
-                        "AttendanceMaintenance.HRDailyReport.PermissionGroup"
-                        | translate
-                        }}
-                        <span class="text-danger text-bold"> *</span>
-                      </label>
-                      <ng-select [items]="listPermissionGroup"
-                                 [multiple]="true"
-                                 name="namePermission"
-                                 groupBy="allGroup"
-                                 [selectableGroup]="true"
-                                 [selectableGroupAsModel]="false"
-                                 [closeOnSelect]="false"
-                                 bindLabel="value"
-                                 bindValue="key"
-                                 [(ngModel)]="param.permissionGroups"
-                                 required
-                                 [disabled]="!param.factory"
-                                 placeholder="{{
+              <!-- list Permission group -->
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <label for="factory"
+                           class="badge badge-warning">
+                      {{
+                      "AttendanceMaintenance.HRDailyReport.PermissionGroup"
+                      | translate
+                      }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select [items]="listPermissionGroup"
+                               [multiple]="true"
+                               name="namePermission"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permissionGroups"
+                               required
+                               [disabled]="!param.factory"
+                               placeholder="{{
                             'AttendanceMaintenance.HRDailyReport.PermissionGroup'
                               | translate
                           }}">
-                        <ng-template ng-optgroup-tmp
-                                     let-item="item"
-                                     let-item$="item$"
-                                     let-index="index">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
                           <input id="item-{{ index }}"
                                  type="checkbox"
+                                 class="custom-control-input"
                                  name="item-{{ index }}"
                                  [ngModel]="item$.selected" />
-                          {{ "System.Action.SelectAll" | translate }}</ng-template>
-                        <ng-template ng-option-tmp
-                                     let-item="item"
-                                     let-item$="item$"
-                                     let-index="index">
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
                           <input id="item-{{ index }}"
                                  name="item-{{ index }}"
                                  type="checkbox"
+                                 class="custom-control-input"
                                  [ngModel]="item$.selected" />
-                          {{ item.value }}
-                        </ng-template>
-                      </ng-select>
-                    </div>
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
                   </div>
                 </div>
+              </div>
 
               <!-- button search -->
-              <div class="col-12 pt-2 pb-2">
+              <div class="col-12 pt-2">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button" class="{{ classButton.SEARCH }}"
-                  (click)="getTotalRows(true)"
-                  [disabled]="mainForm.invalid">
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getTotalRows(true)"
+                        [disabled]="mainForm.invalid">
                   <i class="{{ iconButton.SEARCH }}"></i>
                   {{ "System.Action.Search" | translate }}
                 </button>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button" class="{{ classButton.CLEAR }}"
-                  (click)="clear()">
+                        type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i>
                   {{ "System.Action.Clear" | translate }}
                 </button>
-                <button type="button" (click)="excel()" class="btn btn-success"
-                [disabled]="mainForm.invalid"
-                  *ngIf="functionUtility.checkFunction('Excel')">
+                <button type="button"
+                        (click)="excel()"
+                        class="btn btn-success"
+                        [disabled]="mainForm.invalid"
+                        *ngIf="functionUtility.checkFunction('Excel')">
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>
               </div>
-              <div class="col-12 text-left">
+              <div class="col-12 text-left mt-2">
                 <strong class="title-card-cs">{{ "AttendanceMaintenance.HRDailyReport.Total" | translate }}
                   <span class="text-primary">{{ resultCount.queryResult ?? 0}}</span>
                   {{ "AttendanceMaintenance.HRDailyReport.Records" | translate }}

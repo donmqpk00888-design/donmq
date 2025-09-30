@@ -6,7 +6,6 @@ namespace API._Services.Interfaces.SystemMaintenance
     public interface I_1_1_4_DirectoryProgramLanguageSetting
     {
         Task<PaginationUtility<DirectoryProgramLanguageSetting_Data>> GetData(PaginationParam pagination, DirectoryProgramLanguageSetting_Param param);
-        Task<List<KeyValuePair<string, string>>> GetNameCode(string kind, string code);
         Task<List<KeyValuePair<string, string>>> GetLanguage();
         Task<List<KeyValuePair<string, string>>> GetCodeProgram();
         Task<List<KeyValuePair<string, string>>> GetCodeDirectory();

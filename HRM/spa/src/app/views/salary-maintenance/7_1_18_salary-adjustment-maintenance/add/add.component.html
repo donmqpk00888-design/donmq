@@ -25,484 +25,160 @@
           <form #form="ngForm"
                 class="form-horizontal"
                 autocomplete="off">
-            <div class="row">
-
-              <!-- Factory -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Factory" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="factory"
-                               name="factory"
-                               [(ngModel)]="data.factory"
-                               (ngModelChange)="onFactoryChange()"
-                               [clearable]="false"
-                               placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Factory' | translate}}"
-                               required>
-                      <ng-option *ngFor="let data of listFactory"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Employee ID -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.SalaryAdjustmentMaintenance.EmployeeID" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
-                             type="text"
-                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmployeeID' | translate }}"
-                             class="form-control"
-                             maxlength="9"
-                             name="employee_ID"
-                             [disabled]="!data.factory"
-                             [(ngModel)]="data.employee_ID"
-                             [typeahead]="dataTypeaHead"
-                             typeaheadOptionField="key"
-                             typeaheadScrollable="true"
-                             (typeaheadOnSelect)="onTypehead($event)"
-                             (typeaheadOnBlur)="onTypehead($event)"
-                             required />
+            <div class="param-container">
+              <div class="row">
+                <!-- Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Factory" | translate }}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="factory"
+                                 name="factory"
+                                 [(ngModel)]="data.factory"
+                                 (ngModelChange)="onFactoryChange()"
+                                 [clearable]="false"
+                                 placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Factory' | translate}}"
+                                 required>
+                        <ng-option *ngFor="let data of listFactory"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Local Full Name -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.SalaryAdjustmentMaintenance.LocalFullName" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.local_Full_Name"
-                           name="local_Full_Name"
-                           type="text"
-                           class="form-control"
-                           placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.LocalFullName' | translate}}"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-              <!-- Onboard Date -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.SalaryAdjustmentMaintenance.OnboardDate" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.onboard_Date"
-                           name="onboard_Date"
-                           type="text"
-                           class="form-control"
-                           placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.OnboardDate' | translate}}"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-              <!-- Employment Status -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmploymentStatus' | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="employment_Status"
-                               name="employment_Status"
-                               [(ngModel)]="data.employment_Status"
-                               [clearable]="false"
-                               placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmploymentStatus' | translate}}"
-                               disabled>
-                      <ng-option *ngFor="let data of listEmploymentStatus"
-                                 [value]="data.key">
-                        {{ data.value | translate }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Reason For Change -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.ReasonForChange' | translate}}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select name="reason_for_change"
-                               [(ngModel)]="data.reason_For_Change"
-                               (ngModelChange)="onReasonForChange()"
-                               [clearable]="false"
-                               placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.ReasonForChange' | translate}}"
-                               required>
-                      <ng-option *ngFor="let item of listReasonForChange"
-                                 [value]="item.key">{{item.value}}</ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Effective Date -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.EffectiveDate' | translate}}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="full-width">
-                      <div class="container_input">
-                        <div class="input-group mr-1">
-                          <input type="text"
-                                 autocomplete="off"
-                                 class="form-control"
-                                 bsDatepicker
-                                 name="effectiveDate"
-                                 [(ngModel)]="effectiveDate"
-                                 (ngModelChange)="checkEffectiveDate()"
-                                 [bsConfig]="bsConfig"
-                                 onpaste="return false;"
-                                 placeholder="{{placeholder.YearMonthDay}}"
-                                 [disabled]="!data.factory || !data.employee_ID"
-                                 required />
-                          <div class="input-group-append">
-                            <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Seq -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.Seq' | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.seq"
-                           name="seq"
-                           type="text"
-                           class="form-control"
-                           placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Seq' | translate}}"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Currency -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.Currency' | translate}}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select name="currency"
-                               [(ngModel)]="data.currency"
-                               (ngModelChange)="onDataChange()"
-                               [clearable]="false"
-                               placeholder='{{"SalaryMaintenance.SalaryAdjustmentMaintenance.Currency" | translate}}'
-                               required>
-                      <ng-option *ngFor="let item of listCurrency"
-                                 [value]="item.key">{{item.value}}</ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Probation Salary Month -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.ProbationSalaryMonth' | translate}}
-                    <span class="text-danger text-bold"
-                          *ngIf="isReasonForChange">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="full-width">
-                      <div class="container_input">
-                        <div class="input-group mr-1">
-                          <input type="text"
-                                 autocomplete="off"
-                                 (keydown.backspace)="probationSalaryMonth = null"
-                                 [disabled]="!isReasonForChange"
-                                 class="form-control"
-                                 bsDatepicker
-                                 name="probation_Salary_Month"
-                                 [(ngModel)]="probationSalaryMonth"
-                                 [bsConfig]="bsConfigMonth"
-                                 onpaste="return false;"
-                                 [maxLength]="7"
-                                 placeholder="{{placeholder.YearMonth}}" />
-                          <div class="input-group-append">
-                            <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Update By -->
-
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="textUpdateBy"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateBy' | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input type="text"
-                           class="form-control"
-                           id="Update_By"
-                           name="Update_By"
-                           [(ngModel)]="data.update_By"
-                           placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateBy' | translate }}"
-                           disabled>
-                  </div>
-                </div>
-              </div>
-              <!-- Update Time -->
-
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="textUpdateTime"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateTime' | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input type="text"
-                           class="form-control"
-                           id="Update_Time"
-                           name="Update_Time"
-                           [(ngModel)]="data.update_Time"
-                           placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateTime' | translate }}"
-                           disabled>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TODO: Before -->
-            <hr class="hr" />
-            <div class="row mb-3">
-              <div class="col-6"
-                   style="border-right: 1px solid #ccc; padding-right: 15px;">
-                <div class="before-change">
-                  {{ 'SalaryMaintenance.SalaryAdjustmentMaintenance.Before' | translate}}
-                </div>
-                <div class="row">
-                  <!-- Department -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Department" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="department_before"
-                                   [(ngModel)]="before.department"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listDepartment"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xxl-6 col-xl-12"></div>
-                  <!-- Position Grade -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionGrade" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input [(ngModel)]="before.position_Grade"
-                               name="position_Grade_before."
+                <!-- Employee ID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.SalaryAdjustmentMaintenance.EmployeeID" | translate }}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-1">
+                        <input autocomplete="off"
                                type="text"
+                               placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmployeeID' | translate }}"
                                class="form-control"
-                               disabled />
+                               maxlength="9"
+                               name="employee_ID"
+                               [disabled]="!data.factory"
+                               [(ngModel)]="data.employee_ID"
+                               [typeahead]="dataTypeaHead"
+                               typeaheadOptionField="key"
+                               typeaheadScrollable="true"
+                               (typeaheadOnSelect)="onTypehead($event)"
+                               (typeaheadOnBlur)="onTypehead($event)"
+                               required />
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Position Title -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionTitle" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="position_Title_before"
-                                   [(ngModel)]="before.position_Title"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listPositionTitle"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
+                <!-- Local Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.SalaryAdjustmentMaintenance.LocalFullName" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.local_Full_Name"
+                             name="local_Full_Name"
+                             type="text"
+                             class="form-control"
+                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.LocalFullName' | translate}}"
+                             disabled />
                     </div>
                   </div>
+                </div>
+                <!-- Onboard Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.SalaryAdjustmentMaintenance.OnboardDate" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.onboard_Date"
+                             name="onboard_Date"
+                             type="text"
+                             class="form-control"
+                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.OnboardDate' | translate}}"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+                <!-- Employment Status -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmploymentStatus' | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="employment_Status"
+                                 name="employment_Status"
+                                 [(ngModel)]="data.employment_Status"
+                                 [clearable]="false"
+                                 placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.EmploymentStatus' | translate}}"
+                                 disabled>
+                        <ng-option *ngFor="let data of listEmploymentStatus"
+                                   [value]="data.key">
+                          {{ data.value | translate }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
 
-                  <!-- Salary Type -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="salary_Type_before"
-                                   [(ngModel)]="before.salary_Type"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listSalaryType"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
+                <!-- Reason For Change -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.ReasonForChange' | translate}}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select name="reason_for_change"
+                                 [(ngModel)]="data.reason_For_Change"
+                                 (ngModelChange)="onReasonForChange()"
+                                 [clearable]="false"
+                                 placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.ReasonForChange' | translate}}"
+                                 required>
+                        <ng-option *ngFor="let item of listReasonForChange"
+                                   [value]="item.key">{{item.value}}</ng-option>
+                      </ng-select>
                     </div>
                   </div>
+                </div>
 
-                  <!-- Permission Group -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PermissionGroup" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="permission_Group_before"
-                                   [(ngModel)]="before.permission_Group"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listPermissionGroup"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Technical Type -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.TechnicalType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="technical_Type_before"
-                                   [(ngModel)]="before.technical_Type"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listTechnicalType"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Expertise Category -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.ExpertiseCategory" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="expertise_Category_before"
-                                   [(ngModel)]="before.expertise_Category"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listExpertiseCategory"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Period of Acting Position -->
-                  <div class="col-12">
-                    <div class="form-group row align-items-center">
-                      <label class="col-xxl-2 col-xl-12 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PeriodOfActingPosition" | translate }}
-                      </label>
-                      <div class="col-xxl-10 col-xl-12 col-lg-12">
+                <!-- Effective Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.EffectiveDate' | translate}}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="full-width">
                         <div class="container_input">
                           <div class="input-group mr-1">
-                            <input autocomplete="off"
-                                   type="text"
-                                   class="form-control bg-white"
-                                   name="acting_Position_Start_before"
-                                   [(ngModel)]="before.acting_Position_Start"
-                                   bsDatepicker
-                                   [bsConfig]="bsConfig"
-                                   disabled
-                                   style="background-color: #e4e7ea !important" />
-                            <div class="input-group-append">
-                              <span class="input-group-text">
-                                <i class="{{ iconButton.CALENDAR }}"></i>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="input-group ml-1">
-                            <input autocomplete="off"
-                                   type="text"
-                                   class="form-control bg-white"
-                                   name="acting_Position_End_before"
-                                   [(ngModel)]="before.acting_Position_End"
-                                   bsDatepicker
-                                   [bsConfig]="bsConfig"
-                                   disabled
-                                   style="background-color: #e4e7ea !important" />
-                            <div class="input-group-append">
-                              <span class="input-group-text">
-                                <i class="{{ iconButton.CALENDAR }}"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Salary Level -->
-                  <div class="col-12">
-                    <div class="form-group row">
-                      <label class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryLevel" |
-                        translate }}
-                      </label>
-                      <div class="col-xxl-10 col-xl-12 col-lg-12">
-                        <div class="container_input">
-                          <div class="input-group mr-1">
-                            <input [(ngModel)]="before.salary_Grade"
-                                   name="salary_Grade_before"
-                                   type="text"
+                            <input type="text"
+                                   autocomplete="off"
                                    class="form-control"
-                                   disabled />
+                                   bsDatepicker
+                                   name="effectiveDate"
+                                   [(ngModel)]="effectiveDate"
+                                   (ngModelChange)="checkEffectiveDate()"
+                                   [bsConfig]="bsConfig"
+                                   onpaste="return false;"
+                                   placeholder="{{placeholder.YearMonthDay}}"
+                                   [disabled]="!data.factory || !data.employee_ID"
+                                   required />
                             <div class="input-group-append">
-                              <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Grade" | translate }}</span>
-                            </div>
-                          </div>
-                          <div class="input-group ml-1">
-                            <input [(ngModel)]="before.salary_Level"
-                                   name="salary_Level_before"
-                                   type="text"
-                                   class="form-control"
-                                   disabled />
-                            <div class="input-group-append">
-                              <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Level" | translate }}</span>
+                              <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                             </div>
                           </div>
                         </div>
@@ -511,296 +187,617 @@
                   </div>
                 </div>
 
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th class="text-center text-nowrap">
-                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryItem" | translate }}
-                        </th>
-                        <th class="text-center text-nowrap">
-                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Amount" | translate }}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody *ngIf="before.item?.length; else dataNotFound">
-                      <tr *ngFor="let item of before.item">
-                        <td class="table-warning text-center">{{ item.salary_Item_Name }}</td>
-                        <td class="text-center">
-                          <input [id]="'amount_before' + item.amount"
+                <!-- Seq -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.Seq' | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.seq"
+                             name="seq"
+                             type="text"
+                             class="form-control"
+                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Seq' | translate}}"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Currency -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.Currency' | translate}}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select name="currency"
+                                 [(ngModel)]="data.currency"
+                                 (ngModelChange)="onDataChange()"
+                                 [clearable]="false"
+                                 placeholder='{{"SalaryMaintenance.SalaryAdjustmentMaintenance.Currency" | translate}}'
+                                 required>
+                        <ng-option *ngFor="let item of listCurrency"
+                                   [value]="item.key">{{item.value}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Probation Salary Month -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.ProbationSalaryMonth' | translate}}
+                      <span class="text-danger text-bold"
+                            *ngIf="isReasonForChange">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="full-width">
+                        <div class="container_input">
+                          <div class="input-group mr-1">
+                            <input type="text"
+                                   autocomplete="off"
+                                   (keydown.backspace)="probationSalaryMonth = null"
+                                   [disabled]="!isReasonForChange"
+                                   class="form-control"
+                                   bsDatepicker
+                                   name="probation_Salary_Month"
+                                   [(ngModel)]="probationSalaryMonth"
+                                   [bsConfig]="bsConfigMonth"
+                                   onpaste="return false;"
+                                   [maxLength]="7"
+                                   placeholder="{{placeholder.YearMonth}}" />
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Update By -->
+
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="textUpdateBy"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateBy' | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="Update_By"
+                             name="Update_By"
+                             [(ngModel)]="data.update_By"
+                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateBy' | translate }}"
+                             disabled>
+                    </div>
+                  </div>
+                </div>
+                <!-- Update Time -->
+
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="textUpdateTime"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateTime' | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input type="text"
+                             class="form-control"
+                             id="Update_Time"
+                             name="Update_Time"
+                             [(ngModel)]="data.update_Time"
+                             placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.UpdateTime' | translate }}"
+                             disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TODO: Before -->
+              <hr class="hr" />
+              <div class="row">
+                <div class="col-6"
+                     style="border-right: 1px solid #ccc; padding-right: 15px;">
+                  <div class="title-header">
+                    {{ 'SalaryMaintenance.SalaryAdjustmentMaintenance.Before' | translate}}
+                  </div>
+                  <div class="row">
+                    <!-- Department -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Department" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="department_before"
+                                     [(ngModel)]="before.department"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listDepartment"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xxl-6 col-xl-12"></div>
+                    <!-- Position Grade -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionGrade" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <input [(ngModel)]="before.position_Grade"
+                                 name="position_Grade_before."
+                                 type="text"
                                  class="form-control"
-                                 mask="separator.0"
-                                 thousandSeparator=","
-                                 separatorLimit="10000000"
-                                 [name]="'amount_before' + item.amount"
-                                 [(ngModel)]="item.amount"
                                  disabled />
-                        </td>
-                      </tr>
-                    </tbody>
-                    <ng-template #dataNotFound>
-                      <tbody>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Position Title -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionTitle" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="position_Title_before"
+                                     [(ngModel)]="before.position_Title"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listPositionTitle"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Salary Type -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="salary_Type_before"
+                                     [(ngModel)]="before.salary_Type"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listSalaryType"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Permission Group -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PermissionGroup" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="permission_Group_before"
+                                     [(ngModel)]="before.permission_Group"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listPermissionGroup"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Technical Type -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.TechnicalType" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="technical_Type_before"
+                                     [(ngModel)]="before.technical_Type"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listTechnicalType"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Expertise Category -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.ExpertiseCategory" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="expertise_Category_before"
+                                     [(ngModel)]="before.expertise_Category"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listExpertiseCategory"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Period of Acting Position -->
+                    <div class="col-12">
+                      <div class="form-group row align-items-center">
+                        <label class="col-xxl-2 col-xl-12 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PeriodOfActingPosition" | translate }}
+                        </label>
+                        <div class="col-xxl-10 col-xl-12 col-lg-12">
+                          <div class="container_input">
+                            <div class="input-group mr-1">
+                              <input autocomplete="off"
+                                     type="text"
+                                     class="form-control"
+                                     name="acting_Position_Start_before"
+                                     [(ngModel)]="before.acting_Position_Start"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     disabled/>
+                              <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="{{ iconButton.CALENDAR }}"></i>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="input-group ml-1">
+                              <input autocomplete="off"
+                                     type="text"
+                                     class="form-control"
+                                     name="acting_Position_End_before"
+                                     [(ngModel)]="before.acting_Position_End"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     disabled/>
+                              <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="{{ iconButton.CALENDAR }}"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Salary Level -->
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <label class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{ "SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryLevel" |
+                        translate }}
+                        </label>
+                        <div class="col-xxl-10 col-xl-12 col-lg-12">
+                          <div class="container_input">
+                            <div class="input-group mr-1">
+                              <input [(ngModel)]="before.salary_Grade"
+                                     name="salary_Grade_before"
+                                     type="text"
+                                     class="form-control"
+                                     disabled />
+                              <div class="input-group-append">
+                                <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Grade" | translate }}</span>
+                              </div>
+                            </div>
+                            <div class="input-group ml-1">
+                              <input [(ngModel)]="before.salary_Level"
+                                     name="salary_Level_before"
+                                     type="text"
+                                     class="form-control"
+                                     disabled />
+                              <div class="input-group-append">
+                                <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Level" | translate }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
                         <tr>
-                          <td colspan="100%"
-                              class="table-warning text-center font-weight-bold">
-                            {{"System.Message.Nodata" | translate }}
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryItem" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Amount" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="before.item?.length; else dataNotFound">
+                        <tr *ngFor="let item of before.item">
+                          <td class="table-warning text-center">{{ item.salary_Item_Name }}</td>
+                          <td class="text-center">
+                            <input [id]="'amount_before' + item.amount"
+                                   class="form-control"
+                                   mask="separator.0"
+                                   thousandSeparator=","
+                                   separatorLimit="10000000"
+                                   [name]="'amount_before' + item.amount"
+                                   [(ngModel)]="item.amount"
+                                   disabled />
                           </td>
                         </tr>
                       </tbody>
-                    </ng-template>
-                  </table>
+                      <ng-template #dataNotFound>
+                        <tbody>
+                          <tr>
+                            <td colspan="100%"
+                                class="table-warning text-center font-weight-bold">
+                              {{"System.Message.NoData" | translate }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </ng-template>
+                    </table>
+                  </div>
                 </div>
-              </div>
 
-              <!-- TODO: After -->
-              <div class="col-6">
-                <div class="after-change">
-                  {{ 'SalaryMaintenance.SalaryAdjustmentMaintenance.After' | translate}}
-                </div>
-                <div class="row">
-                  <!-- Department -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Department" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="department_after"
-                                   [(ngModel)]="after.department"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listDepartment"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
+                <!-- TODO: After -->
+                <div class="col-6">
+                  <div class="title-header">
+                    {{ 'SalaryMaintenance.SalaryAdjustmentMaintenance.After' | translate}}
                   </div>
-                  <div class="col-xxl-6 col-xl-12"></div>
-                  <!-- Position Grade -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionGrade" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <input [(ngModel)]="after.position_Grade"
-                               name="position_Grade_after."
-                               type="text"
-                               class="form-control"
-                               disabled />
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Position Title -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionTitle" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="position_Title_after"
-                                   [(ngModel)]="after.position_Title"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listPositionTitle"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Salary Type -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate }}
-                        <span class="text-danger text-bold">*</span>
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="salary_Type_after"
-                                   [(ngModel)]="after.salary_Type"
-                                   [clearable]="false"
-                                   (ngModelChange)="onSalaryTypeChange()"
-                                   placeholder='{{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate}}'
-                                   required>
-                          <ng-option *ngFor="let item of listSalaryType"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Permission Group -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PermissionGroup" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="permission_Group_after"
-                                   [(ngModel)]="after.permission_Group"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listPermissionGroup"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Technical Type -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.TechnicalType" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="technical_Type_after"
-                                   [(ngModel)]="after.technical_Type"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listTechnicalType"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Expertise Category -->
-                  <div class="col-xxl-6 col-xl-12">
-                    <div class="form-group row">
-                      <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.ExpertiseCategory" | translate }}
-                      </label>
-                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                        <ng-select name="expertise_Category_after"
-                                   [(ngModel)]="after.expertise_Category"
-                                   [clearable]="false"
-                                   disabled>
-                          <ng-option *ngFor="let item of listExpertiseCategory"
-                                     [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Period of Acting Position -->
-                  <div class="col-12">
-                    <div class="form-group row align-items-center">
-                      <label class="col-xxl-2 col-xl-12 col-form-label">
-                        {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PeriodOfActingPosition" | translate }}
-                      </label>
-                      <div class="col-xxl-10 col-xl-12 col-lg-12">
-                        <div class="container_input">
-                          <div class="input-group mr-1">
-                            <input autocomplete="off"
-                                   type="text"
-                                   class="form-control bg-white"
-                                   name="acting_Position_Start_after"
-                                   [(ngModel)]="after.acting_Position_Start"
-                                   bsDatepicker
-                                   [bsConfig]="bsConfig"
-                                   disabled
-                                   style="background-color: #e4e7ea !important" />
-                            <div class="input-group-append">
-                              <span class="input-group-text">
-                                <i class="{{ iconButton.CALENDAR }}"></i>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="input-group ml-1">
-                            <input autocomplete="off"
-                                   type="text"
-                                   class="form-control bg-white"
-                                   name="acting_Position_End_after"
-                                   [(ngModel)]="after.acting_Position_End"
-                                   bsDatepicker
-                                   [bsConfig]="bsConfig"
-                                   disabled
-                                   style="background-color: #e4e7ea !important" />
-                            <div class="input-group-append">
-                              <span class="input-group-text">
-                                <i class="{{ iconButton.CALENDAR }}"></i>
-                              </span>
-                            </div>
-                          </div>
+                  <div class="row">
+                    <!-- Department -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Department" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="department_after"
+                                     [(ngModel)]="after.department"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listDepartment"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <!-- Salary Level -->
-                  <div class="col-12">
-                    <div class="form-group row">
-                      <label class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                        {{ "SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryLevel" |
-                        translate }}
-                      </label>
-                      <div class="col-xxl-10 col-xl-12 col-lg-12">
-                        <div class="container_input">
-                          <div class="input-group mr-1">
-                            <input [(ngModel)]="after.salary_Grade"
-                                   (ngModelChange)="onDataChange()"
-                                   name="salary_Grade_after"
-                                   type="text"
-                                   (keypress)="validateDecimal($event, 15)"
-                                   class="form-control"
-                                   onpaste="return false;"
-                                   placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Grade' | translate}}"
-                                   required />
-                            <div class="input-group-append">
-                              <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Grade" | translate }}</span>
-                            </div>
-                          </div>
-                          <div class="input-group ml-1">
-                            <input [(ngModel)]="after.salary_Level"
-                                   (ngModelChange)="onDataChange()"
-                                   name="salary_Level_after"
-                                   type="text"
-                                   (keypress)="validateDecimal($event, 9)"
-                                   class="form-control"
-                                   onpaste="return false;"
-                                   placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Level' | translate}}"
-                                   required />
-                            <div class="input-group-append">
-                              <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Level" | translate }}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th class="text-center text-nowrap">
-                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryItem" | translate }}
-                        </th>
-                        <th class="text-center text-nowrap">
-                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Amount" | translate }}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody *ngIf="after.item?.length > 0; else dataNotFound">
-                      <tr *ngFor="let item of after.item">
-                        <td class="table-warning text-center">{{ item.salary_Item_Name }}</td>
-                        <td class="text-center">
-                          <input [id]="'amount_after' + item.amount"
+                    <div class="col-xxl-6 col-xl-12"></div>
+                    <!-- Position Grade -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionGrade" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <input [(ngModel)]="after.position_Grade"
+                                 name="position_Grade_after."
+                                 type="text"
                                  class="form-control"
-                                 mask="separator.0"
-                                 thousandSeparator=","
-                                 separatorLimit="10000000"
-                                 [min]="0"
-                                 maxlength="15"
-                                 [name]="'amount_after' + item.amount"
-                                 [(ngModel)]="item.amount"
-                                 (ngModelChange)="onDataChange()"
-                                 required />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                                 disabled />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Position Title -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PositionTitle" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="position_Title_after"
+                                     [(ngModel)]="after.position_Title"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listPositionTitle"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Salary Type -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate }}
+                          <span class="text-danger text-bold">*</span>
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="salary_Type_after"
+                                     [(ngModel)]="after.salary_Type"
+                                     [clearable]="false"
+                                     (ngModelChange)="onSalaryTypeChange()"
+                                     placeholder='{{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryType" | translate}}'
+                                     required>
+                            <ng-option *ngFor="let item of listSalaryType"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Permission Group -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PermissionGroup" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="permission_Group_after"
+                                     [(ngModel)]="after.permission_Group"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listPermissionGroup"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Technical Type -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.TechnicalType" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="technical_Type_after"
+                                     [(ngModel)]="after.technical_Type"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listTechnicalType"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Expertise Category -->
+                    <div class="col-xxl-6 col-xl-12">
+                      <div class="form-group row">
+                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.ExpertiseCategory" | translate }}
+                        </label>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                          <ng-select name="expertise_Category_after"
+                                     [(ngModel)]="after.expertise_Category"
+                                     [clearable]="false"
+                                     disabled>
+                            <ng-option *ngFor="let item of listExpertiseCategory"
+                                       [value]="item.key">{{item.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Period of Acting Position -->
+                    <div class="col-12">
+                      <div class="form-group row align-items-center">
+                        <label class="col-xxl-2 col-xl-12 col-form-label">
+                          {{"SalaryMaintenance.SalaryAdjustmentMaintenance.PeriodOfActingPosition" | translate }}
+                        </label>
+                        <div class="col-xxl-10 col-xl-12 col-lg-12">
+                          <div class="container_input">
+                            <div class="input-group mr-1">
+                              <input autocomplete="off"
+                                     type="text"
+                                     class="form-control"
+                                     name="acting_Position_Start_after"
+                                     [(ngModel)]="after.acting_Position_Start"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     disabled/>
+                              <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="{{ iconButton.CALENDAR }}"></i>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="input-group ml-1">
+                              <input autocomplete="off"
+                                     type="text"
+                                     class="form-control"
+                                     name="acting_Position_End_after"
+                                     [(ngModel)]="after.acting_Position_End"
+                                     bsDatepicker
+                                     [bsConfig]="bsConfig"
+                                     disabled/>
+                              <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="{{ iconButton.CALENDAR }}"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Salary Level -->
+                    <div class="col-12">
+                      <div class="form-group row">
+                        <label class="col-xxl-2 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                          {{ "SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryLevel" |
+                        translate }}
+                        </label>
+                        <div class="col-xxl-10 col-xl-12 col-lg-12">
+                          <div class="container_input">
+                            <div class="input-group mr-1">
+                              <input [(ngModel)]="after.salary_Grade"
+                                     (ngModelChange)="onDataChange()"
+                                     name="salary_Grade_after"
+                                     type="text"
+                                     (keypress)="validateDecimal($event, 15)"
+                                     class="form-control"
+                                     onpaste="return false;"
+                                     placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Grade' | translate}}"
+                                     required />
+                              <div class="input-group-append">
+                                <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Grade" | translate }}</span>
+                              </div>
+                            </div>
+                            <div class="input-group ml-1">
+                              <input [(ngModel)]="after.salary_Level"
+                                     (ngModelChange)="onDataChange()"
+                                     name="salary_Level_after"
+                                     type="text"
+                                     (keypress)="validateDecimal($event, 9)"
+                                     class="form-control"
+                                     onpaste="return false;"
+                                     placeholder="{{'SalaryMaintenance.SalaryAdjustmentMaintenance.Level' | translate}}"
+                                     required />
+                              <div class="input-group-append">
+                                <span class="input-group-text">{{ "SalaryMaintenance.SalaryAdjustmentMaintenance.Level" | translate }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.SalaryAdjustmentMaintenance.SalaryItem" | translate }}
+                          </th>
+                          <th class="text-center text-nowrap">
+                            {{"SalaryMaintenance.SalaryAdjustmentMaintenance.Amount" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="after.item?.length > 0; else dataNotFound">
+                        <tr *ngFor="let item of after.item">
+                          <td class="table-warning text-center">{{ item.salary_Item_Name }}</td>
+                          <td class="text-center">
+                            <input [id]="'amount_after' + item.amount"
+                                   class="form-control"
+                                   mask="separator.0"
+                                   thousandSeparator=","
+                                   separatorLimit="10000000"
+                                   [min]="0"
+                                   maxlength="15"
+                                   [name]="'amount_after' + item.amount"
+                                   [(ngModel)]="item.amount"
+                                   (ngModelChange)="onDataChange()"
+                                   required />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

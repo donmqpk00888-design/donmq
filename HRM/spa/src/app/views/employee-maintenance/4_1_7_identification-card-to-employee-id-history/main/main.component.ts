@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Emp_IDcard_EmpID_HistoryDto, IdentificationCardToEmployeeIDHistoryParam, IdentificationCardToEmployeeIDHistorySource } from '@models/employee-maintenance/4_1_7_identification-card-to-employee-id-history';
@@ -7,6 +6,7 @@ import { S_4_1_7_IdentificationCardToEmployeeIdHistoryService } from '@services/
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -29,7 +29,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   constructor(private service: S_4_1_7_IdentificationCardToEmployeeIdHistoryService) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -82,8 +82,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -103,8 +102,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -117,13 +115,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -131,8 +126,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListNationality().subscribe({
       next: (res) => {
         this.listNationality = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 

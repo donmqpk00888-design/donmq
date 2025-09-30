@@ -7,6 +7,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MainComponent } from './main/main.component';
+import { SharedModule } from '@views/_shared/shared.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { MainComponent } from './main/main.component';
     PaginationModule.forRoot(),
     TranslateModule,
     NgSelectModule,
+    SharedModule
   ]
 })
 export class EmployeeLunchBreakTimeSettingModule { }

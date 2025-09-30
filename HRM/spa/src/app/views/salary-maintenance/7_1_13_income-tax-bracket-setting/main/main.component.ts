@@ -6,8 +6,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { IncomeTaxBracketSettingDto, IncomeTaxBracketSettingMain, IncomeTaxBracketSettingMemory, IncomeTaxBracketSettingParam } from '@models/salary-maintenance/7_1_13_income-tax-bracket-setting';
 import { IconButton, Placeholder } from '@constants/common.constants';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -37,9 +37,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   constructor(private service: S_7_1_13_IncomeTaxBracketSettingService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
         this.processData()
@@ -119,9 +117,6 @@ export class MainComponent extends InjectBase implements OnInit {
         if (isDelete)
           this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
         this.spinnerService.hide()
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   };
@@ -157,8 +152,7 @@ export class MainComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.spinnerService.hide();
           resolve(res)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     })
   }
@@ -173,9 +167,6 @@ export class MainComponent extends InjectBase implements OnInit {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });
@@ -192,9 +183,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListNationality().subscribe({
       next: res => {
         this.listNationality = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -203,9 +191,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListTaxCode().subscribe({
       next: res => {
         this.listTaxCode = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

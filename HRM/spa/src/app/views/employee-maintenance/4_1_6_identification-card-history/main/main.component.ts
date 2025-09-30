@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import {
   HRMS_Emp_Identity_Card_HistoryDto,
@@ -11,6 +10,7 @@ import { S_4_1_6_IdentificationCardHistoryService } from '@services/employee-mai
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -69,7 +69,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true,'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListTypeHeadIdentificationNumber(onNationChange: boolean) {
@@ -77,10 +76,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.deleteProperty('identification_Number')
     this.service.getListTypeHeadIdentificationNumber(this.param.nationality).subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.dataTypeahead = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
@@ -89,7 +86,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listNationality = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 

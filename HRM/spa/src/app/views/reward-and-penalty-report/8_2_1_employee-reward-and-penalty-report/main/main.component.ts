@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { EmployeeRewardAndPenaltyReportParam, EmployeeRewardAndPenaltyReportSource } from '@models/reward-and-penalty-report/8_2_1_employee-reward-and-penalty-report';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,6 +6,7 @@ import { S_8_2_1_EmployeeRewardAndPenaltyReportService } from '@services/reward-
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -102,8 +102,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.snotifyService.error(this.translateService.instant(res.error ?? 'System.Message.SystemError'),
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -136,8 +135,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = 0
           this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -174,19 +172,16 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     })
   }
 
@@ -195,8 +190,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -204,7 +198,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListRewardPenalty().subscribe({
       next: res => {
         this.listRewardPenalty = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion

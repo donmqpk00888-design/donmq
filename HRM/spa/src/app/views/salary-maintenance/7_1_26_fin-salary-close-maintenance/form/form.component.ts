@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { FinSalaryCloseMaintenance_MainData, FinSalaryCloseMaintenance_UpdateParam } from '@models/salary-maintenance/7_1_26_fin-salary-close-maintenance';
 import { S_7_1_26_FinSalaryCloseMaintenanceService } from '@services/salary-maintenance/s-7-1-26-fin-salary-close-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -25,11 +25,11 @@ export class FormComponent extends InjectBase implements OnInit {
   list_Close_Status: KeyValuePair[] = [
     {
       key: 'Y',
-      value:'Y',
+      value: 'Y',
     },
     {
       key: 'N',
-      value:'N',
+      value: 'N',
     },
   ];
 
@@ -51,10 +51,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url)
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title
       this.getSource()
-    }).unsubscribe()
+    })
   }
   getSource() {
     const source = this._service.programSource();
@@ -73,8 +73,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -92,22 +91,18 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getListPermissionGroup(this.data.factory).subscribe({
       next: res => {
         this.listPermissionGroup = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   back = () => this.router.navigate([this.url])
-  save(){
+  save() {
     this.spinnerService.show();
     this._service.update(this.data).subscribe({
-      next: res =>{
+      next: res => {
         this.spinnerService.hide()
-        if(res.isSuccess){
-          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        if (res.isSuccess)
           this.back()
-        }else {
-          this.functionUtility.snotifySystemError()
-        }
       }
     })
   }

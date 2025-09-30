@@ -2,6 +2,7 @@ using API.DTOs.SalaryReport;
 
 namespace API._Services.Interfaces.SalaryReport
 {
+    [DependencyInjection(ServiceLifetime.Scoped)]
     public interface I_7_2_15_MonthlyUnionDuesSummary
     {
         Task<OperationResult> GetTotalRows(MonthlyUnionDuesSummaryParam param);

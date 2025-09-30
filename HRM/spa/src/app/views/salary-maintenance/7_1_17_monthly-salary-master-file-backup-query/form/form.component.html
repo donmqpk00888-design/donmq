@@ -17,433 +17,436 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row align-items-center">
-            <!-- Year Month -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.YearMonth'| translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="input-group mr-1">
+          <div class="param-container">
+
+            <div class="row align-items-center">
+              <!-- Year Month -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.YearMonth'| translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             name="yearMonth"
+                             [(ngModel)]="data.yearMonth"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Factory -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="factory"
+                               [(ngModel)]="data.factory"
+                               disabled>
+                      <ng-option *ngFor="let i of listFactory"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Department -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Department" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="department"
+                               [(ngModel)]="data.department"
+                               disabled>
+                      <ng-option *ngFor="let i of listDepartment"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EmployeeID -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmployeeID" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                     <input type="text"
-                           autocomplete="off"
                            class="form-control"
-                           name="yearMonth"
-                           [(ngModel)]="data.yearMonth"
+                           name="employee_ID"
+                           [(ngModel)]="data.employee_ID"
                            disabled />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Factory -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Factory" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="factory"
-                             [(ngModel)]="data.factory"
-                             disabled>
-                    <ng-option *ngFor="let i of listFactory"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-
-            <!-- Department -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Department" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="department"
-                             [(ngModel)]="data.department"
-                             disabled>
-                    <ng-option *ngFor="let i of listDepartment"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-
-            <!-- EmployeeID -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmployeeID" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="employee_ID"
-                         [(ngModel)]="data.employee_ID"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Local Full Name -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.LocalFullName" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="local_Full_Name"
-                         [(ngModel)]="data.local_Full_Name"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Employment Status -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmploymentStatus" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="employment_Status"
-                             [(ngModel)]="data.employment_Status"
-                             disabled>
-                    <ng-option *ngFor="let i of listEmploymentStatus"
-                               [value]="i.key">{{i.value | translate}}</ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-
-            <!-- Position Grade -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionGrade" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="position_Grade"
-                         [(ngModel)]="data.position_Grade"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Position Title -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionTitle" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="position_Title"
-                             [(ngModel)]="data.position_Title"
-                             [clearable]="data.position_Title !== ''"
-                             disabled>
-                    <ng-option *ngFor="let i of listPositionTitle"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-
-            <!-- Period of Acting Position -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PeriodofActingPosition" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input type="text"
-                             autocomplete="off"
-                             name="actingPosition_Start"
-                             class="form-control"
-                             [(ngModel)]="data.actingPosition_Start"
-                             disabled />
-                    </div>
-                    <div class="input-group ml-1">
-                      <input type="text"
-                             autocomplete="off"
-                             name="actingPosition_End"
-                             class="form-control"
-                             [(ngModel)]="data.actingPosition_End"
-                             disabled />
-                    </div>
+              <!-- Local Full Name -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.LocalFullName" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="local_Full_Name"
+                           [(ngModel)]="data.local_Full_Name"
+                           disabled />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Technical Type -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.TechnicalType" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="technical_Type"
-                             [(ngModel)]="data.technical_Type"
-                             disabled>
-                    <ng-option *ngFor="let i of listTechnicalType"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
+              <!-- Employment Status -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.EmploymentStatus" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="employment_Status"
+                               [(ngModel)]="data.employment_Status"
+                               disabled>
+                      <ng-option *ngFor="let i of listEmploymentStatus"
+                                 [value]="i.key">{{i.value | translate}}</ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Expertise Category -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.ExpertiseCategory" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="expertise_Category"
-                             [(ngModel)]="data.expertise_Category"
-                             disabled>
-                    <ng-option *ngFor="let i of listExpertiseCategory"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
+              <!-- Position Grade -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionGrade" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="position_Grade"
+                           [(ngModel)]="data.position_Grade"
+                           disabled />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Onboard Day -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.OnboardDate'| translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="full-width">
+              <!-- Position Title -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PositionTitle" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="position_Title"
+                               [(ngModel)]="data.position_Title"
+                               [clearable]="data.position_Title !== ''"
+                               disabled>
+                      <ng-option *ngFor="let i of listPositionTitle"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Period of Acting Position -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PeriodofActingPosition" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                     <div class="container_input">
-                      <div class="input-group">
+                      <div class="input-group mr-1">
                         <input type="text"
                                autocomplete="off"
+                               name="actingPosition_Start"
                                class="form-control"
-                               name="onboard_Date"
-                               [(ngModel)]="data.onboard_Date"
+                               [(ngModel)]="data.actingPosition_Start"
+                               disabled />
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="text"
+                               autocomplete="off"
+                               name="actingPosition_End"
+                               class="form-control"
+                               [(ngModel)]="data.actingPosition_End"
                                disabled />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Salary Type -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryType" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="salary_Type"
-                             [(ngModel)]="data.salary_Type"
-                             disabled>
-                    <ng-option *ngFor="let i of listSalaryType"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
+              <!-- Technical Type -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.TechnicalType" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="technical_Type"
+                               [(ngModel)]="data.technical_Type"
+                               disabled>
+                      <ng-option *ngFor="let i of listTechnicalType"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Salary Level -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row">
-                <label for="salary_Type"
-                       class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Salary" | translate }}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <div class="container_input">
-                    <div class="input-group mr-1">
-                      <input type="number"
-                             class="form-control"
-                             id="salary_Grade"
-                             name="salary_Grade"
-                             min="0"
-                             max="15"
-                             [(ngModel)]="data.salary_Grade"
-                             disabled
-                             autocomplete="off" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Grade' | translate }}</span>
-                      </div>
-                    </div>
-                    <div class="input-group ml-1">
-                      <input type="number"
-                             class="form-control"
-                             id="salary_Level"
-                             name="salary_Level"
-                             min="0"
-                             max="9"
-                             [(ngModel)]="data.salary_Level"
-                             autocomplete="off"
-                             disabled />
-                      <div class="input-group-append">
-                        <span class="input-group-text">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Level' | translate }}</span>
+              <!-- Expertise Category -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.ExpertiseCategory" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="expertise_Category"
+                               [(ngModel)]="data.expertise_Category"
+                               disabled>
+                      <ng-option *ngFor="let i of listExpertiseCategory"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Onboard Day -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.OnboardDate'| translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="full-width">
+                      <div class="container_input">
+                        <div class="input-group">
+                          <input type="text"
+                                 autocomplete="off"
+                                 class="form-control"
+                                 name="onboard_Date"
+                                 [(ngModel)]="data.onboard_Date"
+                                 disabled />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Permission Group -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PermissionGroup" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <ng-select name="permission_Group"
-                             [(ngModel)]="data.permission_Group"
-                             disabled>
-                    <ng-option *ngFor="let i of listPermissionGroup"
-                               [value]="i.key">{{i.value}}</ng-option>
-                  </ng-select>
+              <!-- Salary Type -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryType" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="salary_Type"
+                               [(ngModel)]="data.salary_Type"
+                               disabled>
+                      <ng-option *ngFor="let i of listSalaryType"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Salary Level -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row">
+                  <label for="salary_Type"
+                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Salary" | translate }}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <div class="container_input">
+                      <div class="input-group mr-1">
+                        <input type="number"
+                               class="form-control"
+                               id="salary_Grade"
+                               name="salary_Grade"
+                               min="0"
+                               max="15"
+                               [(ngModel)]="data.salary_Grade"
+                               disabled
+                               autocomplete="off" />
+                        <div class="input-group-append">
+                          <span class="input-group-text">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Grade' | translate }}</span>
+                        </div>
+                      </div>
+                      <div class="input-group ml-1">
+                        <input type="number"
+                               class="form-control"
+                               id="salary_Level"
+                               name="salary_Level"
+                               min="0"
+                               max="9"
+                               [(ngModel)]="data.salary_Level"
+                               autocomplete="off"
+                               disabled />
+                        <div class="input-group-append">
+                          <span class="input-group-text">{{'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Level' | translate }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Permission Group -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.PermissionGroup" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <ng-select name="permission_Group"
+                               [(ngModel)]="data.permission_Group"
+                               disabled>
+                      <ng-option *ngFor="let i of listPermissionGroup"
+                                 [value]="i.key">{{i.value}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Currency -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Currency" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="currency"
+                           [(ngModel)]="data.currency"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Probation -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Probation" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="probation"
+                           [(ngModel)]="data.probation"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-100"></div>
+
+              <!-- Update By -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateBy" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="update_By"
+                           [(ngModel)]="data.update_By"
+                           disabled />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Update Time -->
+              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group row align-items-center">
+                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                    {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateTime" | translate}}
+                  </label>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <input type="text"
+                           class="form-control"
+                           name="update_Time"
+                           [(ngModel)]="data.update_Time"
+                           disabled />
+                  </div>
                 </div>
               </div>
             </div>
-
-            <!-- Currency -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Currency" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="currency"
-                         [(ngModel)]="data.currency"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Probation -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Probation" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="probation"
-                         [(ngModel)]="data.probation"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <div class="w-100"></div>
-
-            <!-- Update By -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateBy" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="update_By"
-                         [(ngModel)]="data.update_By"
-                         disabled />
-                </div>
-              </div>
-            </div>
-
-            <!-- Update Time -->
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group row align-items-center">
-                <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                  {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.UpdateTime" | translate}}
-                </label>
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                  <input type="text"
-                         class="form-control"
-                         name="update_Time"
-                         [(ngModel)]="data.update_Time"
-                         disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-md-center">
-            <div class="col-lg-8 col-md-12 col-sm-12 mt-2">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th class="text-center vertical-align-middle">
-                        {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryItem" | translate }}
-                      </th>
-                      <th class="text-center vertical-align-middle">
-                        {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Amount" | translate }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="salaryDetails.length > 0; else dataNotFound">
-                    <tr *ngFor="let item of salaryDetails">
-                      <td class="table-warning text-center vertical-align-middle">{{item.salary_Item}}</td>
-                      <td class="text-center vertical-align-middle">{{item.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center vertical-align-middle"
-                          colspan="2">
-                        {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.TotalSalary" | translate }}:
-                        <span class="font-weight-bold">{{ total_Salary | mask: 'separator' : {thousandSeparator: ','} }}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <ng-template #dataNotFound>
-                    <tbody>
+            <div class="row justify-content-md-center">
+              <div class="col-lg-8 col-md-12 col-sm-12 mt-2">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
                       <tr>
-                        <td colspan="100%"
-                            class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
-                        </td>
+                        <th class="text-center vertical-align-middle">
+                          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.SalaryItem" | translate }}
+                        </th>
+                        <th class="text-center vertical-align-middle">
+                          {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Amount" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="salaryDetails.length > 0; else dataNotFound">
+                      <tr *ngFor="let item of salaryDetails">
+                        <td class="table-warning text-center vertical-align-middle">{{item.salary_Item}}</td>
+                        <td class="text-center vertical-align-middle">{{item.amount | mask: 'separator' : {thousandSeparator: ','} }}</td>
                       </tr>
                       <tr>
                         <td class="text-center vertical-align-middle"
                             colspan="2">
                           {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.TotalSalary" | translate }}:
-                          <span class="font-weight-bold">{{ total_Salary }}</span>
+                          <span class="font-weight-bold">{{ total_Salary | mask: 'separator' : {thousandSeparator: ','} }}</span>
                         </td>
                       </tr>
                     </tbody>
-                  </ng-template>
-                </table>
-              </div>
-              <div class="row">
-                <div class="col-8">
-                  <div class="d-flex"
-                       *ngIf="salaryDetails.length > 0 && pagination.totalPage > 1">
-                    <pagination [boundaryLinks]="true"
-                                [totalItems]="pagination.totalCount"
-                                [itemsPerPage]="pagination.pageSize"
-                                previousText="&lsaquo;"
-                                nextText="&rsaquo;"
-                                firstText="&laquo;"
-                                lastText="&raquo;"
-                                [maxSize]="5"
-                                [(ngModel)]="pagination.pageNumber"
-                                (pageChanged)="pageChanged($event)">
-                    </pagination>
-                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                    <ng-template #dataNotFound>
+                      <tbody>
+                        <tr>
+                          <td colspan="100%"
+                              class="table-warning text-center font-weight-bold">
+                            {{"System.Message.NoData" | translate }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="text-center vertical-align-middle"
+                              colspan="2">
+                            {{"SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.TotalSalary" | translate }}:
+                            <span class="font-weight-bold">{{ total_Salary }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="d-flex"
+                         *ngIf="salaryDetails.length > 0 && pagination.totalPage > 1">
+                      <pagination [boundaryLinks]="true"
+                                  [totalItems]="pagination.totalCount"
+                                  [itemsPerPage]="pagination.pageSize"
+                                  previousText="&lsaquo;"
+                                  nextText="&rsaquo;"
+                                  firstText="&laquo;"
+                                  lastText="&raquo;"
+                                  [maxSize]="5"
+                                  [(ngModel)]="pagination.pageNumber"
+                                  (pageChanged)="pageChanged($event)">
+                      </pagination>
+                      <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
+                    </div>
                   </div>
                 </div>
               </div>

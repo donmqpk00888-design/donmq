@@ -25,795 +25,815 @@
           <form #form="ngForm"
                 class="form-horizontal"
                 autocomplete="off">
-            <div class="row">
-              <!-- Salary Lock -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.SalaryLock" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.salary_Lock"
-                           name="lock"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
+            <div class="param-container">
 
-              <!-- Factory -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Factory" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="factory"
-                               name="factory"
-                               [clearable]="false"
-                               [(ngModel)]="data.factory"
-                               disabled
-                               required>
-                      <ng-option *ngFor="let data of listFactory"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- YearMonth -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.YearMonth' | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="full-width">
-                      <div class="container_input">
-                        <div class="input-group mr-1">
-                          <input autocomplete="off"
-                                 disabled
-                                 (keydown.backspace)="sal_Month_Value = null"
-                                 onpaste="return false;"
-                                 type="text"
-                                 class="form-control"
-                                 name="sal_Month_Value"
-                                 [(ngModel)]="sal_Month_Value"
-                                 bsDatepicker
-                                 [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }" />
-                          <div class="input-group-append">
-                            <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- PermissionGroup -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.PermissionGroup" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="permission_Group"
-                               name="permission_Group"
-                               [clearable]="false"
-                               [(ngModel)]="data.permission_Group"
-                               disabled>
-                      <ng-option *ngFor="let data of listPermissionGroup"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- SalaryType -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.SalaryType" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="salary_Type"
-                               name="salary_Type"
-                               [clearable]="false"
-                               [(ngModel)]="data.salary_Type"
-                               required
-                               disabled>
-                      <ng-option *ngFor="let data of listSalaryType"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-
-              <!-- Employee ID -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.EmployeeID" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
+              <div class="row">
+                <!-- Salary Lock -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.SalaryLock" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.salary_Lock"
+                             name="lock"
                              type="text"
                              class="form-control"
-                             maxlength="9"
-                             name="employee_ID"
-                             [(ngModel)]="data.employee_ID"
-                             [typeahead]="dataTypeaHead"
-                             typeaheadOptionField="key"
-                             typeaheadScrollable="true"
-                             required
                              disabled />
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Department -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Department" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="department"
-                               name="department"
-                               [clearable]="false"
-                               [(ngModel)]="data.department"
+
+                <!-- Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Factory" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="factory"
+                                 name="factory"
+                                 [clearable]="false"
+                                 [(ngModel)]="data.factory"
+                                 disabled
+                                 required>
+                        <ng-option *ngFor="let data of listFactory"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- YearMonth -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.YearMonth' | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="full-width">
+                        <div class="container_input">
+                          <div class="input-group mr-1">
+                            <input autocomplete="off"
+                                   disabled
+                                   (keydown.backspace)="sal_Month_Value = null"
+                                   onpaste="return false;"
+                                   type="text"
+                                   class="form-control"
+                                   name="sal_Month_Value"
+                                   [(ngModel)]="sal_Month_Value"
+                                   bsDatepicker
+                                   [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }" />
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PermissionGroup -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.PermissionGroup" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="permission_Group"
+                                 name="permission_Group"
+                                 [clearable]="false"
+                                 [(ngModel)]="data.permission_Group"
+                                 disabled>
+                        <ng-option *ngFor="let data of listPermissionGroup"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SalaryType -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.SalaryType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="salary_Type"
+                                 name="salary_Type"
+                                 [clearable]="false"
+                                 [(ngModel)]="data.salary_Type"
+                                 required
+                                 disabled>
+                        <ng-option *ngFor="let data of listSalaryType"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Employee ID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.EmployeeID" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-1">
+                        <input autocomplete="off"
+                               type="text"
+                               class="form-control"
+                               maxlength="9"
+                               name="employee_ID"
+                               [(ngModel)]="data.employee_ID"
+                               [typeahead]="dataTypeaHead"
+                               typeaheadOptionField="key"
+                               typeaheadScrollable="true"
                                required
-                               disabled>
-                      <ng-option *ngFor="let data of listDepartment"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
+                               disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Department -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Department" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="department"
+                                 name="department"
+                                 [clearable]="false"
+                                 [(ngModel)]="data.department"
+                                 required
+                                 disabled>
+                        <ng-option *ngFor="let data of listDepartment"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Local Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.LocalFullName" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.local_Full_Name"
+                             name="local_Full_Name"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FIN Pass Status -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.FINPassStatus" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.fiN_Pass_Status"
+                             name="fIN_Pass_Status"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Transfer -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Transfer" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.transfer"
+                             name="transfer"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Paid Salary Days -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.PaidSalaryDays" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input *ngIf="data?.monthly_Attendance"
+                             [(ngModel)]="data.monthly_Attendance.paid_Salary_Days"
+                             name="paidSalaryDays"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actual Work Days -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.ActualWorkDays" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input *ngIf="data?.monthly_Attendance"
+                             [(ngModel)]="data.monthly_Attendance.actual_Work_Days"
+                             name="actualWorkDays"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- New Hired Resigned -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NewHiredResigned" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input *ngIf="data?.monthly_Attendance"
+                             [(ngModel)]="data.monthly_Attendance.new_Hired_Resigned"
+                             name="newHiredResigned"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Probation -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Probation" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.probation"
+                             name="probation"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Currency -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Currency" | translate}}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <input [(ngModel)]="data.currency"
+                             name="currency"
+                             type="text"
+                             class="form-control"
+                             disabled />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-12 styled-div">
+                <button type="button"
+                        class="btn btn-custom-detail"
+                        (click)="isCollapsed = !isCollapsed"
+                        [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapseBasic">
+                  <i class="{{ iconButton.ADD }}"
+                     [hidden]="!isCollapsed"></i>
+                  <i class="{{ iconButton.MINUS }}"
+                     [hidden]="isCollapsed"></i>
+                  {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyAttendanceData" | translate }}
+                </button>
+                <div id="collapseBasic"
+                     class="mt-2"
+                     [collapse]="isCollapsed"
+                     [isAnimated]="true">
+                  <div class="row">
+                    <!-- Monthly Attendance Data -->
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Delay_Early" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.delay_Early"
+                                     name="delay_Early"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.No_Swip_Card" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.no_Swip_Card"
+                                     name="no_Swip_Card"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.DayShiftMealTimes" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.day_Shift_Meal_Times"
+                                     name="day_Shift_Meal_Times"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.OvertimeMealTimes" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.overtime_Meal_Times"
+                                     name="overtime_Meal_Times"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NightShiftAllowanceTimes" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.night_Shift_Allowance_Times"
+                                     name="night_Shift_Allowance_Times"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div class="form-group row">
+                            <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                              {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NightShiftMealTimes" | translate}}
+                            </label>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                              <input *ngIf="data?.monthly_Attendance"
+                                     [(ngModel)]="data.monthly_Attendance.night_Shift_Meal_Times"
+                                     name="night_Shift_Meal_Times"
+                                     type="text"
+                                     class="form-control"
+                                     mask="separator.0"
+                                     thousandSeparator=","
+                                     separatorLimit="100000000"
+                                     disabled />
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="row justify-content-center">
+                        <div class="col-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="text-center col-6">
+                                    {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Leave" | translate }}
+                                  </th>
+                                  <th class="text-center col-6">
+                                    {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyDays" | translate }}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="dataDetail.monthly_Attendance_Data.table_Left_Leave?.length > 0; else elseTemplate">
+                                <tr *ngFor="let item of dataDetail.monthly_Attendance_Data.table_Left_Leave; index as i">
+                                  <td class="text-center col-6">{{ item.leave_Code_Name }}</td>
+                                  <td class="text-center col-6 bg-disabled">{{ item.days | mask: 'separator': { thousandSeparator: ',' } }}</td>
+                                </tr>
+                              </tbody>
+                              <ng-template #elseTemplate>
+                                <tbody>
+                                  <tr>
+                                    <td colspan="100%"
+                                        class="table-warning text-center font-weight-bold">
+                                      {{ "System.Message.NoData" | translate }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </ng-template>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="text-center col-6">
+                                    {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Allowance" | translate }}
+                                  </th>
+                                  <th class="text-center col-6">
+                                    {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyHours" | translate }}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="dataDetail.monthly_Attendance_Data.table_Right_Allowance?.length > 0; else elseTemplate">
+                                <tr *ngFor="let item of dataDetail.monthly_Attendance_Data.table_Right_Allowance; index as i">
+                                  <td class="text-center col-6">{{ item.leave_Code_Name }}</td>
+                                  <td class="text-center col-6 bg-disabled">{{ item.days | mask: 'separator': { thousandSeparator: ',' } }}</td>
+                                </tr>
+                              </tbody>
+                              <ng-template #elseTemplate>
+                                <tbody>
+                                  <tr>
+                                    <td colspan="100%"
+                                        class="table-warning text-center font-weight-bold">
+                                      {{ "System.Message.NoData" | translate }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </ng-template>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-
-              <!-- Local Full Name -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.LocalFullName" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.local_Full_Name"
-                           name="local_Full_Name"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
+              <!-- Monthly Sallary Detail -->
+              <div class="col-12">
+                <div class="monthly-salary-detail">
+                  <span class="title"> {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlySallaryDetail" | translate}}</span>
                 </div>
-              </div>
-
-              <!-- FIN Pass Status -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.FINPassStatus" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.fiN_Pass_Status"
-                           name="fIN_Pass_Status"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Transfer -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Transfer" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.transfer"
-                           name="transfer"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Paid Salary Days -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.PaidSalaryDays" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input *ngIf="data?.monthly_Attendance"
-                           [(ngModel)]="data.monthly_Attendance.paid_Salary_Days"
-                           name="paidSalaryDays"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Actual Work Days -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.ActualWorkDays" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input *ngIf="data?.monthly_Attendance"
-                           [(ngModel)]="data.monthly_Attendance.actual_Work_Days"
-                           name="actualWorkDays"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- New Hired Resigned -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NewHiredResigned" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input *ngIf="data?.monthly_Attendance"
-                           [(ngModel)]="data.monthly_Attendance.new_Hired_Resigned"
-                           name="newHiredResigned"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Probation -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Probation" | translate}}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input [(ngModel)]="data.probation"
-                           name="probation"
-                           type="text"
-                           class="form-control"
-                           disabled />
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="col-12 styled-div">
-              <button type="button"
-                      class="btn btn-primary btn-custom-detail"
-                      (click)="isCollapsed = !isCollapsed"
-                      [attr.aria-expanded]="!isCollapsed"
-                      aria-controls="collapseBasic">
-                <i class="{{ iconButton.ADD }}"
-                   [hidden]="!isCollapsed"></i>
-                <i class="{{ iconButton.MINUS }}"
-                   [hidden]="isCollapsed"></i>
-                {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyAttendanceData" | translate }}
-              </button>
-              <div id="collapseBasic"
-                   class="mt-2"
-                   [collapse]="isCollapsed"
-                   [isAnimated]="true">
                 <div class="row">
-                  <!-- Monthly Attendance Data -->
                   <div class="col-12">
                     <div class="row">
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group row">
                           <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Delay_Early" | translate}}
+                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalMonthlySallaryDetail" | translate}}
                           </label>
                           <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.delay_Early"
-                                   name="delay_Early"
+                            <input [(ngModel)]="dataDetail.monthly_Salary_Detail.totalAmountReceived"
+                                   name="totalAmountReceived"
                                    type="text"
                                    class="form-control"
                                    mask="separator.0"
                                    thousandSeparator=","
                                    separatorLimit="100000000"
+                                   [allowNegativeNumbers]="true"
                                    disabled />
                           </div>
                         </div>
                       </div>
-
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12"
+                           *ngIf="dataDetail?.monthly_Salary_Detail">
                         <div class="form-group row">
-                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.No_Swip_Card" | translate}}
+                          <label class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-form-label">
+                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TaxMonthlySallaryDetail" | translate}}
+                            <span class="text-danger text-bold"> *</span>
                           </label>
-                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.no_Swip_Card"
-                                   name="no_Swip_Card"
-                                   type="text"
+                          <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                            <input required
+                                   placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TaxMonthlySallaryDetail' | translate }}"
                                    class="form-control"
+                                   type="text"
+                                   autocomplete="off"
+                                   onkeypress="return /[0-9]/i.test(event.key)"
+                                   name="tax"
                                    mask="separator.0"
                                    thousandSeparator=","
                                    separatorLimit="100000000"
-                                   disabled />
+                                   [(ngModel)]="data.tax"
+                                   (ngModelChange)="calculateTotals()"
+                                   (input)="validateAmount(data.tax)"
+                                   [disabled]="!isEdit" />
                           </div>
-                        </div>
-                      </div>
-
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group row">
-                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.DayShiftMealTimes" | translate}}
-                          </label>
-                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.day_Shift_Meal_Times"
-                                   name="day_Shift_Meal_Times"
-                                   type="text"
-                                   class="form-control"
-                                   mask="separator.0"
-                                   thousandSeparator=","
-                                   separatorLimit="100000000"
-                                   disabled />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group row">
-                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.OvertimeMealTimes" | translate}}
-                          </label>
-                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.overtime_Meal_Times"
-                                   name="overtime_Meal_Times"
-                                   type="text"
-                                   class="form-control"
-                                   mask="separator.0"
-                                   thousandSeparator=","
-                                   separatorLimit="100000000"
-                                   disabled />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group row">
-                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NightShiftAllowanceTimes" | translate}}
-                          </label>
-                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.night_Shift_Allowance_Times"
-                                   name="night_Shift_Allowance_Times"
-                                   type="text"
-                                   class="form-control"
-                                   mask="separator.0"
-                                   thousandSeparator=","
-                                   separatorLimit="100000000"
-                                   disabled />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group row">
-                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.NightShiftMealTimes" | translate}}
-                          </label>
-                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                            <input *ngIf="data?.monthly_Attendance"
-                                   [(ngModel)]="data.monthly_Attendance.night_Shift_Meal_Times"
-                                   name="night_Shift_Meal_Times"
-                                   type="text"
-                                   class="form-control"
-                                   mask="separator.0"
-                                   thousandSeparator=","
-                                   separatorLimit="100000000"
-                                   disabled />
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="row justify-content-center">
-                      <div class="col-6">
-                        <div class="table-responsive">
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th class="text-center col-6">
-                                  {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Leave" | translate }}
-                                </th>
-                                <th class="text-center col-6">
-                                  {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyDays" | translate }}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody *ngIf="dataDetail.monthly_Attendance_Data.table_Left_Leave?.length > 0; else elseTemplate">
-                              <tr *ngFor="let item of dataDetail.monthly_Attendance_Data.table_Left_Leave; index as i">
-                                <td class="text-center col-6">{{ item.leave_Code_Name }}</td>
-                                <td class="text-center col-6 bg-disabled">{{ item.days | mask: 'separator': { thousandSeparator: ',' } }}</td>
-                              </tr>
-                            </tbody>
-                            <ng-template #elseTemplate>
-                              <tbody>
-                                <tr>
-                                  <td colspan="100%"
-                                      class="table-warning text-center font-weight-bold">
-                                    {{ "System.Message.Nodata" | translate }}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </ng-template>
-                          </table>
-                        </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="table-responsive">
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th class="text-center col-6">
-                                  {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Allowance" | translate }}
-                                </th>
-                                <th class="text-center col-6">
-                                  {{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlyHours" | translate }}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody *ngIf="dataDetail.monthly_Attendance_Data.table_Right_Allowance?.length > 0; else elseTemplate">
-                              <tr *ngFor="let item of dataDetail.monthly_Attendance_Data.table_Right_Allowance; index as i">
-                                <td class="text-center col-6">{{ item.leave_Code_Name }}</td>
-                                <td class="text-center col-6 bg-disabled">{{ item.days | mask: 'separator': { thousandSeparator: ',' } }}</td>
-                              </tr>
-                            </tbody>
-                            <ng-template #elseTemplate>
-                              <tbody>
-                                <tr>
-                                  <td colspan="100%"
-                                      class="table-warning text-center font-weight-bold">
-                                    {{ "System.Message.Nodata" | translate }}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </ng-template>
-                          </table>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Monthly Sallary Detail -->
-            <div class="col-12">
-              <div class="monthly-salary-detail">
-                <span class="title"> {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.MonthlySallaryDetail" | translate}}</span>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group row">
-                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                          {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalMonthlySallaryDetail" | translate}}
-                        </label>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                          <input [(ngModel)]="dataDetail.monthly_Salary_Detail.totalAmountReceived"
-                                 name="totalAmountReceived"
-                                 type="text"
-                                 class="form-control"
-                                 mask="separator.0"
-                                 thousandSeparator=","
-                                 separatorLimit="100000000"
-                                 disabled />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12"
-                         *ngIf="dataDetail?.monthly_Salary_Detail">
-                      <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-form-label">
-                          {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TaxMonthlySallaryDetail" | translate}}
-                          <span class="text-danger text-bold"> *</span>
-                        </label>
-                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                          <input required
-                                 placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TaxMonthlySallaryDetail' | translate }}"
-                                 class="form-control"
-                                 type="text"
-                                 autocomplete="off"
-                                 onkeypress="return /[0-9]/i.test(event.key)"
-                                 name="tax"
-                                 mask="separator.0"
-                                 thousandSeparator=","
-                                 separatorLimit="100000000"
-                                 [(ngModel)]="data.tax"
-                                 (ngModelChange)="calculateTotals()"
-                                 (input)="validateAmount(data.tax)"
-                                 [disabled]="!isEdit" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <!-- Table -->
+                  <div class="col-12 pr-0">
+                    <div class="table-responsive">
+                      <drag-scroll id="dragscroll"
+                                   (dragStart)="functionUtility.setTextSelector(false)"
+                                   (dragEnd)="functionUtility.setTextSelector(true)">
 
-                <!-- Table -->
-                <div class="col-12 pr-0">
-                  <div class="table-responsive">
-                    <drag-scroll id="dragscroll"
-                                 (dragStart)="functionUtility.setTextSelector(false)"
-                                 (dragEnd)="functionUtility.setTextSelector(true)">
-
-                      <table drag-scroll-item
-                             class="table table-bordered break-spaces">
-                        <thead>
-                          <tr>
-                            <th class="text-center text-nowrap"
-                                [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable1" | translate }}</th>
-                            <th class="text-center text-nowrap"
-                                [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable2" | translate }}</th>
-                            <th class="text-center text-nowrap"
-                                [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable3" | translate }}</th>
-                            <th class="text-center text-nowrap"
-                                [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable4" | translate }}</th>
-                            <th class="text-center text-nowrap"
-                                [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable5" | translate }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <td [attr.colspan]="2"
-                              class="p-0">
-                            <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table1; let i=index">
-                              <tr class="d-flex">
-                                <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
-                                </ng-container>
-                                <ng-template #dataRowTemplate>
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
-                                    <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
-                                           class="form-control"
-                                           type="text"
-                                           required
-                                           mask="separator.0"
-                                           thousandSeparator=","
-                                           separatorLimit="100000000"
-                                           autocomplete="off"
-                                           onkeypress="return /[0-9]/i.test(event.key)"
-                                           [name]="i + item.item_Name"
-                                           [(ngModel)]="item.amount"
-                                           (ngModelChange)="calculateTotals()"
-                                           (input)="validateAmount(item.amount)"
-                                           [disabled]="!isEdit" />
-                                  </td>
-                                </ng-template>
-                              </tr>
-                            </ng-container>
-
-                            <tr class="d-flex">
-                              <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable1" | translate }}</td>
-                              <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
-                                {{dataDetail.monthly_Salary_Detail.total_Item_Table1 | mask: 'separator': { thousandSeparator: ',' } }}
-                              </td>
-                            </tr>
-                          </td>
-
-                          <td [attr.colspan]="2"
-                              class="p-0">
-                            <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table2;let i=index">
-                              <tr class="d-flex">
-                                <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
-                                </ng-container>
-                                <ng-template #dataRowTemplate>
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
-                                    <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
-                                           class="form-control"
-                                           type="text"
-                                           required
-                                           mask="separator.0"
-                                           thousandSeparator=","
-                                           separatorLimit="100000000"
-                                           autocomplete="off"
-                                           onkeypress="return /[0-9]/i.test(event.key)"
-                                           [name]="i + item.item_Name"
-                                           [(ngModel)]="item.amount"
-                                           (ngModelChange)="calculateTotals()"
-                                           (input)="validateAmount(item.amount)"
-                                           [disabled]="!isEdit" />
-                                  </td>
-                                </ng-template>
-                              </tr>
-                            </ng-container>
-                            <tr class="d-flex">
-                              <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable2" | translate }}</td>
-                              <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
-                                {{dataDetail.monthly_Salary_Detail.total_Item_Table2 | mask: 'separator': { thousandSeparator: ',' } }}
-                              </td>
-                            </tr>
-                          </td>
-
-                          <td [attr.colspan]="2"
-                              class="p-0">
-                            <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table3;let i=index">
-                              <tr class="d-flex">
-                                <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
-                                </ng-container>
-                                <ng-template #dataRowTemplate>
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
-                                    <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
-                                           class="form-control"
-                                           type="text"
-                                           required
-                                           mask="separator.0"
-                                           thousandSeparator=","
-                                           separatorLimit="100000000"
-                                           autocomplete="off"
-                                           onkeypress="return /[0-9]/i.test(event.key)"
-                                           [name]="i + item.item_Name"
-                                           [(ngModel)]="item.amount"
-                                           (ngModelChange)="calculateTotals()"
-                                           (input)="validateAmount(item.amount)"
-                                           [disabled]="!isEdit" />
-                                  </td>
-                                </ng-template>
-                              </tr>
-                            </ng-container>
-                            <tr class="d-flex">
-                              <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable3" | translate }}</td>
-                              <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
-                                {{dataDetail.monthly_Salary_Detail.total_Item_Table3 | mask: 'separator': { thousandSeparator: ',' } }}
-                              </td>
-                            </tr>
-                          </td>
-
-                          <td [attr.colspan]="2"
-                              class="p-0">
-                            <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table4;let i=index">
-                              <tr class="d-flex">
-                                <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
-                                </ng-container>
-                                <ng-template #dataRowTemplate>
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
-                                    <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
-                                           class="form-control"
-                                           type="text"
-                                           required
-                                           mask="separator.0"
-                                           thousandSeparator=","
-                                           separatorLimit="100000000"
-                                           autocomplete="off"
-                                           onkeypress="return /[0-9]/i.test(event.key)"
-                                           [name]="i + item.item_Name"
-                                           [(ngModel)]="item.amount"
-                                           (ngModelChange)="calculateTotals()"
-                                           (input)="validateAmount(item.amount)"
-                                           [disabled]="!isEdit" />
-                                  </td>
-                                </ng-template>
-                              </tr>
-                            </ng-container>
-                            <tr class="d-flex">
-                              <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable4" | translate }}</td>
-                              <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
-                                {{dataDetail.monthly_Salary_Detail.total_Item_Table4 | mask: 'separator': { thousandSeparator: ',' } }}
-                              </td>
-                            </tr>
-                          </td>
-
-                          <td [attr.colspan]="2"
-                              class="p-0">
-                            <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table5;let i=index">
-                              <tr class="d-flex">
-                                <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
-                                </ng-container>
-                                <ng-template #dataRowTemplate>
-                                  <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
-                                  <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
-                                    <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
-                                           class="form-control"
-                                           type="text"
-                                           required
-                                           mask="separator.0"
-                                           thousandSeparator=","
-                                           separatorLimit="100000000"
-                                           autocomplete="off"
-                                           onkeypress="return /[0-9]/i.test(event.key)"
-                                           [name]="i + item.item_Name"
-                                           [(ngModel)]="item.amount"
-                                           (ngModelChange)="calculateTotals()"
-                                           (input)="validateAmount(item.amount)"
-                                           [disabled]="!isEdit" />
-                                  </td>
-                                </ng-template>
-                              </tr>
-                            </ng-container>
-                            <tr class="d-flex">
-                              <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable5" | translate }}</td>
-                              <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
-                                {{dataDetail.monthly_Salary_Detail.total_Item_Table5 | mask: 'separator': { thousandSeparator: ',' } }}
-                              </td>
-                            </tr>
-                          </td>
-                        </tbody>
-                        <ng-template #elseTemplate>
-                          <tbody>
+                        <table drag-scroll-item
+                               class="table table-bordered break-spaces">
+                          <thead>
                             <tr>
-                              <td colspan="100%"
-                                  class="table-warning text-center font-weight-bold">
-                                {{ "System.Message.Nodata" | translate }}
-                              </td>
+                              <th class="text-center text-nowrap"
+                                  [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable1" | translate }}</th>
+                              <th class="text-center text-nowrap"
+                                  [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable2" | translate }}</th>
+                              <th class="text-center text-nowrap"
+                                  [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable3" | translate }}</th>
+                              <th class="text-center text-nowrap"
+                                  [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable4" | translate }}</th>
+                              <th class="text-center text-nowrap"
+                                  [attr.colspan]="2">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TitleTable5" | translate }}</th>
                             </tr>
-                          </tbody>
-                        </ng-template>
-                      </table>
-                    </drag-scroll>
-                  </div>
-                </div>
+                          </thead>
+                          <tbody>
+                            <td [attr.colspan]="2"
+                                class="p-0">
+                              <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table1; let i=index">
+                                <tr class="d-flex">
+                                  <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
+                                  </ng-container>
+                                  <ng-template #dataRowTemplate>
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
+                                      <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
+                                             class="form-control"
+                                             type="text"
+                                             required
+                                             mask="separator.0"
+                                             thousandSeparator=","
+                                             separatorLimit="100000000"
+                                             autocomplete="off"
+                                             onkeypress="return /[0-9]/i.test(event.key)"
+                                             [name]="i + item.item_Name"
+                                             [(ngModel)]="item.amount"
+                                             (ngModelChange)="calculateTotals()"
+                                             (input)="validateAmount(item.amount)"
+                                             [disabled]="!isEdit" />
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                              </ng-container>
 
-                <div class="col-12 mt-3">
-                  <div class="row justify-content-end">
-                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group row">
-                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                          {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.UpdateBy" | translate}}
-                        </label>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                          <input [(ngModel)]="data.update_By"
-                                 name="update_By"
-                                 type="text"
-                                 class="form-control"
-                                 disabled />
+                              <tr class="d-flex">
+                                <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable1" | translate }}</td>
+                                <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
+                                  {{dataDetail.monthly_Salary_Detail.total_Item_Table1 | mask: 'separator': { thousandSeparator: ',' } }}
+                                </td>
+                              </tr>
+                            </td>
+
+                            <td [attr.colspan]="2"
+                                class="p-0">
+                              <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table2;let i=index">
+                                <tr class="d-flex">
+                                  <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
+                                  </ng-container>
+                                  <ng-template #dataRowTemplate>
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
+                                      <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
+                                             class="form-control"
+                                             type="text"
+                                             required
+                                             mask="separator.0"
+                                             thousandSeparator=","
+                                             separatorLimit="100000000"
+                                             autocomplete="off"
+                                             onkeypress="return /[0-9]/i.test(event.key)"
+                                             [name]="i + item.item_Name"
+                                             [(ngModel)]="item.amount"
+                                             (ngModelChange)="calculateTotals()"
+                                             (input)="validateAmount(item.amount)"
+                                             [disabled]="!isEdit" />
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                              </ng-container>
+                              <tr class="d-flex">
+                                <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable2" | translate }}</td>
+                                <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
+                                  {{dataDetail.monthly_Salary_Detail.total_Item_Table2 | mask: 'separator': { thousandSeparator: ',' } }}
+                                </td>
+                              </tr>
+                            </td>
+
+                            <td [attr.colspan]="2"
+                                class="p-0">
+                              <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table3;let i=index">
+                                <tr class="d-flex">
+                                  <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
+                                  </ng-container>
+                                  <ng-template #dataRowTemplate>
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
+                                      <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
+                                             class="form-control"
+                                             type="text"
+                                             required
+                                             mask="separator.0"
+                                             thousandSeparator=","
+                                             separatorLimit="100000000"
+                                             autocomplete="off"
+                                             onkeypress="return /[0-9]/i.test(event.key)"
+                                             [name]="i + item.item_Name"
+                                             [(ngModel)]="item.amount"
+                                             (ngModelChange)="calculateTotals()"
+                                             (input)="validateAmount(item.amount)"
+                                             [disabled]="!isEdit" />
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                              </ng-container>
+                              <tr class="d-flex">
+                                <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable3" | translate }}</td>
+                                <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
+                                  {{dataDetail.monthly_Salary_Detail.total_Item_Table3 | mask: 'separator': { thousandSeparator: ',' } }}
+                                </td>
+                              </tr>
+                            </td>
+
+                            <td [attr.colspan]="2"
+                                class="p-0">
+                              <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table4;let i=index">
+                                <tr class="d-flex">
+                                  <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
+                                  </ng-container>
+                                  <ng-template #dataRowTemplate>
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
+                                      <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
+                                             class="form-control"
+                                             type="text"
+                                             required
+                                             mask="separator.0"
+                                             thousandSeparator=","
+                                             separatorLimit="100000000"
+                                             autocomplete="off"
+                                             onkeypress="return /[0-9]/i.test(event.key)"
+                                             [name]="i + item.item_Name"
+                                             [(ngModel)]="item.amount"
+                                             (ngModelChange)="calculateTotals()"
+                                             (input)="validateAmount(item.amount)"
+                                             [disabled]="!isEdit" />
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                              </ng-container>
+                              <tr class="d-flex">
+                                <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable4" | translate }}</td>
+                                <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
+                                  {{dataDetail.monthly_Salary_Detail.total_Item_Table4 | mask: 'separator': { thousandSeparator: ',' } }}
+                                </td>
+                              </tr>
+                            </td>
+
+                            <td [attr.colspan]="2"
+                                class="p-0">
+                              <ng-container *ngFor="let item of dataDetail.monthly_Salary_Detail.salary_Item_Table5;let i=index">
+                                <tr class="d-flex">
+                                  <ng-container *ngIf="item.item_Name === '___temp'; else dataRowTemplate">
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center"></td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center"></td>
+                                  </ng-container>
+                                  <ng-template #dataRowTemplate>
+                                    <td class="text-center col-6 min-height-custom table-warning d-flex justify-content-center align-items-center">{{ item.item_Name }}</td>
+                                    <td class="text-center col-6 min-height-custom d-flex justify-content-center align-items-center">
+                                      <input placeholder="{{'SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.Amount' | translate }}"
+                                             class="form-control"
+                                             type="text"
+                                             required
+                                             mask="separator.0"
+                                             thousandSeparator=","
+                                             separatorLimit="100000000"
+                                             autocomplete="off"
+                                             onkeypress="return /[0-9]/i.test(event.key)"
+                                             [name]="i + item.item_Name"
+                                             [(ngModel)]="item.amount"
+                                             (ngModelChange)="calculateTotals()"
+                                             (input)="validateAmount(item.amount)"
+                                             [disabled]="!isEdit" />
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                              </ng-container>
+                              <tr class="d-flex">
+                                <td class="text-center col-6 min-height-custom table-warning font-weight-bold d-flex justify-content-center align-items-center">{{ "SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.TotalTable5" | translate }}</td>
+                                <td class="text-center col-6 min-height-custom bg-disabled d-flex justify-content-center align-items-center">
+                                  {{dataDetail.monthly_Salary_Detail.total_Item_Table5 | mask: 'separator': { thousandSeparator: ',' } }}
+                                </td>
+                              </tr>
+                            </td>
+                          </tbody>
+                          <ng-template #elseTemplate>
+                            <tbody>
+                              <tr>
+                                <td colspan="100%"
+                                    class="table-warning text-center font-weight-bold">
+                                  {{ "System.Message.NoData" | translate }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </ng-template>
+                        </table>
+                      </drag-scroll>
+                    </div>
+                  </div>
+
+                  <div class="col-12 mt-3">
+                    <div class="row justify-content-end">
+                      <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group row">
+                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.UpdateBy" | translate}}
+                          </label>
+                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                            <input [(ngModel)]="data.update_By"
+                                   name="update_By"
+                                   type="text"
+                                   class="form-control"
+                                   disabled />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <div class="form-group row">
-                        <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                          {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.UpdateTime" | translate}}
-                        </label>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                          <input [(ngModel)]="data.update_Time"
-                                 name="update_Time"
-                                 type="text"
-                                 class="form-control"
-                                 disabled />
+                      <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group row">
+                          <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                            {{"SalaryMaintenance.MonthlySalaryMaintenanceExitedEmployees.UpdateTime" | translate}}
+                          </label>
+                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                            <input [(ngModel)]="data.update_Time"
+                                   name="update_Time"
+                                   type="text"
+                                   class="form-control"
+                                   disabled />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -821,10 +841,7 @@
                 </div>
               </div>
             </div>
-
-
           </form>
-
           <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12 col-sm-12">
               <div class="mt-2 text-right">

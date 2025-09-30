@@ -24,14 +24,14 @@
         <div class="row">
           <!-- Factory -->
           <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'Factory' | translate }}
               <span class="text-danger"> *</span></label>
             <ng-select name="factoryMonthSalary"
                        [(ngModel)]="salaryGeneration_Param.factory"
                        (clear)="deleteProperty('factory')"
                        (ngModelChange)="onFactoryChange()"
                        [clearable]="salaryGeneration_Param.factory!== ''"
-                       placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}"
+                       placeholder="{{this.i18n + 'Factory' | translate }}"
                        required>
               <ng-option *ngFor="let item of factoryList"
                          [value]="item.key">{{ item.value }}</ng-option>
@@ -39,7 +39,7 @@
           </div>
           <!-- Year Month -->
           <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.YearMonth' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'YearMonth' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="full-width">
               <div class="container_input">
@@ -65,11 +65,11 @@
           <!-- Employee ID -->
           <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
             <label for="textDepartment"
-                   class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.EmployeeID' | translate }}
+                   class="badge badge-warning">{{this.i18n + 'EmployeeID' | translate }}
             </label>
             <input autocomplete="off"
                    type="text"
-                   placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.EmployeeID' | translate }}"
+                   placeholder="{{this.i18n + 'EmployeeID' | translate }}"
                    class="form-control"
                    maxlength="16"
                    name="employeeID"
@@ -78,12 +78,12 @@
           <!-- Paid Salary Days -->
           <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
             <label for="textDepartment"
-                   class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryDays' | translate }}
+                   class="badge badge-warning">{{this.i18n + 'SalaryDays' | translate }}
               <span class="text-danger"> *</span>
             </label>
             <input autocomplete="off"
                    type="text"
-                   placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryDays' | translate }}"
+                   placeholder="{{this.i18n + 'SalaryDays' | translate }}"
                    class="form-control"
                    (keypress)="validateDecimal($event)"
                    (paste)="onDecimalPaste($event)"
@@ -96,7 +96,7 @@
             <div class="row">
               <div class="col-auto">
                 <label for="namePermissionMonthSalary"
-                       class="badge badge-warning"> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup" | translate }}
+                       class="badge badge-warning"> {{ this.i18n + "PermissionGroup" | translate }}
                   <span class="text-danger text-bold"> *</span>
                 </label>
                 <ng-select [items]="permissionGroupList"
@@ -111,31 +111,41 @@
                            [(ngModel)]="salaryGeneration_Param.permission_Group"
                            [disabled]="!salaryGeneration_Param.factory"
                            required
-                           placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup'| translate}}">
+                           placeholder="{{this.i18n + 'PermissionGroup'| translate}}">
                   <ng-template ng-optgroup-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemMonthSalary-{{ index }}"
-                           type="checkbox"
-                           name="itemMonthSalary-{{ index }}"
-                           [ngModel]="item$.selected" />
-                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemMonthSalary-{{ index }}"
-                           name="itemMonthSalary-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" />
-                    {{ item.value }}
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Execute')"
                     type="button"
                     class="{{ classButton.SAVE }}"
@@ -145,7 +155,7 @@
             </button>
           </div>
           <div class="col-12 mt-2">
-            <strong> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Total" | translate }}
+            <strong> {{ this.i18n + "Total" | translate }}
               <span class="text-primary"> {{salaryGeneration_Param.total_Rows}} </span>
             </strong>
           </div>
@@ -164,14 +174,14 @@
         <div class="row">
           <!-- Factory -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'Factory' | translate }}
               <span class="text-danger"> *</span></label>
             <ng-select name="factoryDataLock"
                        [(ngModel)]="dataLock_Param.factory"
                        (clear)="deleteProperty('factory')"
                        (ngModelChange)="onFactoryChange()"
                        [clearable]="dataLock_Param.factory!== ''"
-                       placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Factory' | translate }}"
+                       placeholder="{{this.i18n + 'Factory' | translate }}"
                        required>
               <ng-option *ngFor="let item of factoryList"
                          [value]="item.key">{{ item.value }}</ng-option>
@@ -179,7 +189,7 @@
           </div>
           <!-- Year Month -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.YearMonth' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'YearMonth' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="full-width">
               <div class="container_input">
@@ -204,22 +214,22 @@
           </div>
           <!-- Salary Lock -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.SalaryLock' | translate }}
+            <label class="badge badge-warning">{{this.i18n + 'SalaryLock' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="custom-control custom-radio  mt-2">
               @for (item of salaryLockList; track item.key; let i = $index) {
-              <div class="form-check form-check-inline">
-                <input type="checkbox"
-                       class="custom-control-input"
-                       id="salaryLock-{{i}}"
-                       name="salaryLock-{{i}}"
-                       [value]="item.key"
-                       [(ngModel)]="item.optional"
-                       (click)="onRadioChange($event)" />
-                <label class="custom-control-label font-weight-bold"
-                       for="salaryLock-{{i}}">{{item.key}}
-                </label>
-              </div>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox"
+                         class="custom-control-input"
+                         id="salaryLock-{{i}}"
+                         name="salaryLock-{{i}}"
+                         [value]="item.key"
+                         [(ngModel)]="item.optional"
+                         (click)="onRadioChange($event)" />
+                  <label class="custom-control-label font-weight-bold"
+                         for="salaryLock-{{i}}">{{item.key}}
+                  </label>
+                </div>
               }
             </div>
           </div>
@@ -228,7 +238,7 @@
             <div class="row">
               <div class="col-auto">
                 <label for="namePermissionDataLock"
-                       class="badge badge-warning"> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup" | translate }}
+                       class="badge badge-warning"> {{ this.i18n + "PermissionGroup" | translate }}
                   <span class="text-danger text-bold"> *</span>
                 </label>
                 <ng-select [items]="permissionGroupList"
@@ -243,31 +253,41 @@
                            [(ngModel)]="dataLock_Param.permission_Group"
                            [disabled]="!dataLock_Param.factory"
                            required
-                           placeholder="{{'SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.PermissionGroup'| translate}}">
+                           placeholder="{{this.i18n + 'PermissionGroup'| translate}}">
                   <ng-template ng-optgroup-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemDataLock-{{ index }}"
-                           type="checkbox"
-                           name="itemDataLock-{{ index }}"
-                           [ngModel]="item$.selected" />
-                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemDataLock-{{ index }}"
-                           name="itemDataLock-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" />
-                    {{ item.value }}
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Execute')"
                     type="button"
                     class="{{ classButton.SAVE }}"
@@ -277,7 +297,7 @@
             </button>
           </div>
           <div class="col-12 mt-2">
-            <strong> {{ "SalaryMaintenance.MonthlySalaryGenerationExitedEmployees.Total" | translate }}
+            <strong> {{ this.i18n + "Total" | translate }}
               <span class="text-primary"> {{dataLock_Param.total_Rows}} </span>
             </strong>
           </div>

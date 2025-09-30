@@ -88,7 +88,7 @@ namespace API._Services.Services.EmployeeMaintenance
         public async Task<OperationResult> Update(EmployeeTransferHistoryDTO dto)
         {
             var item = await _repositoryAccessor.HRMS_Emp_Transfer_History.FirstOrDefaultAsync(x => x.History_GUID == dto.History_GUID);
-            if (item == null) return new OperationResult(false, "System.Message.Nodata");
+            if (item == null) return new OperationResult(false, "System.Message.NoData");
 
             item.Department_After = dto.Department_After;
             item.Position_Grade_After = dto.Position_Grade_After;
@@ -119,7 +119,7 @@ namespace API._Services.Services.EmployeeMaintenance
         public async Task<OperationResult> DownloadFileExcel(EmployeeTransferHistoryParam param, List<string> roleList)
         {
             var data = await GetData(param, roleList);
-            if (!data.Any()) return new OperationResult(false, "System.Message.Nodata");
+            if (!data.Any()) return new OperationResult(false, "System.Message.NoData");
 
             List<Cell> dataCells = new();
             var index = 2;
@@ -700,7 +700,7 @@ namespace API._Services.Services.EmployeeMaintenance
             var item = await _repositoryAccessor.HRMS_Emp_Transfer_History.FirstOrDefaultAsync(x => x.History_GUID == dto.History_GUID
                                                                             && x.Effective_Status == dto.Effective_Status);
 
-            if (item == null) return new OperationResult(false, "System.Message.Nodata");
+            if (item == null) return new OperationResult(false, "System.Message.NoData");
 
             _repositoryAccessor.HRMS_Emp_Transfer_History.Remove(item);
             try

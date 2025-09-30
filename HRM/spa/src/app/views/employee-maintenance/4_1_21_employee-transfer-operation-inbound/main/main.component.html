@@ -16,237 +16,215 @@
             <div class="row border-shadow">
               <!-- Nationality -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="nationality"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Nationality" | translate }}
-                  </label>
-                  <ng-select id="nationality"
-                             name="nationality"
-                             [(ngModel)]="param.nationality"
-                             [clearable]="param.nationality != ''"
-                             (clear)="deleteProperty('nationality')"
-                             placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Nationality' | translate }}">
-                    <ng-option *ngFor="let data of listNationality"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="nationality"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Nationality" | translate }}
+                </label>
+                <ng-select id="nationality"
+                           name="nationality"
+                           [(ngModel)]="param.nationality"
+                           [clearable]="param.nationality != ''"
+                           (clear)="deleteProperty('nationality')"
+                           placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Nationality' | translate }}">
+                  <ng-option *ngFor="let data of listNationality"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Identification Number -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="identificationNumber"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.IdentificationNumber" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="identificationNumber"
-                         name="identificationNumber"
-                         maxlength="50"
-                         [(ngModel)]="param.identificationNumber"
-                         placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.IdentificationNumber' | translate }}"
-                         autocomplete="off" />
-                </div>
+                <label for="identificationNumber"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.IdentificationNumber" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="identificationNumber"
+                       name="identificationNumber"
+                       maxlength="50"
+                       [(ngModel)]="param.identificationNumber"
+                       placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.IdentificationNumber' | translate }}"
+                       autocomplete="off" />
               </div>
               <!-- Division -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="division"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Division" | translate }}
-                  </label>
-                  <ng-select id="division"
-                             name="division"
-                             [(ngModel)]="param.division"
-                             (ngModelChange)="onChangeDivision()"
-                             [clearable]="param.division != ''"
-                             (clear)="deleteProperty('division')"
-                             placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Division' | translate }}">
-                    <ng-option *ngFor="let data of listDivision"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="division"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Division" | translate }}
+                </label>
+                <ng-select id="division"
+                           name="division"
+                           [(ngModel)]="param.division"
+                           (ngModelChange)="onChangeDivision()"
+                           [clearable]="param.division != ''"
+                           (clear)="deleteProperty('division')"
+                           placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Division' | translate }}">
+                  <ng-option *ngFor="let data of listDivision"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Factory" | translate }}
-                  </label>
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="param.factory"
-                             [clearable]="param.factory != ''"
-                             (clear)="deleteProperty('factory')"
-                             [disabled]="!param.division"
-                             placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Factory' | translate }}">
-                    <ng-option *ngFor="let data of listFactory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Factory" | translate }}
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           [disabled]="!param.division"
+                           placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.Factory' | translate }}">
+                  <ng-option *ngFor="let data of listFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Employee ID -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="employeeID"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EmployeeID" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="employeeID"
-                         name="employeeID"
-                         maxlength="9"
-                         [(ngModel)]="param.employeeID"
-                         placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.EmployeeID' | translate }}"
-                         autocomplete="off" />
-                </div>
+                <label for="employeeID"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employeeID"
+                       name="employeeID"
+                       maxlength="9"
+                       [(ngModel)]="param.employeeID"
+                       placeholder="{{ 'EmployeeInformationModule.EmployeeTransferOperationInbound.EmployeeID' | translate }}"
+                       autocomplete="off" />
               </div>
               <!-- Local Full Name -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="localFullName"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.LocalFullName" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="localFullName"
-                         name="localFullName"
-                         maxlength="50"
-                         [(ngModel)]="param.localFullName"
-                         placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.LocalFullName' | translate }}"
-                         autocomplete="off" />
-                </div>
+                <label for="localFullName"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.LocalFullName" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="localFullName"
+                       name="localFullName"
+                       maxlength="50"
+                       [(ngModel)]="param.localFullName"
+                       placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.LocalFullName' | translate }}"
+                       autocomplete="off" />
               </div>
               <!-- Assigned/Supported Division -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="assignedDivision"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedDivision" | translate }}
-                  </label>
-                  <ng-select id="assignedDivision"
-                             name="assignedDivision"
-                             [(ngModel)]="param.assignedDivision"
-                             (ngModelChange)="onChangeAssignedDivision()"
-                             [clearable]="param.assignedDivision != ''"
-                             (clear)="deleteProperty('assignedDivision')"
-                             placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedDivision' | translate }}">
-                    <ng-option *ngFor="let data of listDivision"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="assignedDivision"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedDivision" | translate }}
+                </label>
+                <ng-select id="assignedDivision"
+                           name="assignedDivision"
+                           [(ngModel)]="param.assignedDivision"
+                           (ngModelChange)="onChangeAssignedDivision()"
+                           [clearable]="param.assignedDivision != ''"
+                           (clear)="deleteProperty('assignedDivision')"
+                           placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedDivision' | translate }}">
+                  <ng-option *ngFor="let data of listDivision"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Assigned/Supported Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="assignedFactory"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedFactory" | translate }}
-                  </label>
-                  <ng-select id="assignedFactory"
-                             name="assignedFactory"
-                             [(ngModel)]="param.assignedFactory"
-                             [clearable]="param.assignedFactory != ''"
-                             (clear)="deleteProperty('assignedFactory')"
-                             [disabled]="!param.assignedDivision"
-                             placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedFactory' | translate }}">
-                    <ng-option *ngFor="let data of listAssignedFactory"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="assignedFactory"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedFactory" | translate }}
+                </label>
+                <ng-select id="assignedFactory"
+                           name="assignedFactory"
+                           [(ngModel)]="param.assignedFactory"
+                           [clearable]="param.assignedFactory != ''"
+                           (clear)="deleteProperty('assignedFactory')"
+                           [disabled]="!param.assignedDivision"
+                           placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedFactory' | translate }}">
+                  <ng-option *ngFor="let data of listAssignedFactory"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Assigned/Supported Employee ID -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="assignedEmployeeID"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedEmployeeID" | translate }}
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         id="assignedEmployeeID"
-                         name="assignedEmployeeID"
-                         maxlength="9"
-                         [(ngModel)]="param.assignedEmployeeID"
-                         placeholder="{{
+                <label for="assignedEmployeeID"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedEmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="assignedEmployeeID"
+                       name="assignedEmployeeID"
+                       maxlength="9"
+                       [(ngModel)]="param.assignedEmployeeID"
+                       placeholder="{{
                       'EmployeeInformationModule.EmployeeTransferOperationInbound.Assigned/SupportedEmployeeID'| translate }}"
-                         autocomplete="off" />
-                </div>
+                       autocomplete="off" />
               </div>
               <!-- Reason For Change -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="reasonForChange"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.ReasonForChange" | translate }}
-                  </label>
-                  <ng-select id="reasonForChange"
-                             name="reasonForChange"
-                             [(ngModel)]="param.reasonForChange"
-                             [clearable]="param.reasonForChange != ''"
-                             (clear)="deleteProperty('reasonForChange')"
-                             placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.ReasonForChange' | translate }}">
-                    <ng-option *ngFor="let data of listReasonChange"
-                               [value]="data.key">
-                      {{ data.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="reasonForChange"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.ReasonForChange" | translate }}
+                </label>
+                <ng-select id="reasonForChange"
+                           name="reasonForChange"
+                           [(ngModel)]="param.reasonForChange"
+                           [clearable]="param.reasonForChange != ''"
+                           (clear)="deleteProperty('reasonForChange')"
+                           placeholder="{{'EmployeeInformationModule.EmployeeTransferOperationInbound.ReasonForChange' | translate }}">
+                  <ng-option *ngFor="let data of listReasonChange"
+                             [value]="data.key">
+                    {{ data.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Effective Date -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="effectiveDate"
-                         class="badge badge-warning">
-                    {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EffectiveDate"| translate }}
-                  </label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="effectiveDateStart"
-                               [(ngModel)]="param.effectiveDateStart"
-                               (ngModelChange)="onDateChange('effectiveDateStart')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [maxDate]="param.effectiveDateEnd"
-                               [required]="param.effectiveDateEnd" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                        </div>
+                <label for="effectiveDate"
+                       class="badge badge-warning">
+                  {{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EffectiveDate"| translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="effectiveDateStart"
+                             [(ngModel)]="param.effectiveDateStart"
+                             (ngModelChange)="onDateChange('effectiveDateStart')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [maxDate]="param.effectiveDateEnd"
+                             [required]="param.effectiveDateEnd" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
-                      <div class="input-group ml-1">
-                        <input type="text"
-                               autocomplete="off"
-                               class="form-control"
-                               bsDatepicker
-                               name="effectiveDateEnd"
-                               [(ngModel)]="param.effectiveDateEnd"
-                               (ngModelChange)="onDateChange('effectiveDateEnd')"
-                               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-                               placeholder="YYYY/MM/DD"
-                               [minDate]="param.effectiveDateStart"
-                               [required]="param.effectiveDateStart" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                        </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input type="text"
+                             autocomplete="off"
+                             class="form-control"
+                             bsDatepicker
+                             name="effectiveDateEnd"
+                             [(ngModel)]="param.effectiveDateEnd"
+                             (ngModelChange)="onDateChange('effectiveDateEnd')"
+                             [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
+                             placeholder="YYYY/MM/DD"
+                             [minDate]="param.effectiveDateStart"
+                             [required]="param.effectiveDateStart" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
                     </div>
                   </div>
@@ -254,35 +232,34 @@
               </div>
               <!-- Effective Status -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label class="badge badge-warning">{{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EffectiveStatus" | translate }}
-                  </label>
-                  <div class="row pl-3">
-                    <div *ngFor="let item of effectiveStatus; index as i">
-                      <label class="container">
-                        <div class="row">
-                          <div class="custom-control custom-radio pt-2">
-                            <input [id]="'effectiveStatus' + i"
-                                   class="custom-control-input"
-                                   type="radio"
-                                   checked="checked"
-                                   name="effectiveStatus"
-                                   [(ngModel)]="param.effectiveStatus"
-                                   [value]="item.key" />
-                            <p class="custom-control-label"
-                               [for]="'effectiveStatus' + i">
-                              <strong>
-                                {{ item.value | translate }}
-                              </strong>
-                            </p>
-                          </div>
+                <label class="badge badge-warning">{{ "EmployeeInformationModule.EmployeeTransferOperationInbound.EffectiveStatus" | translate }}
+                </label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of effectiveStatus; index as i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2">
+                          <input [id]="'effectiveStatus' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 checked="checked"
+                                 name="effectiveStatus"
+                                 [(ngModel)]="param.effectiveStatus"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'effectiveStatus' + i">
+                            <strong>
+                              {{ item.value | translate }}
+                            </strong>
+                          </p>
                         </div>
-                      </label>
-                    </div>
+                      </div>
+                    </label>
                   </div>
                 </div>
               </div>
               <div class="col-12">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="button"
                         class="{{ classButton.SEARCH }}"
@@ -439,7 +416,7 @@
                           <tr class="no-data">
                             <td colspan="100%"
                                 class="table-warning text-center font-weight-bold">
-                              {{ "System.Message.Nodata" | translate }}
+                              {{ "System.Message.NoData" | translate }}
                             </td>
                           </tr>
                         </tbody>
@@ -450,7 +427,7 @@
                 <div class="row">
                   <div class="col-8">
                     <div class="d-flex"
-                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                         *ngIf="data?.length > 0 && pagination.totalPage > 1">
                       <pagination name="pagination"
                                   [boundaryLinks]="true"
                                   [maxSize]="5"

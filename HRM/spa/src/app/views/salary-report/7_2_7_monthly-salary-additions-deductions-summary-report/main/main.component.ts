@@ -5,8 +5,8 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { MonthlySalaryAdditionsDeductionsSummaryReportParam, MonthlySalaryAdditionsDeductionsSummaryReportSource } from '@models/salary-report/7_2_7_monthly-salary-additions-deductions-summary-report';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -85,11 +85,10 @@ export class MainComponent extends InjectBase implements OnInit {
             this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'),
               this.translateService.instant('System.Caption.Success'));
         } else {
-          this.snotifyService.error(this.translateService.instant(res.error ?? 'System.Message.SystemError'), 
+          this.snotifyService.error(this.translateService.instant(res.error ?? 'System.Message.SystemError'),
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -115,8 +114,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = 0
           this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -137,19 +135,16 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region Get List
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     })
   }
 
@@ -158,8 +153,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion

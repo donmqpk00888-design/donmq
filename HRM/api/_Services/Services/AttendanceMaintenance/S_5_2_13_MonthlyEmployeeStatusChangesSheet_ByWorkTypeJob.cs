@@ -36,7 +36,7 @@ namespace API._Services.Services.AttendanceMaintenance
             // 1. Lấy dữ liệu chính
             var result = await GetData(param);
 
-            if (!result.Data.Any()) return new OperationResult(false, "System.Message.Nodata");
+            if (!result.Data.Any()) return new OperationResult(false, "System.Message.NoData");
 
             var header = new Monthly_Employee_Status_Changes_Sheet_By_WorkType_Job_Excel_Header
             {

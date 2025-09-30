@@ -17,126 +17,113 @@
                 #mainForm="ngForm">
             <!-- Factory -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="factory"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.Factory" |
-                  translate }}
-                  <span class="text-danger text-bold"> *</span>
-                </label>
-                <ng-select id="factory"
-                           name="factory"
-                           [(ngModel)]="param.factory"
-                           (ngModelChange)="onChangeFactory()"
-                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Factory' | translate }}"
-                           [clearable]="param.factory != ''"
-                           (clear)="deleteProperty('factory')"
-                           required>
-                  <ng-option *ngFor="let data of listFactory"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="factory"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.Factory" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select id="factory"
+                         name="factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onChangeFactory()"
+                         placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Factory' | translate }}"
+                         [clearable]="param.factory != ''"
+                         (clear)="deleteProperty('factory')"
+                         required>
+                <ng-option *ngFor="let data of listFactory"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Department -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="department"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.Department" | translate }}
-                </label>
-                <ng-select id="department"
-                           name="department"
-                           [(ngModel)]="param.department"
-                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Department' | translate }}"
-                           [clearable]="param.department != ''"
-                           (clear)="deleteProperty('department')"
-                           [disabled]="!param.factory">
-                  <ng-option *ngFor="let data of listDepartment"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="department"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.Department" | translate }}
+              </label>
+              <ng-select id="department"
+                         name="department"
+                         [(ngModel)]="param.department"
+                         placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.Department' | translate }}"
+                         [clearable]="param.department != ''"
+                         (clear)="deleteProperty('department')"
+                         [disabled]="!param.factory">
+                <ng-option *ngFor="let data of listDepartment"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Employee ID -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="employeeID"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" | translate }}
-                </label>
-                <input type="text"
-                       class="form-control"
-                       id="employeeID"
-                       name="employeeID"
-                       maxlength="16"
-                       [(ngModel)]="param.employee_ID"
-                       placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmployeeID' | translate }}"
-                       autocomplete="off" />
-              </div>
+              <label for="employeeID"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.EmployeeID" | translate }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="employeeID"
+                     name="employeeID"
+                     maxlength="16"
+                     [(ngModel)]="param.employee_ID"
+                     placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmployeeID' | translate }}"
+                     autocomplete="off" />
             </div>
             <!-- Employment Status -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="employmentStatus"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
-                </label>
-                <ng-select id="employmentStatus"
-                           name="employmentStatus"
-                           [(ngModel)]="param.employment_Status"
-                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmploymentStatus' | translate }}"
-                           [clearable]="param.employment_Status != ''"
-                           (clear)="deleteProperty('employment_Status')">
-                  <ng-option *ngFor="let data of listEmploymentStatus"
-                             [value]="data.key">
-                    {{ data.value | translate }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="employmentStatus"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.EmploymentStatus" | translate }}
+              </label>
+              <ng-select id="employmentStatus"
+                         name="employmentStatus"
+                         [(ngModel)]="param.employment_Status"
+                         placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.EmploymentStatus' | translate }}"
+                         [clearable]="param.employment_Status != ''"
+                         (clear)="deleteProperty('employment_Status')">
+                <ng-option *ngFor="let data of listEmploymentStatus"
+                           [value]="data.key">
+                  {{ data.value | translate }}
+                </ng-option>
+              </ng-select>
             </div>
 
             <!-- Position Title -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="positionTitle"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
-                </label>
-                <ng-select id="positionTitle"
-                           name="positionTitle"
-                           [(ngModel)]="param.position_Title"
-                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.PositionTitle' | translate }}"
-                           [clearable]="param.position_Title != ''"
-                           (clear)="deleteProperty('position_Title')">
-                  <ng-option *ngFor="let data of listPositionTitle"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="positionTitle"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.PositionTitle" | translate }}
+              </label>
+              <ng-select id="positionTitle"
+                         name="positionTitle"
+                         [(ngModel)]="param.position_Title"
+                         placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.PositionTitle' | translate }}"
+                         [clearable]="param.position_Title != ''"
+                         (clear)="deleteProperty('position_Title')">
+                <ng-option *ngFor="let data of listPositionTitle"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
             <!-- Salary Type -->
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div class="form-group">
-                <label for="salaryType"
-                       class="badge badge-warning">
-                  {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
-                </label>
-                <ng-select id="salaryType"
-                           name="salaryType"
-                           [(ngModel)]="param.salary_Type"
-                           placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.SalaryType' | translate }}"
-                           [clearable]="param.salary_Type != ''"
-                           (clear)="deleteProperty('salary_Type')">
-                  <ng-option *ngFor="let data of listSalaryType"
-                             [value]="data.key">
-                    {{ data.value }}
-                  </ng-option>
-                </ng-select>
-              </div>
+              <label for="salaryType"
+                     class="badge badge-warning">
+                {{ "SalaryMaintenance.SalaryMasterFile.SalaryType" | translate }}
+              </label>
+              <ng-select id="salaryType"
+                         name="salaryType"
+                         [(ngModel)]="param.salary_Type"
+                         placeholder="{{ 'SalaryMaintenance.SalaryMasterFile.SalaryType' | translate }}"
+                         [clearable]="param.salary_Type != ''"
+                         (clear)="deleteProperty('salary_Type')">
+                <ng-option *ngFor="let data of listSalaryType"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
             </div>
 
             <!-- Salary Level -->
@@ -145,33 +132,31 @@
                      class="badge badge-warning">
                 {{ "SalaryMaintenance.SalaryMasterFile.Salary" | translate }}
               </label>
-              <div class="form-group">
-                <div class="container_input">
-                  <div class="input-group mr-1">
-                    <input autocomplete="off"
-                           type="text"
-                           placeholder="{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}"
-                           class="form-control text-center"
-                           name="salaryGrade"
-                           [(ngModel)]="param.salary_Grade"
-                           (keypress)="validateDecimal($event, 15)"
-                           (paste)="preventPaste($event)" />
-                    <div class="input-group-append">
-                      <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}</span>
-                    </div>
+              <div class="container_input">
+                <div class="input-group mr-1">
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}"
+                         class="form-control text-center"
+                         name="salaryGrade"
+                         [(ngModel)]="param.salary_Grade"
+                         (keypress)="validateDecimal($event, 15)"
+                         (paste)="preventPaste($event)" />
+                  <div class="input-group-append">
+                    <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Grade' | translate }}</span>
                   </div>
-                  <div class="input-group ml-1">
-                    <input autocomplete="off"
-                           type="text"
-                           placeholder="{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}"
-                           class="form-control text-center"
-                           name="salaryLevel"
-                           [(ngModel)]="param.salary_Level"
-                           (keypress)="validateDecimal($event, 9)"
-                           (paste)="preventPaste($event)" />
-                    <div class="input-group-append">
-                      <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}</span>
-                    </div>
+                </div>
+                <div class="input-group ml-1">
+                  <input autocomplete="off"
+                         type="text"
+                         placeholder="{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}"
+                         class="form-control text-center"
+                         name="salaryLevel"
+                         [(ngModel)]="param.salary_Level"
+                         (keypress)="validateDecimal($event, 9)"
+                         (paste)="preventPaste($event)" />
+                  <div class="input-group-append">
+                    <span class="input-group-text">{{'SalaryMaintenance.SalaryMasterFile.Level' | translate }}</span>
                   </div>
                 </div>
               </div>
@@ -206,20 +191,29 @@
                                  let-item="item"
                                  let-item$="item$"
                                  let-index="index">
-                      <input id="item-{{ index }}"
-                             type="checkbox"
-                             name="item-{{ index }}"
-                             [ngModel]="item$.selected" />
-                      {{ "System.Action.SelectAll" | translate }}</ng-template>
+                      <div class="custom-control custom-checkbox pe-none">
+                        <input id="item-{{ index }}"
+                               type="checkbox"
+                               class="custom-control-input"
+                               name="item-{{ index }}"
+                               [ngModel]="item$.selected" />
+                        <label class="custom-control-label"
+                               for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                      </div>
+                    </ng-template>
                     <ng-template ng-option-tmp
                                  let-item="item"
                                  let-item$="item$"
                                  let-index="index">
-                      <input id="item-{{ index }}"
-                             name="item-{{ index }}"
-                             type="checkbox"
-                             [ngModel]="item$.selected" />
-                      {{ item.value }}
+                      <div class="custom-control custom-checkbox pe-none">
+                        <input id="item-{{ index }}"
+                               name="item-{{ index }}"
+                               type="checkbox"
+                               class="custom-control-input"
+                               [ngModel]="item$.selected" />
+                        <label class="custom-control-label"
+                               for="item-{{ index }}"> {{ item.value }}</label>
+                      </div>
                     </ng-template>
                   </ng-select>
                 </div>
@@ -346,7 +340,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{ "System.Message.Nodata" | translate }}
+                          {{ "System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -356,7 +350,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [maxSize]="5"
                                 [totalItems]="pagination.totalCount"

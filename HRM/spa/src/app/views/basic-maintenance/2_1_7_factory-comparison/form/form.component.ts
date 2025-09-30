@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Basic_Factory_ComparisonAdd } from '@models/basic-maintenance/2_1_7_factory-comparison';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { S_2_1_7_FactoryComparisonService } from '@services/basic-maintenance/s_2_1_7_factory-comparison.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -36,7 +36,7 @@ export class FormComponent extends InjectBase {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res =>
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res =>
       this.action = res.title
     );
     this.getDivisions();
@@ -95,8 +95,7 @@ export class FormComponent extends InjectBase {
         this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.CreateOKMsg' : result.error, result.isSuccess)
         if (result.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

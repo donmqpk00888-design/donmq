@@ -22,6 +22,7 @@ namespace API.DTOs.SalaryMaintenance
         public string BankTransfer { get; set; }
         public string Language { get; set; }
         public int Tax { get; set; }
+        public string Currency { get; set; }
         public bool IsDelete { get; set; }
 
     }

@@ -1,7 +1,6 @@
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { S_7_1_1_SalaryItemAndAmountSettings } from '@services/salary-maintenance/s_7_1_1_salary-item-and-amount-settings.service';
 import { Pagination } from '@utilities/pagination-utility';
@@ -14,6 +13,7 @@ import {
 } from '@models/salary-maintenance/7_1_1_salary-item-and-amount-settings';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -57,12 +57,12 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.formType = role.title
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe();
+      });
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<SalaryItemAndAmountSettings_Memory>{
@@ -88,19 +88,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     }
   }
   getDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList(this.formType)
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -146,13 +137,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('SalaryMaintenance.SalaryItemAndAmountSettings.NotExitedData'),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -173,13 +157,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.LeaveApplicationMaintenance.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-          this.spinnerService.hide();
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.DeleteErrorMsg'),
-            this.translateService.instant('System.Caption.Error')
-          );
           this.spinnerService.hide();
         }
       });
@@ -207,14 +184,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               );
             resolve()
           },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-            reject()
-          }
+          error: () => { reject() }
         });
     })
   };

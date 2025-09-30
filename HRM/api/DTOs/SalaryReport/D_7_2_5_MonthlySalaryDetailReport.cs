@@ -47,6 +47,10 @@ namespace API.DTOs.SalaryReport
         public decimal Other_Deductions { get; set; }
         public decimal Total_Deduction_Item { get; set; }
         public decimal Net_Amount_Received { get; set; }
+        public string Currency { get; set; }
+        public string Transfer { get; set; }
+        public string Salary_Type { get; set; }
+        public decimal Meal_Total { get; set; }
     }
 
     public class Sal_Monthly
@@ -58,6 +62,8 @@ namespace API.DTOs.SalaryReport
         public string Work_Type { get; set; }
         public string Salary_Type { get; set; }
         public int Tax { get; set; }
+        public string Currency { get; set; }
+        public string Transfer { get; set; }
     }
 
     public class Sal_Backup
@@ -70,10 +76,10 @@ namespace API.DTOs.SalaryReport
     {
         public string Employee_ID { get; set; }
         public decimal Actual_Days { get; set; }
-        public int Delay_Early { get; set; }
+        public int? Delay_Early { get; set; }
         public int? DayShift_Food { get; set; }
-        public int Food_Expenses { get; set; }
-        public int Night_Eat_Times { get; set; }
+        public int? Food_Expenses { get; set; }
+        public int? Night_Eat_Times { get; set; }
         public int? NightShift_Food { get; set; }
     }
 

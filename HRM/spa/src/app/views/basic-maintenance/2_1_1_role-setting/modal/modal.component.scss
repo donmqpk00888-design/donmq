@@ -23,20 +23,18 @@
 }
 ::ng-deep .modal-dialog {
   margin: 1.5rem auto;
-  .modal-content {
-    .modal-body {
-      margin: 1.5rem;
-      border: 2px solid #4f546c;
-      border-radius: 10px;
-      max-height: calc(100vh - 20rem);
-      min-height: 50vh;
-      padding: 0.5rem 1rem 1rem 1rem;
-      height: fit-content;
-      overflow-x: hidden;
-      animation: padIn 1.5s linear;
-      animation-fill-mode: forwards;
-    }
-  }
+}
+.modal-body-container {
+  margin: 0.5rem;
+  border: 2px solid #4f546c;
+  border-radius: 10px;
+  max-height: calc(100vh - 20rem);
+  min-height: 50vh;
+  padding: 0.5rem 1rem 1rem 1rem;
+  height: fit-content;
+  overflow-x: hidden;
+  animation: padIn 1.5s linear;
+  animation-fill-mode: forwards;
 }
 ::ng-deep .modal-default {
   max-width: fit-content;
@@ -72,12 +70,13 @@
       border-radius: 0.21428571rem;
       -webkit-transition: all 0.1s ease;
       transition: all 0.1s ease;
-      border: 1px solid #d4d4d5;
+      border: 1px solid #8f9ba6;
       margin-right: 5px;
+      transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     .form-check-label:hover::before {
       margin-right: 10px;
-      box-shadow: 0 0 3px 1px #6ecdf0;
+      box-shadow: 0 0 0 0.2rem rgba(32, 168, 216, 0.25)
     }
   }
   .form-check-input:disabled ~ {
@@ -98,11 +97,10 @@
   }
   .form-check-input:checked ~ {
     .form-check-label::before {
-      background-color: #20a8d8;
-      background-image: url(../../../../../assets/img/icon/check.svg);
-      background-position: center;
-      background-repeat: no-repeat;
-      color: #20a8d8 !important;
+      border-color: #20a8d8;
+      background: no-repeat 50% / 60% 60% #20a8d8;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+      color: #fff;
     }
   }
   .treeview-container {

@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, Placeholder } from '@constants/common.constants';
 import { SalaryAdditionsAndDeductionsInput_Basic, SalaryAdditionsAndDeductionsInput_Param, SalaryAdditionsAndDeductionsInputDto } from '@models/salary-maintenance/7_1_19_salary-additions-and-deductions-input';
 import { S_7_1_19_SalaryAdditionsAndDeductionsInputService } from '@services/salary-maintenance/s_7_1_19_salary-additions-and-deductions-input.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -75,46 +76,34 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     }
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListAddDedType() {
-    this.spinnerService.show();
     this.service.getListAddDedType().subscribe({
       next: (res) => {
         this.listAddDedType = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListAddDedItem() {
-    this.spinnerService.show();
     this.service.getListAddDedItem().subscribe({
       next: (res) => {
         this.listAddDedItem = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory).subscribe({
       next: (res) => {
         this.listDepartment = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -127,7 +116,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     });
   }
 
-  getData(isSearch?: boolean) {
+  getData(isSearch: boolean = false) {
     if (this.sal_Month_Value.toString() == 'Invalid Date' || this.sal_Month_Value.toString() == 'NaN/NaN')
       return this.functionUtility.snotifySuccessError(false, 'SalaryMaintenance.SalaryAdditionsAndDeductionsInput.InvalidSalMonth')
 
@@ -140,7 +129,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -174,14 +162,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
               this.getData(false);
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
+
         });
       }
     );
@@ -201,7 +189,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   downloadExcelTemplate() {
@@ -212,50 +199,27 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result.data, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
-
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.extensions.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.upload(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Warning')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.upload(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear();
-            else
-              this.getData();
-            this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg');
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
-            this.functionUtility.snotifySuccessError(false, res.error);
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-          this.spinnerService.hide()
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
         }
-      });
-    }
+      }
+    });
   }
-
   onChangeSalMonth() {
     this.param.sal_Month = this.functionUtility.isValidDate(this.sal_Month_Value)
       ? this.functionUtility.getDateFormat(this.sal_Month_Value)

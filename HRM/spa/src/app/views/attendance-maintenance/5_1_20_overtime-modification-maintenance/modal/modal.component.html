@@ -3,22 +3,22 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <form #editForm="ngForm"
             autocomplete="off">
         <!-- Header -->
         <div class="modal-header bg-primary">
-          <h5 class="modal-title"
-              id="modal-basic-title">
+          <h5 id="modalTitle"
+              class="modal-title">
             <strong>{{ title }} - {{"System.Action.Edit" | translate}}</strong>
           </h5>
           <button type="button"
                   class="btn-close close pull-right"
                   (click)="close()">
-            <span aria-hidden="true"
-                  class="visually-hidden">&times;</span>
+            <span class="visually-hidden">&times;</span>
           </button>
         </div>
         <!-- Body -->
@@ -314,7 +314,7 @@
         <!-- Footer -->
         <div class="modal-footer">
           <button type="button"
-                  class="btn btn-success text-white"
+                  class="btn btn-success "
                   (click)="saveChange()"
                   [disabled]="!editForm.valid">
             <i class="{{iconButton.SAVE}}"></i>
@@ -322,7 +322,7 @@
           </button>
 
           <button type="button"
-                  class="btn btn-danger text-white"
+                  class="btn btn-danger "
                   (click)="close()">
             <i class="{{iconButton.CLOSE}}"></i>
             {{ 'System.Action.Close' | translate}}

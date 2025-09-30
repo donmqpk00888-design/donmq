@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { MainComponent } from "./main/main.component";
 import { SwipeCardDataUploadRoutingModule } from './swipe-card-data-upload-routing.module';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SwipeCardDataUploadRoutingModule } from './swipe-card-data-upload-routi
     FormsModule,
     SwipeCardDataUploadRoutingModule,
     TranslateModule,
-    NgSelectModule
+    NgSelectModule,
+    SharedModule
   ]
 })
 export class SwipeCardDataUploadModule { }

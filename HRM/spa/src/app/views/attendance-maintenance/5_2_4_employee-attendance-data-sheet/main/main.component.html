@@ -3,8 +3,8 @@
     <div class="col-lg-12">
       <div class="card">
         <form class="form-horizontal"
-          autocomplete="off"
-          #mainForm="ngForm">
+              autocomplete="off"
+              #mainForm="ngForm">
           <div class="card-header">
             <div class="row border-title">
               <div class="col-md-12">
@@ -16,29 +16,27 @@
             <div class="row border-shadow">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory"
-                    class="badge badge-warning">
-                    {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.Factory" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory"
-                    name="factory"
-                    [(ngModel)]="param.factory"
-                    [clearable]="param.factory != ''"
-                    (clear)="deleteProperty('factory')"
-                    (ngModelChange)="onDepartmentChange()"
-                    placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.Factory' | translate }}">
-                    <ng-option *ngFor="let item of listFactory"
-                      [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onDepartmentChange()"
+                           placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.Factory' | translate }}">
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
-               <!-- Date -->
-               <div class="col-xxl-6 col-xl-6 col-lg-6 col-sm-12 col-md-8 ">
-                <label class="badge badge-warning"> {{"AttendanceMaintenance.EmployeeAttendanceDataSheet.Date" | translate }} 
+              <!-- Date -->
+              <div class="col-xxl-6 col-xl-6 col-lg-6 col-sm-12 col-md-8 ">
+                <label class="badge badge-warning"> {{"AttendanceMaintenance.EmployeeAttendanceDataSheet.Date" | translate }}
                   <span class="text-danger text-bold"> *</span>
                 </label>
                 <div class="full-width">
@@ -50,7 +48,7 @@
                              onpaste="return false;"
                              type="text"
                              placeholder="YYYY/MM/DD"
-                             class="form-control bg-white"
+                             class="form-control"
                              name="att_Date_From"
                              [(ngModel)]="att_Date_From"
                              (ngModelChange)="onDateChange('att_Date_From')"
@@ -61,20 +59,21 @@
                         <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
                     </div>
-                    
+
                     <!-- date to -->
                     <div class="input-group mr-1">
-                      <input autocomplete="off" 
-                            (keydown.backspace)="att_Date_To = null" 
-                            onpaste="return false;" 
-                            type="text"
-                            placeholder="YYYY/MM/DD" 
-                            class="form-control bg-white" 
-                            name="att_Date_To" 
-                            [(ngModel)]="att_Date_To"
-                            (ngModelChange)="onDateChange('att_Date_To')"
-                            [minDate]="att_Date_From"
-                            bsDatepicker [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY/MM/DD' }" />
+                      <input autocomplete="off"
+                             (keydown.backspace)="att_Date_To = null"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder="YYYY/MM/DD"
+                             class="form-control"
+                             name="att_Date_To"
+                             [(ngModel)]="att_Date_To"
+                             (ngModelChange)="onDateChange('att_Date_To')"
+                             [minDate]="att_Date_From"
+                             bsDatepicker
+                             [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY/MM/DD' }" />
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
@@ -85,86 +84,80 @@
 
               <!-- Work_Shift_Type -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="work_Shift_Type"
-                    class="badge badge-warning">
-                    {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.WorkShiftType" | translate }}
-                  </label>
-                  <ng-select id="work_Shift_Type"
-                    name="work_Shift_Type"
-                    [(ngModel)]="param.work_Shift_Type"
-                    [clearable]="param.work_Shift_Type != ''"
-                    (clear)="deleteProperty('work_Shift_Type')"
-                    placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.WorkShiftType' | translate }}">
-                    <ng-option *ngFor="let item of listWorkShiftType"
-                      [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="work_Shift_Type"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.WorkShiftType" | translate }}
+                </label>
+                <ng-select id="work_Shift_Type"
+                           name="work_Shift_Type"
+                           [(ngModel)]="param.work_Shift_Type"
+                           [clearable]="param.work_Shift_Type != ''"
+                           (clear)="deleteProperty('work_Shift_Type')"
+                           placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.WorkShiftType' | translate }}">
+                  <ng-option *ngFor="let item of listWorkShiftType"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Employee ID -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="employeeID"
-                    class="badge badge-warning">
-                    {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.EmployeeID" | translate }}
-                  </label>
-                  <input type="text"
-                    class="form-control"
-                    id="employeeID"
-                    name="employeeID"
-                    maxlength="9"
-                    [(ngModel)]="param.employee_ID"
-                    placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.EmployeeID' | translate }}"
-                    autocomplete="off" />
-                </div>
+                <label for="employeeID"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employeeID"
+                       name="employeeID"
+                       maxlength="9"
+                       [(ngModel)]="param.employee_ID"
+                       placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.EmployeeID' | translate }}"
+                       autocomplete="off" />
               </div>
               <!-- Department -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="department"
-                    class="badge badge-warning">
-                    {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.Department" | translate }}
-                  </label>
-                  <ng-select id="department"
-                    name="department"
-                    [(ngModel)]="param.department"
-                    [clearable]="param.department != ''"
-                    (clear)="deleteProperty('department')"
-                    [disabled]="!param.factory"
-                    placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.Department' | translate }}">
-                    <ng-option *ngFor="let item of listDepartment"
-                      [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="department"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.EmployeeAttendanceDataSheet.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           [disabled]="!param.factory"
+                           placeholder="{{ 'AttendanceMaintenance.EmployeeAttendanceDataSheet.Department' | translate }}">
+                  <ng-option *ngFor="let item of listDepartment"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
-           
+
 
               <div class="col-12 pb-2">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button"
-                  class="{{ classButton.SEARCH }}"
-                  (click)="getCountRecords(true)"
-                  [disabled]="validateSearch()"
-                  >
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getCountRecords(true)"
+                        [disabled]="validateSearch()">
                   <i class="{{ iconButton.SEARCH }}"></i>
                   {{ "System.Action.Search" | translate }}
                 </button>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button"
-                  class="{{ classButton.CLEAR }}"
-                  (click)="clear()">
+                        type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i>
                   {{ "System.Action.Clear" | translate }}
                 </button>
                 <button type="button"
-                  (click)="download()"
-                  class="btn btn-success"
-                  [disabled]="validateSearch()"
-                  *ngIf="functionUtility.checkFunction('Excel')">
+                        (click)="download()"
+                        class="btn btn-success"
+                        [disabled]="validateSearch()"
+                        *ngIf="functionUtility.checkFunction('Excel')">
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>

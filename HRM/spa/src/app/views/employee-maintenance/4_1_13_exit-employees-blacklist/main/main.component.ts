@@ -1,14 +1,14 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { SessionStorageConstants } from '@constants/local-storage.constants';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 import { HRMS_Emp_Blacklist_MainMemory, HRMS_Emp_BlacklistDto, HRMS_Emp_BlacklistParam } from '@models/employee-maintenance/4_1_13_exit-employees-blacklist';
 import { S_4_1_13_ExitEmployeesBlacklistService } from '@services/employee-maintenance/s_4_1_13_exit-employees-blacklist.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -72,8 +72,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListNationality().subscribe({
       next: (res) => {
         this.listNationality = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -94,8 +93,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true,'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

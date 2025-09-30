@@ -5,7 +5,6 @@ import {
 } from '@models/attendance-maintenance/5_1_15_attendance-abnormality-data-maintenance';
 import { S_5_1_15_AttendanceAbnormalityDataMaintenanceService } from '@services/attendance-maintenance/s_5_1_15_attendance-abnormality-data-maintenance.service';
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
@@ -17,6 +16,7 @@ import {
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalService } from '@services/modal.service';
 import { NgForm, FormGroup } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -141,7 +141,6 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         this.functionUtility.getNgSelectAllCheckbox(this.listAttendance)
         this.param.list_Attendance = this.listAttendance.map(x => x.key)
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
   getListUpdateReason() {
@@ -159,10 +158,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
       next: (res) => {
         resultList.length = 0;
         resultList.push(...res);
-      },
-      error: () => {
-        this.handleError('System.Message.SystemError');
-      },
+      }
     });
   }
   //#endregion
@@ -185,9 +181,6 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         if (isSearch) this.handleSuccess('System.Message.QuerySuccess');
         if (isDelete) this.handleSuccess('System.Message.DeleteOKMsg');
       },
-      error: () => {
-        this.handleError('System.Message.SystemError');
-      },
     });
   }
 
@@ -199,13 +192,11 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
 
   //#region clear
   clear() {
-    this.spinnerService.show();
     this.pagination.pageNumber = 1;
     this.pagination.totalCount = 0;
     this.param = <AttendanceAbnormalityDataMaintenanceParam>{};
     this.listDepartment = [];
     this.data = [];
-    this.spinnerService.hide();
   }
   //#endregion
 
@@ -232,10 +223,6 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
           );
         }
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
   delete(item: HRMS_Att_Temp_RecordDto, isDelete: boolean) {
@@ -246,10 +233,10 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (res) => {
+            this.spinnerService.hide();
             if (res.isSuccess) this.getData(false, isDelete);
             else this.handleError('System.Message.DeleteErrorMsg');
-          },
-          error: () => this.handleError('System.Message.SystemError'),
+          }
         });
       }
     );
@@ -296,7 +283,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
   download() {
     if (this.data.length == 0)
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.param).subscribe({
@@ -306,7 +293,6 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onDateChange(name: string) {

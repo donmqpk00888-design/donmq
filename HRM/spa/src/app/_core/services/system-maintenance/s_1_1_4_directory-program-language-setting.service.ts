@@ -62,10 +62,6 @@ export class S_1_1_4_DirectoryProgramLanguageSettingService implements IClearCac
     return this.http.get<KeyValuePair[]>(this.baseUrl + 'GetDirectory');
   }
   //Edit
-  getNameCode(kind: string, code: string,) {
-    let params = new HttpParams().appendAll({ kind, code })
-    return this.http.get<KeyValuePair[]>(this.baseUrl + 'GetNameCode', { params });
-  }
   getDetail(kind: string, code: string,) {
     let params = new HttpParams().appendAll({ kind, code })
     return this.http.get<DirectoryProgramLanguageSetting_Data>(this.baseUrl + 'GetDetail', { params });

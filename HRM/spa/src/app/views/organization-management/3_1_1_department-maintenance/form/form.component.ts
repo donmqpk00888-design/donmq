@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Org_Department, Language, ListUpperVirtual, languageSource } from '@models/organization-management/3_1_1-department-maintenance';
 import { S_3_1_1_DepartmentMaintenanceService } from '@services/organization-management/s_3_1_1_department-maintenance.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -69,7 +69,7 @@ export class FormComponent extends InjectBase implements OnInit {
       this.getListUpper(this.param.department_Code, this.param.division, this.param.factory);
     });
     this.modalService.onHide.pipe(takeUntilDestroyed()).subscribe((res: any) => {
-      if (res.isSave && this.formType == 'Edit') 
+      if (res.isSave && this.formType == 'Edit')
         this.param.department_Name = res.department_Name
     })
   }
@@ -77,11 +77,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res.title
       this.action = `System.Action.${this.formType}`
       this.getSource()
-    }).unsubscribe()
+    })
     this.getListDivision();
     this.getListFactory();
     this.getListLevel();
@@ -113,10 +113,7 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   getListDivision() {
     this.service.getListDivision().subscribe({
-      next: (res) => this.divisions = res,
-      error: () => this.snotifyService.error(
-        this.translateService.instant('System.Message.SystemError'),
-        this.translateService.instant('System.Caption.Error'))
+      next: (res) => this.divisions = res
     });
   }
   getListFactory() {
@@ -125,20 +122,14 @@ export class FormComponent extends InjectBase implements OnInit {
     else
       this.division = this.param.division
     this.service.getListFactory(this.division).subscribe({
-      next: (res) => this.factory = res,
-      error: () => this.snotifyService.error(
-        this.translateService.instant('System.Message.SystemError'),
-        this.translateService.instant('System.Caption.Error'))
+      next: (res) => this.factory = res
     });
   }
   getListDepartment() {
     this.service.getListDepartment(this.param.division, this.param.factory,).subscribe({
       next: (res) => {
         this.department = res;
-      }, error: () =>
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error'))
+      }
     });
   }
   onSelectGetFactory() {
@@ -160,21 +151,18 @@ export class FormComponent extends InjectBase implements OnInit {
         this.translateService.instant('OrganizationManagement.DepartmentMaintenance.DuplicateDeptCode'),
         this.translateService.instant('System.Caption.Error'))
     this.service.CheckListDeptCode(this.param.division, this.param.factory, this.param.department_Code).subscribe({
-      next: (res) => this.checkDept = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.checkDept = res
     });
   }
 
   getListLevel() {
     this.service.getListLevel().subscribe({
-      next: (res) => this.level = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.level = res
     });
   }
   getListUpper(department_Code: string, division: string, factory: string) {
     this.service.getListUpperVirtual(department_Code, division, factory).subscribe({
-      next: (res) => this.listUpperVirtual = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.listUpperVirtual = res
     });
   }
   setParam() {
@@ -191,8 +179,8 @@ export class FormComponent extends InjectBase implements OnInit {
       this.spinnerService.show();
       this.service.add(this.param).subscribe({
         next: result => {
+          this.spinnerService.hide()
           if (result.isSuccess) {
-            this.spinnerService.hide()
             this.snotifyService.success(
               this.translateService.instant('System.Message.CreateOKMsg'),
               this.translateService.instant('System.Caption.Success'));
@@ -201,15 +189,8 @@ export class FormComponent extends InjectBase implements OnInit {
             this.onSelectCheckDeptCode()
           }
           else {
-            this.spinnerService.hide()
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.SystemError'),
-            this.translateService.instant('System.Caption.Error'))
         }
       })
     }
@@ -231,8 +212,8 @@ export class FormComponent extends InjectBase implements OnInit {
       this.param.supervisor_Employee_ID = this.param.supervisor_Employee_ID?.toUpperCase();
       this.service.add(this.param).subscribe({
         next: result => {
+          this.spinnerService.hide()
           if (result.isSuccess) {
-            this.spinnerService.hide()
             this.snotifyService.success(
               this.translateService.instant('System.Message.CreateOKMsg'),
               this.translateService.instant('System.Caption.Success'));
@@ -240,11 +221,9 @@ export class FormComponent extends InjectBase implements OnInit {
             this.onSelectCheckDeptCode()
           }
           else {
-            this.spinnerService.hide()
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else {
@@ -252,19 +231,17 @@ export class FormComponent extends InjectBase implements OnInit {
       this.param.supervisor_Employee_ID = this.param.supervisor_Employee_ID?.toUpperCase();
       this.service.edit(this.param).subscribe({
         next: result => {
+          this.spinnerService.hide()
           if (result.isSuccess) {
-            this.spinnerService.hide()
             this.snotifyService.success(
               this.translateService.instant('System.Message.UpdateOKMsg'),
               this.translateService.instant('System.Caption.Success'));
             this.back();
           }
           else {
-            this.spinnerService.hide()
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }

@@ -10,6 +10,7 @@ import {
   Sal_Dept_SAPCostCenter_MappingDTO,
   Sal_Dept_SAPCostCenter_MappingSource
 } from '@models/salary-maintenance/7_1_9_sal_dept_sapcostcenter_mapping';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -86,7 +87,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   checkRequiredParams(): boolean {
     return !this.functionUtility.checkEmpty(this.param.factory);
   }
-  getData(isSearch?: boolean) {
+  getData(isSearch: boolean = false) {
     this.spinnerService.show();
     this.service.getData(this.pagination, this.param).subscribe({
       next: res => {
@@ -95,8 +96,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -113,24 +113,21 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
 
   getListDepartment() {
     if (!this.functionUtility.checkEmpty(this.param.factory)) {
       this.service.getListDepartment(this.param.factory).subscribe({
-        next: (res: KeyValuePair[]) => this.listDepartment = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listDepartment = res
       });
     }
   }
   getListCostCenter() {
     if (!this.functionUtility.checkEmpty(this.param.factory) && !this.functionUtility.checkEmpty(this.param.year_Str)) {
       this.service.getListCostCenter(this.param).subscribe({
-        next: (res: KeyValuePair[]) => this.listCostCenter = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listCostCenter = res
       });
     }
   }
@@ -159,73 +156,50 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show()
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide()
           if (res.isSuccess) {
             this.getData();
             this.snotifyService.success(this.translateService.instant('System.Message.DeleteOKMsg'), this.translateService.instant('System.Caption.Success'));
           }
           else {
-            this.spinnerService.hide()
             this.snotifyService.error(this.translateService.instant('System.Message.DeleteErrorMsg'), this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }
-
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else
-              this.getData(false);
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)){
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
           this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
         }
-      }).add(() => this.spinnerService.hide());
-    }
+      }
+    });
   }
-
   downloadExcel() {
     this.spinnerService.show();
     this.service.downloadExcel(this.param).subscribe({
       next: (result) => {
-        if (result.isSuccess) {
           this.spinnerService.hide()
+        if (result.isSuccess) {
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
         }
         else {
-          this.spinnerService.hide()
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -245,8 +219,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         else {
           this.snotifyService.warning(res.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

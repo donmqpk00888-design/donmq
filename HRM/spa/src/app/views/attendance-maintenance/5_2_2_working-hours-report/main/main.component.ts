@@ -1,6 +1,5 @@
 import { S_5_2_2_WorkingHoursReportService } from '@services/attendance-maintenance/s_5_2_2_working-hours-report.service';
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { WorkingHoursReportParam, WorkingHoursReportSource } from '@models/attendance-maintenance/5_2_2_working_hours_report';
@@ -8,6 +7,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -34,7 +34,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   constructor(private service: S_5_2_2_WorkingHoursReportService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListDepartment();
@@ -94,10 +94,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         resultList.length = 0;
         resultList.push(...res);
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError()
-      },
+      }
     });
   }
 
@@ -121,7 +118,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
         this.spinnerService.hide()
       }
-    }).catch(() => this.functionUtility.snotifySystemError());
+    });
   }
 
   search(isSearch: boolean) {
@@ -135,13 +132,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   //#region clear
   clear() {
-    this.spinnerService.show();
     this.param = <WorkingHoursReportParam>{};
     this.listDepartment = [];
     this.dateFrom = null;
     this.dateTo = null;
     this.total = 0;
-    this.spinnerService.hide()
   }
   //#endregion
 
@@ -163,11 +158,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.lastSearchParam = { ...this.param }
           }
         } else
-          this.functionUtility.snotifySuccessError(false, 'System.Message.Nodata');
+          this.functionUtility.snotifySuccessError(false, 'System.Message.NoData');
         this.spinnerService.hide()
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

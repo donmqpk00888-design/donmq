@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { EmployeeBasicInformationMaintenanceSource } from '@models/employee-maintenance/4_1_1_employee-basic-information-maintenance';
 import { EmployeeEmergencyContactsDto, EmployeeEmergencyContactsParam } from '@models/employee-maintenance/4_1_2_employee-emergency-contacts';
 import { S_4_1_2_EmployeeEmergencyContactsService } from '@services/employee-maintenance/s_4_1_2_employee-emergency-contacts.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalService } from '@services/modal.service';
+import { ModalService } from '@services/modal.service';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main-4-1-2',
   templateUrl: './main.component.html',
@@ -51,8 +51,7 @@ export class MainComponent412 extends InjectBase implements OnInit {
         this.spinnerService.hide();
         this.data = res.result;
         this.totalCount = res.totalCount;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -65,8 +64,7 @@ export class MainComponent412 extends InjectBase implements OnInit {
           if (res.isSuccess)
             this.getData();
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }

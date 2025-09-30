@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { CaptionConstants } from '@constants/message.enum';
 import { PregnancyMaternityDetail } from '@models/attendance-maintenance/5_1_5_pregnancy_and_maternity_data';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_5_PregnancyAndMaternityDataMaintenanceService } from '@services/attendance-maintenance/s_5_1_5_pregnancy-and-maternity-data-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { forkJoin } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -75,7 +75,8 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.setDates();
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
       this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
       this.getSource()
@@ -145,26 +146,21 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
 
   getListFactoryAdd() {
-    this.spinnerService.show();
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factories = res
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
   getListWorkType() {
-    this.spinnerService.show();
     forkJoin({
       workShiftTypes: this._service.getListWorkType(true),
       workTypes: this._service.getListWorkType(false)
@@ -172,24 +168,16 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.workShiftTypes = res.workShiftTypes;
         this.workTypes = res.workTypes;
-        this.spinnerService.hide();
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
       }
     });
   }
   getListDepartment() {
     if (this.data.factory) {
-      this.spinnerService.show();
       this._service.getListDepartment(this.data.factory)
         .subscribe({
           next: (res) => {
             this.departments = res
-            this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }
@@ -197,8 +185,7 @@ export class FormComponent extends InjectBase implements OnInit {
     if (!this.data.factory || !this.data.work_Type_Before)
       return this.deleteProperty('special_Regular_Work_Type')
     this._service.getSpecialRegularWorkType(this.data.factory, this.data.work_Type_Before).subscribe({
-      next: res => this.data.special_Regular_Work_Type = res.special_Regular_Work_Type,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.data.special_Regular_Work_Type = res.special_Regular_Work_Type
     })
   }
 
@@ -296,8 +283,7 @@ export class FormComponent extends InjectBase implements OnInit {
             );
           }
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
   deleteProperty(name: string) {

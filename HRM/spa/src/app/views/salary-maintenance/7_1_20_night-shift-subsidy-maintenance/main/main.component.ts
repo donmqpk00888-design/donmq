@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { ValidateResult } from '@models/base-source';
 import { NightShiftSubsidyMaintenance_Param, NightShiftSubsidyMaintenanceSource } from '@models/salary-maintenance/7_1_20-night-shift-subsidy-maintenance';
@@ -7,6 +6,7 @@ import { S_7_1_20_NightShiftSubsidyMaintenanceService } from '@services/salary-m
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -53,14 +53,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getFactory() {
-    this.spinnerService.show();
     this._services.getFactories().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.factories = res
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide(),
+      }
     })
   }
 
@@ -69,9 +65,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.permissions = res
         this.selectAllForDropdownItems(this.permissions);
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide(),
+      }
     })
   }
   onFactoryChange() {
@@ -151,8 +145,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
                 this.translateService.instant('System.Caption.Error')
               )
             }
-          },
-          error: () => this.spinnerService.hide()
+          }
         })
       }
     )
@@ -177,8 +170,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           )
         }
         this.spinnerService.hide()
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

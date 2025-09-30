@@ -59,8 +59,7 @@ export class ModalComponent414 extends InjectBase implements AfterViewInit {
           result.isSuccess)
         if (result.isSuccess)
           this.directive.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -86,25 +85,18 @@ export class ModalComponent414 extends InjectBase implements AfterViewInit {
       this.getSeqMax();
   }
   getSeqMax() {
-    this.spinnerService.show();
     this.service.getSeq(this.param).subscribe({
       next: res => {
-        this.spinnerService.hide()
         this.param.seq = res
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+      }
     })
   }
 
   async getListRelationship() {
-    this.spinnerService.show();
     this.service.GetListRelationship().subscribe({
       next: res => {
         this.listRelationship = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

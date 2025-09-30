@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -11,6 +10,7 @@ import { OperationResult } from '@utilities/operation-result';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable, Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -44,7 +44,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_4_1_12_ResignationManagementService
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -58,7 +58,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res =>
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res =>
       this.formType = res.title
     );
   }
@@ -101,13 +101,10 @@ export class FormComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.data.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -116,13 +113,10 @@ export class FormComponent extends InjectBase implements OnInit {
   }
 
   getListResignReason() {
-    this.spinnerService.show();
     this.service.getListResignReason(this.data.resignation_Type).subscribe({
       next: (res) => {
         this.listResignReason = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -132,8 +126,7 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this[dataProperty] = res;
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -148,8 +141,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data.identification_Number = res[0].identification_Number;
             this.data.onboard_Date = res[0].onboard_Date;
           }
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
     }
   }
@@ -216,8 +208,10 @@ export class FormComponent extends InjectBase implements OnInit {
 
   onBlacklistChange() {
     if (this.data.blacklist) {
-      this.spinnerService.show();
-      this.handleWarning("EmployeeInformationModule.ResignationManagement.VerifierRequired")
+      this.snotifyService.warning(
+        this.translateService.instant("EmployeeInformationModule.ResignationManagement.VerifierRequired"),
+        this.translateService.instant('System.Caption.Warning')
+      )
     } else
       this.resetVerifier();
   }
@@ -247,26 +241,18 @@ export class FormComponent extends InjectBase implements OnInit {
   save() {
     const observable = this.formType == 'Edit' ? this.service.edit(this.data) : this.service.addNew(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide();
         const message = this.formType == 'Edit' ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? message : result.error)
         if (result.isSuccess) this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     });
   }
 
   back = () => this.router.navigate([this.url]);
-
-  handleWarning(message: string) {
-    this.spinnerService.hide();
-    this.snotifyService.warning(
-      this.translateService.instant(message),
-      this.translateService.instant('System.Caption.Warning')
-    )
-  }
 
   checkEmpty() {
     const { data, functionUtility } = this;

@@ -4,19 +4,19 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content modalEdit">
       <form class="form-horizontal"
             autocomplete="off">
         <div ngClass="bg-primary modal-header">
-          <h4 class="modal-title pull-left">{{'EmployeeInformationModule.Certifications.Attachment' | translate }}</h4>
+          <h4 id="modalTitle"
+              class="modal-title pull-left">{{'EmployeeInformationModule.Certifications.Attachment' | translate }}</h4>
           <button type="button"
                   class="btn-close close pull-right"
-                  aria-label="Close"
                   (click)="close()">
-            <span aria-hidden="true"
-                  class="visually-hidden">&times;</span>
+            <span class="visually-hidden">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
@@ -52,7 +52,7 @@
                       <tr *ngIf="data.file_List.length === 0">
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold no-data">
-                          {{'System.Message.Nodata' | translate }}
+                          {{'System.Message.NoData' | translate }}
                         </td>
                       </tr>
                     </table>
@@ -61,32 +61,22 @@
               </div>
             </div>
           </div>
-          <label type="button"
-                 class="{{classButton.UPLOAD}}"
-                 style="cursor: pointer; margin-bottom: 0"
-                 *ngIf="id() != 'view-modal'">
-            <i class="{{iconButton.UPLOAD}}"></i>{{'System.Action.Import' | translate }}
-            <input #inputRef
-                   multiple
-                   type="file"
-                   name="import"
-                   style="display: none"
-                   (change)="upload($event)" />
-          </label>
+          <file-upload [multiple]="true"
+                       [label]="'System.Action.Import' | translate "
+                       (filesChange)="upload($event)"
+                       [hidden]="id() == 'view-modal'"></file-upload>
         </div>
         <div class="modal-footer">
           <button type="button"
                   class="btn btn-success"
                   (click)="save()"
                   *ngIf="id() != 'view-modal'">
-            <i class="{{ iconButton.SAVE }} mr-1"
-               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+            <i class="{{ iconButton.SAVE }} mr-1"> </i>{{'System.Action.Save' | translate }}
           </button>
           <button type="button"
                   class="{{classButton.CLOSE}}"
                   (click)="close()">
-            <i class="{{ iconButton.CLOSE }} mr-1"
-               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+            <i class="{{ iconButton.CLOSE }} mr-1"></i>{{'System.Action.Close' | translate }}
           </button>
         </div>
       </form>

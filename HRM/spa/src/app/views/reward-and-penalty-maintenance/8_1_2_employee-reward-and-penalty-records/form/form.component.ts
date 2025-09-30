@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ClassButton,
   IconButton,
@@ -7,7 +6,7 @@ import {
 } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import {
   D_8_1_2_EmployeeRewardPenaltyRecordsSubParam,
   EmployeeRewardAndPenaltyRecords_ModalInputModel,
@@ -19,6 +18,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { map, mergeMap, Observable, Observer, take, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -44,7 +44,7 @@ export class FormComponent extends InjectBase implements OnInit {
   placeholder = Placeholder;
   inputError: boolean = false;
   data: D_8_1_2_EmployeeRewardPenaltyRecordsSubParam = <D_8_1_2_EmployeeRewardPenaltyRecordsSubParam>
-  { 
+  {
     counts_of: 1,
     file_List:[]
   };
@@ -62,7 +62,7 @@ export class FormComponent extends InjectBase implements OnInit {
       this.getListReasonCode();
       this.action === "Edit" || this.action === "Query"
         ? this.getSource()
-        : this.employeeList$.subscribe();
+        : this.employeeList$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     });
     this.modalService.onHide.pipe(takeUntilDestroyed()).subscribe((resp) => {
       if (resp.isSave) {
@@ -73,11 +73,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res.title;
       this.action = res.title;
     });
-    this.service.paramForm.subscribe((history_GUID) => {
+    this.service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((history_GUID) => {
       if (this.action == 'Edit' || this.action == "Query") {
         if (!history_GUID)
           this.back()
@@ -89,7 +89,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.data.update_By = this.user.id
         this.data.update_Time = this.functionUtility.getDateTimeFormat(new Date)
       }
-    }).unsubscribe()
+    })
     this.employeeList$ = new Observable((observer: Observer<any>) => {
       observer.next({
         factory: this.data.factory,
@@ -146,8 +146,9 @@ export class FormComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     const act = this.action == "Edit" ? this.service.putData(this.data) : this.service.postData(this.data);
     this.data.update_Time = this.functionUtility.getDateTimeFormat(new Date)
-    act.subscribe({
+    act.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result: any) => {
+        this.spinnerService.hide()
         if (result.isSuccess) {
           const message = this.action == 'Edit' ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
           this.functionUtility.snotifySuccessError(true, message)
@@ -157,15 +158,8 @@ export class FormComponent extends InjectBase implements OnInit {
         } else {
           this.functionUtility.snotifySuccessError(false, result.error)
         }
-      },
-      error: (e: any) => {
-        const errLeaveDay = e.errors?.Annual_leave_days[0];
-        if (errLeaveDay)
-          this.functionUtility.snotifySuccessError(false, `AttendanceMaintenance.SpecialWorkTypeAnnualLeaveDaysMaintenance.${errLeaveDay}`)
-        else
-          this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
       }
-    }).add(() => this.spinnerService.hide());
+    })
   }
 
   getSource() {
@@ -179,8 +173,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data.work_Type = this.data.work_Type_Name;
             this.getListReasonCode();
             this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }
@@ -217,38 +210,25 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   deleteProperty = (name: string) => delete this.data[name]
   getListFactory() {
-    this.spinnerService.show();
     this.service.GetListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListReasonCode() {
-    if (this.data.factory) {
-      this.spinnerService.show();
+    if (this.data.factory)
       this.service.GetListReasonCode(this.data.factory).subscribe({
         next: res => {
           this.listReason_Code = res;
-          this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-          this.spinnerService.hide();
         }
       });
-    }
   }
   getListRewardType() {
-    this.spinnerService.show();
     this.service.GetListRewardType().subscribe({
       next: (res) => {
         this.listReward_Type = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onFactoryChange() {
@@ -259,7 +239,9 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   resetParams() {
     this.data = <D_8_1_2_EmployeeRewardPenaltyRecordsSubParam>{
+      factory : this.data.factory,
       counts_of: 1,
+      file_List:[],
       update_By: this.user.id,
       update_Time: this.functionUtility.getDateTimeFormat(new Date)
     };

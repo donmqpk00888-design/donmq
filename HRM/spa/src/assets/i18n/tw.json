@@ -6,6 +6,7 @@
       "LogInFailed": "帳號或秘密錯誤",
       "ConfirmPassword": "新密碼與確認新密碼輸入不一致",
       "Logout": "已登出本系統",
+      "SessionExpired":"您的會話已過期，請重新登入",
       "ConfirmDelete": "是否確認删除？",
       "ConfirmExecution": "是否確定執行?",
       "ConfirmDeleteMsg": "是否確認刪除該記錄？",
@@ -26,7 +27,7 @@
       "Unauthorized": "無權限觀看此頁",
       "UnknowError": "Oops! 抱歉， 執行要求中出問題",
       "SystemError": "連線至伺服器時出錯誤",
-      "Nodata": "無資料",
+      "NoData": "無資料",
       "DataFound": "無數據可用",
       "InvalidFile": "請選擇有效的文件格式",
       "AllowExcelFile": "請選擇Excel檔案",
@@ -65,7 +66,9 @@
       "InvalidInput": "Invalid input data",
       "AlreadyExitedData": "Selected data has been existed",
       "DuplicateInput": "Duplicated input data",
-      "ErrorException": "An exception was raised during data saving"
+      "ErrorException": "An exception was raised during data saving",
+      "InvalidErrorCode": "Invalid error code",
+      "TransactionError": "A database transaction is already active. Please try againt later"
     },
     "Caption": {
       "Success": "成功!",
@@ -1798,7 +1801,6 @@
       "Total": "查詢結果總筆數 ",
       "Records": "筆",
       "InvalidInput": "Invalid input data",
-      "InvalidErrorCode": "Invalid error code",
       "InvalidFunc": "Invalid fucntion"
     },
     "MonthlyFactoryWorkingHoursReport": {
@@ -1880,8 +1882,7 @@
       "InvalidFunc": "Invalid fucntion",
       "ExecuteFail": "Execute Fail!",
       "InsFailHSAM": "INSERT HRMS_Sal_AddDedItem_Monthly Fail!",
-      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!",
-      "InvalidErrorCode": "Invalid error code"
+      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!"
     },
     "MonthlyCompulsoryInsuranceDetailedReport": {
       "Factory": "廠別",
@@ -2125,8 +2126,7 @@
       "InsMultiFailHSMD": "Insert HRMS_Sal_MasterBackup_Detail fail!",
       "DelMultiFailHSM": "Delete HRMS_Sal_MasterBackup fail!",
       "DelMultiFailHSMD": "Delete HRMS_Sal_MasterBackup_Detail fail!",
-      "ExecuteFail": "Execute Fail!",
-      "InvalidErrorCode": "Invalid error code"
+      "ExecuteFail": "Execute Fail!"
     },
     "ChildcareSubsidyGeneration": {
       "ChildSubsidyIsGenerated": "幼孩補助金產生",
@@ -2229,6 +2229,7 @@
     },
     "MonthlySalaryMaintenanceExitedEmployees": {
       "Probation": "試用期",
+      "Currency": "幣別",
       "SalaryLock": "薪資鎖定",
       "YearMonth": "薪資年月",
       "Factory": "廠別",
@@ -2327,7 +2328,6 @@
       "ContinueExecuting": "此月份資料已經存在, 是否要繼續執行 ?",
       "InvalidInput": "Invalid input data",
       "InvalidTab": "Invalid selected tab",
-      "InvalidErrorCode": "Invalid error code",
       "DL11": "1.1 Salary lock = Y, Check the employee number that has not generated a closed account file in the current month",
       "DL12": "1.2 Salary lock = Y, Generate closing file",
       "DL21": "2.1 Salary lock = N, Check whether the salary has been paid, otherwise it cannot be cancelled",
@@ -2416,6 +2416,7 @@
     },
     "MonthlySalaryMaintenance": {
       "Probation": "試用期",
+      "Currency": "幣別",
       "SalaryLock": "薪資鎖定",
       "YearMonth": "薪資年月",
       "Factory": "廠別",
@@ -2563,6 +2564,163 @@
       "Total": "查詢結果總筆數 ",
       "Records": "筆",
       "InvalidInput": "Invalid input data"
+    },
+    "SalarySummaryReportExitedEmployee": {
+      "ID": "7.2.9",
+      "Factory": "廠別",
+      "Transfer": "轉帳",
+      "NoTransfer": "不轉帳",
+      "All": "全部",
+      "DateOfResignation": "離職日期",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "SalarySummaryReportExitedEmployeeByDepartment": {
+      "ID": "7.2.10",
+      "Factory": "廠別",
+      "DateOfResignation": "離職日期",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlySalaryTransferDetails": {
+      "ID": "7.2.12",
+      "YearMonth": "薪資年月",
+      "Factory": "廠別",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆"
+    },
+    "MonthlySalaryTransferDetailsExitedEmployee": {
+      "ID": "7.2.13",
+      "YearMonth": "薪資年月",
+      "Factory": "廠別",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "DateOfResignation": "離職日期",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆"
+    },
+    "TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay": {
+      "ID": "7.2.14",
+      "Factory": "廠別",
+      "EmployeeID": "工號",
+      "YearMonth": "月份",
+      "Department": "部門",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyUnionDuesSummary": {
+      "ID": "7.2.15",
+      "Factory": "廠別",
+      "YearMonth": "月份",
+      "Department": "部門",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "DownloadPersonnelDataToExcel": {
+      "ID": "7.2.16",
+      "Factory": "廠別",
+      "Date": "日期",
+      "PermissionGroup": "權限身分別",
+      "EmployeeKind": "人員類別",
+      "OnJob": "在職",
+      "Resigned": "離職",
+      "All": "全部",
+      "ReportKind": "報表類別",
+      "EmployeeMasterFile": "員工主檔",
+      "SalaryMasterFile": "人事薪資主檔",
+      "MonthlyAttendance": "月份出勤檔",
+      "MonthlySalary": "月份薪資",
+      "YearMonth": "資料年月",
+      "Total": "查詢結果總筆數",
+      "Records": "筆"
+    },
+    "7_2_17_MonthlyPersonalIncomeTaxAmountReport": {
+      "ID": "7.2.17",
+      "Factory": "廠別",
+      "YearMonth": "年月",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數",
+      "Records": "筆"
+    },
+    "AnnualIncomeTaxDetailReport" : {
+      "ID": "7.2.18",
+      "Factory" : "廠別",
+      "Yearly" : "年月",
+      "PermissionGroup": "權限身分別",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "Records": "筆",
+      "Total": "查詢結果總筆數 "
+    },
+    "MonthlySalarySummaryReportForFinance" : {
+      "ID": "7.2.19",
+      "Factory" : "廠別",
+      "YearMonth": "月份",
+      "Kind": "類別",
+      "Resigned": "離職",
+      "OnJob": "在職",
+      "All" : "全部",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "Records": "筆",
+      "Total": "查詢結果總筆數 "
+    },
+    "MonthlySalarySummaryReportForTaxation": {
+      "ID": "7.2.20",
+      "Factory": "廠別",
+      "Kind": "類別",
+      "OnJob": "在職",
+      "Resigned": "離職",
+      "All": "全部",
+      "YearMonth": "月份",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyAdditionsAndDeductionsSummaryReportForFinance": {
+      "ID": "7.2.21",
+      "Factory": "廠別",
+      "Kind": "類別",
+      "OnJob": "在職",
+      "Resigned": "離職",
+      "All": "全部",
+      "YearMonth": "月份",
+      "Department": "部門",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyAdditionsAndDeductionsSummaryReport": {
+      "ID": "7.2.22",
+      "Factory": "廠別",
+      "YearMonth": "月份",
+      "Department": "部門",
+      "EmployeeID": "工號",
+      "PermissionGroup": "權限身分別",
+      "Total": "查詢結果總筆數 ",
+      "Records": "筆",
+      "InvalidInput": "Invalid input data",
+      "InvalidFunc": "Invalid fucntion"
     }
   },
   "RewardandPenaltyMaintenance": {

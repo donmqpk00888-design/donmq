@@ -1,4 +1,3 @@
-using System.Globalization;
 using API.Data;
 using API._Services.Interfaces.SalaryMaintenance;
 using API.DTOs;
@@ -126,7 +125,7 @@ namespace API._Services.Services.SalaryMaintenance
             return PaginationUtility<MonthlySalaryMaintenanceDto>.Create(result, pagination.PageNumber, pagination.PageSize);
         }
 
-        private MonthlySalaryMaintenanceDto CreateMainDto(dynamic salaryData, HRMS_Emp_Personal personal, string seq, string probationFlag, int tax)
+        private static MonthlySalaryMaintenanceDto CreateMainDto(dynamic salaryData, HRMS_Emp_Personal personal, string seq, string probationFlag, int tax)
         {
             return new MonthlySalaryMaintenanceDto
             {
@@ -142,6 +141,7 @@ namespace API._Services.Services.SalaryMaintenance
                 Permission_Group = salaryData.Permission_Group,
                 Salary_Type = salaryData.Salary_Type,
                 BankTransfer = salaryData.BankTransfer,
+                Currency = salaryData.Currency,
                 Tax = tax,
                 Update_By = salaryData.Update_By,
                 Update_Time = salaryData.Update_Time.ToString("yyyy/MM/dd HH:mm:ss"),
@@ -262,8 +262,8 @@ namespace API._Services.Services.SalaryMaintenance
             var dataTable_3 = await GetDataTable(query_49_A_converted.Concat(query_49_B_converted).OrderBy(x => x.Item).ToList(), additionItem);
             var dataTable_4 = await GetDataTable(query_49_C_converted.Concat(query_49_D_converted).OrderBy(x => x.Item).ToList(), additionItem);
             var dataTable_5 = await GetDataTable(query_57_converted, insuranceType);
-            result.SalaryDetail.TotalAmountReceived = Math.Abs(dataTable_1.SumAmount + dataTable_2.SumAmount
-                                                        + dataTable_3.SumAmount - dataTable_4.SumAmount - dataTable_5.SumAmount - item.Tax);
+            result.SalaryDetail.TotalAmountReceived = dataTable_1.SumAmount + dataTable_2.SumAmount
+                                                        + dataTable_3.SumAmount - dataTable_4.SumAmount - dataTable_5.SumAmount - item.Tax;
 
             result.SalaryDetail.Table_1.Add(dataTable_1);
             result.SalaryDetail.Table_2.Add(dataTable_2);

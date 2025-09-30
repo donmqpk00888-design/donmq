@@ -1,3 +1,33 @@
+export interface SystemInfo {
+  directories: DirectoryInfomation[];
+  programs: ProgramInfomation[];
+  functions: FunctionInfomation[];
+  code_Information: CodeInformation[];
+}
+export interface DirectoryInfomation {
+  seq: string;
+  directory_Name: string;
+  directory_Code: string;
+}
+export interface ProgramInfomation {
+  program_Name: string;
+  program_Code: string;
+  parent_Directory_Code: string;
+}
+export interface FunctionInfomation {
+  program_Code: string;
+  function_Code: string;
+}
+export interface CodeInformation {
+  code: string;
+  name: string;
+  kind: string;
+  translations: CodeLang[];
+}
+export interface CodeLang {
+  lang: string;
+  name: string;
+}
 export interface HRMS_Emp_Personal {
   useR_GUID: string;
   nationality: string;
@@ -64,7 +94,6 @@ export interface DepartmentInfo {
   department_Name: string;
   department_Code_Name: string;
 }
-
 export interface EmployeeCommonInfo extends HRMS_Emp_Personal {
   onboard_Date_Str: string;
   work8hours_Str: string;

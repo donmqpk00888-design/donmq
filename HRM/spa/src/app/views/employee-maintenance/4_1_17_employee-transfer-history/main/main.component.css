@@ -1,15 +1,15 @@
-.custom-td {
-  background-color: #20a8d8;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-}
-.custom-td-before {
+
+.before-change {
   background-color: #6ec6e6;
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  white-space: nowrap;
+}
+.after-change {
+  background-color: #20a8d8;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
 }
 .custom-td-btn {
   min-width: 100px; vertical-align : middle;text-align:center;

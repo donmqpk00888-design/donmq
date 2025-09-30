@@ -124,7 +124,7 @@ namespace API._Services.Services.EmployeeMaintenance
                 x.USER_GUID == dto.USER_GUID &&
                 x.Seq == dto.Seq, true);
             if (item == null)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
             if (await _repositoryAccessor.HRMS_Emp_Personal.AnyAsync(x =>
                 x.Factory == dto.Factory &&
                 x.Division == dto.Division &&

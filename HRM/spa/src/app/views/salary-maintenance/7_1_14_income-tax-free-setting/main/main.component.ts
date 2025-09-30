@@ -5,9 +5,9 @@ import { IncomeTaxFreeSetting_MainData, IncomeTaxFreeSettingMemory, IncomeTaxFre
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { IconButton, Placeholder } from '@constants/common.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -37,9 +37,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   constructor(private service: S_7_1_14_IncomeTaxFreeSettingService) {
     super()
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
         this.processData()
@@ -115,20 +113,16 @@ export class MainComponent extends InjectBase implements OnInit {
       this.spinnerService.show();
       this.service.getDataPagination(this.pagination, this.param).subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           this.dataMain = res.result;
-
           this.pagination = res.pagination;
           if (isSearch)
             this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
           if (isDelete)
             this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
-          this.spinnerService.hide()
           resolve()
         },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-          reject()
-        }
+        error: () => { reject() }
       })
     })
   };
@@ -164,9 +158,6 @@ export class MainComponent extends InjectBase implements OnInit {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });
@@ -178,9 +169,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -189,9 +177,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListType().subscribe({
       next: res => {
         this.listType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -200,9 +185,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListSalaryType().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

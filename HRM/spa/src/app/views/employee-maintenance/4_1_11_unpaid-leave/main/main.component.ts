@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Emp_Unpaid_LeaveDto, UnpaidLeaveParam, UnpaidLeaveSource } from '@models/employee-maintenance/4_1_11_unpaid-leave';
 import { S_4_1_11_UnpaidLeaveService } from '@services/employee-maintenance/s_4_1_11_unpaid-leave.service';
@@ -9,6 +8,7 @@ import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepick
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -129,8 +129,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -143,13 +142,11 @@ export class MainComponent extends InjectBase implements OnInit {
           this.functionUtility.exportExcel(res.data, fileName);
         }
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
   clear() {
-    this.spinnerService.show();
     this.pagination.pageNumber = 1;
     this.pagination.totalCount = 0;
     this.param = <UnpaidLeaveParam>{};
@@ -161,7 +158,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.leaveEndFrom = null;
     this.leaveEndTo = null;
     this.data = [];
-    this.spinnerService.hide()
   }
 
   search(isSearch: boolean) {
@@ -181,8 +177,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -194,8 +189,7 @@ export class MainComponent extends InjectBase implements OnInit {
     serviceMethod().subscribe({
       next: (res) => {
         this[dataProperty] = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -257,9 +251,8 @@ export class MainComponent extends InjectBase implements OnInit {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg')
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
-      }).add(() => this.spinnerService.hide());
+        }
+      })
     });
   }
 

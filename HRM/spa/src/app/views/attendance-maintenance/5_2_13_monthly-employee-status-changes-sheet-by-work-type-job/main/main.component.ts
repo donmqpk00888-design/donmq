@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ClassButton,
   IconButton
@@ -12,6 +11,7 @@ import { S_5_2_13_MonthlyEmployeeStatusChangesSheetByWorkTypeJobService } from '
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -77,7 +77,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     });
 
     // Load lại dữ liệu khi thay đổi ngôn ngữ
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadDropDownList();
 
@@ -142,8 +142,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.totalRows = result.data;
           if (isQuery)
             this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));
@@ -237,8 +236,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.totalRows = 0;
             this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));

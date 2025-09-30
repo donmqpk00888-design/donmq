@@ -6,9 +6,9 @@ import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
 import { LoanedMonthlyAttendanceDataMaintenanceDto, LoanedMonthlyAttendanceDataMaintenanceParam, LoanedMonthlyAttendanceDataMaintenanceSource } from '@models/attendance-maintenance/5_1_27_loaned-monthly-attendance-data-maintenance';
 import { S_5_1_27_LoanedMonthlyAttendanceDataMaintenanceService } from '@services/attendance-maintenance/s_5_1_27_loaned-monthly-attendance-data-maintenance.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -44,7 +44,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   ) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListDepartment();
@@ -125,9 +125,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         resultList.length = 0;
         resultList.push(...res);
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -151,8 +148,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
         if (isDelete)
           this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -175,11 +171,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(res.data, fileName);
         } else
-          this.functionUtility.snotifySuccessError(false, 'System.Message.Nodata');
+          this.functionUtility.snotifySuccessError(false, 'System.Message.NoData');
         this.spinnerService.hide()
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

@@ -11,9 +11,10 @@ import {
   OvertimeApplicationMaintenance_Param
 } from '@models/attendance-maintenance/5_1_12_overtime-application-maintenance';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { S_5_1_12_Overtime_Application_Maintenance } from '@services/attendance-maintenance/s_5_1_12_overtime-application-maintenance.service';
 import { ModalService } from '@services/modal.service';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -63,11 +64,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.activatedRoute.data.subscribe(
+    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe();
+      });
   }
   getSource() {
     this.param = this.service.paramSearch().param;
@@ -100,12 +101,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             this.filterList(res)
-          },
-          error: () => {
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
   }
@@ -127,7 +122,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   // #endregion
 
   // #region Query
-  getData = (isSearch: boolean) => {
+  getData = (isSearch: boolean = false) => {
     return new Promise<void>((resolve, reject) => {
       this.spinnerService.show();
       this.service
@@ -177,14 +172,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               );
             resolve();
           },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-            reject()
-          }
+          error: () => { reject() }
         });
     })
   };
@@ -220,13 +208,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('System.Caption.Error'));
           }
         },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
-        },
       });
   }
   download() {
@@ -239,54 +220,27 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         }
         else this.functionUtility.snotifySuccessError(false, res.error)
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
-  upload(event: any) {
+  upload(event: FileResultModel) {
     this.spinnerService.show();
-    if (event.target.files && event.target.files[0]) {
-      const fileFormat = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileFormat)) {
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.InvalidFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      } else {
-        const formData = new FormData();
-        formData.append('file', event.target.files[0]);
-        this.service.uploadExcel(formData).subscribe({
-          next: (res) => {
-            if (res.isSuccess) {
-              this.getData(false)
-              this.snotifyService.success(
-                this.translateService.instant('System.Message.UploadOKMsg'),
-                this.translateService.instant('System.Caption.Success'))
-            } else {
-              if (!this.functionUtility.checkEmpty(res.data)) {
-                const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-                this.functionUtility.exportExcel(res.data, fileName);
-              }
-              this.snotifyService.error(
-                res.error,
-                this.translateService.instant('System.Caption.Error')
-              );
-            }
-            this.spinnerService.hide();
-            this.inputRef.nativeElement.value = '';
-          },
-          error: () => {
-            event.target.value = '';
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-          },
-        });
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
+          }
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        }
       }
-    }
+    });
   }
   remove(item: OvertimeApplicationMaintenance_Main) {
     this.snotifyService.confirm(this.translateService.instant('System.Message.ConfirmDelete'), this.translateService.instant('System.Action.Delete'), () => {
@@ -305,13 +259,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.OvertimeApplicationMaintenance.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-          this.spinnerService.hide();
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.DeleteErrorMsg'),
-            this.translateService.instant('System.Caption.Error')
-          );
           this.spinnerService.hide();
         }
       });
@@ -352,13 +299,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           next: (res) => {
             this.spinnerService.hide();
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })

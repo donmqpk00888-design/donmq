@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import {
   AccountAuthorizationSetting_Param,
@@ -9,7 +8,8 @@ import {
 import { S_2_1_2_AccountAuthorizationSettingService } from '@services/basic-maintenance/s_2_1_2_account-authorization-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { Pagination } from '@utilities/pagination-utility';
+import { Pagination } from '@utilities/pagination-utility';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -33,7 +33,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   ) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -79,18 +79,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.division, this.param.factory,).subscribe({
       next: (res) => {
         this.departmentList = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -101,7 +97,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.roleList = res;
         this.functionUtility.getNgSelectAllCheckbox(this.roleList)
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
@@ -110,17 +105,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.divisionList = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListListFactory().subscribe({
       next: (res) => {
         this.factoryList = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -158,7 +149,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   clear() {

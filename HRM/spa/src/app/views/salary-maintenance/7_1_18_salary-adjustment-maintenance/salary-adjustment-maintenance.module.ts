@@ -12,6 +12,7 @@ import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { MainComponent } from './main/main.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { SharedModule } from '@views/_shared/shared.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     NgxMaskDirective, NgxMaskPipe,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    SharedModule
   ]
 })
 export class SalaryAdjustmentMaintenanceModule { }

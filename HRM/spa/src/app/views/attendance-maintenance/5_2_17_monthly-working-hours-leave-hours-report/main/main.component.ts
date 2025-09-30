@@ -6,8 +6,8 @@ import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidateResult } from '@models/base-source';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -33,7 +33,7 @@ export class MainComponent extends InjectBase implements OnInit {
   constructor(private service: S_5_2_17_MonthlyWorkingHoursLeaveHoursReportService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadDropDownList();
     });
@@ -86,8 +86,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = res
           if (isSearch)
             this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));
@@ -111,8 +110,7 @@ export class MainComponent extends InjectBase implements OnInit {
             this.totalRows = 0
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Warning'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));
@@ -130,24 +128,20 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region  GetListFactory
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   //#region  GetListPermission
   getListPermissionGroup() {
-    this.spinnerService.show();
     this.service.getListPermissionGroup(this.param.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

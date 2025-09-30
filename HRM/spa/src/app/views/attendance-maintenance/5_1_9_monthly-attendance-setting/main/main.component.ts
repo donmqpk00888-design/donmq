@@ -7,10 +7,10 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { HRMS_Att_Use_Monthly_LeaveDto, MonthlyAttendanceSettingParam_Form, ParamForm, ParamMain, ParamSource } from '@models/attendance-maintenance/5_1_9_monthly-attendance-setting';
 import { S_5_1_9_MonthlyAttendanceSettingService } from '@services/attendance-maintenance/s_5_1_9_monthly-attendance-setting.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -75,14 +75,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getFactorys() {
-    this.spinnerService.show();
     this._service.getFactorys().subscribe({
       next: res => {
         this.factorys = res
-        this.spinnerService.hide();
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -91,19 +86,16 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.spinnerService.show();
     this._service.getDataPagination(this.pagination, this.param).subscribe({
       next: res => {
+        this.spinnerService.hide();
         this.data = res.result;
         this.data.map(x => {
           x.effective_Month = new Date(x.effective_Month);
           x.effective_Month_Str = this.functionUtility.getDateFormat(new Date(x.effective_Month))
         })
         this.pagination = res.pagination;
-        this.spinnerService.hide();
         if (isSearch) {
           this.functionUtility.snotifySuccessError(isSearch, 'BasicMaintenance.2_6_GradeMaintenance.QueryOKMsg');
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -164,9 +156,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.DeleteErrorMsg');
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });

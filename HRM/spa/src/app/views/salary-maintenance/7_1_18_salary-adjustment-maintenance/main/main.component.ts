@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { CaptionConstants } from '@constants/message.enum';
 import { SalaryAdjustmentMaintenanceMain, SalaryAdjustmentMaintenanceParam, SalaryAdjustmentMaintenanceSource } from '@models/salary-maintenance/7_1_18_salary-adjustment-maintenance';
@@ -8,7 +7,9 @@ import { S_7_1_18_salaryAdjustmentMaintenanceService } from '@services/salary-ma
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -90,7 +91,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     return result;
   }
 
-  getData(isSearch?: boolean) {
+  getData(isSearch: boolean = false) {
     this.param.onboard_Date = this.formatDate(this.onboard_Date);
     this.param.effective_Date_Start = this.formatDate(this.start_Date);
     this.param.effective_Date_End = this.formatDate(this.end_Date);
@@ -103,8 +104,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getDropdownList() {
@@ -124,23 +124,20 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   getlistFactory() {
     this.service.getlistFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
   getlistDepartment() {
     if (this.functionUtility.checkEmpty(this.param.factory)) return
     this.service.getlistDepartment(this.param.factory,).subscribe({
-      next: (res: KeyValuePair[]) => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listDepartment = res
     });
   }
   getlistReasonForChange() {
     this.service.getlistReasonForChange().subscribe({
       next: (res: KeyValuePair[]) => {
         this.listReasonForChange = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -168,46 +165,27 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide()
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else if (this.param.factory)
-              this.getData(false);
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
           this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
         }
-      }).add(() => this.spinnerService.hide());
-    }
+      }
+    });
   }
   downloadTemplate() {
     this.spinnerService.show();
@@ -220,8 +198,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         }
         else
           this.snotifyService.warning(res.error, this.translateService.instant('System.Caption.Warning'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

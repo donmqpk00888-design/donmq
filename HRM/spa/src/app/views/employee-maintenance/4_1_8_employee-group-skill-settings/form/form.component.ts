@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { EmployeeGroupSkillSettings_Main, EmployeeGroupSkillSettings_SkillDetail } from '@models/employee-maintenance/4_1_8_employee-group-skill-settings';
 import { S_4_1_8_EmployeeGroupSkillSettings } from '@services/employee-maintenance/s_4_1_8_employee-group-skill-settings.service';
@@ -8,7 +7,8 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable, Observer, map, mergeMap, tap } from 'rxjs';
-import { ModalService } from '@services/modal.service';
+import { ModalService } from '@services/modal.service';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -53,18 +53,18 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.action = role.title
         this.filterList(role.dataResolved)
-      }).unsubscribe()
-    this.service.paramForm.subscribe((res) => {
+      })
+    this.service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (this.action == 'Edit') {
         res == null
           ? this.back()
           : this.selectedData = res
       }
-    }).unsubscribe()
+    })
     this.employeeList$ = new Observable((observer: Observer<any>) => {
       observer.next({
         factory: this.selectedData.factory,
@@ -88,8 +88,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -128,30 +127,24 @@ export class FormComponent extends InjectBase implements OnInit {
         .postData(this.selectedData)
         .subscribe({
           next: (res) => {
+            this.spinnerService.hide();
             this.functionUtility.snotifySuccessError(res.isSuccess,
               res.isSuccess ? 'System.Message.CreateOKMsg' : `EmployeeInformationModule.EmployeeGroupSkillSettings.${res.error}`)
             if (res.isSuccess) this.back()
-          },
-          error: () => this.functionUtility.snotifySystemError(false)
+          }
         })
-        .add(() => {
-          this.spinnerService.hide();
-        });
     }
     else {
       this.service
         .putData(this.selectedData)
         .subscribe({
           next: (res) => {
+            this.spinnerService.hide();
             this.functionUtility.snotifySuccessError(res.isSuccess,
               res.isSuccess ? 'System.Message.UpdateOKMsg' : `EmployeeInformationModule.EmployeeGroupSkillSettings.${res.error}`)
             if (res.isSuccess) this.back()
-          },
-          error: () => this.functionUtility.snotifySystemError(false)
+          }
         })
-        .add(() => {
-          this.spinnerService.hide();
-        });
     }
   }
   back = () => this.router.navigate([this.url]);

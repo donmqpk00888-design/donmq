@@ -9,6 +9,7 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',

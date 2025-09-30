@@ -231,8 +231,8 @@ namespace API._Services.Services
         {
             return _repositoryAccessor.HRMS_Org_Department.FindAll(x => x.Factory == Factory)
                 .GroupJoin(_repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Factory == Factory && x.Language_Code.ToLower() == Lang.ToLower()),
-                    x => x.Department_Code,
-                    y => y.Department_Code,
+                    x => new { x.Division, x.Factory, x.Department_Code },
+                    y => new { y.Division, y.Factory, y.Department_Code },
                     (x, y) => new { HOD = x, HODL = y })
                 .SelectMany(x => x.HODL.DefaultIfEmpty(),
                     (x, y) => new { x.HOD, HODL = y })
@@ -480,20 +480,25 @@ namespace API._Services.Services
         /// <param name="factory">Factory code</param>
         /// 
         /// 
-        /// <returns>List<KeyValuePair<string, string>></returns>
-        public async Task<List<KeyValuePair<string, string>>> Query_Department_List(string factory)
+        /// <returns>List<DepartmentInfo></returns>
+        public async Task<List<DepartmentInfo>> Query_Department_List(string factory)
         {
             var HOD = _repositoryAccessor.HRMS_Org_Department.FindAll(x => x.Factory == factory);
             var HPFC = _repositoryAccessor.HRMS_Basic_Factory_Comparison.FindAll(x => x.Kind == "1" && x.Factory == factory);
-            var data = HOD.Join(HPFC,
-                  x => x.Division,
-                  y => y.Division,
-                  (x, y) => new { HEP = x, HPFC = y });
-            var result = await data.Select(x => x.HEP).Select(x => new KeyValuePair<string, string>(x.Department_Code, x.Department_Name)).ToListAsync();
+            var result = await HOD.Join(HPFC,
+                x => x.Division,
+                y => y.Division,
+                (x, y) => new DepartmentInfo
+                {
+                    Division = x.Division,
+                    Factory = x.Factory,
+                    Department = x.Department_Code,
+                    Department_Code = x.Department_Code,
+                    Department_Name = x.Department_Name
+                }).ToListAsync();
             return result;
         }
         #endregion
-
         #region Query_Department_List
         /// <summary>
         /// Get deparment list by factory list
@@ -520,6 +525,7 @@ namespace API._Services.Services
             return result;
         }
         #endregion
+
         #region Query_AttDepartment
         /// <summary>
         /// Get deparment of employee
@@ -1510,6 +1516,77 @@ namespace API._Services.Services
                         .SumAsync(x => x.Days);
             var result = (decimal)Count_Values - sum;
             return result;
+        }
+        #endregion
+        #region 3.52.Query_Single_Sal_Monthly_Detail  
+        /// <summary>
+        /// Nhận các khoản khấu trừ lương hàng tháng dựa trên các thông số
+        /// </summary>
+        /// <param>Kind、Factory、Year Month、Employee ID、Type Seq、AddDed Type、Item</param>
+        /// <returns>Sum(Amount)</returns>
+        public async Task<int> Query_Single_Sal_Monthly_Detail(string kind, string factory, DateTime yearMonth, string employeeId, string typeSeq, string addedType, string item)
+        {
+            if (kind == "Y")
+            {
+                return await _repositoryAccessor.HRMS_Sal_Monthly_Detail.FindAll(x => x.Factory == factory &&
+                                                                        x.Sal_Month == yearMonth &&
+                                                                        x.Employee_ID == employeeId &&
+                                                                        x.Type_Seq == typeSeq &&
+                                                                        x.AddDed_Type == addedType &&
+                                                                        x.Item == item)
+                                                                        .SumAsync(x => (int?)x.Amount ?? 0);
+            }
+            else /// --kind = N
+            {
+                return await _repositoryAccessor.HRMS_Sal_Resign_Monthly_Detail.FindAll(x => x.Factory == factory &&
+                                                                        x.Sal_Month == yearMonth &&
+                                                                        x.Employee_ID == employeeId &&
+                                                                        x.Type_Seq == typeSeq &&
+                                                                        x.AddDed_Type == addedType &&
+                                                                        x.Item == item)
+                                                                        .SumAsync(x => (int?)x.Amount ?? 0);
+            }
+        }
+        public async Task<List<SalaryDetailResult>> Query_Single_Sal_Monthly_Detail(string kind, string factory, DateTime yearMonth, List<string> employeeId, string typeSeq, string addedType, List<string> item)
+        {
+            if (kind == "Y")
+            {
+                return await _repositoryAccessor.HRMS_Sal_Monthly_Detail
+                    .FindAll(x => x.Factory == factory &&
+                                 x.Sal_Month == yearMonth &&
+                                 employeeId.Contains(x.Employee_ID) &&
+                                 item.Contains(x.Item) &&
+                                 x.Type_Seq == typeSeq &&
+                                 x.AddDed_Type == addedType, true)
+                    .GroupBy(x => new { x.Employee_ID, x.Item, x.Sal_Month })
+                    .Select(x => new SalaryDetailResult
+                    {
+                        Employee_ID = x.Key.Employee_ID,
+                        Item = x.Key.Item,
+                        Sal_Month = x.Key.Sal_Month,
+                        Amount = x.Sum(x => (int?)x.Amount ?? 0)
+                    })
+                    .ToListAsync();
+            }
+            else /// --kind = N
+            {
+                return await _repositoryAccessor.HRMS_Sal_Resign_Monthly_Detail
+                    .FindAll(x => x.Factory == factory &&
+                                 x.Sal_Month == yearMonth &&
+                                 employeeId.Contains(x.Employee_ID) &&
+                                 item.Contains(x.Item) &&
+                                 x.Type_Seq == typeSeq &&
+                                 x.AddDed_Type == addedType, true)
+                    .GroupBy(x => new { x.Employee_ID, x.Item, x.Sal_Month  })
+                    .Select(x => new SalaryDetailResult
+                    {
+                        Employee_ID = x.Key.Employee_ID,
+                        Item = x.Key.Item,
+                        Sal_Month = x.Key.Sal_Month,
+                        Amount = x.Sum(x => (int?)x.Amount ?? 0)
+                    })
+                    .ToListAsync();
+            }
         }
         #endregion
     }

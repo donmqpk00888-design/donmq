@@ -264,10 +264,10 @@ namespace API._Services.Services.SalaryReport
         decimal totalTypeB = total49B.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m;
         var totalOtherAdditions = totalTypeA + totalTypeB;
         // Total Addition Item 
-        var totalAdditionItem = total45A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
-                                total42A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
-                                total49A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
-                                total49B.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m;
+        var totalAdditionItem = (total45A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
+                                (total42A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
+                                (total49A.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
+                                (total49B.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m);
         // Insurance Deduction
         var insurance_Deduction = insuranceDeductionDetail.Where(x => x.Employee_ID == emp.Employee_ID);
         // Other Deduction
@@ -275,9 +275,9 @@ namespace API._Services.Services.SalaryReport
         decimal totalTypeD = salDetailSumD.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m;
         var totalOtherDeduction = totalTypeC + totalTypeD;
         // Total Deduction Item 
-        var totalDeductionItem = total57D.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
-                                 total49C.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
-                                 total49D.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m +
+        var totalDeductionItem = (total57D.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
+                                 (total49C.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
+                                 (total49D.FirstOrDefault(x => x.Employee_ID == emp.Employee_ID)?.Amount ?? 0m) +
                                  emp.Tax;
         // Net Amount Received
         var netAmountReceived = totalAdditionItem - totalDeductionItem;

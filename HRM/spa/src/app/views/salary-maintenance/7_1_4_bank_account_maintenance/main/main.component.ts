@@ -2,13 +2,14 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { InjectBase } from '@utilities/inject-base-app';
 import { S_7_1_4_Bank_Account_MaintenanceService } from '@services/salary-maintenance/s_7_1_4_bank_account_maintenance.service';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BankAccountMaintenance_Basic, BankAccountMaintenanceDto, BankAccountMaintenanceParam } from '@models/salary-maintenance/7_1_4_bank_account_maintenance';
 import { Pagination } from '@utilities/pagination-utility';
 import { IconButton } from '@constants/common.constants';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -63,17 +64,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     }
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
-  getData(isSearch?: boolean) {
+  getData(isSearch: boolean = false) {
     this.spinnerService.show();
     this.service.getData(this.pagination, this.param).subscribe({
       next: (res) => {
@@ -83,7 +81,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -124,14 +121,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
               this.getData(false);
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-          },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
+          }
         });
       }
     );
@@ -140,7 +136,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   download() {
     if (this.data.length == 0)
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.param).subscribe({
@@ -150,7 +146,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   downloadExcelTemplate() {
@@ -161,43 +156,25 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result.data, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
-
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.extensions.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.upload(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          'System.Message.AllowExcelFile',
-          'System.Caption.Error'
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.upload(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg');
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
-            this.functionUtility.snotifySuccessError(false, res.error);
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.param.factory)
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-          this.spinnerService.hide()
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
         }
-      });
-    }
+      }
+    });
   }
 }

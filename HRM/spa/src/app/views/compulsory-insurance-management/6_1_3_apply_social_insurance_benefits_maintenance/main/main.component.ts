@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import {
   ApplySocialInsuranceBenefitsMaintenance_Basic,
   ApplySocialInsuranceBenefitsMaintenanceDto,
@@ -14,6 +13,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -75,7 +75,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListBenefitsKind() {
@@ -83,7 +82,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listBenefitsKind = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -101,7 +99,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           );
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -145,6 +142,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide()
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(
                 result.isSuccess,
@@ -156,9 +154,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
                 result.isSuccess,
                 result.error
               );
-          },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide(),
+          }
         });
       }
     );
@@ -181,7 +177,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error);
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onChangeDate(name: string) {

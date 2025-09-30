@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ClassButton,
   EmployeeMode,
@@ -15,6 +14,7 @@ import {
 import { S_4_1_1_EmployeeBasicInformationMaintenanceService } from '@services/employee-maintenance/s_4_1_1_employee-basic-information-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form-4-1-1',
@@ -118,9 +118,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
     private _service: S_4_1_1_EmployeeBasicInformationMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.loadDropDownList();
         if (!this.functionUtility.checkEmpty(this.tranfer.useR_GUID))
           this.getDepartmentSupervisor(this.tranfer.useR_GUID);
@@ -167,6 +165,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
     this.spinnerService.show();
     this._service.getDetail(this.tranfer.useR_GUID).subscribe({
       next: (res) => {
+        this.spinnerService.hide();
         if (this.functionUtility.isEmptyObject(res)) this.close();
 
         if (this.tranfer.mode != this.mode.rehire) {
@@ -205,7 +204,6 @@ export class FormComponent411 extends InjectBase implements OnInit {
         );
         this.bloodType.forEach((x) => (x.optional = x.key == res.bloodType));
         this.work8hours.forEach((x) => (x.optional = x.key == res.work8hours));
-        this.spinnerService.hide();
         this.getListProvinceDirectly();
         this.getListRegisteredCity();
         this.getListMailingCity();
@@ -214,10 +212,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
         this.getListAssignedFactory();
         this.getListDepartmet();
         this.getListAssignedDepartmet();
-      },
-      error: () => {
-        this.spinnerService.hide();
-      },
+      }
     });
   }
 
@@ -256,8 +251,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
             this.functionUtility.snotifySuccessError(true, 'Nationality and Identification Number are valid');
           } else this.functionUtility.snotifySuccessError(false, 'Nationality and Identification Number are exist');
 
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -285,8 +279,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
         this.spinnerService.hide();
         this.invalidCase2 = isDuplicate;
         this.functionUtility.snotifySuccessError(!this.invalidCase2, !this.invalidCase2 ? 'Division, Factory, Employee ID are valid' : 'Division, Factory, Employee ID are exist')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -324,8 +317,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
         this.functionUtility.snotifySuccessError(!this.invalidCase3, !this.invalidCase3 ?
           'Assigned/Supported Division,Assigned/Supported Factory,Assigned/Supported Employee ID are valid' :
           'Assigned/Supported Division,Assigned/Supported Factory,Assigned/Supported Employee ID are exist')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -392,8 +384,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
     this._service.checkBlackList(param).subscribe({
       next: (existBlackList) => {
         if (existBlackList) this.functionUtility.snotifySuccessError(false, 'This person is blacklisted');
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   //#region OnChange
@@ -641,8 +632,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
           this._service.tranferChange.emit(this.tranfer);
           this.getDetail();
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -652,8 +642,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -663,8 +652,7 @@ export class FormComponent411 extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

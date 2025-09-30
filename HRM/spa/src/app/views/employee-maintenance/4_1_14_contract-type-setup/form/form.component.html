@@ -171,7 +171,7 @@
                              id="yearInput"
                              [(ngModel)]="data.probationary_Year"
                              placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Years'|translate}}"
-                             class="form-control bg-white mr-1 ml-1"
+                             class="form-control mr-1 ml-1"
                              name='year'
                              min="0"
                              max="9999"
@@ -192,7 +192,7 @@
                              oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
                              onkeypress="return /[0-9]/i.test(event.key)"
                              placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Months'|translate}}"
-                             class="form-control bg-white  mr-1 ml-1"
+                             class="form-control  mr-1 ml-1"
                              name='month' />
                     </div>
                     <!-- Days -->
@@ -208,7 +208,7 @@
                              oninput="if(this.value.length > 2) { this.value = this.value.slice(0,2);}"
                              onkeypress="return /[0-9]/i.test(event.key)"
                              placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Days'|translate}}"
-                             class="form-control bg-white ml-1"
+                             class="form-control ml-1"
                              name='day' />
                     </div>
                   </div>
@@ -419,7 +419,7 @@
                       *ngIf="dataDetail.length === 0">
                     <td colspan="100%"
                         class="table-warning text-center font-weight-bold">
-                      {{'System.Message.Nodata' | translate }}
+                      {{'System.Message.NoData' | translate }}
                     </td>
                   </tr>
                   <tr>

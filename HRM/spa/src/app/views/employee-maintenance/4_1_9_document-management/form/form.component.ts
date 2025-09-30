@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -17,7 +16,8 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
-import { Observable, Observer, map, mergeMap, tap } from 'rxjs';
+import { Observable, Observer, map, mergeMap, tap } from 'rxjs';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -78,12 +78,12 @@ export class FormComponent extends InjectBase implements OnInit {
         dateInputFormat: 'YYYY/MM/DD',
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.action = role.title
         this.filterList(role.dataResolved)
-      }).unsubscribe()
-    this.service.paramForm.subscribe((res) => {
+      })
+    this.service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (this.action == 'Edit') {
         if (res == null)
           this.back()
@@ -92,7 +92,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.getSubDetail()
         }
       }
-    }).unsubscribe()
+    })
     this.employeeList$ = new Observable((observer: Observer<any>) => {
       observer.next({
         division: this.param.division,
@@ -129,8 +129,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -152,8 +151,7 @@ export class FormComponent extends InjectBase implements OnInit {
           })
           this.checkData(false)
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   deleteProperty(name: string) {
@@ -195,24 +193,22 @@ export class FormComponent extends InjectBase implements OnInit {
         .postData(_data)
         .subscribe({
           next: (res) => {
+            this.spinnerService.hide()
             this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? `System.Message.CreateOKMsg` : `EmployeeInformationModule.DocumentManagement.${res.error}`)
             if (res.isSuccess) this.back()
-          },
-          error: () => this.functionUtility.snotifySystemError(false)
+          }
         })
-        .add(() => this.spinnerService.hide());
     }
     else {
       this.service
         .putData(_data)
         .subscribe({
           next: (res) => {
+            this.spinnerService.hide()
             this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? `System.Message.UpdateOKMsg` : `EmployeeInformationModule.DocumentManagement.${res.error}`)
             if (res.isSuccess) this.back()
-          },
-          error: () => this.functionUtility.snotifySystemError(false)
+          }
         })
-        .add(() => this.spinnerService.hide());
     }
   }
   add() {

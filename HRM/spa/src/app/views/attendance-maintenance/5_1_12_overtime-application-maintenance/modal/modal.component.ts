@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { OvertimeApplicationMaintenance_Main } from '@models/attendance-maintenance/5_1_12_overtime-application-maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_12_Overtime_Application_Maintenance } from '@services/attendance-maintenance/s_5_1_12_overtime-application-maintenance.service';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
@@ -74,18 +74,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             );
             !isBack ? this.clear() : this.directive.hide();
           } else {
-            this.spinnerService.hide();
             this.snotifyService.error(
               this.translateService.instant(`AttendanceMaintenance.OvertimeApplicationMaintenance.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         },
       })
   }
@@ -111,13 +103,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         next: (res) => {
           this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -131,8 +116,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -204,12 +188,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           } else
             this.data.clock_Out = null
           this.getOvertimeParam()
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -228,12 +206,6 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             this.data.overtime_Hours = res.data.overtime_Hours.toString();
             this.data.night_Hours = res.data.night_Hours.toString();
           }
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
 

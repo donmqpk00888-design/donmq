@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { CodeNameParam, Code_LanguageDetail, Code_LanguageParam, Code_Language_Form } from '@models/basic-maintenance/2_1_5_code-language';
@@ -7,6 +6,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_2_1_5_CodeLanguageService } from '@services/basic-maintenance/s_2_1_5_code-language.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -39,7 +39,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res['title']
       this.action = res.title
     });
@@ -86,8 +86,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: (res) => {
           this.spinnerService.hide();
           this.listCode = res;
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -114,8 +113,7 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.codeLanguageDetail.code_Name = res[0];
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -125,7 +123,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.codeLanguageDetail.detail = res.map(x => {
           return <Code_Language_Form>{ language_Code: x.key, name: '' }
         });
-      }, error: () => { }
+      }
     })
   }
 
@@ -135,8 +133,7 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.codeLanguageDetail = res;
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -147,13 +144,12 @@ export class FormComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service[this.formType.toLowerCase()](this.codeLanguageDetail).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess,
           (result.isSuccess ? (this.formType == "Add" ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg') : result.error),
           result.isSuccess)
         if (result.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+      }
     })
   }
 }

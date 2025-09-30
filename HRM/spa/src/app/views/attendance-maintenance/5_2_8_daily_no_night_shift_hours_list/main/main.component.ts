@@ -16,7 +16,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  styleUrl: './main.component.scss',
+  host: { 'id': 'main-5-2-8' }
 })
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   @ViewChild('mainForm') public mainForm: NgForm;
@@ -61,10 +62,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.activatedRoute.data.subscribe(
+    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
-      }).unsubscribe();
+      });
   }
   ngAfterViewChecked() {
     if (this.allowGetData && this.mainForm) {
@@ -86,8 +87,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -115,8 +115,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant(`AttendanceMaintenance.DailyNoNightShiftHoursList.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   clear() {
@@ -139,8 +138,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.translateService.instant(`AttendanceMaintenance.DailyNoNightShiftHoursList.${res.error}`),
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   onFactoryChange() {

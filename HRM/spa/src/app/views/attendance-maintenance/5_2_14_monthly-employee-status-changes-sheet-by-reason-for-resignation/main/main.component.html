@@ -1,161 +1,201 @@
 <div class="animated fadeIn">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <form class="form-horizontal" autocomplete="off">
-                    <div class="card-header">
-                        <div class="row border-title">
-                            <div class="col-md-12">
-                                <strong class="title-card-cs">{{ title }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="card-body">
-                    <div class="row border-shadow">
-                        <!-- Factories -->
-                        <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <div class="form-group">
-                                <label class="badge badge-warning">
-                                    {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.Factory" | translate }}
-                                    <span class="text-danger text-bold"> *</span>
-                                </label>
-                                <ng-select name="factory" [(ngModel)]="param.factory" (ngModelChange)="onFactoryChange()"
-                                    placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.Factory' | translate }}"
-                                    [clearable]="param.factory != null"
-                                    (clear)="onClearFactory()">
-                                    <ng-option *ngFor="let data of factories" [value]="data.key">
-                                        {{ data.value }}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-                        </div>
-
-                        <!-- Year Month -->
-                        <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <div class="form-group">
-                                <label class="badge badge-warning">
-                                    {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.YearMonth" | translate }}
-                                    <span class="text-danger text-bold"> *</span>
-                                </label>
-                                <div class="input-group ml-1">
-                                    <input autocomplete="off" type="text" class="form-control bg-white"
-                                        name="yearMonthDate" [(ngModel)]="yearMonthDate"
-                                        bsDatepicker [bsConfig]="datePickerConfig" placeholder="YYYY/MM" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Permission Groups -->
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <label class="badge badge-warning">
-                                        {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.PermissionGroup" | translate }}
-                                        <span class="text-danger text-bold"> *</span>
-                                    </label>
-                                    <ng-select [items]="permissionGroups"
-                                        [multiple]="true"
-                                        name="permisionGroups"
-                                        groupBy="allGroup"
-                                        [selectableGroup]="true"
-                                        [selectableGroupAsModel]="false"
-                                        [closeOnSelect]="false"
-                                        bindLabel="value"
-                                        bindValue="key"
-                                        [(ngModel)]="param.permisionGroups"
-                                        (clear)="param.permisionGroups = []"
-                                        [disabled]="permissionGroups.length == 0"
-                                        [clearable]="param.permisionGroups.length > 0"
-                                        placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.PermissionGroup' | translate }}">
-                                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-                                            <input id="item-{{ index }}" type="checkbox" name="item-{{ index }}" [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}
-                                        </ng-template>
-                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                                            <input id="item-{{ index }}" name="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{ item.value }}
-                                        </ng-template>
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mt-2">
-                            <!-- Search -->
-                            <button *ngIf="functionUtility.checkFunction('Search')" type="button" class="{{ classButton.SEARCH }}" (click)="getTotalRecords()" [disabled]="disableSearch()">
-                                <i class="{{ iconButton.SEARCH }}"></i>
-                                {{ "System.Action.Search" | translate }}
-                            </button>
-
-                            <!-- Clear -->
-                            <button *ngIf="functionUtility.checkFunction('Search')" type="button" class="{{ classButton.CLEAR }}" (click)="clear()">
-                                <i class="{{ iconButton.CLEAR }}"></i>
-                                {{ "System.Action.Clear" | translate }}
-                            </button>
-
-                            <!-- Export Excel -->
-                            <button *ngIf="functionUtility.checkFunction('Excel')" type="button" class="{{ classButton.EXCEL }}" [disabled]="disableSearch()" (click)="onExport()">
-                                <i class="{{ iconButton.EXCEL }}"></i>
-                                {{ "System.Action.Excel" | translate }}
-                            </button>
-                        </div>
-
-                        <div class="col-12 mt-2">
-                            <strong> {{ "System.Message.TotalQuery" | translate }} <span class="text-primary"> {{totalRows}} </span>{{ "System.Message.Record" | translate }}</strong>
-                        </div>
-                    </div>
-
-                    <!-- TABLE -->
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-12 col-sm-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-center">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.NumberOfEmployeesAt' | translate}}
-                                            </th>
-                                            <th>
-                                                {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.NewHiresThisMonth' | translate}}
-                                            </th>
-                                            <th>
-                                                {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.ResignationsThisMonth' | translate}}
-                                            </th>
-                                            <th>
-                                                {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.TotalNumberOfEmployeesAt' | translate}}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody *ngIf="table.length > 0 ; else elseTemplate">
-                                        <tr *ngFor="let item of table">
-                                            <td>{{ item.headerTitle | translate }}</td>
-                                            <td>{{ item.numberOfEmployeesAt }}</td>
-                                            <td>{{ item.newHiresThisMonth }}</td>
-                                            <td>{{ item.resignationsThisMonth }}</td>
-                                            <td>{{ item.totalNumberOfEmployeesAt }}</td>
-                                        </tr>
-                                    </tbody>
-                                    <ng-template #elseTemplate>
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="100%" class="table-warning text-center font-weight-bold">
-                                                    {{ 'System.Message.Nodata' | translate }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </ng-template>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END TABLE -->
-                </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
             </div>
+          </div>
+        </form>
+        <div class="card-body">
+          <div class="row border-shadow">
+            <!-- Factories -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.Factory" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onFactoryChange()"
+                         placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.Factory' | translate }}"
+                         [clearable]="param.factory != null"
+                         (clear)="onClearFactory()">
+                <ng-option *ngFor="let data of factories"
+                           [value]="data.key">
+                  {{ data.value }}
+                </ng-option>
+              </ng-select>
+            </div>
+
+            <!-- Year Month -->
+            <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <label class="badge badge-warning">
+                {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.YearMonth" | translate }}
+                <span class="text-danger text-bold"> *</span>
+              </label>
+              <div class="input-group ml-1">
+                <input autocomplete="off"
+                       type="text"
+                       class="form-control"
+                       name="yearMonthDate"
+                       [(ngModel)]="yearMonthDate"
+                       bsDatepicker
+                       [bsConfig]="datePickerConfig"
+                       placeholder="YYYY/MM" />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Permission Groups -->
+            <div class="col-12">
+              <div class="row">
+                <div class="col-auto">
+                  <label class="badge badge-warning">
+                    {{ "AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.PermissionGroup" | translate }}
+                    <span class="text-danger text-bold"> *</span>
+                  </label>
+                  <ng-select [items]="permissionGroups"
+                             [multiple]="true"
+                             name="permisionGroups"
+                             groupBy="allGroup"
+                             [selectableGroup]="true"
+                             [selectableGroupAsModel]="false"
+                             [closeOnSelect]="false"
+                             bindLabel="value"
+                             bindValue="key"
+                             [(ngModel)]="param.permisionGroups"
+                             (clear)="param.permisionGroups = []"
+                             [disabled]="permissionGroups.length == 0"
+                             [clearable]="param.permisionGroups.length > 0"
+                             placeholder="{{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.PermissionGroup' | translate }}">
+                    <ng-template ng-optgroup-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <div class="custom-control custom-checkbox pe-none">
+                        <input id="item-{{ index }}"
+                               type="checkbox"
+                               class="custom-control-input"
+                               name="item-{{ index }}"
+                               [ngModel]="item$.selected" />
+                        <label class="custom-control-label"
+                               for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp
+                                 let-item="item"
+                                 let-item$="item$"
+                                 let-index="index">
+                      <div class="custom-control custom-checkbox pe-none">
+                        <input id="item-{{ index }}"
+                               name="item-{{ index }}"
+                               type="checkbox"
+                               class="custom-control-input"
+                               [ngModel]="item$.selected" />
+                        <label class="custom-control-label"
+                               for="item-{{ index }}"> {{ item.value }}</label>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="d-block">&nbsp;</label>
+              <!-- Search -->
+              <button *ngIf="functionUtility.checkFunction('Search')"
+                      type="button"
+                      class="{{ classButton.SEARCH }}"
+                      (click)="getTotalRecords()"
+                      [disabled]="disableSearch()">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{ "System.Action.Search" | translate }}
+              </button>
+
+              <!-- Clear -->
+              <button *ngIf="functionUtility.checkFunction('Search')"
+                      type="button"
+                      class="{{ classButton.CLEAR }}"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{ "System.Action.Clear" | translate }}
+              </button>
+
+              <!-- Export Excel -->
+              <button *ngIf="functionUtility.checkFunction('Excel')"
+                      type="button"
+                      class="{{ classButton.EXCEL }}"
+                      [disabled]="disableSearch()"
+                      (click)="onExport()">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{ "System.Action.Excel" | translate }}
+              </button>
+            </div>
+
+            <div class="col-12 mt-2">
+              <strong> {{ "System.Message.TotalQuery" | translate }} <span class="text-primary"> {{totalRows}} </span>{{ "System.Message.Record" | translate }}</strong>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="row justify-content-md-center">
+            <div class="col-md-12 col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>
+                        {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.NumberOfEmployeesAt' | translate}}
+                      </th>
+                      <th>
+                        {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.NewHiresThisMonth' | translate}}
+                      </th>
+                      <th>
+                        {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.ResignationsThisMonth' | translate}}
+                      </th>
+                      <th>
+                        {{ 'AttendanceMaintenance.MonthlyEmployeeStatusChangesSheetByReasonforResignation.TotalNumberOfEmployeesAt' | translate}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="table.length > 0 ; else elseTemplate">
+                    <tr *ngFor="let item of table">
+                      <td>{{ item.headerTitle | translate }}</td>
+                      <td>{{ item.numberOfEmployeesAt }}</td>
+                      <td>{{ item.newHiresThisMonth }}</td>
+                      <td>{{ item.resignationsThisMonth }}</td>
+                      <td>{{ item.totalNumberOfEmployeesAt }}</td>
+                    </tr>
+                  </tbody>
+                  <ng-template #elseTemplate>
+                    <tbody>
+                      <tr>
+                        <td colspan="100%"
+                            class="table-warning text-center font-weight-bold">
+                          {{ 'System.Message.NoData' | translate }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-template>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- END TABLE -->
         </div>
+      </div>
     </div>
+  </div>
 </div>

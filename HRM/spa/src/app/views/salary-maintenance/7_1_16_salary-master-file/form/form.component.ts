@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { SalaryItem, SalaryMasterFile_Main } from '@models/salary-maintenance/7_1_16_salary-master-file';
 import { S_7_1_16_SalaryMasterFileService } from '@services/salary-maintenance/s_7_1_16_salary-master-file.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -51,11 +51,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.method = role.title
         this.getSource();
-      }).unsubscribe();
+      });
   }
   getSource() {
     const source = this.service.signalDataMain();
@@ -84,9 +84,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getTechnicalTypes().subscribe({
       next: res => {
         this.listTechnicalType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -95,9 +92,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getExpertiseCategorys().subscribe({
       next: res => {
         this.listExpertiseCategory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -106,9 +100,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -117,8 +108,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListPermissionGroup().subscribe({
       next: result => {
         this.permissionGroups = result;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -126,9 +116,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getDepartments(this.data.factory,).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -137,9 +124,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getPositionTitles().subscribe({
       next: res => {
         this.listPositionTitle = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -148,9 +132,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getSalaryTypes().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -163,9 +144,6 @@ export class FormComponent extends InjectBase implements OnInit {
         this.salaryItems = res.salaryItemsPagination.result;
         this.pagination = res.salaryItemsPagination.pagination;
         this.total_Salary = res.total_Salary;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }

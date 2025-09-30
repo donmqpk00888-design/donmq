@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { EmergencyContactsReportParam, EmergencyContactsReportSource } from '@models/employee-maintenance/4_2_2_emergency-contacts-report';
@@ -8,6 +7,7 @@ import { S_4_2_2_EmergencyContactsReportService } from '@services/employee-maint
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -78,8 +78,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -87,41 +86,36 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.spinnerService.show();
     this.service.downloadExcel(this.param).subscribe({
       next: (result) => {
-        if (result.isSuccess)
-        {
+        this.spinnerService.hide()
+        if (result.isSuccess) {
           this.getTotalRows()
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
         }
         else {
-          this.spinnerService.hide()
           this.totalRows = 0
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   getListDivision() {
     this.service.getListDivision().subscribe({
       next: res => {
         this.listDivision = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListDepartment() {
     this.service.getListDepartment(this.param.division, this.param.factory).subscribe({
-      next: res => this.listDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listDepartment = res
     })
   }
 
@@ -135,18 +129,15 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListAssignedFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.assignedDivision).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listAssignedFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListAssignedDepartment() {
     this.service.getListDepartment(this.param.assignedDivision, this.param.assignedFactory).subscribe({
-      next: res => this.listAssignedDepartment = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listAssignedDepartment = res
     })
   }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -12,6 +11,7 @@ import { S_7_1_24_MonthlySalaryMaintenanceService } from '@services/salary-maint
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -65,11 +65,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title
       this.isQuery = res.title == 'Query';
       this.getSource()
-    }).unsubscribe()
+    })
     if (!this.isQuery)
       this.data.probation = '';
   }
@@ -96,6 +96,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.getDetail(this.data).subscribe({
       next: (res) => {
+        this.spinnerService.hide()
         this.dataDetail = res
         this.dataDetail.salaryDetail.tax = this.data.tax
 
@@ -105,8 +106,6 @@ export class FormComponent extends InjectBase implements OnInit {
           if (this.dataDetail.allowance)
             this.dataDetail.allowance.forEach(item => item.monthlyDays = 0);
         }
-
-        this.spinnerService.hide()
 
         const tableLengths = [
           this.dataDetail.salaryDetail.table_1.reduce((sum, item) => sum + item.listItem.length, 0),
@@ -140,7 +139,6 @@ export class FormComponent extends InjectBase implements OnInit {
           }
         });
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -149,7 +147,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -158,16 +155,12 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listDepartment = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListSalaryType() {
     this.service.getListSalaryType().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -175,8 +168,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListPermissionGroup(this.data.factory).subscribe({
       next: res => {
         this.listPermissionGroup = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -187,6 +179,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.changeParamSave();
     this.service.update(this.dataSave).subscribe({
       next: result => {
+        this.spinnerService.hide();
         if (result.isSuccess) {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           this.back();
@@ -194,8 +187,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     });
   }
   changeParamSave() {
@@ -227,7 +219,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.dataDetail.salaryDetail.table_4[0].sumAmount = totalTable4;
     this.dataDetail.salaryDetail.table_5[0].sumAmount = totalTable5;
 
-    this.dataDetail.salaryDetail.totalAmountReceived = Math.abs(totalTable1 + totalTable2 + totalTable3 - totalTable4 - totalTable5 - this.dataDetail.salaryDetail.tax);
+    this.dataDetail.salaryDetail.totalAmountReceived = totalTable1 + totalTable2 + totalTable3 - totalTable4 - totalTable5 - this.dataDetail.salaryDetail.tax;
   }
   calculateTableTotal = (table: MonthlySallaryDetail_Table[]): number => {
     return table.reduce((sum: number, item) => {

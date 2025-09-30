@@ -1,247 +1,260 @@
 <div class="animated fadeIn">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row border-title">
-                        <div class="col-md-12">
-                            <strong>
-                                {{ title }}
-                            </strong>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row border-title">
+            <div class="col-md-12">
+              <strong>
+                {{ title }}
+              </strong>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form #form="ngForm"
+                class="form-horizontal border-shadow"
+                autocomplete="off">
+            <div class="row">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="factory">
+                  {{"AttendanceMaintenance.OvertimeHoursReport.Factory" |
+                  translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [clearable]="false"
+                           [(ngModel)]="params.factory"
+                           [ngModelOptions]="{standalone: true}"
+                           placeholder='Select a factory'
+                           (clear)="params.factory = '' "
+                           (ngModelChange)="changeFactory()"
+                           required>
+                  <ng-option [value]="''">
+                    {{"System.SelectAll" | translate }}
+                  </ng-option>
+                  <ng-option *ngFor="let items of factories"
+                             [value]="items.key">{{items.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Date -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.OvertimeHoursReport.Date"
+                  | translate}} <span class="text-danger text-bold"> *</span>
+                </label>
+                <div class="input-group mr-1">
+                  <input type="text"
+                         placeholder="YYYY/MM/DD"
+                         name="date_start"
+                         [maxDate]="dateTo"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         autocomplete="off"
+                         bsDatepicker
+                         [(ngModel)]="dateFrom"
+                         required>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Date -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+                <label>
+                  &nbsp;
+                </label>
+                <div class="input-group">
+                  <input type="text"
+                         placeholder="YYYY/MM/DD"
+                         name="date_end"
+                         [minDate]="dateFrom"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         autocomplete="off"
+                         [(ngModel)]="dateTo"
+                         required>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
+                  </div>
+                </div>
+              </div>
+              <!-- Work Shift Type -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="WorkShiftType">
+                  {{"AttendanceMaintenance.OvertimeHoursReport.WorkShiftType" |
+                  translate
+                  }}
+                </label>
+                <ng-select id="WorkShiftType"
+                           name="WorkShiftType"
+                           [clearable]="false"
+                           (clear)="params.work_Shift_Type = '' "
+                           [(ngModel)]="params.work_Shift_Type"
+                           [ngModelOptions]="{standalone: true}"
+                           placeholder='Select a WorkShiftType'>
+                  <ng-option [value]="''">
+                    {{"System.SelectAll" | translate }}
+                  </ng-option>
+                  <ng-option *ngFor="let items of workshifttypes"
+                             [value]="items.key">{{items.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
+                <label class="badge badge-warning"
+                       for="department">
+                  {{"AttendanceMaintenance.OvertimeHoursReport.Department" |
+                  translate
+                  }}
+                </label>
+                <ng-select id="department"
+                           [disabled]="!params.factory"
+                           name="department"
+                           [clearable]="false"
+                           (clear)="params.department = '' "
+                           [(ngModel)]="params.department"
+                           [ngModelOptions]="{standalone: true}"
+                           placeholder='Select a department'>
+                  <ng-option [value]="''">
+                    {{"System.SelectAll" | translate }}
+                  </ng-option>
+                  <ng-option *ngFor="let items of departments"
+                             [value]="items.key">{{items.key}} - {{items.value}}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- EmployeeID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning"
+                       for="employee_Id">
+                  {{"AttendanceMaintenance.OvertimeHoursReport.EmployeeID" |
+                  translate
+                  }}
+                </label>
+                <input type="text"
+                       placeholder='Enter Employee ID...'
+                       class="form-control"
+                       id="employee_Id"
+                       name="employee_Id"
+                       maxlength="9"
+                       [(ngModel)]="params.employee_Id" />
+              </div>
+              <!-- PermissionGroup -->
+              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                <label class="badge badge-warning">
+                  {{'AttendanceMaintenance.OvertimeHoursReport.PermissionGroup'|translate}}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select [items]="permissiongroup"
+                           [disabled]="!params.factory"
+                           [multiple]="true"
+                           name="namePermission"
+                           groupBy="allGroup"
+                           [selectableGroup]="true"
+                           [selectableGroupAsModel]="false"
+                           [closeOnSelect]="false"
+                           bindLabel="value"
+                           bindValue="key"
+                           [(ngModel)]="params.permission_Group"
+                           required
+                           placeholder="{{ 'AttendanceMaintenance.OvertimeHoursReport.PermissionGroup' | translate }}">
+                  <ng-template ng-optgroup-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp
+                               let-item="item"
+                               let-item$="item$"
+                               let-index="index">
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <!-- Kind -->
+              <div class="col-12">
+                  <label for="kind"
+                         class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeHoursReport.Kind'
+                    | translate }} <span class="text-danger text-bold"> *</span></label>
+                  <div class="row pl-3">
+                    <div *ngFor="let item of list_kind; let i">
+                      <label class="container">
+                        <div class="row">
+                          <div class="custom-control custom-radio pt-2">
+                            <input [id]="'kind_' + i"
+                                   class="custom-control-input"
+                                   type="radio"
+                                   name="kind"
+                                   [(ngModel)]="params.kind"
+                                   [value]="item.key" />
+                            <p class="custom-control-label"
+                               [for]="'kind' + i">
+                              {{ item.value | translate }}
+                            </p>
+                          </div>
                         </div>
+                      </label>
                     </div>
                 </div>
-                <div class="card-body">
-                    <form #form="ngForm"
-                          class="form-horizontal border-shadow"
-                          autocomplete="off">
-                        <div class="row">
-                            <!-- Factory -->
-                            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
-                                <label class="badge badge-warning"
-                                       for="factory">
-                                    {{"AttendanceMaintenance.OvertimeHoursReport.Factory" |
-                                    translate }}
-                                    <span class="text-danger text-bold">*</span>
-                                </label>
-                                <ng-select id="factory"
-                                           name="factory"
-                                           [clearable]="false"
-                                           [(ngModel)]="params.factory"
-                                           [ngModelOptions]="{standalone: true}"
-                                           placeholder='Select a factory'
-                                           (clear)="params.factory = '' "
-                                           (ngModelChange)="changeFactory()"
-                                           required>
-                                    <ng-option [value]="''">
-                                        {{"System.SelectAll" | translate }}
-                                    </ng-option>
-                                    <ng-option *ngFor="let items of factories"
-                                               [value]="items.key">{{items.value}}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-                            <!-- Date -->
-                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
-                                <label class="badge badge-warning">
-                                    {{"AttendanceMaintenance.OvertimeHoursReport.Date"
-                                    | translate}} <span class="text-danger text-bold"> *</span>
-                                </label>
-                                <div class="input-group mr-1">
-                                    <input type="text"
-                                           placeholder="YYYY/MM/DD"
-                                           name="date_start"
-                                           [maxDate]="dateTo"
-                                           [bsConfig]="bsConfig"
-                                           class="form-control"
-                                           autocomplete="off"
-                                           bsDatepicker
-                                           [(ngModel)]="dateFrom"
-                                           required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Date -->
-                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
-                                <label>
-                                    &nbsp;
-                                </label>
-                                <div class="input-group">
-                                    <input type="text"
-                                           placeholder="YYYY/MM/DD"
-                                           name="date_end"
-                                           [minDate]="dateFrom"
-                                           [bsConfig]="bsConfig"
-                                           class="form-control"
-                                           bsDatepicker
-                                           autocomplete="off"
-                                           [(ngModel)]="dateTo"
-                                           required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Work Shift Type -->
-                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 ">
-                                <label class="badge badge-warning"
-                                       for="WorkShiftType">
-                                    {{"AttendanceMaintenance.OvertimeHoursReport.WorkShiftType" |
-                                    translate
-                                    }}
-                                </label>
-                                <ng-select id="WorkShiftType"
-                                           name="WorkShiftType"
-                                           [clearable]="false"
-                                           (clear)="params.work_Shift_Type = '' "
-                                           [(ngModel)]="params.work_Shift_Type"
-                                           [ngModelOptions]="{standalone: true}"
-                                           placeholder='Select a WorkShiftType'>
-                                    <ng-option [value]="''">
-                                        {{"System.SelectAll" | translate }}
-                                    </ng-option>
-                                    <ng-option *ngFor="let items of workshifttypes"
-                                               [value]="items.key">{{items.value}}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-                            <!-- Department -->
-                            <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
-                                <label class="badge badge-warning"
-                                       for="department">
-                                    {{"AttendanceMaintenance.OvertimeHoursReport.Department" |
-                                    translate
-                                    }}
-                                </label>
-                                <ng-select id="department" [disabled]="!params.factory"
-                                           name="department"
-                                           [clearable]="false"
-                                           (clear)="params.department = '' "
-                                           [(ngModel)]="params.department"
-                                           [ngModelOptions]="{standalone: true}"
-                                           placeholder='Select a department'>
-                                    <ng-option [value]="''">
-                                        {{"System.SelectAll" | translate }}
-                                    </ng-option>
-                                    <ng-option *ngFor="let items of departments"
-                                               [value]="items.key">{{items.key}} - {{items.value}}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-                            <!-- EmployeeID -->
-                            <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
-                                <label class="badge badge-warning"
-                                       for="employee_Id">
-                                    {{"AttendanceMaintenance.OvertimeHoursReport.EmployeeID" |
-                                    translate
-                                    }}
-                                </label>
-                                <input type="text"
-                                       placeholder='Enter Employee ID...'
-                                       class="form-control"
-                                       id="employee_Id"
-                                       name="employee_Id"
-                                       maxlength="9"
-                                       [(ngModel)]="params.employee_Id" />
-                            </div>
-                            <!-- PermissionGroup -->
-                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
-                                <label class="badge badge-warning">
-                                    {{'AttendanceMaintenance.OvertimeHoursReport.PermissionGroup'|translate}}
-                                    <span class="text-danger text-bold"> *</span>
-                                </label>
-                                <ng-select [items]="permissiongroup" [disabled]="!params.factory"
-                                           [multiple]="true"
-                                           name="namePermission"
-                                           groupBy="allGroup"
-                                           [selectableGroup]="true"
-                                           [selectableGroupAsModel]="false"
-                                           [closeOnSelect]="false"
-                                           bindLabel="value"
-                                           bindValue="key"
-                                           [(ngModel)]="params.permission_Group"
-                                           required
-                                           placeholder="{{ 'AttendanceMaintenance.OvertimeHoursReport.PermissionGroup' | translate }}">
-                                    <ng-template ng-optgroup-tmp
-                                                 let-item="item"
-                                                 let-item$="item$"
-                                                 let-index="index">
-                                        <input id="item-{{ index }}"
-                                               type="checkbox"
-                                               name="item-{{ index }}"
-                                               [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
-                                    <ng-template ng-option-tmp
-                                                 let-item="item"
-                                                 let-item$="item$"
-                                                 let-index="index">
-                                        <input id="item-{{ index }}"
-                                               name="item-{{ index }}"
-                                               type="checkbox"
-                                               [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
-                                </ng-select>
-                            </div>
-                            <!-- Kind -->
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="kind"
-                                           class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeHoursReport.Kind'
-                                        | translate }} <span class="text-danger text-bold"> *</span></label>
-                                    <div class="row pl-3">
-                                        <div *ngFor="let item of list_kind; let i">
-                                            <label class="container">
-                                                <div class="row">
-                                                    <div class="custom-control custom-radio pt-2">
-                                                        <input [id]="'kind_' + i"
-                                                               class="custom-control-input"
-                                                               type="radio"
-                                                               name="kind"
-                                                               [(ngModel)]="params.kind"
-                                                               [value]="item.key" />
-                                                        <p class="custom-control-label"
-                                                           [for]="'kind' + i">
-                                                            {{ item.value | translate }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 p-0">
-                            <button type="submit"
-                                    class="btn btn-primary"
-                                    (click)="getData(true)"
-                                    [disabled]="!form.valid"
-                                    *ngIf="functionUtility.checkFunction('Search')">
-                                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
-                            </button>
-                            <button type="button"
-                                    class="btn btn-danger ml-2"
-                                    (click)="clear()">
-                                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
-                            </button>
-                            <button type="button"
-                                    class="btn btn-success ml-2"
-                                    (click)="onExport()"
-                                    [disabled]="!form.valid"
-                                    *ngIf="functionUtility.checkFunction('Excel')">
-                                <i class="{{ iconButton.EXCEL }}"></i> {{"System.Action.Excel" | translate }}
-                            </button>
-                        </div>
-                        <div>
-                            <strong class="title-card-cs">{{ "AttendanceMaintenance.OvertimeHoursReport.Total" | translate }}
-                                <span class="text-primary">{{ totalRows }}</span>
-                                {{ "AttendanceMaintenance.OvertimeHoursReport.Records" | translate }}
-                            </strong>
-                        </div>
-                    </form>
-                </div>
+              </div>
             </div>
+            <div class="col-12 p-0">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="btn btn-primary"
+                      (click)="getData(true)"
+                      [disabled]="!form.valid"
+                      *ngIf="functionUtility.checkFunction('Search')">
+                <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-danger ml-2"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="button"
+                      class="btn btn-success ml-2"
+                      (click)="onExport()"
+                      [disabled]="!form.valid"
+                      *ngIf="functionUtility.checkFunction('Excel')">
+                <i class="{{ iconButton.EXCEL }}"></i> {{"System.Action.Excel" | translate }}
+              </button>
+            </div>
+            <div class="mt-2">
+              <strong class="title-card-cs">{{ "AttendanceMaintenance.OvertimeHoursReport.Total" | translate }}
+                <span class="text-primary">{{ totalRows }}</span>
+                {{ "AttendanceMaintenance.OvertimeHoursReport.Records" | translate }}
+              </strong>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>

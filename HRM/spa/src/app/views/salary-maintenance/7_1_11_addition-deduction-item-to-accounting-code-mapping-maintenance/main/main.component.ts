@@ -8,9 +8,9 @@ import {
 } from '@models/salary-maintenance/7_1_11_addition-deduction-item-to-accouting-code-mapping-maintenance';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -33,9 +33,7 @@ export class MainComponent extends InjectBase implements OnInit {
     private service: S_7_1_11_AdditionDeductionItemToAccountingCodeMappingMaintenanceService,
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
         this.processData()
@@ -100,10 +98,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.spinnerService.hide()
           resolve()
         },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-          reject()
-        }
+        error: () => { reject() }
       })
     })
   };
@@ -128,9 +123,6 @@ export class MainComponent extends InjectBase implements OnInit {
             this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       });
     });
@@ -155,9 +147,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListFactoryByUser().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

@@ -87,14 +87,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   //#region getList
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -114,19 +109,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListLevel().subscribe({
       next: (res) => {
         this.listLevel = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory)
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide();
           this.listDepartment = res;
         },
       });
@@ -137,9 +127,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.listPermissionGroup = res;
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -153,8 +140,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.hide()
         this.totalRows = res;
         this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion
@@ -175,7 +161,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.totalRows = 0;
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

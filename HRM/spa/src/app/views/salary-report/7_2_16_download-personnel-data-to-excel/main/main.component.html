@@ -1,0 +1,249 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryReport.DownloadPersonnelDataToExcel.Factory' | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <ng-select name="factory"
+                           [(ngModel)]="param.factory"
+                           (clear)="deleteProperty('factory')"
+                           (ngModelChange)="onSelectFactory()"
+                           [clearable]="param.factory !== ''"
+                           placeholder="{{'SalaryReport.DownloadPersonnelDataToExcel.Factory' | translate }}"
+                           required>
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">{{ item.value }}</ng-option>
+                </ng-select>
+              </div>
+
+              <!-- Date -->
+              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <label class="badge badge-warning">
+                  {{ "SalaryReport.DownloadPersonnelDataToExcel.Date" | translate }}
+                </label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             name="startDate"
+                             [(ngModel)]="startDate"
+                             (ngModelChange)="onChangeDate('startDate')"
+                             [maxDate]="endDate"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             [required]="endDate"
+                             placeholder="{{placeholder.YearMonthDay}}" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="input-group ml-1">
+                      <input autocomplete="off"
+                             type="text"
+                             class="form-control"
+                             name="endDate"
+                             [(ngModel)]="endDate"
+                             (ngModelChange)="onChangeDate('endDate')"
+                             [minDate]="startDate"
+                             bsDatepicker
+                             [required]="startDate"
+                             [bsConfig]="bsConfig"
+                             placeholder="{{placeholder.YearMonthDay}}" />
+                      <div class="input-group-append"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Year-Month -->
+              <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="badge badge-warning">{{'SalaryReport.DownloadPersonnelDataToExcel.YearMonth' | translate }} <span *ngIf="disabledYearMonth()"
+                        class="text-danger text-bold"> *</span></label>
+                <div class="full-width">
+                  <div class="container_input">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             type="text"
+                             [class]="!disabledYearMonth() ? 'form-control bg-grey' : 'form-control'"
+                             name="yearMonth"
+                             [(ngModel)]="yearMonth"
+                             (ngModelChange)="onChangeDate('yearMonth')"
+                             bsDatepicker
+                             [bsConfig]="bsConfigMonth"
+                             placeholder="{{placeholder.YearMonth}}"
+                             [disabled]="!disabledYearMonth()"
+                             [required]="disabledYearMonth()" />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Employee kind -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="employee_Kind"
+                       class="badge badge-warning">{{ 'SalaryReport.DownloadPersonnelDataToExcel.EmployeeKind'
+                  | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of listEmployeeKind; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2 mr-3">
+                          <input [id]="'employee_Kind' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="employee_Kind"
+                                 [(ngModel)]="param.employeeKind"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'employee_Kind' + i">
+                            <strong> {{ item.value | translate }} </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Report Kind -->
+              <div class="col-xxl-9 col-xl-8 col-lg-6 col-md-6 col-sm-12">
+                <label for="report_Kind"
+                       class="badge badge-warning">{{ 'SalaryReport.DownloadPersonnelDataToExcel.ReportKind'
+                  | translate }} <span class="text-danger text-bold"> *</span></label>
+                <div class="row pl-3">
+                  <div *ngFor="let item of listReportKind; let i">
+                    <label class="container">
+                      <div class="row">
+                        <div class="custom-control custom-radio pt-2 mr-3">
+                          <input [id]="'report_Kind' + i"
+                                 class="custom-control-input"
+                                 type="radio"
+                                 name="report_Kind"
+                                 [(ngModel)]="param.reportKind"
+                                 (ngModelChange)="onChangeReportKind()"
+                                 [value]="item.key" />
+                          <p class="custom-control-label"
+                             [for]="'report_Kind' + i">
+                            <strong> {{ item.value | translate }} </strong>
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                    <label class="badge badge-warning">
+                      {{ "SalaryReport.DownloadPersonnelDataToExcel.PermissionGroup" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select id="permissionGroup"
+                               name="permissionGroup"
+                               [items]="listPermissionGroup"
+                               [multiple]="true"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permissionGroup"
+                               [clearable]="param.permissionGroup?.length > 0"
+                               (clear)="param.permissionGroup = []"
+                               [disabled]="!param.factory"
+                               required
+                               placeholder="{{ 'SalaryReport.DownloadPersonnelDataToExcel.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="{{classButton.SEARCH}}"
+                        (click)="getTotalRows(true)"
+                        [disabled]="!mainForm.valid"
+                        *ngIf="functionUtility.checkFunction('Search')">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{'System.Action.Search' | translate }}
+                </button>
+                <button type="submit"
+                        class="{{classButton.CLEAR}}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate }}
+                </button>
+                <button type="button"
+                        (click)="download()"
+                        [disabled]="!mainForm.valid"
+                        class="{{ classButton.DOWNLOAD }}"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{ "System.Action.Excel" | translate }}
+                </button>
+              </div>
+              <div>
+                <strong class="title-card-cs pl-3">{{ "SalaryReport.7_2_17_MonthlyPersonalIncomeTaxAmountReport.Total" | translate }}
+                  <span class="text-primary">{{ totalRows }}</span>
+                  {{ "SalaryReport.7_2_17_MonthlyPersonalIncomeTaxAmountReport.Records" | translate }}
+                </strong>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

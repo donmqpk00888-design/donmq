@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Emp_ResignationDto, ResignationManagementParam, ResignationManagementSource } from '@models/employee-maintenance/4_1_12_resignation-management';
@@ -8,6 +7,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -42,7 +42,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   ) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDivision();
       this.getListFactory();
@@ -106,8 +106,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true,'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -120,8 +119,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.exportExcel(res.data, fileName);
         }
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -142,8 +140,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -151,8 +148,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -183,11 +179,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show();
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg')
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
-      }).add(() => this.spinnerService.hide());
+        }
+      })
     });
   }
 

@@ -16,16 +16,16 @@ export class S_7_2_15_monthlyUnionDuesSummaryService {
 
   initData: MonthlyUnionDuesSummarySource = <MonthlyUnionDuesSummarySource>{
     param: <MonthlyUnionDuesSummaryParam>{
-      },
-      totalRows: 0
-    }
+    },
+    totalRows: 0
+  }
 
-    programSource = signal<MonthlyUnionDuesSummarySource>(structuredClone(this.initData));
-    programSource$ = toObservable(this.programSource);
+  programSource = signal<MonthlyUnionDuesSummarySource>(structuredClone(this.initData));
+  programSource$ = toObservable(this.programSource);
   setSource = (source: MonthlyUnionDuesSummarySource) => this.programSource.set(source);
-    clearParams = () => {
-      this.programSource.set(structuredClone(this.initData))
-    }
+  clearParams = () => {
+    this.programSource.set(structuredClone(this.initData))
+  }
 
   constructor(private http: HttpClient) { }
 

@@ -13,7 +13,7 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { IClearCache } from '@services/cache.service';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 
 @Injectable({
   providedIn: 'root'

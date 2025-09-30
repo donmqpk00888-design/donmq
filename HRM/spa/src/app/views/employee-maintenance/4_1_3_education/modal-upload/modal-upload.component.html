@@ -2,38 +2,31 @@
      #modal="bs-modal"
      class="modal fade"
      tabindex="-1"
-     role="dialog">
+     role="dialog"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <!-- Header -->
       <div class="modal-header bg-primary">
-        <h5 class="modal-title"
-            id="modal-basic-title">
+        <h5 id="modalTitle"
+            class="modal-title">
           {{ title }} - {{ 'System.Action.' + type | translate }}
         </h5>
         <button type="button"
                 class="btn-close close pull-right"
                 (click)="close()">
-          <span aria-hidden="true"
-                class="visually-hidden">&times;</span>
+          <span class="visually-hidden">&times;</span>
         </button>
       </div>
       <!-- Body -->
       <div class="modal-body ">
         <div class="row justify-content-md-center">
           <div *ngIf="model.mode != mode.query"
-               class="col-lg-10 col-md-12 col-sm-12 ">
-            <label class="btn btn-success"
-                   style="cursor: pointer">
-              <i [class]="iconButton.UPLOAD"></i>
-              {{ 'EmployeeInformationModule.Education.SelectFiles' | translate}}
-              <input #fileInput
-                     type="file"
-                     multiple
-                     name="upload"
-                     style="display: none"
-                     (change)="onSelectFile($event)" />
-            </label>
+               class="col-lg-10 col-md-12 col-sm-12 mb-2">
+            <file-upload [multiple]="true"
+                         [allowExtensions]="extensions"
+                         [label]="'EmployeeInformationModule.Education.SelectFiles' | translate "
+                         (filesChange)="upload($event)"></file-upload>
           </div>
           <div class="col-lg-10 col-md-12 col-sm-12 ">
             <!-- Nationality -->
@@ -81,7 +74,7 @@
                     <tr>
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{ 'System.Message.Nodata' | translate}}
+                        {{ 'System.Message.NoData' | translate}}
                       </td>
                     </tr>
                   </tbody>
@@ -95,7 +88,7 @@
       <div class="modal-footer">
         <button *ngIf="model.mode != mode.query"
                 type="button"
-                class="btn btn-success text-white"
+                class="btn btn-success "
                 [disabled]="validateButtonSave()"
                 (click)="saveChange()">
           <i class="{{iconButton.SAVE}}"></i>
@@ -103,7 +96,7 @@
         </button>
 
         <button type="button"
-                class="btn btn-danger text-white"
+                class="btn btn-danger "
                 (click)="close()">
           <i class="{{iconButton.CLOSE}}"></i>
           {{ 'System.Action.Close' | translate}}

@@ -1,11 +1,11 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Basic_Level } from '@models/basic-maintenance/2_1_6_grade-maintenance';
 import { S_2_1_6_GradeMaintenanceService } from '@services/basic-maintenance/s_2_1_6_grade-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -38,9 +38,9 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res['title']
-    }).unsubscribe()
+    })
     this.getLevelCodesForm();
     this.getTypes();
   }
@@ -49,19 +49,15 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getTypes().subscribe({
       next: res => {
         this.types = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getLevelCodesForm() {
-    this.spinnerService.show();
     this._service.getListLevelCode('add').subscribe({
       next: res => {
         this.listLevelCode = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -84,8 +80,7 @@ export class FormComponent extends InjectBase implements OnInit {
           res.isSuccess || !res.isSuccess && res.error === null
         )
         if (res.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

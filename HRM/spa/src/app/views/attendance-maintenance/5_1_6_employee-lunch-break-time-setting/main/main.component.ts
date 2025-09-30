@@ -1,12 +1,13 @@
 import { S_5_1_6_EmployeeLunchBreakTimeSettingService } from '@services/attendance-maintenance/s_5_1_6_employee-lunch-break-time-setting.service';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { EmployeeLunchBreakTimeSettingParam, EmployeeLunchBreakTimeSettingSource, EmployeeLunchBreakTimeSettingUpload, HRMS_Att_LunchtimeDto } from '@models/attendance-maintenance/5_1_6_employee-lunch-break-time-setting';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -50,7 +51,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   constructor(private service: S_5_1_6_EmployeeLunchBreakTimeSettingService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListDepartment();
@@ -95,10 +96,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.handleError('System.Message.SystemError');
-      },
+      }
     });
   }
 
@@ -122,18 +120,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.param.in_Service = this.selectedKey;
     this.service.getData(this.pagination, this.param).subscribe({
       next: (res) => {
+        this.spinnerService.hide();
         this.data = res.result;
         this.pagination = res.pagination;
         if (isSearch)
           this.handleSuccess('System.Message.QuerySuccess');
         if (isDelete)
           this.handleSuccess('System.Message.DeleteOKMsg');
-      },
-      error: () => {
-        this.handleError('System.Message.SystemError')
-      },
-      complete: () => {
-        this.spinnerService.hide();
       }
     });
   }
@@ -141,46 +134,25 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   search(isSearch: boolean) {
     this.pagination.pageNumber === 1 ? this.getData(isSearch) : this.pagination.pageNumber = 1;
   }
-
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.accept.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          'System.Message.AllowExcelFile',
-          'System.Caption.Error'
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else
-              this.getData(false, false);
-            this.handleSuccess('System.Message.UploadOKMsg');
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
-            this.handleError(res.error);
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.param.factory)
+            this.getData();
+          this.handleSuccess('System.Message.UploadOKMsg');
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-        },
-        error: () => {
-          event.target.value = '';
-          this.handleError('System.Message.UnknowError');
+          this.handleError(res.error);
         }
-      });
-    }
+      }
+    });
   }
-
   downloadTemplate() {
     this.spinnerService.show();
     this.service.downloadTemplate().subscribe({
@@ -189,7 +161,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result.data, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   download() {
@@ -202,8 +173,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, this.functionUtility.getFileName(fileName));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -212,14 +182,12 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show()
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide()
           if (res.isSuccess)
             this.getData(false, isDelete);
           else {
             this.handleError('System.Message.DeleteErrorMsg')
           }
-        },
-        error: () => {
-          this.handleError('System.Message.SystemError')
         }
       })
     });

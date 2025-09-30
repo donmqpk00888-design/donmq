@@ -5,9 +5,9 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { FemaleEmpMenstrualMain, FemaleEmpMenstrualMemory, FemaleEmpMenstrualParam } from '@models/attendance-maintenance/5_1_26_female-employee-menstrual-leave-hours-maintenance';
 import { S_5_1_26_FemaleEmployeeMenstrualLeaveHoursMaintenanceService } from '@services/attendance-maintenance/s_5_1_26_female-employee-menstrual-leave-hours-maintenance.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModalService } from '@services/modal.service';
 import { NgForm, FormGroup } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -102,14 +102,11 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactoryByUser()
       .subscribe({
         next: (res) => {
           this.factories = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -123,8 +120,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
     if (this.params.factory)
       this._service.getListDepartment(this.params.factory)
         .subscribe({
-          next: (res) => this.departments = res,
-          error: () => this.functionUtility.snotifySystemError()
+          next: (res) => this.departments = res
         });
   }
 
@@ -140,8 +136,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
             this.functionUtility.snotifySuccessError(true, 'System.Message.SearchOKMsg')
 
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -175,8 +170,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg')
           if (res.isSuccess) this.getDataPagination(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }
@@ -189,8 +183,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 

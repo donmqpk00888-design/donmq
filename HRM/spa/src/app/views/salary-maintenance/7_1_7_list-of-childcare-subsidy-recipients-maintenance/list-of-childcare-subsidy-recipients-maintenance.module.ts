@@ -1,3 +1,4 @@
+import { SharedModule } from '@views/_shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -30,7 +31,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     DragScrollComponent,
     TypeaheadModule.forRoot(),
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    SharedModule
   ]
 })
 export class ListofChildcareSubsidyRecipientsMaintenanceModule { }

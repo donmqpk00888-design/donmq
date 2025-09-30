@@ -65,8 +65,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
               this.translateService.instant(`System.Message.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   onSalaryChange() {
@@ -74,15 +73,12 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.model.update_Time = this.functionUtility.getDateTimeFormat(new Date())
   }
   private getDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList()
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide()
           this.salaryCategoryList = structuredClone(res.filter((x: { key: string; }) => x.key == "SA")).map(x => <KeyValuePair>{ key: x.key = x.value.substring(0, x.value.indexOf('-')), value: x.value })
           this.directive.show()
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   deleteProperty(name: string) {

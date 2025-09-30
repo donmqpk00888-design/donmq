@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import {
   D_8_1_2_EmployeeRewardPenaltyRecordsData,
@@ -19,8 +18,10 @@ import { S_8_1_2_EmployeeRewardAndPenaltyRecordsService } from '@services/reward
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -105,8 +106,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -119,55 +119,34 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   onDateChange(name: string) {
     this.param[`${name}_Str`] = this.param[name] ? this.functionUtility.getDateFormat(new Date(this.param[name])) : '';
   }
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else
-              this.getData();
-            this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
-            this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
         }
-      }).add(() => this.spinnerService.hide());
-    }
+      }
+    });
   }
   exceltemp() {
     this.spinnerService.show();
     this.service.downloadTemplate().subscribe({
       next: (result) => {
-        console.log(result);
         this.spinnerService.hide();
         const base64 = result.data.split(',')[1];
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(base64, fileName)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   deleteProperty(name: string) {
@@ -191,14 +170,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.deleteData(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.getData();
               this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
+
         });
       }
     );
@@ -207,18 +186,19 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.GetListFactory().subscribe({
       next: res => {
         this.factoryList = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListDepartment() {
     this.service.GetListDepartment(this.param.factory).subscribe({
       next: res => {
         this.listDepartment = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   onFactoryChange() {
     this.getListDepartment();
+    this.deleteProperty('department')
   }
   add() {
     this.router.navigate([`${this.router.routerState.snapshot.url}/add`]);

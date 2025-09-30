@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import {
   DocumentManagement_MainData,
@@ -16,6 +15,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -81,10 +81,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         dateInputFormat: 'YYYY/MM/DD',
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
-      }).unsubscribe();
+      });
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<DocumentManagement_MainMemory>{ param: this.param, pagination: this.pagination, data: this.data });
@@ -94,8 +94,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -119,8 +118,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           })
           if (isSearch)
             this.functionUtility.snotifySuccessError(true, 'System.Message.SearchOKMsg')
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   search = () => {
@@ -162,8 +160,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.getData(false)
             this.functionUtility.snotifySuccessError(false, `EmployeeInformationModule.DocumentManagement.${res.error}`)
           }
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
 
   }
@@ -186,8 +183,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           if (res.isSuccess)
             this.getData(false);
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }
@@ -200,8 +196,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   onDivisionChange() {

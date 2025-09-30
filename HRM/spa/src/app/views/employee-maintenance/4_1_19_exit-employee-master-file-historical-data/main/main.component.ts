@@ -1,5 +1,4 @@
 import { AfterViewChecked, Component, OnInit, ViewChild, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
@@ -13,7 +12,8 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_4_1_19_ExitEmployeeMasterFileHistoricalDataService } from '@services/employee-maintenance/s_4_1_19_exit-employee-master-historical-data.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { Pagination } from '@utilities/pagination-utility';
+import { Pagination } from '@utilities/pagination-utility';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -36,9 +36,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
   ) {
     super();
     this.getDataFromSource();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadData()
       });
@@ -123,8 +121,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
         this.spinnerService.hide();
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

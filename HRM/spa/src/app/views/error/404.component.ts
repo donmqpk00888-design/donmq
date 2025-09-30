@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { InjectBase } from '@utilities/inject-base-app';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-p404',
@@ -12,7 +12,7 @@ export class P404Component extends InjectBase {
   iconButton = IconButton;
   constructor() {
     super()
-    this.route.data.pipe(takeUntilDestroyed()).subscribe(() => this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url))
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url))
   }
   back = () => this.router.navigate([this.tempUrl]);
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { BatchUpdateData_Param, FinSalaryCloseMaintenance_Memory, FinSalaryCloseMaintenance_Param, FinSalaryCloseMaintenance_MainData } from '@models/salary-maintenance/7_1_26_fin-salary-close-maintenance';
 import { S_7_1_26_FinSalaryCloseMaintenanceService } from '@services/salary-maintenance/s-7-1-26-fin-salary-close-maintenance.service';
@@ -8,6 +7,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -30,7 +30,7 @@ export class MainComponent extends InjectBase implements OnInit {
     kind: "O",
     close_Status: "Y"
   }
-  //for list dropdown params 
+  //for list dropdown params
   totalPermissionGroup: number = 0;
   listFactory: KeyValuePair[] = []
   listDepartment: KeyValuePair[] = []
@@ -87,7 +87,7 @@ export class MainComponent extends InjectBase implements OnInit {
   pagination: Pagination = <Pagination>{
     pageNumber: 1
   };
-  
+
   //params css
   classButton = ClassButton;
   iconButton = IconButton;
@@ -95,9 +95,7 @@ export class MainComponent extends InjectBase implements OnInit {
   constructor(private service: S_7_1_26_FinSalaryCloseMaintenanceService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.initTab()
         this.loadDropdownList()
@@ -197,13 +195,12 @@ export class MainComponent extends InjectBase implements OnInit {
   }
   //#endregion
 
-  //#region Get list dropdown 
+  //#region Get list dropdown
   getListFactory() {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -211,8 +208,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.GetDepartment(this.salaryCloseSearch_Param.factory).subscribe({
       next: res => {
         this.listDepartment = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -221,8 +217,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -230,8 +225,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListTypeHeadEmployeeID(this[this.selectedTab + '_Param'].factory).subscribe({
       next: res => {
         this.listEmployeeID = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion
@@ -279,8 +273,7 @@ export class MainComponent extends InjectBase implements OnInit {
             this.translateService.instant("System.Caption.Error")
           )
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   download() {
@@ -303,8 +296,7 @@ export class MainComponent extends InjectBase implements OnInit {
               this.translateService.instant(`System.Message.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-      error: () => this.functionUtility.snotifySystemError()
+        }
     });
   }
   excute(){
@@ -319,7 +311,7 @@ export class MainComponent extends InjectBase implements OnInit {
         }
       }
     })
-    
+
 
   }
   //#endregion

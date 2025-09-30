@@ -6,6 +6,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { InjectBase } from '@utilities/inject-base-app';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -40,7 +41,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.getSource();
   }
   getDataFromSource() {
-    this.service.source$.subscribe(source => {
+    this.service.source$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(source => {
       if (source && source != null) {
         this.pagination = source.pagination;
         this.param = source.param;
@@ -52,7 +53,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           }
         }
       }
-    }).unsubscribe()
+    })
   }
   getSource() {
     this.param = this.service.paramSource().param;
@@ -72,23 +73,17 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     }
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListReason() {
-    this.spinnerService.show();
     this.service.getListReason(this.param.factory).subscribe({
       next: (res) => {
         this.listReason = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -103,7 +98,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -145,14 +139,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
               this.getData(false);
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
+
         });
       }
     );
@@ -161,7 +155,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   download() {
     if (this.data.length == 0)
       return this.snotifyService.warning(
-        this.translateService.instant('System.Message.Nodata'),
+        this.translateService.instant('System.Message.NoData'),
         this.translateService.instant('System.Caption.Warning'));
     this.spinnerService.show();
     this.service.download(this.param).subscribe({
@@ -171,7 +165,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         result.isSuccess ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   onChangeFactory() {

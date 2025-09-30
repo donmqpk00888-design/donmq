@@ -10,65 +10,63 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow"
+          <form class="row border-shadow"
                 autocomplete="off">
-            <div class="row">
-              <!-- Nationality -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}
-                </label>
-                <ng-select name="nationality"
-                           [(ngModel)]="param.nationality"
-                           (clear)="deleteProperty('nationality')"
-                           [clearable]="param.nationality !== ''"
-                           placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}'>
-                  <ng-option *ngFor="let i of listNationality"
-                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
-                </ng-select>
-              </div>
+            <!-- Nationality -->
+            <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}
+              </label>
+              <ng-select name="nationality"
+                         [(ngModel)]="param.nationality"
+                         (clear)="deleteProperty('nationality')"
+                         [clearable]="param.nationality !== ''"
+                         placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.Nationality" | translate}}'>
+                <ng-option *ngFor="let i of listNationality"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
 
-              <!-- Identification Number -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}
-                </label>
-                <div class="full-width">
-                  <div class="container_date">
-                    <div class="input-group mr-1">
-                      <input autocomplete="off"
-                             type="text"
-                             [(ngModel)]="param.identification_Number"
-                             [typeahead]="identificationNumber"
-                             typeaheadOptionField="key"
-                             [typeaheadScrollable]="true"
-                             [typeaheadOptionsInScrollableView]="6"
-                             placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}'
-                             maxlength="50"
-                             class="form-control bg-white"
-                             name="identification_Number" />
-                    </div>
+            <!-- Identification Number -->
+            <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}
+              </label>
+              <div class="full-width">
+                <div class="container_date">
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           [(ngModel)]="param.identification_Number"
+                           [typeahead]="identificationNumber"
+                           typeaheadOptionField="key"
+                           [typeaheadScrollable]="true"
+                           [typeaheadOptionsInScrollableView]="6"
+                           placeholder='{{"EmployeeInformationModule.ExitEmployeesBlacklist.IdentificationNumber" | translate}}'
+                           maxlength="50"
+                           class="form-control"
+                           name="identification_Number" />
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Submit Button -->
-              <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
-                <label class="d-block">&nbsp;</label>
-                <button type="submit"
-                        class="{{classButton.SEARCH}} custom-margin-bottom"
-                        *ngIf="functionUtility.checkFunction('Search')"
-                        (click)="search(true)">
-                  <i class="{{ iconButton.SEARCH }}"></i>
-                  {{"System.Action.Search" | translate }}
-                </button>
-                <button type="submit"
-                        class="{{classButton.CLEAR}} custom-margin-bottom"
-                        (click)="clear()">
-                  <i class="{{ iconButton.CLEAR }}"></i>
-                  {{"System.Action.Clear" | translate }}
-                </button>
-              </div>
+            <!-- Submit Button -->
+            <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="{{classButton.SEARCH}} custom-margin-bottom"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      (click)="search(true)">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{"System.Action.Search" | translate }}
+              </button>
+              <button type="submit"
+                      class="{{classButton.CLEAR}} custom-margin-bottom"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{"System.Action.Clear" | translate }}
+              </button>
             </div>
           </form>
           <div class="row justify-content-md-center">
@@ -134,7 +132,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -144,7 +142,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

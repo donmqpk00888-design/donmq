@@ -19,418 +19,305 @@
             </div>
           </div>
           <div class="card-body">
-            <!-- Details  -->
-            <div class="row">
-              <!-- Factory -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="factory"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.Factory" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                       [ngClass]="{'invalid-data': !data.factory}">
-                    <ng-select id="factory"
-                               name="factory"
-                               [(ngModel)]="data.factory"
-                               [disabled]="disableEditOrDetail()"
-                               (ngModelChange)="onChangeFactory()"
-                               (clear)="deleteProperty('factory')"
-                               [clearable]="data.factory !== ''"
-                               placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Factory' | translate }}"
-                               required>
-                      <ng-option *ngFor="let data of factories"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Employee ID -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="textEmployeeID"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">{{'AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID' | translate }}
-                    <span class="text-danger">*</span></label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                       [ngClass]="{'invalid-data': (!data.employee_ID || !validEmp) && data.factory}">
-                    <input autocomplete="off"
-                           type="text"
-                           placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID' | translate }}"
-                           class="form-control"
-                           maxlength="9"
-                           name="employee_ID"
-                           [(ngModel)]="data.employee_ID"
-                           [typeaheadScrollable]="true"
-                           typeaheadOptionField="actual_Employee_ID"
-                           [typeahead]="employeeList"
-                           (typeaheadOnSelect)="onTypehead()"
-                           (typeaheadOnBlur)="onTypehead()"
-                           (typeaheadNoResults)="onTypehead(true)"
-                           [disabled]="disableEditOrDetail() || !data.factory"
-                           required />
-                  </div>
-                </div>
-              </div>
-              <!-- Local Full Name -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="local_Full_Name"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.LocalFullName" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <input type="text"
-                           class="form-control"
-                           id="local_Full_Name"
-                           name="local_Full_Name"
-                           [(ngModel)]="data.local_Full_Name"
-                           placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.LocalFullName' | translate }}"
-                           readonly />
-                  </div>
-                </div>
-              </div>
-              <!-- Department -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="department"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.Department" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="department_Code"
-                               name="department_Code"
-                               [(ngModel)]="data.department_Code"
-                               [clearable]="false"
-                               placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Department' | translate }}"
-                               disabled>
-                      <ng-option *ngFor="let data of departments"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Work Shift Type -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="work_Shift_Type"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkShiftType" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="work_Shift_Type"
-                               name="work_Shift_Type"
-                               [(ngModel)]="data.work_Shift_Type"
-                               (clear)="deleteProperty('work_Shift_Type')"
-                               [clearable]="data.work_Shift_Type !== ''"
-                               placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.WorkShiftType' | translate }}"
-                               disabled>
-                      <ng-option *ngFor="let data of workShiftTypes"
-                                 [value]="data.key">{{data.value}}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Work For 8 Hours -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="work8hours"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.EightHour" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="work8hours"
-                               name="work8hours"
-                               [(ngModel)]="data.work8hours"
-                               [clearable]="false"
-                               placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.EightHour' | translate }}"
-                               disabled>
-                      <ng-option *ngFor="let data of work8hours"
-                                 [value]="data.key"> {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Work Type Before Pregnancy -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="work_Type_Before"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeBefore" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="work_Type_Before"
-                               name="work_Type_Before"
-                               [(ngModel)]="data.work_Type_Before"
-                               (ngModelChange)="onWorkTypeBeforeChange()"
-                               (clear)="deleteProperty('work_Type_Before')"
-                               [clearable]="data.work_Type_Before !== ''"
-                               placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeBefore' | translate }}"
-                               [disabled]="disableDetail()">
-                      <ng-option *ngFor="let data of workTypes"
-                                 [value]="data.key"> {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Special/Regular Work Type -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.SpecialRegularWorkType" |
-                  translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="row pl-4">
-                      <div *ngFor="let item of workTypeCodes; index as i">
-                        <label class="container">
-                          <div class="row">
-                            <div [ngClass]="{'mr-2': i != workTypeCodes.length - 1}"
-                                 class="custom-control custom-radio pt-2">
-                              <input [id]="'special_Regular_Work_Type' + i"
-                                     class="custom-control-input"
-                                     type="radio"
-                                     name="special_Regular_Work_Type"
-                                     [(ngModel)]="data.special_Regular_Work_Type"
-                                     disabled
-                                     [value]="item.key" />
-                              <p class="custom-control-label"
-                                 [for]="'special_Regular_Work_Type' + i">
-                                <strong> {{item.key+'.' +( item.value | translate )}} </strong>
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-                      </div>
+            <div class="param-container">
+              <!-- Details  -->
+              <div class="row">
+                <!-- Factory -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="factory"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.Factory" | translate }}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+                         [ngClass]="{'invalid-data': !data.factory}">
+                      <ng-select id="factory"
+                                 name="factory"
+                                 [(ngModel)]="data.factory"
+                                 [disabled]="disableEditOrDetail()"
+                                 (ngModelChange)="onChangeFactory()"
+                                 (clear)="deleteProperty('factory')"
+                                 [clearable]="data.factory !== ''"
+                                 placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Factory' | translate }}"
+                                 required>
+                        <ng-option *ngFor="let data of factories"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Work Type After Pregnancy -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="work_Type_After"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeAfter" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <ng-select id="work_Type_After"
-                               name="work_Type_After"
-                               [(ngModel)]="data.work_Type_After"
-                               (clear)="deleteProperty('work_Type_After')"
-                               [clearable]="data.work_Type_After !== ''"
-                               placeholder='{{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeAfter" | translate }}'
-                               [disabled]="disableDetail()">
-                      <ng-option *ngFor="let data of workTypes"
-                                 [value]="data.key">
-                        {{ data.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <!-- Due Date -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="due_Date"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.DueDate" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                       [ngClass]="{'invalid-data': !data.due_Date_Str}">
-                    <div class="input-group mr-3">
-                      <input type="text"
+                <!-- Employee ID -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="textEmployeeID"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">{{'AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID' | translate }}
+                      <span class="text-danger">*</span></label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+                         [ngClass]="{'invalid-data': (!data.employee_ID || !validEmp) && data.factory}">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.EmployeeID' | translate }}"
                              class="form-control"
-                             id="due_Date"
-                             name="due_Date"
-                             [(ngModel)]="data.due_Date"
-                             (ngModelChange)="onDateChange('due_Date')"
-                             [disabled]="disableEditOrDetail()"
-                             bsDatepicker
-                             [bsConfig]="bsConfig"
-                             onpaste="return false"
-                             placeholder="YYYY/MM/DD"
+                             maxlength="9"
+                             name="employee_ID"
+                             [(ngModel)]="data.employee_ID"
+                             [typeaheadScrollable]="true"
+                             typeaheadOptionField="actual_Employee_ID"
+                             [typeahead]="employeeList"
+                             (typeaheadOnSelect)="onTypehead()"
+                             (typeaheadOnBlur)="onTypehead()"
+                             (typeaheadNoResults)="onTypehead(true)"
+                             [disabled]="disableEditOrDetail() || !data.factory"
                              required />
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="{{ iconButton.CALENDAR }}"></i>
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Pregnancy Weeks -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="pregnancy_Week"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.PregnancyWeeks" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
-                       [ngClass]="{'invalid-data': !data.pregnancy_Week}">
-                    <input autocomplete="off"
-                           type="text"
-                           placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.PregnancyWeeks' | translate }}"
-                           class="form-control"
-                           name="pregnancy_Week"
-                           [(ngModel)]="data.pregnancy_Week"
-                           (ngModelChange)="changeUltrasoundDate()"
-                           maxlength="4"
-                           mask="separator.1"
-                           decimalMarker="."
-                           [leadZero]="true"
-                           thousandSeparator=""
-                           separatorLimit="99"
-                           [disabled]="disableDetail()"
-                           required />
-                  </div>
-                </div>
-              </div>
-              <!-- Date Ultrasound Scanning -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="ultrasound_Date"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.DateUltrasoundScanning" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-3"
-                         [ngClass]="{'invalid-data': !data.ultrasound_Date_Str && data.ultrasound_Date}">
+                <!-- Local Full Name -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="local_Full_Name"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.LocalFullName" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                       <input type="text"
                              class="form-control"
-                             id="ultrasound_Date"
-                             name="ultrasound_Date"
-                             [(ngModel)]="data.ultrasound_Date"
-                             (ngModelChange)="onDateChange('ultrasound_Date')"
-                             [disabled]="disableDetail()"
-                             bsDatepicker
-                             onpaste="return false"
-                             [bsConfig]="bsConfig"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="{{ iconButton.CALENDAR }}"></i>
-                        </span>
+                             id="local_Full_Name"
+                             name="local_Full_Name"
+                             [(ngModel)]="data.local_Full_Name"
+                             placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.LocalFullName' | translate }}"
+                             readonly />
+                    </div>
+                  </div>
+                </div>
+                <!-- Department -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="department"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.Department" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="department_Code"
+                                 name="department_Code"
+                                 [(ngModel)]="data.department_Code"
+                                 [clearable]="false"
+                                 placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.Department' | translate }}"
+                                 disabled>
+                        <ng-option *ngFor="let data of departments"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Shift Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="work_Shift_Type"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkShiftType" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="work_Shift_Type"
+                                 name="work_Shift_Type"
+                                 [(ngModel)]="data.work_Shift_Type"
+                                 (clear)="deleteProperty('work_Shift_Type')"
+                                 [clearable]="data.work_Shift_Type !== ''"
+                                 placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.WorkShiftType' | translate }}"
+                                 disabled>
+                        <ng-option *ngFor="let data of workShiftTypes"
+                                   [value]="data.key">{{data.value}}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work For 8 Hours -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="work8hours"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.EightHour" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="work8hours"
+                                 name="work8hours"
+                                 [(ngModel)]="data.work8hours"
+                                 [clearable]="false"
+                                 placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.EightHour' | translate }}"
+                                 disabled>
+                        <ng-option *ngFor="let data of work8hours"
+                                   [value]="data.key"> {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Work Type Before Pregnancy -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="work_Type_Before"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeBefore" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="work_Type_Before"
+                                 name="work_Type_Before"
+                                 [(ngModel)]="data.work_Type_Before"
+                                 (ngModelChange)="onWorkTypeBeforeChange()"
+                                 (clear)="deleteProperty('work_Type_Before')"
+                                 [clearable]="data.work_Type_Before !== ''"
+                                 placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeBefore' | translate }}"
+                                 [disabled]="disableDetail()">
+                        <ng-option *ngFor="let data of workTypes"
+                                   [value]="data.key"> {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Special/Regular Work Type -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.SpecialRegularWorkType" |
+                  translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of workTypeCodes; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div [ngClass]="{'mr-2': i != workTypeCodes.length - 1}"
+                                   class="custom-control custom-radio pt-2">
+                                <input [id]="'special_Regular_Work_Type' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       name="special_Regular_Work_Type"
+                                       [(ngModel)]="data.special_Regular_Work_Type"
+                                       disabled
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'special_Regular_Work_Type' + i">
+                                  <strong> {{item.key+'.' +( item.value | translate )}} </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Start Date for 7-Hours Shift -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="work7hours"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.SevenHourShift" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-3"
-                         [ngClass]="{'invalid-data': (!data.work7hours_Str && data.ultrasound_Date_Str) || (!data.work7hours_Str && data.work7hours)}">
-                      <input type="text"
+                <!-- Work Type After Pregnancy -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="work_Type_After"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeAfter" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <ng-select id="work_Type_After"
+                                 name="work_Type_After"
+                                 [(ngModel)]="data.work_Type_After"
+                                 (clear)="deleteProperty('work_Type_After')"
+                                 [clearable]="data.work_Type_After !== ''"
+                                 placeholder='{{"AttendanceMaintenance.PregnancyAndMaternityData.WorkTypeAfter" | translate }}'
+                                 [disabled]="disableDetail()">
+                        <ng-option *ngFor="let data of workTypes"
+                                   [value]="data.key">
+                          {{ data.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Due Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="due_Date"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.DueDate" | translate }}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+                         [ngClass]="{'invalid-data': !data.due_Date_Str}">
+                      <div class="input-group mr-3">
+                        <input type="text"
+                               class="form-control"
+                               id="due_Date"
+                               name="due_Date"
+                               [(ngModel)]="data.due_Date"
+                               (ngModelChange)="onDateChange('due_Date')"
+                               [disabled]="disableEditOrDetail()"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               onpaste="return false"
+                               placeholder="YYYY/MM/DD"
+                               required />
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="{{ iconButton.CALENDAR }}"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Pregnancy Weeks -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="pregnancy_Week"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.PregnancyWeeks" | translate }}
+                      <span class="text-danger text-bold">*</span>
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"
+                         [ngClass]="{'invalid-data': !data.pregnancy_Week}">
+                      <input autocomplete="off"
+                             type="text"
+                             placeholder="{{'AttendanceMaintenance.PregnancyAndMaternityData.PregnancyWeeks' | translate }}"
                              class="form-control"
-                             id="work7hours"
-                             name="work7hours"
-                             [(ngModel)]="data.work7hours"
-                             (ngModelChange)="onDateChange('work7hours')"
-                             bsDatepicker
-                             [bsConfig]="bsConfig"
-                             placeholder="YYYY/MM/DD"
-                             onpaste="return false"
+                             name="pregnancy_Week"
+                             [(ngModel)]="data.pregnancy_Week"
+                             (ngModelChange)="changeUltrasoundDate()"
+                             maxlength="4"
+                             mask="separator.1"
+                             decimalMarker="."
+                             [leadZero]="true"
+                             thousandSeparator=""
+                             separatorLimit="99"
                              [disabled]="disableDetail()"
-                             [required]="data.ultrasound_Date" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="{{ iconButton.CALENDAR }}"></i>
-                        </span>
-                      </div>
+                             required />
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- 36 Weeks Pregnant Date  -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="pregnancy36Weeks"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.36Weeks" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-3"
-                         [ngClass]="{'invalid-data': (!data.pregnancy36Weeks_Str && data.ultrasound_Date_Str) || (!data.pregnancy36Weeks_Str && data.pregnancy36Weeks)}">
-                      <input type="text"
-                             class="form-control"
-                             id="pregnancy36Weeks"
-                             name="pregnancy36Weeks"
-                             [(ngModel)]="data.pregnancy36Weeks"
-                             (ngModelChange)="onDateChange('pregnancy36Weeks')"
-                             bsDatepicker
-                             [bsConfig]="bsConfig"
-                             placeholder="YYYY/MM/DD"
-                             onpaste="return false"
-                             [disabled]="disableDetail()"
-                             [required]="data.ultrasound_Date" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="{{ iconButton.CALENDAR }}"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Maternity Leave  -->
-              <div class="col-md-8 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.MaternityLeave" | translate }}
-                  </label>
-                  <div class="full-width col-xl-10 col-lg-8 col-md-8 col-sm-8">
-                    <div class="container_input">
+                <!-- Date Ultrasound Scanning -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="ultrasound_Date"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.DateUltrasoundScanning" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                       <div class="input-group mr-3"
-                           [ngClass]="{'invalid-data': (data.maternity_End_Str && !data.maternity_Start_Str)|| (!data.maternity_Start_Str && data.maternity_Start)}">
+                           [ngClass]="{'invalid-data': !data.ultrasound_Date_Str && data.ultrasound_Date}">
                         <input type="text"
-                               placeholder="YYYY/MM/DD"
-                               name="maternity_Start"
-                               [maxDate]="data.maternity_End"
-                               [bsConfig]="bsConfig"
                                class="form-control"
-                               bsDatepicker
-                               [(ngModel)]="data.maternity_Start"
-                               (ngModelChange)="onDateChange('maternity_Start')"
-                               onpaste="return false"
+                               id="ultrasound_Date"
+                               name="ultrasound_Date"
+                               [(ngModel)]="data.ultrasound_Date"
+                               (ngModelChange)="onDateChange('ultrasound_Date')"
                                [disabled]="disableDetail()"
-                               [required]="data.maternity_End" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="{{ iconButton.CALENDAR }}"></i>
-                          </span>
-                        </div>
-                      </div>
-                      ~
-                      <div class="input-group ml-3"
-                           [ngClass]="{'invalid-data': (data.maternity_Start_Str && !data.maternity_End_Str)|| (!data.maternity_End_Str && data.maternity_End)}">
-                        <input type="text"
-                               placeholder="YYYY/MM/DD"
-                               name="maternity_End"
-                               [minDate]="data.maternity_Start"
+                               bsDatepicker
+                               onpaste="return false"
                                [bsConfig]="bsConfig"
-                               class="form-control"
-                               bsDatepicker
-                               [(ngModel)]="data.maternity_End"
-                               (ngModelChange)="onDateChange('maternity_End')"
-                               onpaste="return false"
-                               [disabled]="disableDetail()"
-                               [required]="data.maternity_Start" />
+                               placeholder="YYYY/MM/DD" />
                         <div class="input-group-append">
                           <span class="input-group-text">
                             <i class="{{ iconButton.CALENDAR }}"></i>
@@ -440,515 +327,631 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Return-to-Work Date -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label for="goWork_Date"
-                         class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.ReturnToWorkDate" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="input-group mr-3"
-                         [ngClass]="{'invalid-data': !data.goWork_Date_Str && data.goWork_Date}">
+                <!-- Start Date for 7-Hours Shift -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="work7hours"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.SevenHourShift" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-3"
+                           [ngClass]="{'invalid-data': (!data.work7hours_Str && data.ultrasound_Date_Str) || (!data.work7hours_Str && data.work7hours)}">
+                        <input type="text"
+                               class="form-control"
+                               id="work7hours"
+                               name="work7hours"
+                               [(ngModel)]="data.work7hours"
+                               (ngModelChange)="onDateChange('work7hours')"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               placeholder="YYYY/MM/DD"
+                               onpaste="return false"
+                               [disabled]="disableDetail()"
+                               [required]="data.ultrasound_Date" />
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="{{ iconButton.CALENDAR }}"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- 36 Weeks Pregnant Date  -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="pregnancy36Weeks"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.36Weeks" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-3"
+                           [ngClass]="{'invalid-data': (!data.pregnancy36Weeks_Str && data.ultrasound_Date_Str) || (!data.pregnancy36Weeks_Str && data.pregnancy36Weeks)}">
+                        <input type="text"
+                               class="form-control"
+                               id="pregnancy36Weeks"
+                               name="pregnancy36Weeks"
+                               [(ngModel)]="data.pregnancy36Weeks"
+                               (ngModelChange)="onDateChange('pregnancy36Weeks')"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               placeholder="YYYY/MM/DD"
+                               onpaste="return false"
+                               [disabled]="disableDetail()"
+                               [required]="data.ultrasound_Date" />
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="{{ iconButton.CALENDAR }}"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Maternity Leave  -->
+                <div class="col-md-8 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.MaternityLeave" | translate }}
+                    </label>
+                    <div class="full-width col-xl-10 col-lg-8 col-md-8 col-sm-8">
+                      <div class="container_input">
+                        <div class="input-group mr-3"
+                             [ngClass]="{'invalid-data': (data.maternity_End_Str && !data.maternity_Start_Str)|| (!data.maternity_Start_Str && data.maternity_Start)}">
+                          <input type="text"
+                                 placeholder="YYYY/MM/DD"
+                                 name="maternity_Start"
+                                 [maxDate]="data.maternity_End"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="data.maternity_Start"
+                                 (ngModelChange)="onDateChange('maternity_Start')"
+                                 onpaste="return false"
+                                 [disabled]="disableDetail()"
+                                 [required]="data.maternity_End" />
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="{{ iconButton.CALENDAR }}"></i>
+                            </span>
+                          </div>
+                        </div>
+                        ~
+                        <div class="input-group ml-3"
+                             [ngClass]="{'invalid-data': (data.maternity_Start_Str && !data.maternity_End_Str)|| (!data.maternity_End_Str && data.maternity_End)}">
+                          <input type="text"
+                                 placeholder="YYYY/MM/DD"
+                                 name="maternity_End"
+                                 [minDate]="data.maternity_Start"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="data.maternity_End"
+                                 (ngModelChange)="onDateChange('maternity_End')"
+                                 onpaste="return false"
+                                 [disabled]="disableDetail()"
+                                 [required]="data.maternity_Start" />
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="{{ iconButton.CALENDAR }}"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Return-to-Work Date -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label for="goWork_Date"
+                           class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.ReturnToWorkDate" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="input-group mr-3"
+                           [ngClass]="{'invalid-data': !data.goWork_Date_Str && data.goWork_Date}">
+                        <input type="text"
+                               class="form-control"
+                               id="goWork_Date"
+                               name="goWork_Date"
+                               [(ngModel)]="data.goWork_Date"
+                               (ngModelChange)="onDateChange('goWork_Date')"
+                               [disabled]="disableDetail()"
+                               bsDatepicker
+                               [bsConfig]="bsConfig"
+                               onpaste="return false"
+                               placeholder="YYYY/MM/DD" />
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="{{ iconButton.CALENDAR }}"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Duration of Childcare Leave  -->
+                <div class="col-md-8 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.DurationOfChildcareLeave" | translate }}
+                    </label>
+                    <div class="full-width col-xl-10 col-lg-8 col-md-8 col-sm-8">
+                      <div class="container_input">
+                        <div class="input-group mr-3"
+                             [ngClass]="{'invalid-data': (data.baby_End_Str && !data.baby_Start_Str)|| (!data.baby_Start_Str && data.baby_Start)}">
+                          <input type="text"
+                                 placeholder="YYYY/MM/DD"
+                                 name="baby_Start"
+                                 [maxDate]="data.baby_End"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="data.baby_Start"
+                                 (ngModelChange)="onDateChange('baby_Start')"
+                                 onpaste="return false"
+                                 [disabled]="disableDetail()"
+                                 [required]="data.baby_End" />
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="{{ iconButton.CALENDAR }}"></i>
+                            </span>
+                          </div>
+                        </div>
+                        ~
+                        <div class="input-group ml-3"
+                             [ngClass]="{'invalid-data': (data.baby_Start_Str && !data.baby_End_Str)|| (!data.baby_End_Str && data.baby_End)}">
+                          <input type="text"
+                                 placeholder="YYYY/MM/DD"
+                                 name="baby_End"
+                                 [minDate]="data.baby_Start"
+                                 [bsConfig]="bsConfig"
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="data.baby_End"
+                                 (ngModelChange)="onDateChange('baby_End')"
+                                 onpaste="return false"
+                                 [disabled]="disableDetail()"
+                                 [required]="data.baby_Start" />
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="{{ iconButton.CALENDAR }}"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Remark  -->
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                  <div class="form-group row">
+                    <label for="remark"
+                           class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.Remark" | translate }}
+                    </label>
+                    <div class="col-xl-10 col-lg-8 col-md-8 col-sm-8">
                       <input type="text"
                              class="form-control"
-                             id="goWork_Date"
-                             name="goWork_Date"
-                             [(ngModel)]="data.goWork_Date"
-                             (ngModelChange)="onDateChange('goWork_Date')"
-                             [disabled]="disableDetail()"
-                             bsDatepicker
-                             [bsConfig]="bsConfig"
-                             onpaste="return false"
-                             placeholder="YYYY/MM/DD" />
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="{{ iconButton.CALENDAR }}"></i>
-                        </span>
-                      </div>
+                             id="remark"
+                             name="remark"
+                             [(ngModel)]="data.remark"
+                             [disabled]="disableDetail()" />
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Duration of Childcare Leave  -->
-              <div class="col-md-8 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.DurationOfChildcareLeave" | translate }}
-                  </label>
-                  <div class="full-width col-xl-10 col-lg-8 col-md-8 col-sm-8">
-                    <div class="container_input">
-                      <div class="input-group mr-3"
-                           [ngClass]="{'invalid-data': (data.baby_End_Str && !data.baby_Start_Str)|| (!data.baby_Start_Str && data.baby_Start)}">
-                        <input type="text"
-                               placeholder="YYYY/MM/DD"
-                               name="baby_Start"
-                               [maxDate]="data.baby_End"
-                               [bsConfig]="bsConfig"
-                               class="form-control"
-                               bsDatepicker
-                               [(ngModel)]="data.baby_Start"
-                               (ngModelChange)="onDateChange('baby_Start')"
-                               onpaste="return false"
-                               [disabled]="disableDetail()"
-                               [required]="data.baby_End" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="{{ iconButton.CALENDAR }}"></i>
-                          </span>
-                        </div>
-                      </div>
-                      ~
-                      <div class="input-group ml-3"
-                           [ngClass]="{'invalid-data': (data.baby_Start_Str && !data.baby_End_Str)|| (!data.baby_End_Str && data.baby_End)}">
-                        <input type="text"
-                               placeholder="YYYY/MM/DD"
-                               name="baby_End"
-                               [minDate]="data.baby_Start"
-                               [bsConfig]="bsConfig"
-                               class="form-control"
-                               bsDatepicker
-                               [(ngModel)]="data.baby_End"
-                               (ngModelChange)="onDateChange('baby_End')"
-                               onpaste="return false"
-                               [disabled]="disableDetail()"
-                               [required]="data.baby_Start" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="{{ iconButton.CALENDAR }}"></i>
-                          </span>
+                <!-- Close -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group row">
+                    <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
+                      {{"AttendanceMaintenance.PregnancyAndMaternityData.Close" | translate }}
+                    </label>
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="row pl-4">
+                        <div *ngFor="let item of closeTypeCodes; index as i">
+                          <label class="container">
+                            <div class="row">
+                              <div [ngClass]="{'mr-2': i != closeTypeCodes.length - 1}"
+                                   class="custom-control custom-radio pt-2">
+                                <input [id]="'close_Case' + i"
+                                       class="custom-control-input"
+                                       type="radio"
+                                       name="close_Case"
+                                       [(ngModel)]="data.close_Case"
+                                       [disabled]="disableDetail()"
+                                       [value]="item.key" />
+                                <p class="custom-control-label"
+                                   [for]="'close_Case' + i">
+                                  <strong>
+                                    {{ item.value | translate }}
+                                  </strong>
+                                </p>
+                              </div>
+                            </div>
+                          </label>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- Remark  -->
-              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                <div class="form-group row">
-                  <label for="remark"
-                         class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.Remark" | translate }}
+
+              <hr class="hr" />
+              <div class="row mb-3">
+                <div class="col-2"></div>
+                <div class="col-2 text-center">1</div>
+                <div class="col-2 text-center">2</div>
+                <div class="col-2 text-center">3</div>
+                <div class="col-2 text-center">4</div>
+                <div class="col-2 text-center">5</div>
+              </div>
+              <!-- Expected Pregnant Examination Date -->
+              <div class="row mb-3">
+                <div class="col-2">
+                  <label class="col-form-label">
+                    {{"AttendanceMaintenance.PregnancyAndMaternityData.ExpectedPregnantExaminationDate" |
+                translate }}
                   </label>
-                  <div class="col-xl-10 col-lg-8 col-md-8 col-sm-8">
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.estimated_Date1_Str && data.estimated_Date1}">
                     <input type="text"
                            class="form-control"
-                           id="remark"
-                           name="remark"
-                           [(ngModel)]="data.remark"
-                           [disabled]="disableDetail()" />
+                           id="estimated_Date1"
+                           name="estimated_Date1"
+                           [(ngModel)]="data.estimated_Date1"
+                           (ngModelChange)="onDateChange('estimated_Date1')"
+                           [disabled]="disableDetail()"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- Close -->
-              <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group row">
-                  <label class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-form-label">
-                    {{"AttendanceMaintenance.PregnancyAndMaternityData.Close" | translate }}
-                  </label>
-                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                    <div class="row pl-4">
-                      <div *ngFor="let item of closeTypeCodes; index as i">
-                        <label class="container">
-                          <div class="row">
-                            <div [ngClass]="{'mr-2': i != closeTypeCodes.length - 1}"
-                                 class="custom-control custom-radio pt-2">
-                              <input [id]="'close_Case' + i"
-                                     class="custom-control-input"
-                                     type="radio"
-                                     name="close_Case"
-                                     [(ngModel)]="data.close_Case"
-                                     [disabled]="disableDetail()"
-                                     [value]="item.key" />
-                              <p class="custom-control-label"
-                                 [for]="'close_Case' + i">
-                                <strong>
-                                  {{ item.value | translate }}
-                                </strong>
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-                      </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.estimated_Date2_Str && data.estimated_Date2}">
+                    <input type="text"
+                           class="form-control"
+                           id="estimated_Date2"
+                           name="estimated_Date2"
+                           [(ngModel)]="data.estimated_Date2"
+                           (ngModelChange)="onDateChange('estimated_Date2')"
+                           [disabled]="disableDetail() || !data.estimated_Date1"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.estimated_Date3_Str && data.estimated_Date3}">
+                    <input type="text"
+                           class="form-control"
+                           id="estimated_Date3"
+                           name="estimated_Date3"
+                           [(ngModel)]="data.estimated_Date3"
+                           (ngModelChange)="onDateChange('estimated_Date3')"
+                           [disabled]="disableDetail() || !data.estimated_Date2"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.estimated_Date4_Str && data.estimated_Date4}">
+                    <input type="text"
+                           class="form-control"
+                           id="estimated_Date4"
+                           name="estimated_Date4"
+                           [(ngModel)]="data.estimated_Date4"
+                           (ngModelChange)="onDateChange('estimated_Date4')"
+                           [disabled]="disableDetail() || !data.estimated_Date3"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.estimated_Date5_Str && data.estimated_Date5}">
+                    <input type="text"
+                           class="form-control"
+                           id="estimated_Date5"
+                           name="estimated_Date5"
+                           [(ngModel)]="data.estimated_Date5"
+                           (ngModelChange)="onDateChange('estimated_Date5')"
+                           [disabled]="disableDetail() || !data.estimated_Date4"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <hr class="hr" />
-            <div class="row mb-3">
-              <div class="col-2"></div>
-              <div class="col-2 text-center">1</div>
-              <div class="col-2 text-center">2</div>
-              <div class="col-2 text-center">3</div>
-              <div class="col-2 text-center">4</div>
-              <div class="col-2 text-center">5</div>
-            </div>
-            <!-- Expected Pregnant Examination Date -->
-            <div class="row mb-3">
-              <div class="col-2">
-                <label class="col-form-label">
-                  {{"AttendanceMaintenance.PregnancyAndMaternityData.ExpectedPregnantExaminationDate" |
+              <!-- Insurance Pregnant Examination Date -->
+              <div class="row mb-3">
+                <div class="col-2">
+                  <label class="col-form-label">
+                    {{"AttendanceMaintenance.PregnancyAndMaternityData.InsurancePregnantExaminationDate" |
                 translate }}
-                </label>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.estimated_Date1_Str && data.estimated_Date1}">
-                  <input type="text"
-                         class="form-control"
-                         id="estimated_Date1"
-                         name="estimated_Date1"
-                         [(ngModel)]="data.estimated_Date1"
-                         (ngModelChange)="onDateChange('estimated_Date1')"
-                         [disabled]="disableDetail()"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
+                  </label>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.insurance_Date1_Str && data.insurance_Date1}">
+                    <input type="text"
+                           class="form-control"
+                           id="insurance_Date1"
+                           name="insurance_Date1"
+                           [(ngModel)]="data.insurance_Date1"
+                           (ngModelChange)="onDateChange('insurance_Date1')"
+                           [disabled]="disableDetail()"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.insurance_Date2_Str && data.insurance_Date2}">
+                    <input type="text"
+                           class="form-control"
+                           id="insurance_Date2"
+                           name="insurance_Date2"
+                           [(ngModel)]="data.insurance_Date2"
+                           (ngModelChange)="onDateChange('insurance_Date2')"
+                           [disabled]="disableDetail() || !data.insurance_Date1"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.insurance_Date3_Str && data.insurance_Date3}">
+                    <input type="text"
+                           class="form-control"
+                           id="insurance_Date3"
+                           name="insurance_Date3"
+                           [(ngModel)]="data.insurance_Date3"
+                           (ngModelChange)="onDateChange('insurance_Date3')"
+                           [disabled]="disableDetail() || !data.insurance_Date2"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.insurance_Date4_Str && data.insurance_Date4}">
+                    <input type="text"
+                           class="form-control"
+                           id="insurance_Date4"
+                           name="insurance_Date4"
+                           [(ngModel)]="data.insurance_Date4"
+                           (ngModelChange)="onDateChange('insurance_Date4')"
+                           [disabled]="disableDetail() || !data.insurance_Date3"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.insurance_Date5_Str && data.insurance_Date5}">
+                    <input type="text"
+                           class="form-control"
+                           id="insurance_Date5"
+                           name="insurance_Date5"
+                           [(ngModel)]="data.insurance_Date5"
+                           (ngModelChange)="onDateChange('insurance_Date5')"
+                           [disabled]="disableDetail() || !data.insurance_Date4"
+                           bsDatepicker
+                           onpaste="return false"
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.estimated_Date2_Str && data.estimated_Date2}">
-                  <input type="text"
-                         class="form-control"
-                         id="estimated_Date2"
-                         name="estimated_Date2"
-                         [(ngModel)]="data.estimated_Date2"
-                         (ngModelChange)="onDateChange('estimated_Date2')"
-                         [disabled]="disableDetail() || !data.estimated_Date1"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.estimated_Date3_Str && data.estimated_Date3}">
-                  <input type="text"
-                         class="form-control"
-                         id="estimated_Date3"
-                         name="estimated_Date3"
-                         [(ngModel)]="data.estimated_Date3"
-                         (ngModelChange)="onDateChange('estimated_Date3')"
-                         [disabled]="disableDetail() || !data.estimated_Date2"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.estimated_Date4_Str && data.estimated_Date4}">
-                  <input type="text"
-                         class="form-control"
-                         id="estimated_Date4"
-                         name="estimated_Date4"
-                         [(ngModel)]="data.estimated_Date4"
-                         (ngModelChange)="onDateChange('estimated_Date4')"
-                         [disabled]="disableDetail() || !data.estimated_Date3"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.estimated_Date5_Str && data.estimated_Date5}">
-                  <input type="text"
-                         class="form-control"
-                         id="estimated_Date5"
-                         name="estimated_Date5"
-                         [(ngModel)]="data.estimated_Date5"
-                         (ngModelChange)="onDateChange('estimated_Date5')"
-                         [disabled]="disableDetail() || !data.estimated_Date4"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Insurance Pregnant Examination Date -->
-            <div class="row mb-3">
-              <div class="col-2">
-                <label class="col-form-label">
-                  {{"AttendanceMaintenance.PregnancyAndMaternityData.InsurancePregnantExaminationDate" |
+              <!-- Date of Leave for Pregnant Examination -->
+              <div class="row">
+                <div class="col-2">
+                  <label class="col-form-label">
+                    {{"AttendanceMaintenance.PregnancyAndMaternityData.DateOfLeaveForPregnantExamination" |
                 translate }}
-                </label>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.insurance_Date1_Str && data.insurance_Date1}">
-                  <input type="text"
-                         class="form-control"
-                         id="insurance_Date1"
-                         name="insurance_Date1"
-                         [(ngModel)]="data.insurance_Date1"
-                         (ngModelChange)="onDateChange('insurance_Date1')"
-                         [disabled]="disableDetail()"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
+                  </label>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.leave_Date1_Str && data.leave_Date1}">
+                    <input type="text"
+                           class="form-control"
+                           id="leave_Date1"
+                           name="leave_Date1"
+                           [(ngModel)]="data.leave_Date1"
+                           (ngModelChange)="onDateChange('leave_Date1')"
+                           [disabled]="disableDetail()"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.leave_Date2_Str && data.leave_Date2}">
+                    <input type="text"
+                           class="form-control"
+                           id="leave_Date2"
+                           name="leave_Date2"
+                           [(ngModel)]="data.leave_Date2"
+                           (ngModelChange)="onDateChange('leave_Date2')"
+                           [disabled]="disableDetail() || !data.leave_Date1"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.leave_Date3_Str && data.leave_Date3}">
+                    <input type="text"
+                           class="form-control"
+                           id="leave_Date3"
+                           name="leave_Date3"
+                           [(ngModel)]="data.leave_Date3"
+                           (ngModelChange)="onDateChange('leave_Date3')"
+                           [disabled]="disableDetail() || !data.leave_Date2"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.leave_Date4_Str && data.leave_Date4}">
+                    <input type="text"
+                           class="form-control"
+                           id="leave_Date4"
+                           name="leave_Date4"
+                           [(ngModel)]="data.leave_Date4"
+                           (ngModelChange)="onDateChange('leave_Date4')"
+                           [disabled]="disableDetail() || !data.leave_Date3"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group mr-3"
+                       [ngClass]="{'invalid-data': !data.leave_Date5_Str && data.leave_Date5}">
+                    <input type="text"
+                           class="form-control"
+                           id="leave_Date5"
+                           name="leave_Date5"
+                           [(ngModel)]="data.leave_Date5"
+                           (ngModelChange)="onDateChange('leave_Date5')"
+                           [disabled]="disableDetail() || !data.leave_Date4"
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           onpaste="return false"
+                           placeholder="YYYY/MM/DD" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="{{ iconButton.CALENDAR }}"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.insurance_Date2_Str && data.insurance_Date2}">
-                  <input type="text"
-                         class="form-control"
-                         id="insurance_Date2"
-                         name="insurance_Date2"
-                         [(ngModel)]="data.insurance_Date2"
-                         (ngModelChange)="onDateChange('insurance_Date2')"
-                         [disabled]="disableDetail() || !data.insurance_Date1"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.insurance_Date3_Str && data.insurance_Date3}">
-                  <input type="text"
-                         class="form-control"
-                         id="insurance_Date3"
-                         name="insurance_Date3"
-                         [(ngModel)]="data.insurance_Date3"
-                         (ngModelChange)="onDateChange('insurance_Date3')"
-                         [disabled]="disableDetail() || !data.insurance_Date2"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.insurance_Date4_Str && data.insurance_Date4}">
-                  <input type="text"
-                         class="form-control"
-                         id="insurance_Date4"
-                         name="insurance_Date4"
-                         [(ngModel)]="data.insurance_Date4"
-                         (ngModelChange)="onDateChange('insurance_Date4')"
-                         [disabled]="disableDetail() || !data.insurance_Date3"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.insurance_Date5_Str && data.insurance_Date5}">
-                  <input type="text"
-                         class="form-control"
-                         id="insurance_Date5"
-                         name="insurance_Date5"
-                         [(ngModel)]="data.insurance_Date5"
-                         (ngModelChange)="onDateChange('insurance_Date5')"
-                         [disabled]="disableDetail() || !data.insurance_Date4"
-                         bsDatepicker
-                         onpaste="return false"
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Date of Leave for Pregnant Examination -->
-            <div class="row">
-              <div class="col-2">
-                <label class="col-form-label">
-                  {{"AttendanceMaintenance.PregnancyAndMaternityData.DateOfLeaveForPregnantExamination" |
-                translate }}
-                </label>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.leave_Date1_Str && data.leave_Date1}">
-                  <input type="text"
-                         class="form-control"
-                         id="leave_Date1"
-                         name="leave_Date1"
-                         [(ngModel)]="data.leave_Date1"
-                         (ngModelChange)="onDateChange('leave_Date1')"
-                         [disabled]="disableDetail()"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.leave_Date2_Str && data.leave_Date2}">
-                  <input type="text"
-                         class="form-control"
-                         id="leave_Date2"
-                         name="leave_Date2"
-                         [(ngModel)]="data.leave_Date2"
-                         (ngModelChange)="onDateChange('leave_Date2')"
-                         [disabled]="disableDetail() || !data.leave_Date1"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.leave_Date3_Str && data.leave_Date3}">
-                  <input type="text"
-                         class="form-control"
-                         id="leave_Date3"
-                         name="leave_Date3"
-                         [(ngModel)]="data.leave_Date3"
-                         (ngModelChange)="onDateChange('leave_Date3')"
-                         [disabled]="disableDetail() || !data.leave_Date2"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.leave_Date4_Str && data.leave_Date4}">
-                  <input type="text"
-                         class="form-control"
-                         id="leave_Date4"
-                         name="leave_Date4"
-                         [(ngModel)]="data.leave_Date4"
-                         (ngModelChange)="onDateChange('leave_Date4')"
-                         [disabled]="disableDetail() || !data.leave_Date3"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2">
-                <div class="input-group mr-3"
-                     [ngClass]="{'invalid-data': !data.leave_Date5_Str && data.leave_Date5}">
-                  <input type="text"
-                         class="form-control"
-                         id="leave_Date5"
-                         name="leave_Date5"
-                         [(ngModel)]="data.leave_Date5"
-                         (ngModelChange)="onDateChange('leave_Date5')"
-                         [disabled]="disableDetail() || !data.leave_Date4"
-                         bsDatepicker
-                         [bsConfig]="bsConfig"
-                         onpaste="return false"
-                         placeholder="YYYY/MM/DD" />
-                  <div class="input-group-append">
-                    <span class="input-group-text">
-                      <i class="{{ iconButton.CALENDAR }}"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="row justify-content-md-center mt-3">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="table-responsive text-right">
-                  <button type="button"
-                          class="{{ classButton.SAVE }}"
-                          [disabled]="!dataForm.valid || !validEmp"
-                          *ngIf="!disableDetail()"
-                          (click)="save()">
-                    <i class="{{ iconButton.SAVE }}"></i>
-                    {{ "System.Action.Save" | translate }}
-                  </button>
-                  <button type="button"
-                          class="{{ classButton.CLOSE }}"
-                          (click)="back()">
-                    <i class="{{ iconButton.CLOSE }}"></i>
-                    {{ "System.Action.Close" | translate }}
-                  </button>
+             <div class="row justify-content-md-center mt-3">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="table-responsive text-right">
+                    <button type="button"
+                            class="{{ classButton.SAVE }}"
+                            [disabled]="!dataForm.valid || !validEmp"
+                            *ngIf="!disableDetail()"
+                            (click)="save()">
+                      <i class="{{ iconButton.SAVE }}"></i>
+                      {{ "System.Action.Save" | translate }}
+                    </button>
+                    <button type="button"
+                            class="{{ classButton.CLOSE }}"
+                            (click)="back()">
+                      <i class="{{ iconButton.CLOSE }}"></i>
+                      {{ "System.Action.Close" | translate }}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
         </form>
       </div>

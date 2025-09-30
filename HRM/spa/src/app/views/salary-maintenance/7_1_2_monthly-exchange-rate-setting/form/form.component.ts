@@ -1,6 +1,5 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -9,7 +8,8 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgForm } from '@angular/forms';
 import { S_7_1_2_MonthlyExchangeRateSetting } from '@services/salary-maintenance/s_7_1_2_monthly-exchange-rate-setting.service';
-import { MonthlyExchangeRateSetting_Main, MonthlyExchangeRateSetting_Param } from '@models/salary-maintenance/7_1_2_monthly-exchange-rate-setting';
+import { MonthlyExchangeRateSetting_Main, MonthlyExchangeRateSetting_Param } from '@models/salary-maintenance/7_1_2_monthly-exchange-rate-setting';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -56,12 +56,12 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.formType = role.title
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe()
+      })
   }
   getSource() {
     if (this.formType == 'Edit') {
@@ -105,19 +105,10 @@ export class FormComponent extends InjectBase implements OnInit {
     delete this.param[name]
   }
   getDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList()
       .subscribe({
         next: (res) => {
           this.filterList(res)
-          this.spinnerService.hide()
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -135,18 +126,10 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Success')
             );
           } else {
-            this.spinnerService.hide();
             this.snotifyService.error(
               this.translateService.instant(`SalaryMaintenance.MonthlyExchangeRateSetting.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         },
       })
   }
@@ -162,12 +145,6 @@ export class FormComponent extends InjectBase implements OnInit {
         .subscribe({
           next: (res) => {
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })

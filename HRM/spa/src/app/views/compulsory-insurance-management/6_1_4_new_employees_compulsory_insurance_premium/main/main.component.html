@@ -25,14 +25,14 @@
         <div class="row">
           <!-- Factory -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}
+            <label class="badge badge-warning">{{i18n + 'Factory' | translate }}
               <span class="text-danger"> *</span></label>
             <ng-select name="factoryGeneration"
                        [(ngModel)]="generation_Param.factory"
                        (clear)="deleteProperty('factory')"
                        (ngModelChange)="onFactoryChange()"
                        [clearable]="generation_Param.factory !== null"
-                       placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}"
+                       placeholder="{{i18n + 'Factory' | translate }}"
                        required>
               <ng-option *ngFor="let item of factoryList"
                          [value]="item.key">{{ item.value }}</ng-option>
@@ -40,7 +40,7 @@
           </div>
           <!-- Year Month -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.YearMonth' | translate }}
+            <label class="badge badge-warning">{{i18n + 'YearMonth' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="full-width">
               <div class="container_input">
@@ -66,11 +66,11 @@
           <!-- Paid Salary Days -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
             <label for="paidSalaryDaysGeneration"
-                   class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}
+                   class="badge badge-warning">{{i18n + 'PaidSalaryDays' | translate }}
               <span class="text-danger"> *</span></label>
             <input autocomplete="off"
                    type="number"
-                   placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}"
+                   placeholder="{{i18n + 'PaidSalaryDays' | translate }}"
                    class="form-control text-center"
                    name="paidSalaryDaysGeneration"
                    [(ngModel)]="generation_Param.paid_Salary_Days"
@@ -100,31 +100,41 @@
                            [(ngModel)]="generation_Param.permission_Group"
                            [disabled]="functionUtility.checkEmpty(generation_Param.factory)"
                            required
-                           placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup'| translate}}">
+                           placeholder="{{i18n + 'PermissionGroup'| translate}}">
                   <ng-template ng-optgroup-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemGeneration-{{ index }}"
-                           type="checkbox"
-                           name="itemGeneration-{{ index }}"
-                           [ngModel]="item$.selected" />
-                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemGeneration-{{ index }}"
-                           name="itemGeneration-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" />
-                    {{ item.value }}
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Execute')"
                     type="button"
                     class="{{ classButton.SAVE }}"
@@ -155,14 +165,14 @@
         <div class="row">
           <!-- Factory -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}
+            <label class="badge badge-warning">{{i18n + 'Factory' | translate }}
               <span class="text-danger"> *</span></label>
             <ng-select name="factoryReport"
                        [(ngModel)]="report_Param.factory"
                        (clear)="deleteProperty('factory')"
                        (ngModelChange)="onFactoryChange()"
                        [clearable]="report_Param.factory !== null"
-                       placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.Factory' | translate }}"
+                       placeholder="{{i18n + 'Factory' | translate }}"
                        required>
               <ng-option *ngFor="let item of factoryList"
                          [value]="item.key">{{ item.value }}</ng-option>
@@ -170,7 +180,7 @@
           </div>
           <!-- Year Month -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.YearMonth' | translate }}
+            <label class="badge badge-warning">{{i18n + 'YearMonth' | translate }}
               <span class="text-danger"> *</span></label>
             <div class="full-width">
               <div class="container_input">
@@ -196,11 +206,11 @@
           <!-- Paid Salary Days -->
           <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
             <label for="paidSalaryDaysReport"
-                   class="badge badge-warning">{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}
+                   class="badge badge-warning">{{i18n + 'PaidSalaryDays' | translate }}
               <span class="text-danger"> *</span></label>
             <input autocomplete="off"
                    type="number"
-                   placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PaidSalaryDays' | translate }}"
+                   placeholder="{{i18n + 'PaidSalaryDays' | translate }}"
                    class="form-control text-center"
                    name="paidSalaryDaysReport"
                    [(ngModel)]="report_Param.paid_Salary_Days"
@@ -230,31 +240,41 @@
                            [(ngModel)]="report_Param.permission_Group"
                            [disabled]="functionUtility.checkEmpty(report_Param.factory)"
                            required
-                           placeholder="{{'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.PermissionGroup'| translate}}">
+                           placeholder="{{i18n + 'PermissionGroup'| translate}}">
                   <ng-template ng-optgroup-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemReport-{{ index }}"
-                           type="checkbox"
-                           name="itemReport-{{ index }}"
-                           [ngModel]="item$.selected" />
-                    {{ "System.Action.SelectAll" | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="itemReport-{{ index }}"
-                           name="itemReport-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" />
-                    {{ item.value }}
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12">
+            <label class="d-block">&nbsp;</label>
             <button type="submit"
                     class="{{ classButton.SEARCH}}"
                     (click)="callFunction('search')"

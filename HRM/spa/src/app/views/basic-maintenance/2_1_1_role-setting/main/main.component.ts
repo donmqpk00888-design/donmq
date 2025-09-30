@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, TrackByFunction, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, OnDestroy, OnInit, TrackByFunction, effect, inject } from '@angular/core';
 import { TreeviewItem } from '@ash-mezdo/ngx-treeview';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { RoleSettingParam, RoleSettingDetail, RoleSetting_MainMemory } from '@models/basic-maintenance/2_1_1_role-setting';
@@ -9,6 +8,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -67,7 +67,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => {
         this.filterList(res.dataResolved)
       });
@@ -80,8 +80,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -104,8 +103,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           })
           if (isSearch)
             this.functionUtility.snotifySuccessError(true, 'System.Message.SearchOKMsg')
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   onDirectChange(event: any) {
@@ -136,8 +134,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: (res: TreeviewItem[]) => {
           this.spinnerService.hide();
           this.modalService.open( res);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   add() {
@@ -156,8 +153,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : res.error, res.isSuccess)
           if (res.isSuccess)
             this.getData(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }
@@ -175,8 +171,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   changePage = (e: PageChangedEvent) => {

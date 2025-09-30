@@ -156,10 +156,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
       next: (res) => {
         resultList.length = 0;
         resultList.push(...res);
-      },
-      error: () => {
-        this.handleError('System.Message.SystemError');
-      },
+      }
     });
   }
   //#endregion

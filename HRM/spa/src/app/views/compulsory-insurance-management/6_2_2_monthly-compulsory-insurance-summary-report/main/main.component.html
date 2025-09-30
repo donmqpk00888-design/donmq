@@ -17,7 +17,6 @@
 
               <!-- Factory -->
               <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
                   <label for="factory"
                          class="badge badge-warning">
                     {{ "CompulsoryInsuranceManagement.MonthlyCompulsoryInsuranceSummaryReport.Factory" | translate }}
@@ -36,7 +35,6 @@
                       {{ item.value }}
                     </ng-option>
                   </ng-select>
-                </div>
               </div>
 
               <!-- Year Month -->
@@ -100,7 +98,6 @@
 
               <!-- kind -->
               <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
                   <label for="kind"
                          class="badge badge-warning">{{ 'CompulsoryInsuranceManagement.MonthlyCompulsoryInsuranceSummaryReport.Kind'
                     | translate }} <span class="text-danger text-bold"> *</span></label>
@@ -125,14 +122,12 @@
                       </label>
                     </div>
                   </div>
-                </div>
               </div>
 
               <!-- Permission Group -->
-              <div class="col-12 pb-2 mb-2">
+              <div class="col-12">
                 <div class="row">
                   <div class="col-auto">
-                    <div class="form-group">
                       <label class="badge badge-warning">
                         {{ "CompulsoryInsuranceManagement.MonthlyCompulsoryInsuranceSummaryReport.PermissionGroup" | translate }}
                         <span class="text-danger text-bold"> *</span>
@@ -173,13 +168,13 @@
                           {{ item.value }}
                         </ng-template>
                       </ng-select>
-                    </div>
                   </div>
                 </div>
               </div>
 
 
               <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="d-block">&nbsp;</label>
                 <button type="submit"
                         class="{{classButton.SEARCH}}"
                         (click)="getCountRecords(true)"

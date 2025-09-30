@@ -99,8 +99,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
           this.paramForm.local_Full_Name = this.data?.local_Full_Name
           this.dataMain = this.data.skill_Detail_List.slice()
           this.spinnerService.hide()
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   calculateSeq() {

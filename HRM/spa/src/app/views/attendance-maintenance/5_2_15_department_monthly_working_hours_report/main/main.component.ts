@@ -6,12 +6,13 @@ import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepick
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { S_5_2_15_DepartmentMonthlyWorkingHoursReportService } from '@services/attendance-maintenance/s_5_2_15_department-monthly-working-hours-report.service';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LangChangeEvent } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  styleUrl: './main.component.scss',
+  host: { 'id': 'main-5-2-15' }
 })
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   title: string = '';
@@ -64,14 +65,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getPermissionGroups() {
-    this.spinnerService.show();
     this.service.getPermissionGroups(this.param.factory).subscribe({
       next: result => {
-        this.spinnerService.hide()
         this.permissionGroups = result;
         this.selectAllForDropdownItems(this.permissionGroups)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -85,13 +83,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getFactorys() {
-    this.spinnerService.show()
     this.service.getFactorys().subscribe({
       next: result => {
-        this.spinnerService.hide()
         this.factorys = result;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -120,9 +115,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isFlag) {
           this.functionUtility.snotifySuccessError(isFlag, 'System.Message.QuerySuccess');
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -142,8 +134,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.functionUtility.snotifySuccessError(false, res.error);
           }
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 

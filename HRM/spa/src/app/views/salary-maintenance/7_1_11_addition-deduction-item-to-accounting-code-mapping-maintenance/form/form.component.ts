@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { S_7_1_11_AdditionDeductionItemToAccountingCodeMappingMaintenanceService } from '@services/salary-maintenance/s_7_1_11_addition-deduction-item-to-accounting-code-mapping-maintenance.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { AdditionDeductionItemToAccountingCodeMappingMaintenanceDto } from '@models/salary-maintenance/7_1_11_addition-deduction-item-to-accouting-code-mapping-maintenance';
 import { UserForLogged } from '@models/auth/auth';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -29,9 +29,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_7_1_11_AdditionDeductionItemToAccountingCodeMappingMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
       });
@@ -40,10 +38,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
       this.getSource()
-    }).unsubscribe()
+    })
   }
   getSource() {
     this.isEdit = this.formType == 'Edit'
@@ -79,6 +77,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .create(this.data)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             isNext ? this.data = <AdditionDeductionItemToAccountingCodeMappingMaintenanceDto>{ factory: this.data.factory } : this.back();
             this.snotifyService.success(
@@ -93,14 +92,8 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error')
             );
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       })
-      .add(() => {
-        this.spinnerService.hide();
-      });
   }
 
   edit() {
@@ -123,10 +116,6 @@ export class FormComponent extends InjectBase implements OnInit {
           );
         }
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
   //#endregion
@@ -142,9 +131,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -152,9 +138,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListAdditionsAndDeductionsItem().subscribe({
       next: (res) => {
         this.listAdditionsAndDeductionsItem = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }

@@ -4,8 +4,8 @@ import { S_7_1_3_Leave_Salary_Calculation_MaintenanceService } from '@services/s
 import { IconButton } from '@constants/common.constants';
 import { LeaveSalaryCalculationMaintenance_Basic, LeaveSalaryCalculationMaintenanceDTO, LeaveSalaryCalculationMaintenanceParam } from '@models/salary-maintenance/7_1_3_leave_salary_calculation_maintenance';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -76,7 +76,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getDropDownList() {
@@ -88,18 +87,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: (res) => {
         this.listLeaveCode = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   pageChanged(event: any) {
@@ -126,14 +121,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.service.delete(item).subscribe({
           next: (result) => {
+            this.spinnerService.hide();
             if (result.isSuccess) {
               this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
               this.getData(false);
             }
             else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           },
-          error: () => this.functionUtility.snotifySystemError(),
-          complete: () => this.spinnerService.hide()
         });
       }
     );

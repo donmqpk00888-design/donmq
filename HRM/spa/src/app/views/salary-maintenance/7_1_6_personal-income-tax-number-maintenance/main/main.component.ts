@@ -4,9 +4,10 @@ import { PersonalIncomeTaxNumberMaintenanceDto, PersonalIncomeTaxNumberMaintenan
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InjectBase } from '@utilities/inject-base-app';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -81,8 +82,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
   //#endregion
@@ -101,8 +101,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.snotifySuccessError(true, 'System.Message.DeleteOKMsg')
         if (isUpload)
           this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -133,50 +132,29 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         }
         else this.functionUtility.snotifySuccessError(false, res.error)
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   //#endregion
 
   //#region upload
-  upload(event: any, isUpload: boolean) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.accept.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel, isUpload: boolean) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this.service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else
-              this.getData(false, false, isUpload);
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)) {
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-            }
-            this.functionUtility.snotifySuccessError(false, res.error);
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData(false, false, isUpload);
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
-          this.spinnerService.hide()
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
         }
-      });
-    }
+      }
+    });
   }
   //#endregion
 
@@ -195,11 +173,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show();
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) this.getData(false, isDelete);
           else
             this.functionUtility.snotifySuccessError(false, 'System.Message.DeleteErrorMsg')
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }

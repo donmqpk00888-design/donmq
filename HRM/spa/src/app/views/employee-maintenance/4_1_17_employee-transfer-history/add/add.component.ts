@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
@@ -8,6 +7,7 @@ import { S_4_1_17_EmployeeTransferHistoryService } from '@services/employee-main
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add',
@@ -50,7 +50,7 @@ export class AddComponent extends InjectBase implements OnInit {
     private service: S_4_1_17_EmployeeTransferHistoryService,
   ) {
     super()
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListDepartment()
       this.getListFactory()
@@ -95,13 +95,10 @@ export class AddComponent extends InjectBase implements OnInit {
   }
 
   getDataSources() {
-    this.spinnerService.show();
     this.service.getListDataSource().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listDataSources = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     })
   }
 
@@ -120,18 +117,14 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this[dataProperty] = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#region  get value param
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division_After).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListTypeHeadEmployeeID() {
@@ -139,7 +132,6 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.dataTypeaHead = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListAssignedFactoryAfter() {
@@ -147,17 +139,13 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listAssignedFactoryAfter = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory_After, this.param.division_After).subscribe({
       next: (res) => {
         this.listDepartment = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListAssignedDepartmentAfter() {
@@ -165,16 +153,13 @@ export class AddComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listAssignedDepartmentAfter = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListPositionTitleAfter() {
     this.service.getListPositionTitle(this.param.position_Grade_After ?? 0).subscribe({
       next: (res) => {
         this.listPositionTitleAfter = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -182,9 +167,7 @@ export class AddComponent extends InjectBase implements OnInit {
     this.service.getListPositionTitle(this.param.position_Grade_Before).subscribe({
       next: (res) => {
         this.listPositionTitleBefore = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion
@@ -228,7 +211,7 @@ export class AddComponent extends InjectBase implements OnInit {
             this.isCheckedEmp = false
             this.clearNecessaryData()
             if (isCheck)
-              this.functionUtility.snotifySuccessError(false, 'System.Message.Nodata')
+              this.functionUtility.snotifySuccessError(false, 'System.Message.NoData')
           }
           else {
             this.isCheckedEmp = true
@@ -251,7 +234,6 @@ export class AddComponent extends InjectBase implements OnInit {
         error: () => {
           this.isCheckedEmp = false
           this.clearNecessaryData()
-          this.functionUtility.snotifySystemError()
         },
       })
   }
@@ -265,11 +247,11 @@ export class AddComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.create(this.param).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error);
         if (result.isSuccess) this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     })
   }
 

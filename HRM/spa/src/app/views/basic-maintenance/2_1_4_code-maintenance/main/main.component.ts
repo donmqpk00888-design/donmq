@@ -1,11 +1,11 @@
 import { Component, OnDestroy, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { CodeMaintenanceParam, HRMS_Basic_Code, HRMS_Basic_Code_Source } from '@models/basic-maintenance/2_1_4_code-maintenance';
 import { S_2_1_4_CodeMaintenanceService } from '@services/basic-maintenance/s_2_1_4-code-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -68,7 +68,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     // load dữ liệu [TypeSeqs]
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => {
         this.typeSeqs = res.resolverTypeSeqs
       });
@@ -89,8 +89,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
         this.pagination = result.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -134,8 +133,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? `System.Message.DeleteOKMsg` : result.error, result.isSuccess)
           if (result.isSuccess) this.search(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }
@@ -147,8 +145,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
         this.spinnerService.hide();
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
         this.functionUtility.exportExcel(result.data, fileName);
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   //#endregion

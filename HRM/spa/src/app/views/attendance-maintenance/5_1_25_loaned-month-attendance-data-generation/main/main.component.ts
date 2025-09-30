@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InjectBase } from '@utilities/inject-base-app';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
@@ -7,7 +6,8 @@ import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { LoanedDataGeneration_Param, LoanedDataGeneration_Base, LoanedDataGeneration_Memory } from '@models/attendance-maintenance/5_1_25_loaned-month-attendance-data-generation';
 import { S_5_1_25_LoanedMonthAttendanceDataGenerationService } from '@services/attendance-maintenance/s_5_1_25_loaned-month-attendance-data-generation.service';
-import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
+import { TabComponentModel } from '@views/_shared/tab-component/tab.component';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -82,14 +82,11 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factories = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -147,8 +144,7 @@ export class MainComponent extends InjectBase implements OnInit {
             );
           }
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   changeTab() {

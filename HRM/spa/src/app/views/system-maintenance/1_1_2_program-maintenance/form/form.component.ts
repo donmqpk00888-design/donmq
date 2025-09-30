@@ -7,8 +7,8 @@ import {
 import { S_1_1_2_ProgramMaintenanceService } from '@services/system-maintenance/s_1_1_2_program-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthService } from '@services/auth/auth.service';
+import { AuthService } from '@services/auth/auth.service';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -38,9 +38,9 @@ export class FormComponent extends InjectBase implements OnInit {
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
     this.getListFuntion();
     this.getDirectory();
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
   getDataFromSource() {
     effect(() => {
@@ -88,19 +88,12 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Message.CreateErrorMsg'),
               this.translateService.instant('System.Caption.Error')
             );
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.SystemError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
     } else {
-      const authProgram = this.commonService.authPrograms
+      const systemInfo = this.commonService.systemInfo
       this.spinnerService.hide();
-      if (authProgram.programs.some(x => x.program_Code == this.param.program_Code)) {
+      if (systemInfo.programs.some(x => x.program_Code == this.param.program_Code)) {
         this.snotifyService.confirm(
           this.translateService.instant('System.Message.ConfirmChangeSameAccount'),
           this.translateService.instant('System.Action.Confirm'),
@@ -126,13 +119,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.translateService.instant(result.error),
             this.translateService.instant('System.Caption.Error')
           );
-      },
-      error: () => {
-        this.spinnerService.hide()
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
       }
     });
   }

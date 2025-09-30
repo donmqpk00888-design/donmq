@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { MonthlySalaryDetailReportParam, MonthlySalaryDetailReportSource } from '@models/salary-report/7_2_5_monthly-salary-detail-report';
 import { S_7_2_5_MonthlySalaryDetailReportService } from '@services/salary-report/s_7_2_5_monthly-salary-detail-report.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -77,14 +77,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   //#region getList
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -101,11 +96,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.factory)
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide();
           this.listDepartment = res;
         },
       });
@@ -116,9 +109,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.listPermissionGroup = res;
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -132,8 +122,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.hide()
         this.totalRows = res;
         this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess');
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   //#endregion
@@ -154,7 +143,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.totalRows = 0;
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

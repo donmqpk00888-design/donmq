@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { LoanedMonthlyAttendanceDataMaintenanceDto } from '@models/attendance-maintenance/5_1_27_loaned-monthly-attendance-data-maintenance';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -50,7 +50,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_5_1_27_LoanedMonthlyAttendanceDataMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.onChange();
@@ -62,9 +62,9 @@ export class FormComponent extends InjectBase implements OnInit {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
     this.getListFactory();
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   getCurrentUser() {
@@ -112,8 +112,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -155,10 +154,6 @@ export class FormComponent extends InjectBase implements OnInit {
             if (this.isEdit || this.isQuery) this.back();
           }
           this.spinnerService.hide();
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError(false);
-          this.spinnerService.hide();
         }
       });
     }
@@ -194,7 +189,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.data.att_Month = this.att_Month ? new Date(this.att_Month).toFirstDateOfMonth().toStringDate() : '';
     const observable = this.isEdit ? this.service.edit(this.data) : this.service.add(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
         this.spinnerService.hide();
         const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
@@ -202,11 +197,10 @@ export class FormComponent extends InjectBase implements OnInit {
         if (result.isSuccess) {
           this.back();
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
-  #endregion
+  //#endregion
 
   back = () => this.router.navigate([this.url]);
 

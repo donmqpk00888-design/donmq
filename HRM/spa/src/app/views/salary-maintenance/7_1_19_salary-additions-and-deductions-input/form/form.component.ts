@@ -1,13 +1,13 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { SalaryAdditionsAndDeductionsInputDto } from '@models/salary-maintenance/7_1_19_salary-additions-and-deductions-input';
 import { S_7_1_19_SalaryAdditionsAndDeductionsInputService } from '@services/salary-maintenance/s_7_1_19_salary-additions-and-deductions-input.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -43,10 +43,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     this.isEdit = this.action == 'Edit'
@@ -71,46 +71,34 @@ export class FormComponent extends InjectBase implements OnInit {
   deleteProperty = (name: string) => delete this.data[name]
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListAddDedType() {
-    this.spinnerService.show();
     this.service.getListAddDedType().subscribe({
       next: (res) => {
         this.listAddDedType = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListCurrency() {
-    this.spinnerService.show();
     this.service.getListCurrency().subscribe({
       next: (res) => {
         this.listCurrency = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListAddDedItem() {
-    this.spinnerService.show();
     this.service.getListAddDedItem().subscribe({
       next: (res) => {
         this.listAddDedItem = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -119,8 +107,9 @@ export class FormComponent extends InjectBase implements OnInit {
       return this.functionUtility.snotifySuccessError(false, "Amount must be a valid integer!");
     const observable = this.isEdit ? this.service.update(this.data) : this.service.create(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide();
         if (result.isSuccess) {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           isNext ? this.clear() : this.back();
@@ -128,8 +117,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     });
   }
 
@@ -143,8 +131,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }

@@ -1,12 +1,12 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { DirectWorkTypeAndSectionSettingParam } from '@models/organization-management/3_1_5_organization-management';
 import { S_3_1_5_DirectWorkTypeAndSectionSettingService } from '@services/organization-management/s_3_1_5_direct-work-type-and-section-setting.service';
 import { FunctionUtility } from '@utilities/function-utility';
 import { InjectBase } from '@utilities/inject-base-app';
-import { KeyValuePair } from '@utilities/key-value-pair';
+import { KeyValuePair } from '@utilities/key-value-pair';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -35,7 +35,7 @@ export class EditComponent extends InjectBase implements OnInit {
     private _function: FunctionUtility,
   ) {
     super();
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListSection();
       this.getListDivision();
@@ -70,43 +70,37 @@ export class EditComponent extends InjectBase implements OnInit {
   getListDivision() {
     this.service.getListDivision().subscribe({
       next: (res) => this.listDivision = res,
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   changeGetFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListWorkType() {
     this.service.getListWorkType().subscribe({
       next: (res) => this.listWorkType = res,
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   getListSection() {
     this.service.getListSection().subscribe({
       next: (res) => this.listSection = res,
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   save() {
     this.spinnerService.show();
     this.service.update(this.param).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         if (result.isSuccess) this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     })
   }
 

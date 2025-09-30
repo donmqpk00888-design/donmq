@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import {
   HRMS_Basic_Code_TypeDto,
@@ -11,6 +10,7 @@ import { S_2_1_3_CodeTypeMaintenanceService } from '@services/basic-maintenance/
 import { InjectBase } from '@utilities/inject-base-app';
 import { OperationResult } from '@utilities/operation-result';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-formtypecode',
@@ -35,12 +35,12 @@ export class FormtypecodeComponent extends InjectBase implements OnInit {
   }
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.isEdit = role.title == 'Edit'
         this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
         this.getSource()
-      }).unsubscribe()
+      })
   }
   getSource() {
     if (this.isEdit) {
@@ -55,14 +55,12 @@ export class FormtypecodeComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service[!this.isEdit ? 'createTypeCode' : 'update'](this.param).subscribe({
       next: (result: OperationResult) => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess,
           result.isSuccess ? (!this.isEdit ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg') : result.error,
           result.isSuccess)
         if (result.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySuccessError(false,
-        !this.isEdit ? 'System.Message.CreateErrorMsg' : 'System.Message.UpdateErrorMsg'),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
 

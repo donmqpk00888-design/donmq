@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { DirectoryMaintenance_Data } from '@models/system-maintenance/1_1_1_directory-maintenance';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -7,6 +6,7 @@ import { AuthService } from '@services/auth/auth.service';
 import { S_1_1_1_DirectoryMaintenanceService } from '@services/system-maintenance/s_1_1_1_directory-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -35,9 +35,9 @@ export class FormComponent extends InjectBase implements OnInit {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
     this.getParent();
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   getDataFromSource() {
@@ -76,18 +76,14 @@ export class FormComponent extends InjectBase implements OnInit {
             this.back();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(this.translateService.instant('System.Message.CreateErrorMsg'), this.translateService.instant('System.Caption.Error'));
         }
       })
     }
     // Edit Data
     else {
-      const authProgram = this.commonService.authPrograms
+      const systemInfo = this.commonService.systemInfo
       this.spinnerService.hide()
-      if (authProgram.directories.some(x => x.directory_Code == this.data.directory_Code)) {
+      if (systemInfo.directories.some(x => x.directory_Code == this.data.directory_Code)) {
         this.snotifyService.confirm(
           this.translateService.instant('System.Message.ConfirmChangeSameAccount'),
           this.translateService.instant('System.Action.Confirm'),
@@ -107,10 +103,6 @@ export class FormComponent extends InjectBase implements OnInit {
           callbackFn()
         }
         else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => {
-        this.spinnerService.hide()
-        this.snotifyService.error(this.translateService.instant('System.Message.UpdateErrorMsg'), this.translateService.instant('System.Caption.Error'));
       }
     })
   }

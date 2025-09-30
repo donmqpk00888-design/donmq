@@ -53,7 +53,7 @@
                 *ngIf="functionUtility.checkFunction('Edit')">
               <button [disabled]="tranfer?.mode == 'query'"
                       type="button"
-                      class="btn btn-warning btn-sm text-dark"
+                      class="btn btn-warning btn-sm "
                       (click)="edit(item)"><i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
             </td>
             <td class="text-center"
@@ -75,7 +75,7 @@
           </tr>
           <tr *ngIf="data?.length === 0">
             <td class="table-warning text-center font-weight-bold"
-                colspan="100%">{{"System.Message.Nodata" |
+                colspan="100%">{{"System.Message.NoData" |
               translate }}</td>
           </tr>
         </tbody>

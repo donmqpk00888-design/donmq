@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants, SessionStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Work_Shift, HRMS_Att_Work_ShiftParam, HRMS_Att_Work_ShiftSource } from '@models/attendance-maintenance/5_1_2_shift-schedule-setting';
-import { FunctionInfomation } from '@models/auth/auth';
+import { FunctionInfomation } from '@models/common';
 import { S_5_1_2_ShiftScheduleSettingService } from '@services/attendance-maintenance/s_5_1_2_shift-schedule-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -65,7 +65,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     });
 
     // Load lại dữ liệu khi thay đổi ngôn ngữ
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getDivisions();
       this.getFactoriesByDivision(this.param.division);
@@ -80,7 +80,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     // load dữ liệu [Divisions]
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.divisions = res.resolverDivisions
@@ -101,32 +101,25 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   //#region Methods
   getDivisions() {
-    this.spinnerService.show()
     this.shiftScheduleSettingServices.getDivisions().subscribe({
       next: result => {
-        this.spinnerService.hide()
         this.divisions = result
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getWorkShiftTypes() {
     this.shiftScheduleSettingServices.getWorkShiftTypes().subscribe({
-      next: result => this.workShiftTypes = result,
-      error: () => this.functionUtility.snotifySystemError()
+      next: result => this.workShiftTypes = result
     })
   }
 
   getFactoriesByDivision(division: string) {
     if (!this.functionUtility.checkEmpty(division)) {
-      this.spinnerService.show();
       this.shiftScheduleSettingServices.getFactoriesByDivision(division).subscribe({
         next: result => {
-          this.spinnerService.hide()
           this.factories = result
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else this.factories = []
@@ -146,8 +139,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.pagination = result.pagination;
           if (isSearch)
             this.snotifyService.success(this.translateService.instant('System.Message.QuerySuccess'), this.translateService.instant('System.Caption.Success'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else this.workShifts = []

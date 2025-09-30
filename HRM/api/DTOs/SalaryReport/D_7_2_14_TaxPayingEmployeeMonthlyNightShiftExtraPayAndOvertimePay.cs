@@ -9,7 +9,7 @@ namespace API.DTOs.SalaryReport
         public string EmployeeID { get; set; }
         public string LocalFullName { get; set; }
         public string TaxNo { get; set; }
-        public string Standard { get; set; }
+        public decimal Standard { get; set; }
         public List<Att_Monthly_Detail_Values> OvertimeHours { get; set; }
         public List<OvertimeAndNightShiftAllowance> OvertimeAndNightShiftAllowance { get; set; }
         public decimal A06_AMT { get; set; }

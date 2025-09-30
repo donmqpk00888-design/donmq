@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -8,6 +7,7 @@ import { AuthService } from '@services/auth/auth.service';
 import { S_2_1_2_AccountAuthorizationSettingService } from '@services/basic-maintenance/s_2_1_2_account-authorization-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -45,7 +45,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => this.action = res.title).unsubscribe();
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => this.action = res.title);
     this.getListDivision();
     this.getListFactory();
     this.getListRole();
@@ -73,8 +73,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           if (result.isSuccess) this.back();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     } else {
       const user: UserForLogged = JSON.parse(localStorage.getItem(LocalStorageConstants.USER));
@@ -97,8 +96,7 @@ export class FormComponent extends InjectBase implements OnInit {
           callbackFn()
         }
         else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -117,7 +115,6 @@ export class FormComponent extends InjectBase implements OnInit {
         this.roleList = res
         this.functionUtility.getNgSelectAllCheckbox(this.roleList)
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
@@ -127,29 +124,22 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.division = res;
       },
-      error: () => this.functionUtility.snotifySystemError(false),
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListListFactory().subscribe({
       next: (res) => {
         this.factory = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartment() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.data.division, this.data.factory).subscribe({
       next: (res) => {
         this.department = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -173,8 +163,7 @@ export class FormComponent extends InjectBase implements OnInit {
           callbackFn()
         }
         else this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

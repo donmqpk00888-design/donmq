@@ -100,30 +100,30 @@
           </div>
 
           <!-- Kind -->
-              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <label for="kind"
-                       class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeHoursReport.Kind'
+          <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label for="kind"
+                   class="badge badge-warning">{{ 'AttendanceMaintenance.OvertimeHoursReport.Kind'
                   | translate }} <span class="text-danger text-bold"> *</span></label>
-                <div class="row pl-3">
-                  <div *ngFor="let item of list_kind; let i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2 mr-3">
-                          <input [id]="'kind_' + i"
-                                 class="custom-control-input"
-                                 type="radio"
-                                 name="kind"
-                                 [(ngModel)]="salaryCloseSearch_Param.kind"
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             [for]="'kind' + i">
-                            {{ item.value | translate }}
-                          </p>
-                        </div>
-                      </div>
-                    </label>
+            <div class="row pl-3">
+              <div *ngFor="let item of list_kind; let i">
+                <label class="container">
+                  <div class="row">
+                    <div class="custom-control custom-radio pt-2 mr-3">
+                      <input [id]="'kind_' + i"
+                             class="custom-control-input"
+                             type="radio"
+                             name="kind"
+                             [(ngModel)]="salaryCloseSearch_Param.kind"
+                             [value]="item.key" />
+                      <p class="custom-control-label"
+                         [for]="'kind' + i">
+                        {{ item.value | translate }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </label>
+              </div>
+            </div>
           </div>
           <!-- Permission Group -->
           <div class="col-12">
@@ -151,23 +151,36 @@
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="item-{{ index }}"
-                           type="checkbox"
-                           name="item-{{ index }}"
-                           [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="item-{{ index }}"
-                           name="item-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
+                  </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2 mb-2">
+          <div class="col-12 mb-2">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Search')"
                     type="button"
                     class="{{ classButton.SEARCH }}"
@@ -243,7 +256,7 @@
             <tr *ngIf="salaryCloseSearch_Data?.length === 0">
               <td colspan="100%"
                   class="table-warning text-center font-weight-bold">
-                {{'System.Message.Nodata' | translate }}
+                {{'System.Message.NoData' | translate }}
               </td>
             </tr>
           </table>
@@ -416,23 +429,36 @@
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="item-{{ index }}"
-                           type="checkbox"
-                           name="item-{{ index }}"
-                           [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             name="item-{{ index }}"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                    </div>
+                  </ng-template>
                   <ng-template ng-option-tmp
                                let-item="item"
                                let-item$="item$"
                                let-index="index">
-                    <input id="item-{{ index }}"
-                           name="item-{{ index }}"
-                           type="checkbox"
-                           [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                    <div class="custom-control custom-checkbox pe-none">
+                      <input id="item-{{ index }}"
+                             name="item-{{ index }}"
+                             type="checkbox"
+                             class="custom-control-input"
+                             [ngModel]="item$.selected" />
+                      <label class="custom-control-label"
+                             for="item-{{ index }}"> {{ item.value }}</label>
+                    </div>
+                  </ng-template>
                 </ng-select>
               </div>
             </div>
           </div>
           <div class="col-12 mt-2 mb-2">
+            <label class="d-block">&nbsp;</label>
             <button *ngIf="this.functionUtility.checkFunction('Execute')"
                     type="button"
                     class="{{ classButton.SAVE }}"

@@ -10,32 +10,45 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow" autocomplete="off">
+          <form class="form-horizontal border-shadow"
+                autocomplete="off">
             <div class="row">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-                <label class="badge bg-warning mb-2 text-dark">{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq'  | translate}}</label>
-                <input type="text" name="type_Seq" autocomplete="off"
-                  [(ngModel)]="param.type_Seq"
-                  class="form-control " placeholder="{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq'  | translate}}" />
+                <label class="badge badge-warning mb-2 ">{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq' | translate}}</label>
+                <input type="text"
+                       name="type_Seq"
+                       autocomplete="off"
+                       [(ngModel)]="param.type_Seq"
+                       class="form-control "
+                       placeholder="{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq'  | translate}}" />
               </div>
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-                <label class="badge bg-warning mb-2 text-dark">{{'BasicMaintenance.CodeTypeMaintenance.TypeName'  | translate}}</label>
-                <input type="text" name="type_Name" autocomplete="off"
-                  [(ngModel)]="param.type_Name"
-                  class="form-control " placeholder="{{'BasicMaintenance.CodeTypeMaintenance.TypeName'  | translate}}" />
+                <label class="badge badge-warning mb-2 ">{{'BasicMaintenance.CodeTypeMaintenance.TypeName' | translate}}</label>
+                <input type="text"
+                       name="type_Name"
+                       autocomplete="off"
+                       [(ngModel)]="param.type_Name"
+                       class="form-control "
+                       placeholder="{{'BasicMaintenance.CodeTypeMaintenance.TypeName'  | translate}}" />
               </div>
               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4">
                 <label class="d-block mb-2">&nbsp;</label>
-                <button (click)="search(true)" class="btn btn-primary text-white ml-2 " *ngIf="functionUtility.checkFunction('Search')">
+                <button (click)="search(true)"
+                        class="btn btn-primary  ml-2 "
+                        *ngIf="functionUtility.checkFunction('Search')">
                   <i class="{{iconButton.SEARCH}}"></i>
-                  {{'System.Action.Search'  | translate}}
+                  {{'System.Action.Search' | translate}}
                 </button>
-                <button type="button" (click)="clear()" class="btn btn-danger ml-2">
-                  <i class="{{ iconButton.CLEAR }}"></i>  {{'System.Action.Clear'  | translate}}
+                <button type="button"
+                        (click)="clear()"
+                        class="btn btn-danger ml-2">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{'System.Action.Clear' | translate}}
                 </button>
-                <button (click)="onAdd()" class="btn btn-success ml-2" *ngIf="functionUtility.checkFunction('Add')">
+                <button (click)="onAdd()"
+                        class="btn btn-success ml-2"
+                        *ngIf="functionUtility.checkFunction('Add')">
                   <i class="{{iconButton.ADD}}"></i>
-                  {{'System.Action.Add'  | translate}}
+                  {{'System.Action.Add' | translate}}
                 </button>
               </div>
             </div>
@@ -46,49 +59,64 @@
                 <table class="table table-bordered text-center">
                   <thead>
                     <tr>
-                      <th [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])" *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')" style="vertical-align: middle;"> {{'BasicMaintenance.CodeTypeMaintenance.Operation' | translate}} </th>
-                      <th >{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq'  | translate}}</th>
-                      <th >{{'BasicMaintenance.CodeTypeMaintenance.TypeName'  | translate}}</th>
+                      <th [attr.colspan]="functionUtility.getColspan(['Delete','Edit'])"
+                          *ngIf="functionUtility.checkFunction('Edit') || functionUtility.checkFunction('Delete')"
+                          style="vertical-align: middle;"> {{'BasicMaintenance.CodeTypeMaintenance.Operation' | translate}} </th>
+                      <th>{{'BasicMaintenance.CodeTypeMaintenance.TypeSeq' | translate}}</th>
+                      <th>{{'BasicMaintenance.CodeTypeMaintenance.TypeName' | translate}}</th>
                     </tr>
                   </thead>
                   <tbody *ngIf="data.length > 0; else dataNotFound">
                     <tr *ngFor="let item of data">
-                      <td *ngIf="functionUtility.checkFunction('Edit')" >
-                        <button class="btn btn-warning btn-sm " (click)="onEdit(item)" >
-                          <i class="{{iconButton.EDIT}}" aria-hidden="true"></i> {{'System.Action.Edit'  | translate}}
+                      <td *ngIf="functionUtility.checkFunction('Edit')">
+                        <button class="btn btn-warning btn-sm "
+                                (click)="onEdit(item)">
+                          <i class="{{iconButton.EDIT}}"
+                             aria-hidden="true"></i> {{'System.Action.Edit' | translate}}
                         </button>
                       </td>
                       <td *ngIf="functionUtility.checkFunction('Delete')">
-                        <button class="btn btn-danger btn-sm " (click)="onDelete(item.type_Seq)"  >
-                          <i class="{{iconButton.DELETE}}" aria-hidden="true"></i> {{'System.Action.Delete'  | translate}}
+                        <button class="btn btn-danger btn-sm "
+                                (click)="onDelete(item.type_Seq)">
+                          <i class="{{iconButton.DELETE}}"
+                             aria-hidden="true"></i> {{'System.Action.Delete' | translate}}
                         </button>
                       </td>
-                      <td >{{ item.type_Seq }}</td>
+                      <td>{{ item.type_Seq }}</td>
                       <td>{{ item.type_Name }}</td>
                     </tr>
                   </tbody>
                   <ng-template #dataNotFound>
                     <tbody>
                       <tr>
-                        <td colspan="100%"class="table-warning font-weight-bold"> {{'System.Message.Nodata' | translate}} </td>
+                        <td colspan="100%"
+                            class="table-warning font-weight-bold"> {{'System.Message.NoData' | translate}} </td>
                       </tr>
                     </tbody>
                   </ng-template>
                 </table>
               </div>
-              <div class="row" >
+              <div class="row">
                 <div class="col-8">
-                <div class="d-flex" *ngIf="data?.length > 1">
-                  <pagination [totalItems]="pagination.totalCount" [itemsPerPage]="pagination.pageSize" [maxSize]="5"
-                    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
-                    [(ngModel)]="pagination.pageNumber" (pageChanged)="pageChanged($event)" [boundaryLinks]="true">
-                  </pagination>
-                  <span class="cs-page ml-2">
-                    Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
-                  </span>
+                  <div class="d-flex"
+                       *ngIf="data?.length > 1">
+                    <pagination [totalItems]="pagination.totalCount"
+                                [itemsPerPage]="pagination.pageSize"
+                                [maxSize]="5"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                [(ngModel)]="pagination.pageNumber"
+                                (pageChanged)="pageChanged($event)"
+                                [boundaryLinks]="true">
+                    </pagination>
+                    <span class="cs-page ml-2">
+                      Page - {{pagination.pageNumber}} / {{pagination.totalPage}}
+                    </span>
+                  </div>
                 </div>
-                </div>
-                <div class="col-4" >
+                <div class="col-4">
                   <span class="cs-page float-right ">{{"System.Rows" | translate}} : {{pagination.totalCount}}</span>
                 </div>
               </div>

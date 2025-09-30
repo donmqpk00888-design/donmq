@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { SalaryMasterFile_Main, SalaryMasterFile_Main_Memory, SalaryMasterFile_Param } from '@models/salary-maintenance/7_1_16_salary-master-file';
 import { S_7_1_16_SalaryMasterFileService } from '@services/salary-maintenance/s_7_1_16_salary-master-file.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -35,9 +35,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   constructor(private service: S_7_1_16_SalaryMasterFileService) {
     super();
     this.programCode = this.route.snapshot.data['program'];
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
         this.loadDropdownList();
         this.processData()
@@ -98,8 +96,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: result => {
         this.permissionGroups = result;
         this.selectAllForDropdownItems(this.permissionGroups)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -132,8 +129,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isFlag)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -155,9 +151,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -166,9 +159,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getDepartments(this.param.factory).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -177,9 +167,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getPositionTitles().subscribe({
       next: res => {
         this.listPositionTitle = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -188,9 +175,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getSalaryTypes().subscribe({
       next: res => {
         this.listSalaryType = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -265,7 +249,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 }

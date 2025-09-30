@@ -3,11 +3,11 @@
   flex-direction: row;
 }
 
-.black-date {
+.normal-date {
   color: black;
   font-size: large;
 }
-.black-date:hover{
+.normal-date:hover{
   background: #ffeebc66;
   cursor: pointer;
 }
@@ -20,7 +20,7 @@
   background: #ffeebc66;
   cursor: pointer;
 }
-.gray-date {
+.disabled-date {
   color: lightgrey;
   font-size: large;
 }

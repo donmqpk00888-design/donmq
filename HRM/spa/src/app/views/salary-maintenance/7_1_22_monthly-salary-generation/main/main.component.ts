@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MonthlyDataLockParam, MonthlySalaryGeneration_Memory, MonthlySalaryGenerationParam } from '@models/salary-maintenance/7_1_22_monthly-salary-generation';
 import { S_7_1_22_MonthlySalaryGenerationService } from '@services/salary-maintenance/s_7_1_22_monthly-salary-generation.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -20,9 +20,7 @@ export class MainComponent extends InjectBase implements OnInit {
   param2: MonthlyDataLockParam = <MonthlyDataLockParam>{ salary_Lock: "Y" }
   constructor(private service: S_7_1_22_MonthlySalaryGenerationService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.initTab();
       });

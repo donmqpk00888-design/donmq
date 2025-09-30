@@ -4,7 +4,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { ResolveFn } from '@angular/router';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { environment } from '@env/environment';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import {
   D_8_1_2_EmployeeRewardPenaltyRecordsData,
   D_8_1_2_EmployeeRewardPenaltyRecordsParam,
@@ -71,7 +71,6 @@ export class S_8_1_2_EmployeeRewardAndPenaltyRecordsService
     let params = new HttpParams().appendAll({ ...pagination, ...param });
     return this.http.get<PaginationResult<D_8_1_2_EmployeeRewardPenaltyRecordsData>>(`${this.baseUrl}GetSearch`, { params })
   }
-
   getDetail(history_GUID: string, language: string) {
     language = this.language
     var params = new HttpParams().appendAll({
@@ -95,13 +94,6 @@ export class S_8_1_2_EmployeeRewardAndPenaltyRecordsService
     let params = new HttpParams().appendAll({ ...param });
     return this.http.get<EmployeeCommonInfo[]>(` ${this.baseUrl}GetEmployeeList`, { params });
   }
-  //   getEmployeeList(division: string, factory: string, employeeId: string, language: string) {
-  //   return this.http.post<EmployeeRewardAndPenaltyRecords_TypeheadKeyValue[]>(
-  //     `${this.baseUrl}/GetEmployeeList`,
-  //     { division, factory, employee_ID: employeeId, language }
-  //   );
-  // }
-
   GetListReasonCode(factory: string) {
     return this.http.get<KeyValuePair[]>(`${this.baseUrl}GetListReasonCode`, { params: { factory } });
   }

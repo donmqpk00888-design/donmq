@@ -1,11 +1,11 @@
 import { Component, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Work_Shift } from '@models/attendance-maintenance/5_1_2_shift-schedule-setting';
 import { S_5_1_2_ShiftScheduleSettingService } from '@services/attendance-maintenance/s_5_1_2_shift-schedule-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -55,7 +55,7 @@ export class FormComponent extends InjectBase {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res['title']
       this.divisions = res.resolverDivisions
       this.workShiftTypes = res.resolverWorkShiftTypes
@@ -84,27 +84,22 @@ export class FormComponent extends InjectBase {
 
   getDivisions() {
     this.shiftScheduleSettingServices.getDivisions().subscribe({
-      next: result => this.divisions = result,
-      error: () => this.functionUtility.snotifySystemError()
+      next: result => this.divisions = result
     })
   }
 
   getWorkShiftTypes() {
     this.shiftScheduleSettingServices.getWorkShiftTypes().subscribe({
-      next: result => this.workShiftTypes = result,
-      error: () => this.functionUtility.snotifySystemError()
+      next: result => this.workShiftTypes = result
     })
   }
 
   getFactories() {
     if (!this.functionUtility.checkEmpty(this.workShift.division)) {
-      this.spinnerService.show();
       this.shiftScheduleSettingServices.getFactoriesByDivision(this.workShift.division).subscribe({
         next: result => {
-          this.spinnerService.hide()
           this.factories = result
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     } else {
       this.factories = [];
@@ -130,8 +125,7 @@ export class FormComponent extends InjectBase {
             if (!isSaveNext) this.back();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     // Update
@@ -144,8 +138,7 @@ export class FormComponent extends InjectBase {
             if (!isSaveNext) this.back();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }

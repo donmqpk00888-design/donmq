@@ -3,19 +3,19 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <form #editForm="ngForm"
             autocomplete="off">
         <div class="bg-primary modal-header">
-          <h4 class="modal-title pull-left"> {{ title }} - {{"System.Action.Edit" | translate}}</h4>
+          <h4 id="modalTitle"
+              class="modal-title pull-left"> {{ title }} - {{"System.Action.Edit" | translate}}</h4>
           <button type="button"
                   class="btn-close close pull-right"
-                  aria-label="Close"
                   (click)="close()">
-            <span aria-hidden="true"
-                  class="visually-hidden">&times;</span>
+            <span class="visually-hidden">&times;</span>
           </button>
         </div>
         <div class="modal-body header-param">
@@ -324,14 +324,12 @@
                   class="btn btn-success"
                   (click)="save()"
                   [disabled]="!editForm.valid">
-            <i class="{{ iconButton.SAVE }} mr-1"
-               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+            <i class="{{ iconButton.SAVE }} mr-1"> </i>{{'System.Action.Save' | translate }}
           </button>
           <button type="button"
                   class="{{classButton.CLOSE}}"
                   (click)="close()">
-            <i class="{{ iconButton.CLOSE }} mr-1"
-               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+            <i class="{{ iconButton.CLOSE }} mr-1"></i>{{'System.Action.Close' | translate }}
           </button>
         </div>
       </form>

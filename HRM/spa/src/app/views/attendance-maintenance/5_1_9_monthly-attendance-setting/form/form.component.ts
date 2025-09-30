@@ -1,7 +1,6 @@
 import { formatDate } from '@angular/common';
 import { MonthlyAttendanceSettingParam_Form, MonthlyAttendanceSettingParam_SubData } from '@models/attendance-maintenance/5_1_9_monthly-attendance-setting';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Att_Use_Monthly_LeaveDto } from '@models/attendance-maintenance/5_1_9_monthly-attendance-setting';
@@ -13,6 +12,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -28,7 +28,7 @@ export class FormComponent extends InjectBase implements OnInit {
   url: string = '';
   selectedTab: string = ''
 
-  tab = <const> {
+  tab = <const>{
     leave: 'leave',
     allowance: 'allowance'
   }
@@ -72,11 +72,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.method = role.title;
-      }).unsubscribe()
-    this._service.paramForm.subscribe((res) => {
+      })
+    this._service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (this.method == 'Edit' || this.method === "Query") {
         if (res == null)
           this.back()
@@ -86,7 +86,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.getRecentData(this.tab.allowance);
         }
       }
-    }).unsubscribe()
+    })
     this.selectedTab = this.tab.leave;
     this.initTab();
     this.getFactorys();
@@ -94,7 +94,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.getAllowances();
   }
 
-  initTab(){
+  initTab() {
     this.tabs = [
       {
         id: 'leave',
@@ -140,10 +140,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.spinnerService.hide();
             resolve()
           },
-          error: () => {
-            this.functionUtility.snotifySystemError();
-            reject()
-          }
+          error: () => { reject() }
         })
     })
   };
@@ -169,41 +166,31 @@ export class FormComponent extends InjectBase implements OnInit {
             })
           }
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 
   getAllowances() {
-    this.spinnerService.show();
     this._service.getAllowance().subscribe({
       next: res => {
         this.allowances = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
   getLeaveTypes() {
-    this.spinnerService.show();
     this._service.getLeaveTypes().subscribe({
       next: res => {
         this.leaveTypes = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
   getFactorys() {
-    this.spinnerService.show();
     this._service.getFactorys().subscribe({
       next: res => {
         this.factorys = res
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -226,8 +213,7 @@ export class FormComponent extends InjectBase implements OnInit {
                   this.back();
                 } else
                   this.functionUtility.snotifySuccessError(false, !res.isSuccess && res.error === null ? 'System.Message.CreateErrorMsg' : res.error);
-              },
-              error: () => this.functionUtility.snotifySystemError()
+              }
             })
           } else {
             this._service.edit(dataAlls).subscribe({
@@ -238,8 +224,7 @@ export class FormComponent extends InjectBase implements OnInit {
                   this.back();
                 } else
                   this.functionUtility.snotifySuccessError(false, !res.isSuccess && res.error === null ? 'System.Message.UpdateErrorMsg' : res.error);
-              },
-              error: () => this.functionUtility.snotifySystemError()
+              }
             })
           }
         }
@@ -354,9 +339,6 @@ export class FormComponent extends InjectBase implements OnInit {
                 x.effective_Month_Str = this.param.effective_Month_Str
               })
             }
-          },
-          error: () => {
-            this.functionUtility.snotifySystemError();
           }
         })
       }
@@ -384,9 +366,6 @@ export class FormComponent extends InjectBase implements OnInit {
             })
           }
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
 

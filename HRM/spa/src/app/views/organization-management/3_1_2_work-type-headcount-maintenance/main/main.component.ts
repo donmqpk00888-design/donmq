@@ -1,11 +1,11 @@
 import { Component, OnDestroy, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Org_Work_Type_Headcount, HRMS_Org_Work_Type_HeadcountParam, HRMS_Org_Work_Type_HeadcountSource } from '@models/organization-management/3_1_2_work-type-headcount-maintenance';
 import { S_3_1_2_WorktypeHeadcountMaintenanceService } from '@services/organization-management/s_3_1_2_work-type-headcount-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -66,7 +66,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
     });
 
     // Load lại dữ liệu khi thay đổi ngôn ngữ
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getDivisions();
       if (!this.functionUtility.checkEmpty(this.param.division)) {
@@ -82,7 +82,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
 
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       // Load danh sách Divisions
       this.divisions = res.resolverDivisions
       if (!this.functionUtility.checkEmpty(this.param.division)) {
@@ -113,35 +113,27 @@ export class MainComponent extends InjectBase implements OnDestroy {
   getAllFactories() {
     this.workTypeHeadcountMaintermanceServices.getFactories().subscribe({
       next: result => {
-        this.spinnerService.hide();
         this.allFactories = result;
         this.factories = result;
-      },
-      error: () => this.spinnerService.hide()
+      }
     })
   }
 
   getFactoriesByDivision() {
-    this.spinnerService.show();
     this.workTypeHeadcountMaintermanceServices.getFactoriesByDivision(this.param.division, ).subscribe({
       next: result => {
-        this.spinnerService.hide();
         if (result.length > 0)
           this.factories = result;
         else this.factories = [...this.allFactories];
-      },
-      error: () => this.spinnerService.hide()
+      }
     })
   }
 
   getDepartmentsByDivisionAndFactory() {
-    this.spinnerService.show();
     this.workTypeHeadcountMaintermanceServices.getDepartmentsByDivisionFactory(this.param.division, this.param.factory, ).subscribe({
       next: result => {
-        this.spinnerService.hide();
         this.departments = result;
-      },
-      error: () => this.spinnerService.hide()
+      }
     })
   }
 
@@ -158,8 +150,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
         this.pagination = result.dataPagination.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true,'System.Message.QuerySuccess')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   excel() {
@@ -173,8 +164,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -256,8 +246,7 @@ export class MainComponent extends InjectBase implements OnDestroy {
           this.spinnerService.hide();
           this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.DeleteOKMsg' : result.error, result.isSuccess)
           if (result.isSuccess) this.search(false);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }

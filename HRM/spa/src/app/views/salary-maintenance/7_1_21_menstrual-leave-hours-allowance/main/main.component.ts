@@ -5,9 +5,9 @@ import { MenstrualLeaveHoursAllowanceParam, MenstrualLeaveHoursAllowanceSource }
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -94,10 +94,7 @@ export class MainComponent extends InjectBase implements OnInit {
                 this.translateService.instant('System.Caption.Error')
               );
             }
-          },
-          error: () => {
-            this.spinnerService.hide();
-          },
+          }
         });
       }
     );
@@ -124,7 +121,6 @@ export class MainComponent extends InjectBase implements OnInit {
         }
         this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -162,7 +158,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -172,8 +168,7 @@ export class MainComponent extends InjectBase implements OnInit {
         next: res => {
           this.listPermissionGroup = res
           this.selectAllForDropdownItems(this.listPermissionGroup)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 

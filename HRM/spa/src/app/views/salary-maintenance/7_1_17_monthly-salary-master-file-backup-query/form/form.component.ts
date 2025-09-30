@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { MonthlySalaryMasterFileBackupQueryDto, SalaryDetailDto } from '@models/salary-maintenance/7_1_17_monthly-salary-master-file-backup-query';
@@ -8,6 +7,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -55,10 +55,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     const source = this.service.paramSearch();
@@ -83,10 +83,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.salaryDetails = [];
           this.total_Salary = 0;
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -107,8 +103,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -146,8 +141,7 @@ export class FormComponent extends InjectBase implements OnInit {
     serviceMethod().subscribe({
       next: (res) => {
         this[dataProperty] = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
   //#endregion

@@ -89,7 +89,7 @@
                       *ngIf="functionUtility.checkFunction('Query')">
                     <button type="button"
                             name="btnQuery"
-                            class="btn btn-info btn-sm text-dark"
+                            class="btn btn-info btn-sm "
                             (click)="onQuery(item)">
                       <i class="{{iconButton.VIEW}}"></i> {{"System.Action.Query" | translate }}</button>
                   </td>
@@ -97,7 +97,7 @@
                       *ngIf="functionUtility.checkFunction('Edit')">
                     <button type="button"
                             name="btnEdit"
-                            class="btn btn-warning btn-sm text-dark"
+                            class="btn btn-warning btn-sm "
                             (click)="onEdit(item)">
                       <i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
                   </td>
@@ -117,7 +117,7 @@
                 </tr>
                 <tr *ngIf="data?.length === 0">
                   <td class="table-warning text-center font-weight-bold"
-                      colspan="100%">{{"System.Message.Nodata" | translate }}</td>
+                      colspan="100%">{{"System.Message.NoData" | translate }}</td>
                 </tr>
               </tbody>
             </table>
@@ -125,7 +125,7 @@
           <div class="row">
             <div class="col-8">
               <div class="d-flex"
-                   *ngIf="data?.length > 0">
+                   *ngIf="data?.length > 0 && pagination.totalPage > 1">
                 <pagination [boundaryLinks]="true"
                             [totalItems]="pagination.totalCount"
                             [itemsPerPage]="pagination.pageSize"

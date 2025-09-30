@@ -41,7 +41,7 @@
                                      [(ngModel)]="data.kind"
                                      [value]="item.key"
                                      (change)="onSelectChange()"
-                                     [disabled]="isEdit" />
+                                     [disabled]="action == 'Edit'" />
                               <p class="custom-control-label"
                                  for="customRadio-{{i}}">
                                 <strong>{{ item.value | translate}}</strong>
@@ -58,16 +58,23 @@
                       {{'SystemMaintenance.DirectoryProgramLanguageSetting.Code' | translate }}
                       <span class="text-danger text-bold"> *</span>
                     </label>
-                    <ng-select class="pt-2"
-                               [(ngModel)]="data.code"
-                               name="languageCode"
-                               [clearable]="false"
-                               placeholder="{{'EmployeeInformationModule.DocumentManagement.DocumentType' | translate }}"
-                               [disabled]="action == 'Edit'">
-                      <ng-option *ngFor="let item of listProgram"
-                                 value="{{ item.key }}">{{ item.key }} - {{ item.value
+                    @if(action == "Add"){
+                      <ng-select class="pt-2"
+                                 [(ngModel)]="data.code"
+                                 name="languageCode"
+                                 [clearable]="false"
+                                 placeholder="{{'EmployeeInformationModule.DocumentManagement.DocumentType' | translate }}">
+                        <ng-option *ngFor="let item of listProgram"
+                                   value="{{ item.key }}">{{ item.key }} - {{ item.value
                         }}</ng-option>
-                    </ng-select>
+                      </ng-select>
+                    }@else {
+                      <input type="text"
+                             class="form-control"
+                             name="languageCodeName"
+                             [(ngModel)]="data.code_Name"
+                             disabled/>
+                    }
                   </div>
                 </div>
               </div>
@@ -114,13 +121,13 @@
             </div>
             <div class="table-responsive text-right pr-3">
               <button type="button"
-                      class="btn btn-success text-white mr-2"
+                      class="btn btn-success  mr-2"
                       (click)="saveChange()">
                 <i class="{{ iconButton.SAVE }}"></i>
                 {{'System.Action.Save' | translate }}
               </button>
               <button type="button"
-                      class="btn btn-danger text-white"
+                      class="btn btn-danger "
                       (click)="back()">
                 <i class="{{ iconButton.CLOSE }}"></i>
                 {{'System.Action.Close' | translate }}

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ResetPasswordModel, ResetPasswordParam } from '@models/basic-maintenance/2_1_8_reset-password';
@@ -7,6 +6,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_2_1_8_resetPasswordService } from '@services/basic-maintenance/s_2_1_8_reset-password.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { OperationResult } from '@utilities/operation-result';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -66,8 +66,7 @@ export class MainComponent extends InjectBase {
           localStorage.setItem(LocalStorageConstants.USER, JSON.stringify(userInfo));
         }
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? 'System.Message.ChangePasswordOKMsg' : result.error, result.isSuccess)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 }

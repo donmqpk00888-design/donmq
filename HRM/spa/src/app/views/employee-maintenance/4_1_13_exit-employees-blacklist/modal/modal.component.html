@@ -3,24 +3,23 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <form #addForm="ngForm"
             class="form-horizontal p-55px"
             autocomplete="off">
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header bg-primary ">
           <h5 name="modal-title-add"
-              class="modal-title"
-              id="modal-basic-title">
+              id="modalTitle"
+              class="modal-title">
             {{ title }} - {{"System.Action.Edit" | translate}}
           </h5>
           <button type="button"
                   class="btn-close close pull-right"
-                  aria-label="Close"
                   (click)="close()">
-            <span aria-hidden="true"
-                  class="visually-hidden">&times;</span>
+            <span class="visually-hidden">&times;</span>
           </button>
         </div>
         <div class="modal-body">
@@ -134,7 +133,7 @@
         </div>
         <div class="modal-footer">
           <button name="btnAdd"
-                  class="btn btn-success text-white"
+                  class="btn btn-success "
                   type="button"
                   (click)="save()">
             <i class="{{ iconButton.SAVE }}"></i> {{ "System.Action.Save" | translate }}

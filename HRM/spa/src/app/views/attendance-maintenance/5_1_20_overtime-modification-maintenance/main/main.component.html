@@ -178,7 +178,7 @@
                           <td class="text-center">
                             <button type="button"
                                     name="btnEdit"
-                                    class="btn btn-warning btn-sm text-dark"
+                                    class="btn btn-warning btn-sm "
                                     [disabled]="item.isOvertimeDate"
                                     (click)="onEdit(item)">
                               <i class="{{iconButton.EDIT}}"></i> {{"System.Action.Edit" | translate }}</button>
@@ -218,7 +218,7 @@
                     @empty {
                       <tr>
                         <td class="table-warning text-center font-weight-bold"
-                            colspan="100%">{{"System.Message.Nodata" |
+                            colspan="100%">{{"System.Message.NoData" |
                         translate }}</td>
                       </tr>
                     }

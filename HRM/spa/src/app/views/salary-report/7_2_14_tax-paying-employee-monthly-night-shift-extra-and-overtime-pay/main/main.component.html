@@ -16,7 +16,7 @@
             <div class="row border-shadow">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <label class="badge badge-warning">{{'SalaryReport.MonthlyNonTransferSalaryPaymentReport.Factory'
+                <label class="badge badge-warning">{{'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Factory'
                   | translate }}
                   <span class="text-danger text-bold">*</span>
                 </label>
@@ -25,7 +25,7 @@
                            (clear)="deleteProperty('factory')"
                            (ngModelChange)="onSelectFactory()"
                            [clearable]="param.factory !== ''"
-                           placeholder="{{'SalaryReport.MonthlyNonTransferSalaryPaymentReport.Factory' | translate }}"
+                           placeholder="{{'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Factory' | translate }}"
                            required>
                   <ng-option *ngFor="let item of listFactory"
                              [value]="item.key">{{ item.value }}</ng-option>
@@ -35,7 +35,7 @@
               <!-- YearMonth-->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
                 <label class="badge badge-warning">
-                  {{"SalaryReport.MonthlyNonTransferSalaryPaymentReport.YearMonth" | translate }}
+                  {{"SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.YearMonth" | translate }}
                   <span class="text-danger text-bold">*</span>
                 </label>
                 <div class="full-width">
@@ -46,7 +46,7 @@
                              onpaste="return false;"
                              type="text"
                              placeholder="{{placeholder.YearMonth}}"
-                             class="form-control bg-white"
+                             class="form-control"
                              name="year_Month"
                              [(ngModel)]="year_Month"
                              (ngModelChange)="onYearMonthChange()"
@@ -63,13 +63,13 @@
 
               <!-- Department -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <label class="badge badge-warning">{{'SalaryReport.MonthlyNonTransferSalaryPaymentReport.Department' |
+                <label class="badge badge-warning">{{'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Department' |
                   translate }}</label>
                 <ng-select name="department"
                            [(ngModel)]="param.department"
                            (clear)="deleteProperty('department')"
                            [clearable]="param.department !== ''"
-                           placeholder="{{'SalaryReport.MonthlyNonTransferSalaryPaymentReport.Department' | translate }}"
+                           placeholder="{{'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Department' | translate }}"
                            [disabled]="!param.factory">
                   <ng-option *ngFor="let item of listDepartment"
                              [value]="item.key">{{ item.value }}</ng-option>
@@ -78,11 +78,11 @@
               <!-- Employee ID -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
                 <label class="badge badge-warning">
-                  {{"SalaryReport.MonthlyNonTransferSalaryPaymentReport.EmployeeID" | translate }}</label>
+                  {{"SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.EmployeeID" | translate }}</label>
                 <div class="input-group mr-1">
                   <input autocomplete="off"
                          type="text"
-                         placeholder="{{'SalaryReport.MonthlyNonTransferSalaryPaymentReport.EmployeeID' | translate }}"
+                         placeholder="{{'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.EmployeeID' | translate }}"
                          class="form-control"
                          maxlength="9"
                          name="employee_ID"
@@ -94,51 +94,62 @@
               <div class="col-12">
                 <div class="row">
                   <div class="col-auto">
-                    <div class="form-group">
-                      <label class="badge badge-warning">
-                        {{ "SalaryReport.MonthlyNonTransferSalaryPaymentReport.PermissionGroup" | translate }}
-                        <span class="text-danger text-bold"> *</span>
-                      </label>
-                      <ng-select id="permission_Group"
-                                 name="permission_Group"
-                                 [items]="listPermissionGroup"
-                                 [multiple]="true"
-                                 groupBy="allGroup"
-                                 [selectableGroup]="true"
-                                 [selectableGroupAsModel]="false"
-                                 [closeOnSelect]="false"
-                                 bindLabel="value"
-                                 bindValue="key"
-                                 [(ngModel)]="param.permission_Group"
-                                 (ngModelChange)="onPermissionChange()"
-                                 [clearable]="param.permission_Group?.length > 0"
-                                 (clear)="param.permission_Group = []"
-                                 [disabled]="!param.factory"
-                                 required
-                                 placeholder="{{ 'SalaryReport.MonthlyNonTransferSalaryPaymentReport.PermissionGroup' | translate }}">
-                        <ng-template ng-optgroup-tmp
-                                     let-item="item"
-                                     let-item$="item$"
-                                     let-index="index">
+                    <label class="badge badge-warning">
+                      {{ "SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.PermissionGroup" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select id="permission_Group"
+                               name="permission_Group"
+                               [items]="listPermissionGroup"
+                               [multiple]="true"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permission_Group"
+                               (ngModelChange)="onPermissionChange()"
+                               [clearable]="param.permission_Group?.length > 0"
+                               (clear)="param.permission_Group = []"
+                               [disabled]="!param.factory"
+                               required
+                               placeholder="{{ 'SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
                           <input id="item-{{ index }}"
                                  type="checkbox"
+                                 class="custom-control-input"
                                  name="item-{{ index }}"
-                                 [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
-                        <ng-template ng-option-tmp
-                                     let-item="item"
-                                     let-item$="item$"
-                                     let-index="index">
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
                           <input id="item-{{ index }}"
                                  name="item-{{ index }}"
                                  type="checkbox"
-                                 [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
-                      </ng-select>
-                    </div>
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
                   </div>
                 </div>
               </div>
 
               <div class="col-12">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="button"
                         class="{{ classButton.SEARCH }}"
@@ -165,12 +176,12 @@
               </div>
               <div class="col-12 wrapperTotal">
                 <strong class="title-card-cs">{{
-                  "AttendanceMaintenance.DepartmentMonthlyWorkingHoursReport.Total"
+                  "SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Total"
                   | translate
                   }}
                   <span class="text-primary">{{ totalRows }}</span>
                   {{
-                  "AttendanceMaintenance.DepartmentMonthlyWorkingHoursReport.Records"
+                  "SalaryReport.TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay.Records"
                   | translate
                   }}
                 </strong>

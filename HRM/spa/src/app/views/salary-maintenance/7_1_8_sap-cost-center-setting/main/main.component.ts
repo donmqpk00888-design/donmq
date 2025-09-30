@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -12,7 +11,9 @@ import { S_7_1_8_SapCostCenterSettingService } from '@services/salary-maintenanc
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -90,15 +91,11 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
-
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factories = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -117,13 +114,8 @@ export class MainComponent extends InjectBase implements OnInit {
             this.spinnerService.hide();
             resolve()
           },
-          error: () => {
-            this.functionUtility.snotifySystemError()
-            reject()
-          }
+          error: () => { reject() }
         });
-
-
     })
   };
 
@@ -154,6 +146,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region edit
   edit(item: SAPCostCenterSettingDto) {
+    this.spinnerService.show();
     const _data: ExistedDataParam = <ExistedDataParam>{
       company_Code: item.company_Code,
       cost_Code: item.cost_Code,
@@ -170,9 +163,6 @@ export class MainComponent extends InjectBase implements OnInit {
           else {
             this.functionUtility.snotifySuccessError(res.isSuccess, "System.Message.NotExitedData");
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError()
         }
       });
   }
@@ -188,15 +178,12 @@ export class MainComponent extends InjectBase implements OnInit {
       this.spinnerService.show();
       this._service.delete(_data).subscribe({
         next: res => {
+          this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(res.isSuccess, res.error);
-          if (res.isSuccess) {
+          if (res.isSuccess)
             this.getData(false);
-          }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
-      }).add(() => this.spinnerService.hide());
+      })
     });
   }
 
@@ -213,8 +200,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.spinnerService.hide();
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Template')
         this.functionUtility.exportExcel(result.data, fileName)
-      },
-      error: () => this.functionUtility.snotifySystemError(),
+      }
     });
   }
 
@@ -227,56 +213,35 @@ export class MainComponent extends InjectBase implements OnInit {
         next: (result) => {
           this.spinnerService.hide();
           if (!result.isSuccess)
-            this.snotifyService.warning(this.translateService.instant('System.Message.Nodata'), this.translateService.instant('System.Caption.Warning'));
-          else{
+            this.snotifyService.warning(this.translateService.instant('System.Message.NoData'), this.translateService.instant('System.Caption.Warning'));
+          else {
             const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
             this.functionUtility.exportExcel(result.data, fileName);
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
   //#region uploadExcel
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileNameExtension = event.target.files[0].name.split('.').pop();
-      if (!this.accept.includes(fileNameExtension.toLowerCase())) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this._service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        return this.snotifyService.warning(
-          this.translateService.instant('System.Message.AllowExcelFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      }
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      this._service.uploadExcel(formData).subscribe({
-        next: (res) => {
-          event.target.value = '';
-          if (res.isSuccess) {
-            if (!this.functionUtility.checkFunction('Search'))
-              this.clear()
-            else
-              this.getData(false);
-          } else {
-            if (!this.functionUtility.checkEmpty(res.data)){
-              const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-              this.functionUtility.exportExcel(res.data, fileName);
-
-            }
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.checkRequiredParams())
+            this.getData(false);
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
           }
           this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
-        },
-        error: () => {
-          event.target.value = '';
-          this.functionUtility.snotifySystemError();
         }
-      }).add(() => this.spinnerService.hide());
-    }
+      }
+    });
   }
-
   //#region clear
   clear() {
     this.params = <SAPCostCenterSettingParam>{ language: localStorage.getItem(LocalStorageConstants.LANG), costYear: '', company_Code: '' }

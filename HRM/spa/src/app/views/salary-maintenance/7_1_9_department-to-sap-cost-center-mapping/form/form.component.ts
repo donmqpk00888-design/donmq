@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -8,6 +7,7 @@ import { S_7_1_9_departmentToSapCostCenterMappingService } from '@services/salar
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -40,10 +40,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res.title;
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     if (this.formType == 'Edit') {
@@ -72,8 +72,7 @@ export class FormComponent extends InjectBase implements OnInit {
         }
         else
           this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   save() {
@@ -88,8 +87,7 @@ export class FormComponent extends InjectBase implements OnInit {
           }
           else
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else {
@@ -103,8 +101,7 @@ export class FormComponent extends InjectBase implements OnInit {
           }
           else
             this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -134,8 +131,7 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('SalaryMaintenance.DepartmentToSAPCostCenterMapping.Duplicate'),
               this.translateService.instant('System.Caption.Error')
             )
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
     }
     this.onValueChange()
@@ -143,8 +139,7 @@ export class FormComponent extends InjectBase implements OnInit {
 
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
   getListCostCenter() {
@@ -154,16 +149,14 @@ export class FormComponent extends InjectBase implements OnInit {
         year_Str: this.data.cost_Year_Str,
       }
       this.service.getListCostCenter(param).subscribe({
-        next: (res: KeyValuePair[]) => this.listCostCenter = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listCostCenter = res
       });
     }
   }
   getListDepartment() {
     if (!this.functionUtility.checkEmpty(this.data.factory)) {
       this.service.getListDepartment(this.data.factory).subscribe({
-        next: (res: KeyValuePair[]) => this.listDepartment = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listDepartment = res
       });
     }
   }

@@ -4,14 +4,14 @@ import {
   SalaryItemAndAmountSettings_SubParam
 } from '@models/salary-maintenance/7_1_1_salary-item-and-amount-settings';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -61,13 +61,13 @@ export class FormComponent extends InjectBase implements OnInit {
   }
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.formType = role.title
         this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe()
+      })
   }
   getSource() {
     if (this.formType == 'Edit') {
@@ -135,19 +135,10 @@ export class FormComponent extends InjectBase implements OnInit {
     delete this.param[name]
   }
   retryGetDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList(this.formType)
       .subscribe({
         next: (res) => {
           this.filterList(res)
-          this.spinnerService.hide()
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -176,18 +167,10 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Success')
             );
           } else {
-            this.spinnerService.hide();
             this.snotifyService.error(
               this.translateService.instant(`SalaryMaintenance.SalaryItemAndAmountSettings.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         },
       })
   }
@@ -219,13 +202,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data = res.isSuccess ? [] : res.data
             this.data.map((val: SalaryItemAndAmountSettings_SubData) => val.update_Time_Str = this.functionUtility.getDateTimeFormat(new Date(val.update_Time)))
             resolve(res.isSuccess)
-          },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
           }
         });
     })

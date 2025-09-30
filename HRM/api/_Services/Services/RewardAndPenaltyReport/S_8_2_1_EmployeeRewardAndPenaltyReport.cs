@@ -270,18 +270,19 @@ namespace API._Services.Services.RewardAndPenaltyReport
         public async Task<List<KeyValuePair<string, string>>> GetListDepartment(string factory, string language)
         {
             var departments = await Query_Department_List(factory);
-            var departmentsWithLanguage = await _repositoryAccessor.HRMS_Org_Department
-                .FindAll(x => x.Factory == factory
-                           && departments.Select(y => y.Key).Contains(x.Department_Code), true)
-                .GroupJoin(_repositoryAccessor.HRMS_Org_Department_Language.FindAll(x => x.Language_Code.ToLower() == language.ToLower(), true),
-                    x => new { x.Division, x.Factory, x.Department_Code },
-                    y => new { y.Division, y.Factory, y.Department_Code },
+            var HODL = _repositoryAccessor.HRMS_Org_Department_Language
+                .FindAll(x => x.Factory == factory && x.Language_Code.ToLower() == language.ToLower())
+                .ToList();
+            var departmentsWithLanguage = departments
+                .GroupJoin(HODL,
+                    x => new { x.Division, x.Department_Code },
+                    y => new { y.Division, y.Department_Code },
                     (HOD, HODL) => new { HOD, HODL })
                 .SelectMany(x => x.HODL.DefaultIfEmpty(),
                     (x, y) => new { x.HOD, HODL = y })
                 .Select(x => new KeyValuePair<string, string>(x.HOD.Department_Code, $"{x.HOD.Department_Code} - {(x.HODL != null ? x.HODL.Name : x.HOD.Department_Name)}"))
                 .Distinct()
-                .ToListAsync();
+                .ToList();
             return departmentsWithLanguage;
         }
 

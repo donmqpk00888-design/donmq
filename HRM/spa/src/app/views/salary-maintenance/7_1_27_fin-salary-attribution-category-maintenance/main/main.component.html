@@ -87,20 +87,29 @@
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="item-{{ index }}"
-                               type="checkbox"
-                               name="item-{{ index }}"
-                               [ngModel]="item$.selected" />
-                        {{ "System.Action.SelectAll" | translate }}</ng-template>
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
                       <ng-template ng-option-tmp
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="item-{{ index }}"
-                               name="item-{{ index }}"
-                               type="checkbox"
-                               [ngModel]="item$.selected" />
-                        {{ item.value }}
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
                       </ng-template>
                     </ng-select>
                   </div>
@@ -134,18 +143,10 @@
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>
-                <label type="button"
-                       class="{{classButton.UPLOAD}}"
-                       style="cursor: pointer; margin-bottom: 0"
-                       *ngIf="functionUtility.checkFunction('Upload')">
-                  <i [class]="iconButton.UPLOAD"></i>
-                  {{'System.Action.Upload'| translate }}
-                  <input #inputRef
-                         type="file"
-                         name="upload"
-                         style="display: none"
-                         (change)="upload($event)" />
-                </label>
+                <file-upload [allowExtensions]="acceptFormat"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <button type="button"
                         class="{{ classButton.SEARCH}}"
                         (click)="downloadTemplate()"
@@ -204,7 +205,7 @@
                     <tr *ngIf="data.length === 0">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{'System.Message.Nodata' | translate }}
+                        {{'System.Message.NoData' | translate }}
                       </td>
                     </tr>
                   </table>
@@ -214,7 +215,7 @@
             <div class="row">
               <div class="col-8">
                 <div class="d-flex"
-                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                     *ngIf="data?.length > 0 && pagination.totalPage > 1">
                   <pagination [boundaryLinks]="true"
                               [totalItems]="pagination.totalCount"
                               [itemsPerPage]="pagination.pageSize"

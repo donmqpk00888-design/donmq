@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { PersonalIncomeTaxNumberMaintenanceDto } from '@models/salary-maintenance/7_1_6_personal-income-tax-number-maintenance';
 import { S_7_1_6_PersonalIncomeTaxNumberMaintenanceService } from '@services/salary-maintenance/s_7_1_6_personal-income-tax-number-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -53,10 +53,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res.title
       this.getSource()
-    }).unsubscribe();
+    });
   }
 
   getSource() {
@@ -76,8 +76,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 
@@ -93,8 +92,7 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
@@ -149,10 +147,7 @@ export class FormComponent extends InjectBase implements OnInit {
         if (this.isDuplicate)
           this.functionUtility.snotifySuccessError(false, "System.Message.DataExisted")
       },
-      error: () => {
-        this.isDuplicate = false
-        this.functionUtility.snotifySystemError(false)
-      }
+      error: () => { this.isDuplicate = false }
     });
   }
   clearEmpInfo() {
@@ -168,15 +163,14 @@ export class FormComponent extends InjectBase implements OnInit {
   save(isContinue = false) {
     const observable = this.isEdit ? this.service.edit(this.data) : this.service.add(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
         this.spinnerService.hide();
         const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? message : result.error)
         if (result.isSuccess)
           isContinue ? this.data = <PersonalIncomeTaxNumberMaintenanceDto>{ factory: this.data.factory } : this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   //#endregion

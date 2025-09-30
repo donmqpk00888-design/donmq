@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ExitEmployeeMasterFileHistoricalDataDto } from '@models/employee-maintenance/4_1_19_exit-employee-master-file-historical-data';
@@ -7,6 +6,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_4_1_19_ExitEmployeeMasterFileHistoricalDataService } from '@services/employee-maintenance/s_4_1_19_exit-employee-master-historical-data.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-query',
@@ -84,9 +84,7 @@ export class QueryComponent extends InjectBase implements OnInit {
     private _service: S_4_1_19_ExitEmployeeMasterFileHistoricalDataService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropDownList();
       });
@@ -94,9 +92,9 @@ export class QueryComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((role) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((role) => {
       this.action = role.title;
-    }).unsubscribe();
+    });
 
     this._service.paramForm
       .subscribe((res) => {
@@ -108,7 +106,7 @@ export class QueryComponent extends InjectBase implements OnInit {
           } else this.back();
         }
       })
-      .unsubscribe();
+      ;
     this.loadDropDownList();
   }
 
@@ -131,10 +129,7 @@ export class QueryComponent extends InjectBase implements OnInit {
         this.getListMailingCity();
         this.getListPositionTitle();
         this.spinnerService.hide();
-      },
-      error: () => {
-        this.spinnerService.hide();
-      },
+      }
     });
   }
 

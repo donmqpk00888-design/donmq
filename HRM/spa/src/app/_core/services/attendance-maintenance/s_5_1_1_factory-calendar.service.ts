@@ -140,7 +140,7 @@ export class S_5_1_1_FactoryCalendar implements IClearCache {
       const result = Array.from({ length: 7 }, (_, index) => {
         const date = new Date(year, month - sub, start + index);
         let dateString = this.functionUtility.getDateFormat(date)
-        let style = date.getMonth() == month ? 'black-date' : 'gray-date'
+        let style = date.getMonth() == month ? 'normal-date' : 'disabled-date'
         return <Day>{
           date: date.getDate(),
           month: date.toLocaleString('en', { month: 'numeric' }),

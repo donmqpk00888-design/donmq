@@ -25,16 +25,13 @@
                              (ngModelChange)="onFactoryChange()"
                              (clear)="deleteProperty('factory')"
                              [clearable]="param.factory !== ''"
-                             placeholder="{{
-                      'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory'
-                        | translate
-                    }}"
+                             placeholder="{{'RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Factory'| translate}}"
                              required>
                     <ng-option *ngFor="let item of factoryList"
                                [value]="item.key">{{ item.value }}</ng-option>
                   </ng-select>
                 </div>
-                <div class="col-xxl-.3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12">
                   <label for="textDepartment"
                          class="badge badge-warning">{{
                     "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.EmployeeID"
@@ -81,38 +78,42 @@
                     "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Date"
                     | translate
                     }}</label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
-                        <input type="text"
-                               autocomplete="off"
-                               placeholder="YYYY/MM/DD"
-                               name="date_Start"
-                               [maxDate]="param.date_End"
-                               [bsConfig]="{
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="container_input">
+                        <div class="input-group">
+                          <input type="text"
+                                 autocomplete="off"
+                                 placeholder="YYYY/MM/DD"
+                                 name="date_Start"
+                                 [maxDate]="param.date_End"
+                                 [bsConfig]="{
                             isAnimated: true,
                             dateInputFormat: 'YYYY/MM/DD'
                           }"
-                               class="form-control"
-                               bsDatepicker
-                               [(ngModel)]="param.date_Start"
-                               (ngModelChange)="onDateChange('date_Start')"
-                               (clear)="deleteProperty('date_Start')"
-                               [required]="param.date_Start || param.date_End" />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                                 class="form-control"
+                                 bsDatepicker
+                                 [(ngModel)]="param.date_Start"
+                                 (ngModelChange)="onDateChange('date_Start')"
+                                 (clear)="deleteProperty('date_Start')"
+                                 [required]="param.date_Start || param.date_End" />
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
+                          </div>
                         </div>
                       </div>
-                      <div class="input-group ml-1">
+                    </div>
+                    <div class="col-6">
+                      <div class="input-group">
                         <input type="text"
                                autocomplete="off"
                                placeholder="YYYY/MM/DD"
                                name="date_End"
                                [minDate]="param.date_Start"
                                [bsConfig]="{
-                            isAnimated: true,
-                            dateInputFormat: 'YYYY/MM/DD'
-                          }"
+                                  isAnimated: true,
+                                  dateInputFormat: 'YYYY/MM/DD'
+                                }"
                                class="form-control"
                                bsDatepicker
                                [(ngModel)]="param.date_End"
@@ -131,9 +132,9 @@
                     "RewardandPenaltyMaintenance.RewardAndPenaltyRecords.Yearly"
                     | translate
                     }}</label>
-                  <div class="full-width">
-                    <div class="container_input">
-                      <div class="input-group mr-1">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="input-group">
                         <input type="text"
                                autocomplete="off"
                                placeholder="YYYY/MM"
@@ -152,7 +153,9 @@
                           <span class="input-group-text"><i class="{{ iconButton.CALENDAR }}"></i></span>
                         </div>
                       </div>
-                      <div class="input-group ml-1">
+                    </div>
+                    <div class="col-6">
+                      <div class="input-group">
                         <input type="text"
                                autocomplete="off"
                                placeholder="YYYY/MM"
@@ -179,7 +182,7 @@
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                   <label class="d-block">&nbsp;</label>
                   <button type="submit"
-                          class="{{ classButton.SEARCH + ' mt-1' }}"
+                          class="{{ classButton.SEARCH  }}"
                           (click)="search()"
                           *ngIf="functionUtility.checkFunction('Search')"
                           [disabled]="!mainForm.valid">
@@ -187,32 +190,24 @@
                     {{ "System.Action.Search" | translate }}
                   </button>
                   <button type="submit"
-                          class="{{ classButton.CLEAR + ' mt-1' }}"
+                          class="{{ classButton.CLEAR  }}"
                           (click)="clear()">
                     <i class="{{ iconButton.CLEAR }}"></i>
                     {{ "System.Action.Clear" | translate }}
                   </button>
                   <button type="button"
-                          class="{{ classButton.ADD + ' mt-1'}}"
+                          class="{{ classButton.ADD }}"
                           (click)="add()"
                           *ngIf="functionUtility.checkFunction('Add')">
                     <i class="{{ iconButton.ADD }}"></i>
                     {{ "System.Action.Add" | translate }}
                   </button>
-                  <label type="button"
-                         class="{{ classButton.UPLOAD + ' mt-1' }}"
-                         style="cursor: pointer; margin-bottom: 0"
-                         *ngIf="functionUtility.checkFunction('Upload')">
-                    <i [class]="iconButton.UPLOAD"></i>
-                    {{ "System.Action.Upload" | translate }}
-                    <input #inputRef
-                           type="file"
-                           name="upload"
-                           style="display: none"
-                           (change)="upload($event)" />
-                  </label>
+                  <file-upload [allowExtensions]="acceptFormat"
+                               [label]="'System.Action.Upload' | translate "
+                               (filesChange)="upload($event)"
+                               [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                   <button type="button"
-                          class="{{ classButton.QUERY + ' mt-1' }}"
+                          class="{{ classButton.QUERY  }}"
                           (click)="exceltemp()"
                           *ngIf="functionUtility.checkFunction('Excel')">
                     <i class="{{ iconButton.EXCEL }}"></i>
@@ -322,31 +317,30 @@
                     <tbody>
                       <!-- <tr *ngFor="let item of data"> -->
                       <tr *ngFor="let item of data">
-                        <td class="text-center"
-                            *ngIf="functionUtility.checkFunction('Query')">
+                        <td *ngIf="functionUtility.checkFunction('Query')"
+                            class="text-center text-nowrap">
                           <button type="button"
-                                  class="btn btn-info btn-sm btn-sm "
-                                  (click)="query(item)"
-                                  *ngIf="functionUtility.checkFunction('Query')">
+                                  class="btn btn-info btn-sm"
+                                  (click)="query(item)">
                             <i class="{{ iconButton.VIEW }}"></i>
                             {{ "System.Action.Query" | translate }}
                           </button>
                         </td>
-                        <td class="text-center "
+                        <td class="text-center text-nowrap"
                             *ngIf="functionUtility.checkFunction('Edit')">
                           <button type="button"
-                                  class="{{ classButton.tEDIT }} "
-                                  (click)="edit(item)">
+                                  (click)="edit(item)"
+                                  class="btn btn-sm btn-warning">
                             <i class="{{ iconButton.EDIT }}"></i>
-                            {{ "System.Action.Edit" | translate }}
+                            {{"System.Action.Edit" | translate }}
                           </button>
                         </td>
-                        <td class="text-center "
-                            *ngIf="functionUtility.checkFunction('Delete')">
+                        <td *ngIf="functionUtility.checkFunction('Delete')"
+                            class="text-center text-nowrap">
                           <button type="button"
-                                  class="{{ classButton.tDELETE }}"
+                                  class="btn btn-sm btn-danger"
                                   (click)="remove(item)">
-                            <i class="{{ iconButton.DELETE }}"> </i>
+                            <i class="{{ iconButton.DELETE }}"></i>
                             {{ "System.Action.Delete" | translate }}
                           </button>
                         </td>
@@ -356,7 +350,7 @@
                         <td class="text-center">{{ item.local_Full_Name }}</td>
                         <td class="text-center">{{ item.department_Code_Name }}</td>
                         <td class="text-center">{{ item.work_Type_Name }}</td>
-                        <td class="text-center"> {{ item.reward_Date_Str  }} </td>
+                        <td class="text-center"> {{ item.reward_Date_Str }} </td>
                         <td class="text-center"> {{ item.reward_Penalty_Type_Name }} </td>
                         <td class="text-center">{{ item.reason_Code_Name }}</td>
                         <td class="text-center"> {{ item.yearly_Month_Str }} </td>
@@ -368,7 +362,7 @@
                     <tr *ngIf="data.length === 0">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{ "System.Message.Nodata" | translate }}
+                        {{ "System.Message.NoData" | translate }}
                       </td>
                     </tr>
                   </table>
@@ -378,7 +372,7 @@
             <div class="row">
               <div class="col-8">
                 <div class="d-flex"
-                     *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                     *ngIf="data?.length > 0 && pagination.totalPage > 1">
                   <pagination [boundaryLinks]="true"
                               [totalItems]="pagination.totalCount"
                               [itemsPerPage]="pagination.pageSize"

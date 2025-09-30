@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { HRMS_Org_Department, HRMS_Org_DepartmentParamSource, HRMS_Org_Department_Param } from '@models/organization-management/3_1_1-department-maintenance';
@@ -7,6 +6,7 @@ import { S_3_1_1_DepartmentMaintenanceService } from '@services/organization-man
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -62,7 +62,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getDataFromSource() {
-    this.service.programSource$.subscribe(source => {
+    this.service.programSource$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(source => {
       if (source && source != null) {
         this.pagination = source.currentPage;
         this.param = source.param;
@@ -73,7 +73,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.clear()
         }
       }
-    }).unsubscribe()
+    })
   }
 
   getData(isSearch?: boolean) {
@@ -85,21 +85,18 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.division, this.param.factory).subscribe({
-      next: (res) => this.department = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: (res) => this.department = res
     });
   }
   getListDivision() {
     this.service.getListDivision().subscribe({
-      next: (res) => this.division = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: (res) => this.division = res
     });
   }
 
@@ -117,8 +114,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   getListFactory() {
     this.service.getListFactory(this.param.division).subscribe({
-      next: (res) => this.factory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res) => this.factory = res
     });
   }
   search(isSearch: boolean) {
@@ -153,8 +149,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.functionUtility.exportExcel(result.data, fileName);
         }
         else this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   pageChanged(event: any) {

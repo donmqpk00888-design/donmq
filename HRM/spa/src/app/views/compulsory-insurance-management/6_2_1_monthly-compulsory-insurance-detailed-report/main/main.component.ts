@@ -2,12 +2,12 @@ import { Component, effect, OnInit } from '@angular/core';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { InjectBase } from '@utilities/inject-base-app';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { MonthlyCompulsoryInsuranceDetailedReportParam, MonthlyCompulsoryInsuranceDetailedReportSource } from '@models/compulsory-insurance-management/6_1_5_monthly-compulsory-insurance-detailed-report';
 import { S_6_2_1_MonthlyCompulsoryInsuranceDetailedReportService } from '@services/compulsory-insurance-management/s_6_2_1_monthly-compulsory-insurance-detailed-report.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -98,8 +98,7 @@ export class MainComponent extends InjectBase implements OnInit {
         this.totalRows = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -132,8 +131,7 @@ export class MainComponent extends InjectBase implements OnInit {
           this.totalRows = 0;
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -148,22 +146,18 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listFactory = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListInsuranceType() {
-    this.spinnerService.show();
     this.service.getListInsuranceType().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listInsuranceType = res
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -172,8 +166,7 @@ export class MainComponent extends InjectBase implements OnInit {
       next: res => {
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -181,9 +174,6 @@ export class MainComponent extends InjectBase implements OnInit {
     this.service.getDepartments(this.param.factory).subscribe({
       next: res => {
         this.listDepartment = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

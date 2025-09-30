@@ -9,8 +9,8 @@ import {
 } from '@models/system-maintenance/1_1_1_directory-maintenance';
 import { S_1_1_1_DirectoryMaintenanceService } from '@services/system-maintenance/s_1_1_1_directory-maintenance.service';
 import { Pagination } from '@utilities/pagination-utility';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -74,10 +74,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         if (isSearch) {
           this.snotifyService.success(this.translateService.instant('System.Message.QuerySuccess'), this.translateService.instant('System.Caption.Success'));
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'))
       }
     });
   }
@@ -116,10 +112,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           else {
             this.snotifyService.error(res.error, this.translateService.instant('System.Caption.Error'));
           }
-          this.spinnerService.hide();
-        },
-        error: () => {
-          this.snotifyService.error(this.translateService.instant('System.Message.DeleteErrorMsg'), this.translateService.instant('System.Caption.Error'));
           this.spinnerService.hide();
         }
       });

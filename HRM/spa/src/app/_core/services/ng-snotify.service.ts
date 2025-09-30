@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SnotifyPosition, SnotifyService, SnotifyToastConfig } from 'ng-alt-snotify';
+import { SnotifyPosition, SnotifyService, SnotifyToastConfig } from 'ngx-snotify-sdteam';
 
 @Injectable({ providedIn: 'root' })
 export class NgSnotifyService {
@@ -24,7 +24,8 @@ export class NgSnotifyService {
         maxAtPosition: 10,
         maxOnScreen: 10,
         newOnTop: true,
-        filterDuplicates: false
+        filterDuplicates: false,
+        closeOnBackgroundClick: true
       }
     });
   }
@@ -78,6 +79,11 @@ export class NgSnotifyService {
         }
       ]
     });
+    setTimeout(() => {
+      const OkButton = document.querySelector('.snotifyToast__buttons--bold'); // Hoặc '.snotify-confirm-yes'
+      if (OkButton instanceof HTMLElement)
+        OkButton.focus();
+    }, 100);
   }
   confirmOk(body: string, title: string, callBack: () => any) {
     this.snotifyService.setDefaults({

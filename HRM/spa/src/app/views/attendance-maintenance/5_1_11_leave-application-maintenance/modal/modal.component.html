@@ -3,20 +3,20 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <form class="form-horizontal"
             autocomplete="off"
             #subForm="ngForm">
         <div class="bg-primary modal-header">
-          <h4 class="modal-title pull-left"> {{ title }} - {{'System.Action.' + id() | translate }} </h4>
+          <h4 id="modalTitle"
+              class="modal-title pull-left"> {{ title }} - {{'System.Action.' + id() | translate }} </h4>
           <button type="button"
                   class="btn-close close pull-right"
-                  aria-label="Close"
                   (click)="close()">
-            <span aria-hidden="true"
-                  class="visually-hidden">&times;</span>
+            <span class="visually-hidden">&times;</span>
           </button>
         </div>
         <div class="modal-body header-param">
@@ -86,7 +86,7 @@
                      maxlength="50"
                      name="department"
                      [ngModel]="data.department_Code_Name"
-                     readonly/>
+                     readonly />
             </div>
             <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <label class="badge badge-warning">{{'AttendanceMaintenance.LeaveApplicationMaintenance.Leave' | translate }}
@@ -213,14 +213,12 @@
                   class="btn btn-success"
                   (click)="save(true)"
                   [disabled]="!subForm.valid || data.isErrorTime">
-            <i class="{{ iconButton.SAVE }} mr-1"
-               aria-hidden="true"> </i>{{'System.Action.Save' | translate }}
+            <i class="{{ iconButton.SAVE }} mr-1"> </i>{{'System.Action.Save' | translate }}
           </button>
           <button type="button"
                   class="{{classButton.CLOSE}}"
                   (click)="close()">
-            <i class="{{ iconButton.CLOSE }} mr-1"
-               aria-hidden="true"></i>{{'System.Action.Close' | translate }}
+            <i class="{{ iconButton.CLOSE }} mr-1"></i>{{'System.Action.Close' | translate }}
           </button>
         </div>
       </form>

@@ -32,7 +32,7 @@
                    onpaste="return false;"
                    type="text"
                    placeholder='YYYY/MM'
-                   class="form-control bg-white"
+                   class="form-control"
                    name="year_Month"
                    [(ngModel)]="year_Month"
                    bsDatepicker
@@ -47,29 +47,27 @@
     </div>
     <!-- Kind -->
     <div class="col-xxl-6 col-xl-6 col-lg-12 col-sm-12 col-md-12">
-      <div class="form-group">
-        <label for="kind"
-               class="badge badge-warning">{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.Kind'
-          | translate }} <span class="text-danger text-bold"> *</span></label>
-        <div class="row ml-2">
-          <div *ngFor="let item of listKind; let i">
-            <label class="container">
-              <div class="row">
-                <div class="custom-control custom-radio pt-2 mr-3">
-                  <input [id]="'kind_' + i"
-                         class="custom-control-input"
-                         type="radio"
-                         name="kind"
-                         [(ngModel)]="param.kind_Tab2"
-                         [value]="item.key" />
-                  <p class="custom-control-label"
-                     [for]="'kind' + i">
-                    {{ item.value | translate }}
-                  </p>
-                </div>
+      <label for="kind"
+             class="badge badge-warning">{{ 'SalaryMaintenance.ChildcareSubsidyGeneration.Kind'
+        | translate }} <span class="text-danger text-bold"> *</span></label>
+      <div class="row ml-2">
+        <div *ngFor="let item of listKind; let i">
+          <label class="container">
+            <div class="row">
+              <div class="custom-control custom-radio pt-2 mr-3">
+                <input [id]="'kind_' + i"
+                       class="custom-control-input"
+                       type="radio"
+                       name="kind"
+                       [(ngModel)]="param.kind_Tab2"
+                       [value]="item.key" />
+                <p class="custom-control-label"
+                   [for]="'kind' + i">
+                  {{ item.value | translate }}
+                </p>
               </div>
-            </label>
-          </div>
+            </div>
+          </label>
         </div>
       </div>
     </div>
@@ -77,7 +75,7 @@
     <div class="col-12">
       <div class="row">
         <div class="col-auto">
-          <div class="form-group mb-0">
+          <div class="mb-0">
             <label class="badge badge-warning">
               {{ "SalaryMaintenance.ChildcareSubsidyGeneration.PermissionGroup" | translate }}
               <span class="text-danger text-bold"> *</span>
@@ -99,20 +97,30 @@
                            let-item="item"
                            let-item$="item$"
                            let-index="index">
-                <input id="item-{{ index }}"
-                       type="checkbox"
-                       name="item-{{ index }}"
-                       [ngModel]="item$.selected" /> {{
-                'System.Action.SelectAll' | translate }}</ng-template>
+                <div class="custom-control custom-checkbox pe-none">
+                  <input id="item-{{ index }}"
+                         type="checkbox"
+                         class="custom-control-input"
+                         name="item-{{ index }}"
+                         [ngModel]="item$.selected" />
+                  <label class="custom-control-label"
+                         for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                </div>
+              </ng-template>
               <ng-template ng-option-tmp
                            let-item="item"
                            let-item$="item$"
                            let-index="index">
-                <input id="item2-{{ index }}"
-                       name="item2-{{ index }}"
-                       type="checkbox"
-                       [ngModel]="item$.selected" /> {{
-                item.value }} </ng-template>
+                <div class="custom-control custom-checkbox pe-none">
+                  <input id="item-{{ index }}"
+                         name="item-{{ index }}"
+                         type="checkbox"
+                         class="custom-control-input"
+                         [ngModel]="item$.selected" />
+                  <label class="custom-control-label"
+                         for="item-{{ index }}"> {{ item.value }}</label>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
         </div>

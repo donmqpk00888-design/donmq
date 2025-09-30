@@ -111,11 +111,6 @@
                   [disabled]="!checkRequiredParams()" (click)="download()">
                   <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
                 </button>
-                <!-- Upload -->
-                <label *ngIf="functionUtility.checkFunction('Upload')" class="btn btn-success mr-2 mb-1 mb-0">
-                  <input class="custom-upload" type="file" (change)="upload($event, true)">
-                  <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
-                </label>
                 <!-- Download Template -->
                 <button *ngIf="functionUtility.checkFunction('Upload')" type="button" class="btn btn-primary mr-2 mb-1"
                   (click)="download(true)">
@@ -217,7 +212,7 @@
                       <tbody>
                         <tr>
                           <td colspan="100%" class="table-warning text-center font-weight-bold">
-                            {{"System.Message.Nodata" | translate }}
+                            {{"System.Message.NoData" | translate }}
                           </td>
                         </tr>
                       </tbody>
@@ -227,7 +222,7 @@
               </div>
               <div class="row">
                 <div class="col-8">
-                  <div class="d-flex" *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                  <div class="d-flex" *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount"
                       [itemsPerPage]="pagination.pageSize" previousText="&lsaquo;" nextText="&rsaquo;"
                       firstText="&laquo;" lastText="&raquo;" [maxSize]="5" [(ngModel)]="pagination.pageNumber"

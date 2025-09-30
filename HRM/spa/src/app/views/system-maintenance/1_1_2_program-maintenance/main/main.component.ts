@@ -9,8 +9,8 @@ import {
 } from '@models/system-maintenance/1_1_2-program-maintenance';
 import { IconButton } from '@constants/common.constants';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -88,13 +88,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.translateService.instant('System.Caption.Success')
           );
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
     });
   }
   onAdd = () => this.router.navigate([`${this.router.routerState.snapshot.url}/add`]);
@@ -126,14 +119,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
                   this.translateService.instant('System.Caption.Error')
                 );
               }
-            },
-            error: () => {
-              this.spinnerService.hide();
-              this.snotifyService.error(
-                this.translateService.instant('System.Message.SystemError'),
-                this.translateService.instant('System.Caption.Error')
-              );
-            },
+            }
           })
       }
     );

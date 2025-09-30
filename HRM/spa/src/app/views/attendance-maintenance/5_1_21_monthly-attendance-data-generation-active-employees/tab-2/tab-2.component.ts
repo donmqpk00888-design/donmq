@@ -1,5 +1,4 @@
 import { Component, effect, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
@@ -13,6 +12,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'already-deadline-data-active',
@@ -48,9 +48,7 @@ export class Tab2Component extends InjectBase implements OnInit {
   ) {
     super();
 
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.getListFactoryAdd();
         if (!this.searchAlreadyDeadlineDataForm.invalid && this.functionUtility.checkFunction('Search'))
           this.query(false);
@@ -107,6 +105,7 @@ export class Tab2Component extends InjectBase implements OnInit {
       .searchAlreadyDeadlineData(this.pagination, this.param)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           this.data = res.result;
           this.pagination = res.pagination;
           if (isSearch)
@@ -114,10 +113,7 @@ export class Tab2Component extends InjectBase implements OnInit {
               this.translateService.instant('System.Message.SearchOKMsg'),
               this.translateService.instant('System.Caption.Success')
             );
-
-          this.spinnerService.hide();
         },
-        error: () => this.functionUtility.snotifySystemError(),
       });
   }
 
@@ -144,7 +140,6 @@ export class Tab2Component extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   //#endregion

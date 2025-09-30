@@ -15,6 +15,7 @@ import {
 import { S_4_1_10_Certifications } from '@services/employee-maintenance/s_4_1_10_certifications.service';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 
@@ -22,6 +23,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  host: { 'id': 'modal-4-1-10' }
 })
 export class ModalComponent extends InjectBase implements AfterViewInit, OnDestroy {
   @ViewChild('modal', { static: false }) directive?: ModalDirective;
@@ -56,16 +58,8 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.isSave = true
     this.directive.hide();
   }
-  upload(event: any) {
-    const files = Array.from(event.target.files as File[])
-    event.target.value = ''
-    const errorFiles = files.filter(file => file.size > 30000000).map(x => x.name)
-    if (errorFiles.length > 0)
-      return this.snotifyService.error(
-        `${this.translateService.instant('System.Message.FileLimit')} : \n${errorFiles.join('\n')}`,
-        this.translateService.instant('System.Caption.Error')
-      );
-    const fileNames = this.data.file_List.map(x => x.name).concat(files.map(x => x.name))
+  upload(event: FileResultModel) {
+    const fileNames = this.data.file_List.map(x => x.name).concat(event.fileModel.map(x => x.name));
     const lookup = fileNames.reduce((a, e) => {
       a[e] = ++a[e] || 0;
       return a;
@@ -76,20 +70,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         `${this.translateService.instant('System.Message.ExistedFile')} : \n${duplicateFiles.join('\n')}`,
         this.translateService.instant('System.Caption.Error')
       );
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const newFile: Certifications_FileModel = {
-          id: 0,
-          name: file.name,
-          size: file.size,
-          content: reader.result as string
-        };
-        this.data.file_List.push(newFile);
-        this.calculateId()
-      }
-    })
+    this.data.file_List.push(...event.fileModel)
   }
   calculateId() {
     this.data.file_List.map((val, ind) => {
@@ -128,8 +109,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
               link.click();
             }
             else this.functionUtility.snotifySuccessError(false, `EmployeeInformationModule.Certifications.${res.error}`)
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }

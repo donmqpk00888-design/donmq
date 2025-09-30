@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { LeaveSalaryCalculationMaintenanceDTO } from '@models/salary-maintenance/7_1_3_leave_salary_calculation_maintenance';
 import { S_7_1_3_Leave_Salary_Calculation_MaintenanceService } from '@services/salary-maintenance/s_7_1_3_leave_salary_calculation_maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -37,10 +37,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.formType = res.title
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     this.isEdit = this.formType == 'Edit';
@@ -62,18 +62,14 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listLeaveCode = res
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   back = () => this.router.navigate([this.tempUrl]);
@@ -83,8 +79,9 @@ export class FormComponent extends InjectBase implements OnInit {
   save(isNext: boolean) {
     const observable = this.isEdit ? this.service.update(this.data) : this.service.create(this.data);
     this.spinnerService.show();
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide();
         if (result.isSuccess) {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
           isNext ? this.data = <LeaveSalaryCalculationMaintenanceDTO>{ factory: this.data.factory } : this.back();
@@ -92,8 +89,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
+
     });
   }
 

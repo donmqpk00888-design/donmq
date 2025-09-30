@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { FemaleEmpMenstrualMain } from '@models/attendance-maintenance/5_1_26_female-employee-menstrual-leave-hours-maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_26_FemaleEmployeeMenstrualLeaveHoursMaintenanceService } from '@services/attendance-maintenance/s_5_1_26_female-employee-menstrual-leave-hours-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -81,19 +81,15 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
   getListFactory() {
-    this.spinnerService.show();
     this._service.getListFactoryAdd().subscribe({
       next: (res) => {
         this.factories = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   private setEmployeeInfo() {
@@ -136,8 +132,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.clearModel()
           else this.back();
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   };
   clearModel() {

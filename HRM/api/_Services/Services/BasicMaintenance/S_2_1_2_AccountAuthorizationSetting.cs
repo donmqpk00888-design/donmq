@@ -110,7 +110,7 @@ namespace API._Services.Services.BasicMaintenance
             var data = await GetData(param);
 
             if (!data.Any())
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             ExcelResult excelResult = ExcelUtility.DownloadExcel(
                 data,
@@ -169,7 +169,7 @@ namespace API._Services.Services.BasicMaintenance
             try
             {
                 var item = await _repositoryAccessor.HRMS_Basic_Account.FirstOrDefaultAsync(x => x.Account == data.Account);
-                if (item == null) return new OperationResult(false, "System.Message.Nodata");
+                if (item == null) return new OperationResult(false, "System.Message.NoData");
                 item.Name = data.Name;
                 item.Division = data.Division;
                 item.Factory = data.Factory;
@@ -210,7 +210,7 @@ namespace API._Services.Services.BasicMaintenance
             try
             {
                 var HBA = await _repositoryAccessor.HRMS_Basic_Account.FirstOrDefaultAsync(x => x.Account == data.Account);
-                if (HBA == null) return new OperationResult(false, "System.Message.Nodata");
+                if (HBA == null) return new OperationResult(false, "System.Message.NoData");
                 HBA.Password_Reset = true;
                 HBA.Password = "000000";
                 HBA.Update_By = data.Update_By;

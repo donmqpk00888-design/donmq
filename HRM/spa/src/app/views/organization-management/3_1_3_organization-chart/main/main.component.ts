@@ -1,23 +1,23 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
-import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { INodeDto, OrganizationChartParam, OrganizationChart_MainMemory } from '@models/organization-management/3_1_3_organization-chart';
 import { ModalService } from '@services/modal.service';
 import { S_3_1_3_OrganizationChart } from '@services/organization-management/s_3_1_3_organization-chart.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import html2canvas, { Options } from 'html2canvas';
 import jsPDF from 'jspdf';
 import { PanZoomAPI, PanZoomConfig, PanZoomConfigOptions, PanZoomModel } from 'ngx-panzoom';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs'; import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as htmlToImage from 'html-to-image';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
-  @ViewChild('divRef') divRef: ElementRef;
+  @ViewChild('parentRef') parentRef: ElementRef<HTMLElement>;
+  @ViewChild('childRef') childRef: ElementRef<HTMLElement>;
   private panZoomAPI: PanZoomAPI;
   private apiSubscription: Subscription;
   private modelChangedSubscription: Subscription;
@@ -45,12 +45,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   departmentList: KeyValuePair[] = [];
   data: INodeDto[] = []
   isEnabledPDF: boolean = false
-  optionPDF: Partial<Options> = {
-    scale: 2,
-    useCORS: true,
-    allowTaint: true,
-    scrollY: -window.scrollY
-  }
+  scale: number = 1
   pageLayout: string = 'a4'
   defaultLevel: string = '7'
   title: string = '';
@@ -73,10 +68,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.panzoomConfig = this.initPosition
         ? this.initPanzoomConfig(this.initPosition)
         : this.panzoomConfig = this.initPanzoomConfig();
-      this.apiSubscription = this.panzoomConfig.api.subscribe((api: PanZoomAPI) =>
+      this.apiSubscription = this.panzoomConfig.api.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((api: PanZoomAPI) =>
         this.panZoomAPI = api
       );
-      this.modelChangedSubscription = this.panzoomConfig.modelChanged.subscribe((model: PanZoomModel) =>
+      this.modelChangedSubscription = this.panzoomConfig.modelChanged.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((model: PanZoomModel) =>
         this.onModelChanged(model)
       );
       this.loadData()
@@ -112,27 +107,21 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<OrganizationChart_MainMemory>{ param: this.param, position: this.initPosition, data: this.data });
-    this.apiSubscription.unsubscribe();
-    this.modelChangedSubscription.unsubscribe();
+    this.apiSubscription;
+    this.modelChangedSubscription;
   }
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
-      }).unsubscribe();;
+      });;
   }
   retryGetDropDownList() {
     this.service.getDropDownList(this.param.division)
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -157,15 +146,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.data = res;
           this.isEnabledPDF = res.length > 0 ? true : false
           if (isSearch)
-            this.functionUtility.snotifySuccessError(true,'System.Message.SearchOKMsg')
+            this.functionUtility.snotifySuccessError(true, 'System.Message.SearchOKMsg')
 
           if (!this.initPosition)
             setTimeout(() => {
               this.onResetViewClicked();
             }, 300);
           this.initialised = !!this.panzoomConfig
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   };
   clear() {
@@ -175,45 +163,50 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.data = []
     this.isEnabledPDF = false
   }
-  pdf(element: any) {
+  pdf() {
     this.spinnerService.show();
     if (this.panZoomAPI.model.zoomLevel <= 0.5) {
-      this.optionPDF.scale = 8
+      this.scale = 8
       this.pageLayout = 'a1'
     }
     else if (0.5 < this.panZoomAPI.model.zoomLevel && this.panZoomAPI.model.zoomLevel <= 1) {
-      this.optionPDF.scale = 6
+      this.scale = 4
       this.pageLayout = 'a2'
     }
     else if (1 < this.panZoomAPI.model.zoomLevel && this.panZoomAPI.model.zoomLevel <= 1.5) {
-      this.optionPDF.scale = 4
+      this.scale = 2
       this.pageLayout = 'a3'
     }
     else {
-      this.optionPDF.scale = 2
+      this.scale = 1
       this.pageLayout = 'a4'
     }
-    html2canvas(element, this.optionPDF)
-      .then((canvas) => {
-        let image: string = canvas.toDataURL('image/jpg', 1.0);
-        let doc: jsPDF = new jsPDF('l', 'px', this.pageLayout);
-        let pageWidth: number = doc.internal.pageSize.getWidth();
-        let pageHeight: number = doc.internal.pageSize.getHeight();
-        let widthRatio: number = pageWidth / canvas.width;
-        let heightRatio: number = pageHeight / canvas.height;
-        let ratio: number = widthRatio > heightRatio ? heightRatio : widthRatio;
-        let canvasWidth: number = canvas.width * ratio * 1;
-        let canvasHeight: number = canvas.height * ratio * 1;
-        let marginX: number = (pageWidth - canvasWidth) / 2;
-        let marginY: number = (pageHeight - canvasHeight) / 2;
-        doc.addImage(image, 'PNG', marginX, marginY, canvasWidth, canvasHeight);
-        return doc;
-      })
-      .then((doc) => {
-        const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
-        doc.save(`${fileName}.pdf`)
-        this.spinnerService.hide();
-      });
+    setTimeout(() => {
+      let el = this.childRef.nativeElement.cloneNode(true) as HTMLElement
+      el.classList.add("pdf-print")
+      let doc: jsPDF = new jsPDF('l', 'px', this.pageLayout);
+      const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
+      this.parentRef.nativeElement.appendChild(el)
+      htmlToImage
+        .toCanvas(el, { skipAutoScale: true, pixelRatio: this.scale })
+        .then(function (canvas) {
+          let image: string = canvas.toDataURL('image/jpg', 1.0);
+          let pageWidth: number = doc.internal.pageSize.getWidth();
+          let pageHeight: number = doc.internal.pageSize.getHeight();
+          let widthRatio: number = pageWidth / canvas.width;
+          let heightRatio: number = pageHeight / canvas.height;
+          let ratio: number = widthRatio > heightRatio ? heightRatio : widthRatio;
+          let canvasWidth: number = canvas.width * ratio * 1;
+          let canvasHeight: number = canvas.height * ratio * 1;
+          let marginX: number = (pageWidth - canvasWidth) / 2;
+          let marginY: number = (pageHeight - canvasHeight) / 2;
+          doc.addImage(image, 'PNG', marginX, marginY, canvasWidth, canvasHeight);
+          doc.save(`${fileName}.pdf`)
+        }).finally(() => {
+          this.parentRef.nativeElement.removeChild(el)
+          this.spinnerService.hide();
+        })
+    }, 500)
   }
   excel() {
     this.spinnerService.show();
@@ -224,8 +217,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.spinnerService.hide();
           const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
           this.functionUtility.exportExcel(result.data, fileName);
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   detail(item: INodeDto) {
@@ -250,8 +242,8 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     });
   }
   async goZoom() {
-    const width = this.divRef.nativeElement.clientWidth
-    const height = this.divRef.nativeElement.clientHeight
+    const width = this.childRef.nativeElement.clientWidth
+    const height = this.childRef.nativeElement.clientHeight
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.panZoomAPI.changeZoomLevel(2, { x: width / 2, y: height / 2 }));
@@ -260,17 +252,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   getDepartment(onFactoryChange?: boolean) {
     if (this.param.division && this.param.factory) {
-      this.spinnerService.show();
       this.service
         .getDepartmentList(this.param)
         .subscribe({
           next: (res) => {
-            this.spinnerService.hide();
             this.departmentList = res;
             if (onFactoryChange)
               this.deleteProperty('department')
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }

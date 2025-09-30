@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { NightShiftExtraAndOvertimePayParam, NightShiftExtraAndOvertimePaySource } from '@models/salary-report/7_2_14_tax-paying-employee-monthly-night-shift-extra-and-overtime-pay';
 import { S_7_2_14_taxPayingEmployeeMonthlyNightShiftExtraAndOvertimePayService } from '@services/salary-report/s_7_2_14_tax-paying-employee-monthly-night-shift-extra-and-overtime-pay.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -82,8 +82,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.snotifyService.error(this.translateService.instant(res.error ?? 'System.Message.SystemError'),
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -108,8 +107,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.totalRows = 0
           this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -121,16 +119,14 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   getListFactory() {
     this.service.getListFactory().subscribe({
-      next: (res: KeyValuePair[]) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: (res: KeyValuePair[]) => this.listFactory = res
     });
   }
 
   getListDepartment() {
     if (this.param.factory)
       this.service.getListDepartment(this.param.factory).subscribe({
-        next: (res: KeyValuePair[]) => this.listDepartment = res,
-        error: () => this.functionUtility.snotifySystemError(false)
+        next: (res: KeyValuePair[]) => this.listDepartment = res
       });
   }
 
@@ -140,8 +136,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: res => {
           this.listPermissionGroup = res
           this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 

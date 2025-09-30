@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { CanMatchFn, Route, Router } from '@angular/router';
-import { DirectoryInfomation, ProgramInfomation } from "@models/auth/auth";
+import { DirectoryInfomation, ProgramInfomation } from '@models/common';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@services/auth/auth.service';
 import { CommonService } from '@services/common.service';
@@ -26,11 +26,23 @@ export class AppGuard {
   async canMatchMain(route: Route): Promise<boolean> {
     try {
       this.recentProgram = route.data['program'];
-      if (!this.authService.loggedIn())
+      if (!this.authService.loggedIn()) {
+        this.snotify.error(
+          this.translate.instant('System.Message.Logout'),
+          this.translate.instant('System.Caption.Error')
+        );
         return this.next(false, '/login');
-      const authProgram = this.commonService.authPrograms
-      const directoryUser: DirectoryInfomation[] = authProgram?.directories || [];
-      const programUser: ProgramInfomation[] = authProgram?.programs || [];
+      }
+      if (this.authService.loggedInExpired()) {
+        this.snotify.error(
+          this.translate.instant('System.Message.SessionExpired'),
+          this.translate.instant('System.Caption.Error')
+        );
+        return this.next(false, '/login');
+      }
+      const systemInfo = this.commonService.systemInfo
+      const directoryUser: DirectoryInfomation[] = systemInfo?.directories || [];
+      const programUser: ProgramInfomation[] = systemInfo?.programs || [];
       const hasProgramAccess = programUser.some(x => x.program_Code?.trim() === this.recentProgram?.trim());
       if (directoryUser.length == 0 || programUser.length == 0 || !hasProgramAccess)
         return this.next(false, '/dashboard');
@@ -48,7 +60,7 @@ export class AppGuard {
         );
         return this.next(false, resetPasswordUrl);
       }
-      this.functionUtility.setFunction(this.recentProgram, authProgram)
+      this.functionUtility.setFunction(this.recentProgram)
       return this.next(true);
     } catch {
       return this.next(false, '/500');

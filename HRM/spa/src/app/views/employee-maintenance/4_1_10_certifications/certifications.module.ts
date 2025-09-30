@@ -13,6 +13,7 @@ import { CertificationsRoutingModule } from './certifications-routing.module';
 import { ModalComponent } from './modal/modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     TypeaheadModule.forRoot(),
     TranslateModule,
     NgSelectModule,
-    CertificationsRoutingModule
+    CertificationsRoutingModule,
+    SharedModule
   ]
 })
 export class CertificationsModule { }

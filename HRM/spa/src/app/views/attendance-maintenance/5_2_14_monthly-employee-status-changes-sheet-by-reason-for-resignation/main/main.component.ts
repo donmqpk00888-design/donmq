@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { ValidateResult } from '@models/base-source';
@@ -11,6 +10,7 @@ import {
   MonthlyEmployeeStatusChangesSheet_ByReasonForResignationParam,
   MonthlyEmployeeStatusChangesSheet_ByReasonForResignationValue
 } from '@models/attendance-maintenance/5_2_14_monthly-employee-status-changes-sheet-by-reason-for-resignation';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -74,7 +74,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     });
 
     // Load lại dữ liệu khi thay đổi ngôn ngữ
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadDropDownList();
 
@@ -137,8 +137,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.table = result.data;
           if (isQuery)
             this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));
@@ -218,8 +217,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.functionUtility.exportExcel(result.data, this.functionUtility.getFileName(fileName));
           }
           else this.functionUtility.snotifySuccessError(result.isSuccess, result.error, false)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
     else this.snotifyService.warning(checkValidate.message, this.translateService.instant('System.Caption.Warning'));

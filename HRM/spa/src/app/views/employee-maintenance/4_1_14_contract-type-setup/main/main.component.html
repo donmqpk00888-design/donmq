@@ -10,148 +10,146 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-horizontal border-shadow"
+          <form class="row border-shadow"
                 autocomplete="off">
             <!-- Division -->
-            <div class="row">
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ContractTypeSetup.Division" | translate}}
-                  <span class="text-danger">*</span>
-                </label>
-                <ng-select name="division"
-                           [(ngModel)]="param.division"
-                           (clear)="deleteProperty('division')"
-                           [clearable]="param.division !== ''"
-                           (ngModelChange)="onDivisionChange()"
-                           placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Division' | translate}}"
-                           required>
-                  <ng-option *ngFor="let i of listDivision"
-                             [value]="i.key">{{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <!-- Factory -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ContractTypeSetup.Factory" | translate}}
-                  <span class="text-danger">*</span>
-                </label>
-                <ng-select name="factory"
-                           [(ngModel)]="param.factory"
-                           (ngModelChange)="onFactoryChange()"
-                           (clear)="deleteProperty('factory')"
-                           [clearable]="param.factory !== ''"
-                           placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Factory' | translate}}"
-                           required>
-                  <ng-option *ngFor="let i of listFactory"
-                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <!-- Contract Type -->
-              <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ContractTypeSetup.ContractType" | translate}}
-                </label>
-                <ng-select name="contract_Type"
-                           [(ngModel)]="param.contract_Type"
-                           (clear)="deleteProperty('contract_Type')"
-                           [clearable]="param.contract_Type !== ''"
-                           placeholder="{{'EmployeeInformationModule.ContractTypeSetup.ContractType' | translate}}">
-                  <ng-option *ngFor="let i of listContractType"
-                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <!-- Probationary Period -->
-              <div class="col-radio">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ContractTypeSetup.ProbationaryPeriod" | translate}}
-                </label>
-                <div class="row pl-3">
-                  <div *ngFor="let item of proPeriod; index as i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2">
-                          <input id="proPeriod-{{i}}"
-                                 class="custom-control-input"
-                                 type="radio"
-                                 checked="checked"
-                                 name="proPeriod-{{i}}"
-                                 [(ngModel)]="param.probationary_Period_Str"
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             for="proPeriod-{{i}}">
-                            <strong>
-                              {{ item.value | translate }}
-                            </strong>
-                          </p>
-                        </div>
+            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.Division" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="division"
+                         [(ngModel)]="param.division"
+                         (clear)="deleteProperty('division')"
+                         [clearable]="param.division !== ''"
+                         (ngModelChange)="onDivisionChange()"
+                         placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Division' | translate}}"
+                         required>
+                <ng-option *ngFor="let i of listDivision"
+                           [value]="i.key">{{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Factory -->
+            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.Factory" | translate}}
+                <span class="text-danger">*</span>
+              </label>
+              <ng-select name="factory"
+                         [(ngModel)]="param.factory"
+                         (ngModelChange)="onFactoryChange()"
+                         (clear)="deleteProperty('factory')"
+                         [clearable]="param.factory !== ''"
+                         placeholder="{{'EmployeeInformationModule.ContractTypeSetup.Factory' | translate}}"
+                         required>
+                <ng-option *ngFor="let i of listFactory"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Contract Type -->
+            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.ContractType" | translate}}
+              </label>
+              <ng-select name="contract_Type"
+                         [(ngModel)]="param.contract_Type"
+                         (clear)="deleteProperty('contract_Type')"
+                         [clearable]="param.contract_Type !== ''"
+                         placeholder="{{'EmployeeInformationModule.ContractTypeSetup.ContractType' | translate}}">
+                <ng-option *ngFor="let i of listContractType"
+                           [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
+              </ng-select>
+            </div>
+            <!-- Probationary Period -->
+            <div class="col-radio">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.ProbationaryPeriod" | translate}}
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of proPeriod; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="proPeriod-{{i}}"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="proPeriod-{{i}}"
+                               [(ngModel)]="param.probationary_Period_Str"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           for="proPeriod-{{i}}">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
                       </div>
-                    </label>
-                  </div>
+                    </div>
+                  </label>
                 </div>
               </div>
-              <!-- Alert or not -->
-              <div class="col-radio">
-                <label class="badge badge-warning">
-                  {{"EmployeeInformationModule.ContractTypeSetup.Alertornot" | translate}}
-                </label>
-                <div class="row pl-3">
-                  <div *ngFor="let item of alert; index as i">
-                    <label class="container">
-                      <div class="row">
-                        <div class="custom-control custom-radio pt-2">
-                          <input id="alert-{{i}}"
-                                 class="custom-control-input"
-                                 type="radio"
-                                 checked="checked"
-                                 name="alert-{{i}}"
-                                 [(ngModel)]="param.alert_Str"
-                                 [value]="item.key" />
-                          <p class="custom-control-label"
-                             for="alert-{{i}}">
-                            <strong>
-                              {{ item.value | translate }}
-                            </strong>
-                          </p>
-                        </div>
+            </div>
+            <!-- Alert or not -->
+            <div class="col-radio">
+              <label class="badge badge-warning">
+                {{"EmployeeInformationModule.ContractTypeSetup.Alertornot" | translate}}
+              </label>
+              <div class="row pl-3">
+                <div *ngFor="let item of alert; index as i">
+                  <label class="container">
+                    <div class="row">
+                      <div class="custom-control custom-radio pt-2">
+                        <input id="alert-{{i}}"
+                               class="custom-control-input"
+                               type="radio"
+                               checked="checked"
+                               name="alert-{{i}}"
+                               [(ngModel)]="param.alert_Str"
+                               [value]="item.key" />
+                        <p class="custom-control-label"
+                           for="alert-{{i}}">
+                          <strong>
+                            {{ item.value | translate }}
+                          </strong>
+                        </p>
                       </div>
-                    </label>
-                  </div>
+                    </div>
+                  </label>
                 </div>
               </div>
-              <!-- Submit Button -->
-              <div class="col-12 ml-1">
-                <label class="d-block">&nbsp;</label>
-                <button type="submit"
-                        class="{{ classButton.SEARCH }}  custom-margin-bottom"
-                        *ngIf="functionUtility.checkFunction('Search')"
-                        (click)="search(true)"
-                        [disabled]="!param.division||!param.factory">
-                  <i class="{{ iconButton.SEARCH }}"></i>
-                  {{"System.Action.Search" | translate }}
-                </button>
-                <button type="submit"
-                        class="{{ classButton.CLEAR }} custom-margin-bottom"
-                        (click)="clear()">
-                  <i class="{{ iconButton.CLEAR }}"></i>
-                  {{"System.Action.Clear" | translate }}
-                </button>
-                <button type="submit"
-                        class="{{ classButton.ADD }} custom-margin-bottom"
-                        *ngIf="functionUtility.checkFunction('Add')"
-                        (click)="add()">
-                  <i class="{{ iconButton.ADD }}"></i>
-                  {{"System.Action.Add" | translate }}
-                </button>
-                <button type="submit"
-                        class="{{ classButton.EXCEL }} custom-margin-bottom"
-                        *ngIf="functionUtility.checkFunction('Excel')"
-                        [disabled]="!param.division||!param.factory"
-                        (click)="download()">
-                  <i class="{{ iconButton.EXCEL }}"></i>
-                  {{"System.Action.Excel" | translate }}
-                </button>
-              </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="col-12">
+              <label class="d-block">&nbsp;</label>
+              <button type="submit"
+                      class="{{ classButton.SEARCH }}  custom-margin-bottom"
+                      *ngIf="functionUtility.checkFunction('Search')"
+                      (click)="search(true)"
+                      [disabled]="!param.division||!param.factory">
+                <i class="{{ iconButton.SEARCH }}"></i>
+                {{"System.Action.Search" | translate }}
+              </button>
+              <button type="submit"
+                      class="{{ classButton.CLEAR }} custom-margin-bottom"
+                      (click)="clear()">
+                <i class="{{ iconButton.CLEAR }}"></i>
+                {{"System.Action.Clear" | translate }}
+              </button>
+              <button type="submit"
+                      class="{{ classButton.ADD }} custom-margin-bottom"
+                      *ngIf="functionUtility.checkFunction('Add')"
+                      (click)="add()">
+                <i class="{{ iconButton.ADD }}"></i>
+                {{"System.Action.Add" | translate }}
+              </button>
+              <button type="submit"
+                      class="{{ classButton.EXCEL }} custom-margin-bottom"
+                      *ngIf="functionUtility.checkFunction('Excel')"
+                      [disabled]="!param.division||!param.factory"
+                      (click)="download()">
+                <i class="{{ iconButton.EXCEL }}"></i>
+                {{"System.Action.Excel" | translate }}
+              </button>
             </div>
           </form>
           <div class="row justify-content-md-center">
@@ -296,7 +294,7 @@
                       <tr class="no-data">
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -306,7 +304,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

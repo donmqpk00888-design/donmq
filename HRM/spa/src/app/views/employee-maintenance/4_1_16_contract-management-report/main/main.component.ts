@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Contract_Management_ReportParamSource, ContractManagementReportDto, ContractManagementReportParam } from '@models/employee-maintenance/4_1_16_contract-management-report';
@@ -9,6 +8,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -94,8 +94,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -111,8 +110,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         }
         else
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -152,35 +150,27 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListDivision().subscribe({
       next: res => {
         this.division = res
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     })
   }
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.division).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.factory = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
   getListContractType() {
-    this.spinnerService.show();
     this.service.getListContractType(this.param.division, this.param.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.contractType = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   getListDepartment() {
     this.service.getListDepartment(this.param.division, this.param.factory).subscribe({
-      next: res => this.department = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: res => this.department = res
     })
   }
   clearForm() {

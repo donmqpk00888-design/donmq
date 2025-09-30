@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { NavConstants } from '@constants/nav.constants';
 import { INavData } from '@coreui/angular';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { AuthProgram, CodeInformation, DirectoryInfomation, ProgramInfomation } from '@models/auth/auth';
 import { LangConstants } from '@constants/lang-constants';
 import { CommonService } from '@services/common.service';
+import { SystemInfo, CodeInformation, DirectoryInfomation, ProgramInfomation } from '@models/common';
 @Injectable({ providedIn: 'root' })
 export class Nav {
   filter_menus: string[] = ['4.1.2', '4.1.3', '4.1.4', '4.1.5'];
   constructor(private service: CommonService) { }
   getNav() {
-    const authProgram = this.service.authPrograms
-    return authProgram && authProgram.directories ? this.nav(authProgram) : []
+    const systemInfo = this.service.systemInfo
+    return systemInfo && systemInfo.directories ? this.nav(systemInfo) : []
   }
-  private nav = (authProgram: AuthProgram): INavData[] => {
+  private nav = (systemInfo: SystemInfo): INavData[] => {
     const lang: string = localStorage.getItem(LocalStorageConstants.LANG) ?? LangConstants.EN;
-    const code_lang: CodeInformation[] = JSON.parse(localStorage.getItem(LocalStorageConstants.CODE_LANG)) || [];
-    const user_directory: DirectoryInfomation[] = authProgram.directories || [];
-    const user_roles: ProgramInfomation[] = authProgram.programs || [];
+    const code_lang: CodeInformation[] = systemInfo.code_Information || [];
+    const user_directory: DirectoryInfomation[] = systemInfo.directories || [];
+    const user_roles: ProgramInfomation[] = systemInfo.programs || [];
     return user_directory.map((dir, dirIndex) =>
       <INavData>{
         name: `${dir.seq}. ${code_lang.find(val => val.code == dir.directory_Code && val.kind == 'D')?.translations

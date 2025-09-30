@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -8,6 +7,7 @@ import { S_7_1_13_IncomeTaxBracketSettingService } from '@services/salary-mainte
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -35,9 +35,7 @@ export class FormComponent extends InjectBase implements OnInit {
   placeholder = Placeholder;
   constructor(private service: S_7_1_13_IncomeTaxBracketSettingService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropdownList();
       });
@@ -46,10 +44,10 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
       this.getSource()
-    }).unsubscribe();
+    });
   }
   getSource() {
     this.isEdit = this.formType == 'Edit'
@@ -79,6 +77,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .create(this.data)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.back();
             this.snotifyService.success(
@@ -93,14 +92,8 @@ export class FormComponent extends InjectBase implements OnInit {
               this.translateService.instant('System.Caption.Error')
             );
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       })
-      .add(() => {
-        this.spinnerService.hide();
-      });
   }
 
   edit() {
@@ -122,10 +115,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.translateService.instant('System.Caption.Error')
           );
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -178,9 +167,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListNationality().subscribe({
       next: res => {
         this.listNationality = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -189,9 +175,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListTaxCode().subscribe({
       next: res => {
         this.listTaxCode = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -225,8 +208,7 @@ export class FormComponent extends InjectBase implements OnInit {
     return new Promise((resolve) => {
       this.service.isDuplicatedData(this.data.nation, this.data.tax_Code, item.tax_Level, this.data.effective_Month_Str)
         .subscribe({
-          next: (res) => resolve(res.isSuccess),
-          error: () => this.functionUtility.snotifySystemError()
+          next: (res) => resolve(res.isSuccess)
         });
     })
   }

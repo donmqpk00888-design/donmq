@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -11,6 +10,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_5_2_10_HRDailyReportService } from '@services/attendance-maintenance/s_5_2_10_hr-daily-report.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -120,7 +120,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
         this.spinnerService.hide()
       }
-    }).catch(() => this.functionUtility.snotifySystemError());
+    })
   }
 
   // #region getListFactory
@@ -128,9 +128,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -146,22 +143,17 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListLevel().subscribe({
       next: res => {
         this.listLevel = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
 
   // #region getListPermissionGroup
   getListPermissionGroup() {
-    this.spinnerService.show();
     this.service.getListPermissionGroup(this.param.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.listPermissionGroup = res
         this.selectAllForDropdownItems(this.listPermissionGroup)
-      }, error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
   private selectAllForDropdownItems(items: KeyValuePair[]) {
@@ -189,12 +181,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.resultCount.headCount = res.data.headCount;
           this.resultCount.monthlyAbsenteeism = res.data.monthlyAbsenteeism;
         } else {
-          this.functionUtility.snotifySuccessError(false, 'System.Message.Nodata');
+          this.functionUtility.snotifySuccessError(false, 'System.Message.NoData');
         }
         this.spinnerService.hide();
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

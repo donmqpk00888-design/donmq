@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { AbsenceDailyReportCount, AbsenceDailyReportParam, AbsenceDailyReportSource } from '@models/attendance-maintenance/5_2_9_absence-daily-report';
@@ -8,6 +7,7 @@ import { S_5_2_9_AbsenceDailyReportService } from '@services/attendance-maintena
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -78,8 +78,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.resultCount = res
         if (isSearch)
           this.snotifyService.success(this.translateService.instant('System.Message.QueryOKMsg'), this.translateService.instant('System.Caption.Success'));
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -101,8 +100,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           this.resultCount = <AbsenceDailyReportCount>{ queryResult: 0, recruits: 0, resigning: 0 }
           this.snotifyService.warning(result.error, this.translateService.instant('System.Caption.Warning'));
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -111,9 +109,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: res => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }

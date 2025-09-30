@@ -37,12 +37,9 @@
                     <tr>
                       <td class="text-center vertical-align-middle"> {{ title }} </td>
                       <td class="text-center">
-                        <label class="btn btn-success mr-2 mb-0 custom-margin-top">
-                          <input class="custom-upload"
-                                 type="file"
-                                 (change)="upload($event, 'basic')">
-                          <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
-                        </label>
+                        <file-upload [allowExtensions]="accept"
+                                     [label]="'System.Action.Upload' | translate "
+                                     (filesChange)="upload($event, 'basic')"></file-upload>
                       </td>
                       <td class="text-center">
                         <button type="button"
@@ -57,12 +54,9 @@
                         {{ title2 }}
                       </td>
                       <td class="text-center">
-                        <label class="btn btn-success mr-2 mb-0 custom-margin-top">
-                          <input class="custom-upload"
-                                 type="file"
-                                 (change)="upload($event, 'emergency')">
-                          <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
-                        </label>
+                        <file-upload [allowExtensions]="accept"
+                                     [label]="'System.Action.Upload' | translate "
+                                     (filesChange)="upload($event, 'emergency')"></file-upload>
                       </td>
                       <td class="text-center">
                         <button type="button"

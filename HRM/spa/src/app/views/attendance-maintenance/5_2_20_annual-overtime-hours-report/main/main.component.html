@@ -1,145 +1,139 @@
 <div class="animated fadeIn">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <form class="form-horizontal"
-            autocomplete="off"
-            #mainForm="ngForm">
-            <div class="card-header">
-              <div class="row border-title">
-                <div class="col-md-12">
-                  <strong class="title-card-cs">{{ title }}</strong>
-                </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
               </div>
             </div>
-            <div class="card-body">
-              <div class="row border-shadow">
-                <!-- Factory -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label for="factory"
-                      class="badge badge-warning">
-                      {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Factory" | translate }}
-                      <span class="text-danger text-bold"> *</span>
-                    </label>
-                    <ng-select id="factory"
-                      name="factory"
-                      [(ngModel)]="param.factory"
-                      (ngModelChange)="onSelectFactory()"
-                      [clearable]="param.factory != ''"
-                      (clear)="deleteProperty('factory')"
-                      placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.Factory' | translate }}">
-                      <ng-option *ngFor="let item of listFactory"
-                        [value]="item.key">
-                        {{ item.value }}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
-                <!-- Year Month -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
-                  <label class="badge badge-warning">
-                    {{"AttendanceMaintenance.AnnualOvertimeHoursReport.YearMonth" | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="full-width">
-                    <div class="container_date">
-                      <div class="input-group mr-1">
-                        <input autocomplete="off"
-                               (keydown.backspace)="year_Month = null"
-                               onpaste="return false;"
-                               type="text"
-                               placeholder='YYYY/MM'
-                               class="form-control bg-white"
-                               name="year_Month"
-                               [(ngModel)]="year_Month"
-                               (ngModelChange)="onChangeYearMonth()"
-                               bsDatepicker
-                               [bsConfig]="bsConfig"
-                               required />
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
-                        </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <!-- Factory -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onSelectFactory()"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.Factory' | translate }}">
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Year Month -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-sm-12 col-md-6 ">
+                <label class="badge badge-warning">
+                  {{"AttendanceMaintenance.AnnualOvertimeHoursReport.YearMonth" | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <div class="full-width">
+                  <div class="container_date">
+                    <div class="input-group mr-1">
+                      <input autocomplete="off"
+                             (keydown.backspace)="year_Month = null"
+                             onpaste="return false;"
+                             type="text"
+                             placeholder='YYYY/MM'
+                             class="form-control"
+                             name="year_Month"
+                             [(ngModel)]="year_Month"
+                             (ngModelChange)="onChangeYearMonth()"
+                             bsDatepicker
+                             [bsConfig]="bsConfig"
+                             required />
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="{{iconButton.CALENDAR}}"></i></span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- Department -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                      <label for="department"
-                        class="badge badge-warning">
-                        {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Department" | translate }}
-                      </label>
-                      <ng-select id="department"
-                        name="department"
-                        [(ngModel)]="param.department"
-                        [clearable]="param.department != ''"
-                        (clear)="deleteProperty('department')"
-                        [disabled]="!param.factory"
-                        placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.Department' | translate }}">
-                        <ng-option *ngFor="let item of listDepartment"
-                          [value]="item.key">
-                          {{ item.value }}
-                        </ng-option>
-                      </ng-select>
-                    </div>
-                </div>
-                <!-- Employee ID -->
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label for="employee_ID"
-                      class="badge badge-warning">
-                      {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.EmployeeID" | translate }}
-                    </label>
-                    <input type="text"
-                      class="form-control"
-                      id="employee_ID"
-                      name="employee_ID"
-                      maxlength="9"
-                      [(ngModel)]="param.employee_ID"
-                      placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.EmployeeID' | translate }}"
-                      autocomplete="off" />
-                  </div>
-                </div>
-
-                <div class="col-12 pb-2">
-                  <button *ngIf="functionUtility.checkFunction('Search')"
-                    type="button"
-                    class="{{ classButton.SEARCH }}"
-                    (click)="getTotalRows(true)"
-                    [disabled]="invalidParam()">
-                    <i class="{{ iconButton.SEARCH }}"></i>
-                    {{ "System.Action.Search" | translate }}
-                  </button>
-                  <button *ngIf="functionUtility.checkFunction('Search')"
-                    type="button"
-                    class="{{ classButton.CLEAR }}"
-                    (click)="clear()">
-                    <i class="{{ iconButton.CLEAR }}"></i>
-                    {{ "System.Action.Clear" | translate }}
-                  </button>
-                  <button type="button"
-                    (click)="download()"
-                    class="btn btn-success"
-                    [disabled]="invalidParam()"
-                    *ngIf="functionUtility.checkFunction('Excel')">
-                    <i class="{{ iconButton.EXCEL }}"></i>
-                    {{ "System.Action.Excel" | translate }}
-                  </button>
-                </div>
-                <div>
-                  <strong class="title-card-cs pl-3">{{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Total" | translate }}
-                    <span class="text-primary">{{ totalRows }}</span>
-                    {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Records" | translate }}
-                  </strong>
-                </div>
-  
               </div>
+              <!-- Department -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="department"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           [disabled]="!param.factory"
+                           placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.Department' | translate }}">
+                  <ng-option *ngFor="let item of listDepartment"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
+              </div>
+              <!-- Employee ID -->
+              <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                <label for="employee_ID"
+                       class="badge badge-warning">
+                  {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.EmployeeID" | translate }}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="employee_ID"
+                       name="employee_ID"
+                       maxlength="9"
+                       [(ngModel)]="param.employee_ID"
+                       placeholder="{{ 'AttendanceMaintenance.AnnualOvertimeHoursReport.EmployeeID' | translate }}"
+                       autocomplete="off" />
+              </div>
+
+              <div class="col-12">
+                <label class="d-block">&nbsp;</label>
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getTotalRows(true)"
+                        [disabled]="invalidParam()">
+                  <i class="{{ iconButton.SEARCH }}"></i>
+                  {{ "System.Action.Search" | translate }}
+                </button>
+                <button *ngIf="functionUtility.checkFunction('Search')"
+                        type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i>
+                  {{ "System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="download()"
+                        class="btn btn-success"
+                        [disabled]="invalidParam()"
+                        *ngIf="functionUtility.checkFunction('Excel')">
+                  <i class="{{ iconButton.EXCEL }}"></i>
+                  {{ "System.Action.Excel" | translate }}
+                </button>
+              </div>
+              <div class="mt-2">
+                <strong class="title-card-cs pl-3">{{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Total" | translate }}
+                  <span class="text-primary">{{ totalRows }}</span>
+                  {{ "AttendanceMaintenance.AnnualOvertimeHoursReport.Records" | translate }}
+                </strong>
+              </div>
+
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  
+</div>

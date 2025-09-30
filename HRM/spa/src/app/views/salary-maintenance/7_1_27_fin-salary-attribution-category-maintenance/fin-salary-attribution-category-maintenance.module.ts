@@ -13,6 +13,7 @@ import { FinSalaryAttributionCategoryMaintenanceRoutingModule } from './fin-sala
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ModalComponent } from './modal/modal.component';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ModalComponent } from './modal/modal.component';
     NgSelectModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    FinSalaryAttributionCategoryMaintenanceRoutingModule
+    FinSalaryAttributionCategoryMaintenanceRoutingModule,
+    SharedModule
   ]
 })
 export class FinSalaryAttributionCategoryMaintenanceModule { }

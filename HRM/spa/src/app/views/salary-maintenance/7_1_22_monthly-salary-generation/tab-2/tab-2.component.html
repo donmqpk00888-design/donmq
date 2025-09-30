@@ -52,29 +52,29 @@
         </div>
         <!-- Salary Lock -->
         <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label for="salary_Lock"
-                   class="badge badge-warning">{{ 'SalaryMaintenance.MonthlySalaryGeneration.SalaryLock'
+          <label for="salary_Lock"
+                 class="badge badge-warning">{{ 'SalaryMaintenance.MonthlySalaryGeneration.SalaryLock'
               | translate }} <span class="text-danger text-bold"> *</span></label>
-            <div class="row ml-2">
-              <div *ngFor="let item of listSalaryLock; let i">
-                <label class="container">
-                  <div class="row">
-                    <div class="custom-control custom-radio pt-2 mr-3">
-                      <input [id]="'salary_Lock_' + i"
-                             class="custom-control-input"
-                             type="radio"
-                             name="salary_Lock"
-                             [(ngModel)]="param().salary_Lock"
-                             [value]="item.key" />
-                      <p class="custom-control-label"
-                         [for]="'salary_Lock' + i">
-                        {{ item.value | translate }}
-                      </p>
-                    </div>
+          <div class="row ml-2">
+            <div *ngFor="let item of listSalaryLock; let i">
+              <label class="container">
+                <div class="row">
+                  <div class="custom-control custom-radio pt-2 mr-3">
+                    <input [id]="'salary_Lock_' + i"
+                           class="custom-control-input"
+                           type="radio"
+                           name="salary_Lock"
+                           [(ngModel)]="param().salary_Lock"
+                           [value]="item.key" />
+                    <p class="custom-control-label"
+                       [for]="'salary_Lock' + i">
+                      {{ item.value | translate }}
+                    </p>
                   </div>
-                </label>
-              </div>
+                </div>
+              </label>
             </div>
+          </div>
         </div>
         <!-- Permission Group -->
         <div class="col-12">
@@ -103,23 +103,36 @@
                              let-item="item"
                              let-item$="item$"
                              let-index="index">
-                  <input id="item-{{ index }}"
-                         type="checkbox"
-                         name="item-{{ index }}"
-                         [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                  <div class="custom-control custom-checkbox pe-none">
+                    <input id="item-{{ index }}"
+                           type="checkbox"
+                           class="custom-control-input"
+                           name="item-{{ index }}"
+                           [ngModel]="item$.selected" />
+                    <label class="custom-control-label"
+                           for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                  </div>
+                </ng-template>
                 <ng-template ng-option-tmp
                              let-item="item"
                              let-item$="item$"
                              let-index="index">
-                  <input id="item-{{ index }}"
-                         name="item-{{ index }}"
-                         type="checkbox"
-                         [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                  <div class="custom-control custom-checkbox pe-none">
+                    <input id="item-{{ index }}"
+                           name="item-{{ index }}"
+                           type="checkbox"
+                           class="custom-control-input"
+                           [ngModel]="item$.selected" />
+                    <label class="custom-control-label"
+                           for="item-{{ index }}"> {{ item.value }}</label>
+                  </div>
+                </ng-template>
               </ng-select>
             </div>
           </div>
         </div>
-        <div class="col-12 mt-2">
+        <div class="col-12">
+          <label class="d-block">&nbsp;</label>
           <button *ngIf="this.functionUtility.checkFunction('Execute')"
                   type="button"
                   class="{{ classButton.SAVE }}"

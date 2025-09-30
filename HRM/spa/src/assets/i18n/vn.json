@@ -6,6 +6,7 @@
       "LogInFailed": "Tên người dùng và / hoặc mật khẩu của bạn không đúng",
       "ConfirmPassword": "Mật khẩu mới và mật khẩu xác nhận không khớp",
       "Logout": "Bạn đã đăng xuất khỏi hệ thống",
+      "SessionExpired":"Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.",
       "ConfirmDelete": "Bạn có chắc chắn muốn xóa ?",
       "ConfirmExecution": "Confirm Execution?",
       "ConfirmDeleteMsg": "Bạn có chắc chắn muốn xóa bản ghi này không ?",
@@ -26,7 +27,7 @@
       "Unauthorized": "Bạn không được phép xem trang này",
       "UnknowError": "Oops! Xin lỗi, một lỗi đã xuất hiện khi thi hành yêu cầu của bạn",
       "SystemError": "Đã xảy ra lỗi khi kết nối với máy chủ",
-      "Nodata": "Không có dữ liệu",
+      "NoData": "Không có dữ liệu",
       "DataFound": "Dữ liệu bị lỗi",
       "InvalidFile": "Vui lòng chọn định dạng tệp hợp lệ",
       "AllowExcelFile": "Chỉ cho phép tệp excel",
@@ -65,7 +66,9 @@
       "InvalidInput": "Invalid input data",
       "AlreadyExitedData": "Selected data has been existed",
       "DuplicateInput": "Duplicated input data",
-      "ErrorException": "An exception was raised during data saving"
+      "ErrorException": "An exception was raised during data saving",
+      "InvalidErrorCode": "Invalid error code",
+      "TransactionError": "A database transaction is already active. Please try againt later"
     },
     "Caption": {
       "Success": "Thành công!",
@@ -882,7 +885,6 @@
       "Total": "The total number of query results ",
       "Records": "records",
       "InvalidInput": "Invalid input data",
-      "InvalidErrorCode": "Invalid error code",
       "InvalidFunc":"Invalid fucntion"
     }
   },
@@ -901,8 +903,7 @@
       "InvalidFunc":"Invalid fucntion",
       "ExecuteFail": "Execute Fail!",
       "InsFailHSAM": "INSERT HRMS_Sal_AddDedItem_Monthly Fail!",
-      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!",
-      "InvalidErrorCode": "Invalid error code"
+      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!"
     }
   },
   "SalaryMaintenance": {
@@ -1024,7 +1025,6 @@
       "ContinueExecuting":"此月份資料已經存在, 是否要繼續執行 ?",
       "InvalidInput": "Invalid input data",
       "InvalidTab":"Invalid selected tab",
-      "InvalidErrorCode": "Invalid error code",
       "DL11":"1.1 Salary lock = Y, Check the employee number that has not generated a closed account file in the current month",
       "DL12":"1.2 Salary lock = Y, Generate closing file",
       "DL21":"2.1 Salary lock = N, Check whether the salary has been paid, otherwise it cannot be cancelled",
@@ -1134,6 +1134,28 @@
       "Total": "The total number of query results ",
       "Records": "records",
       "InvalidInput": "Invalid input data"
+    },
+    "7_2_17_MonthlyPersonalIncomeTaxAmountReport": {
+      "ID": "7.2.17",
+      "Factory": "Factory",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records"
+    },
+    "MonthlyAdditionsAndDeductionsSummaryReport": {
+      "ID": "7.2.22",
+      "Factory": "Factory",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data",
+      "InvalidFunc": "Invalid fucntion"
     }
   }
 }

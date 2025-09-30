@@ -1,5 +1,4 @@
 import { Component, effect, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { NewEmployeesCompulsoryInsurancePremium_Param, NewEmployeesCompulsoryInsurancePremium_Memory } from '@models/compulsory-insurance-management/6_1_4_new_employees_compulsory_insurance_premium';
 import { S_6_1_4_NewEmployeesCompulsoryInsurancePremium } from '@services/compulsory-insurance-management/s_6_1_4_new_employees_compulsory_insurance_premium.service';
@@ -7,6 +6,7 @@ import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +16,9 @@ import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepick
 export class MainComponent extends InjectBase implements OnInit {
   @ViewChild('generationForm', { static: true }) generationForm: TemplateRef<any>;
   @ViewChild('reportForm', { static: true }) reportForm: TemplateRef<any>;
+
+  i18n: string = 'CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.'
+
   tabs: TabComponentModel[] = [];
   title: string = '';
   programCode: string = '';
@@ -66,13 +69,13 @@ export class MainComponent extends InjectBase implements OnInit {
     this.tabs = [
       {
         id: 'generation',
-        title: this.translateService.instant('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.InsuranceGeneration'),
+        title: this.translateService.instant(this.i18n + 'InsuranceGeneration'),
         isEnable: true,
         content: this.generationForm
       },
       {
         id: 'report',
-        title: this.translateService.instant('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.InsuranceReport'),
+        title: this.translateService.instant(this.i18n + 'InsuranceReport'),
         isEnable: true,
         content: this.reportForm
       },
@@ -93,7 +96,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   execute() {
     this.snotifyService.confirm(
-      this.translateService.instant('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.ExecuteConfirm'),
+      this.translateService.instant(this.i18n + 'ExecuteConfirm'),
       this.translateService.instant('System.Caption.Confirm'),
       () => {
         this.spinnerService.show();
@@ -101,19 +104,12 @@ export class MainComponent extends InjectBase implements OnInit {
           next: (res) => {
             this.spinnerService.hide();
             if (res.isSuccess) {
-              this.snotifyService.success(
-                this.translateService.instant('System.Message.CreateOKMsg'),
-                this.translateService.instant('System.Caption.Success')
-              );
+              this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.CreateOKMsg');
               this[this.selectedTab + '_Param'].total_Rows = res.data
             } else {
-              this.snotifyService.error(
-                this.translateService.instant(this.getTransKey('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium', res.error)),
-                this.translateService.instant('System.Caption.Error')
-              );
+              this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
             }
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         })
       }
     );
@@ -125,19 +121,12 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         if (res.isSuccess) {
-          this.snotifyService.success(
-            this.translateService.instant('System.Message.SearchOKMsg'),
-            this.translateService.instant('System.Caption.Success')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.SearchOKMsg');
           this[this.selectedTab + '_Param'].total_Rows = res.data
         } else {
-          this.snotifyService.error(
-            this.translateService.instant(this.getTransKey('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium', res.error)),
-            this.translateService.instant('System.Caption.Error')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -155,13 +144,9 @@ export class MainComponent extends InjectBase implements OnInit {
             }
             this[this.selectedTab + '_Param'].total_Rows = res.data.count
           } else {
-            this.snotifyService.error(
-              this.translateService.instant(this.getTransKey('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium', res.error)),
-              this.translateService.instant('System.Caption.Error')
-            );
+            this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -175,12 +160,6 @@ export class MainComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -216,11 +195,5 @@ export class MainComponent extends InjectBase implements OnInit {
 
   deleteProperty(name: string) {
     delete this[this.selectedTab + '_Param'][name]
-  }
-
-  getTransKey(parent: string, key: string): string {
-    return this.functionUtility.hasTranslation(`${parent}.${key}`)
-      ? `${parent}.${key}`
-      : `${this.translateService.instant('CompulsoryInsuranceManagement.NewEmployeesCompulsoryInsurancePremium.InvalidErrorCode')} : ${key}`
   }
 }

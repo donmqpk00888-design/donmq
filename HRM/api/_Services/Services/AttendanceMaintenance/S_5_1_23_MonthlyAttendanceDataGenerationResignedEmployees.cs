@@ -601,12 +601,12 @@ namespace API._Services.Services.AttendanceMaintenance
                         x.Language_Code.ToLower() == language.ToLower())
                     .ToList();
             var dataDept = comparisonDepartment.GroupJoin(HODL,
-                    x => x.Key,
-                    y => y.Department_Code,
+                    x => new {x.Division, x.Department_Code},
+                    y => new {y.Division, y.Department_Code},
                     (x, y) => new { dept = x, hodl = y })
                     .SelectMany(x => x.hodl.DefaultIfEmpty(),
                     (x, y) => new { x.dept, hodl = y });
-            return dataDept.Select(x => new KeyValuePair<string, string>(x.dept.Key, $"{(x.hodl != null ? x.hodl.Name : x.dept.Value)}")).Distinct().ToList();
+            return dataDept.Select(x => new KeyValuePair<string, string>(x.dept.Department_Code, $"{(x.hodl != null ? x.hodl.Name : x.dept.Department_Name)}")).Distinct().ToList();
         }
 
         private async Task<List<string>> GetFactoryByAccount(string userName)

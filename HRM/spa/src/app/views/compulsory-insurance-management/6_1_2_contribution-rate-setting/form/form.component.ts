@@ -1,5 +1,4 @@
 import { Component, effect, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -9,6 +8,7 @@ import { S_6_1_2_ContributionRateSettingService } from '@services/compulsory-ins
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -50,7 +50,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit() {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((res) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.formType = res['title'];
     });
     this.loadDropdownList();
@@ -98,9 +98,6 @@ export class FormComponent extends InjectBase implements OnInit {
         } else {
           this.back();
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -146,8 +143,7 @@ export class FormComponent extends InjectBase implements OnInit {
           }
           else
             this.snotifyService.error(res.error ?? 'System.Message.CreateErrorMsg', this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     else
       this.service.update(this.dataForm).subscribe({
@@ -159,8 +155,7 @@ export class FormComponent extends InjectBase implements OnInit {
             );
           } else
             this.snotifyService.error(this.translateService.instant(res.error ?? 'System.Message.UpdateErrorMsg'), this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -187,10 +182,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.data[index].employer_Rate = this.dataCheckEffectiveMonth.dataDefault.employer_Rate
             this.data[index].employee_Rate = this.dataCheckEffectiveMonth.dataDefault.employee_Rate
           }
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
-        },
+        }
       });
   }
 
@@ -198,9 +190,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -210,9 +199,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listInsuranceType = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -220,9 +206,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListPermissionGroup(this.param.factory).subscribe({
       next: (res) => {
         this.listPermissionGroup = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }

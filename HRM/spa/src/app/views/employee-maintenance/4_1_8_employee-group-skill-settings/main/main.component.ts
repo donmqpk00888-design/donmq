@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { EmployeeGroupSkillSettings_Main, EmployeeGroupSkillSettings_MainMemory, EmployeeGroupSkillSettings_Param, EmployeeGroupSkillSettings_SkillDetail } from '@models/employee-maintenance/4_1_8_employee-group-skill-settings';
 import { S_4_1_8_EmployeeGroupSkillSettings } from '@services/employee-maintenance/s_4_1_8_employee-group-skill-settings.service';
@@ -10,6 +9,7 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable, Observer, map, mergeMap, tap } from 'rxjs';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -69,10 +69,10 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
-      }).unsubscribe();
+      });
     this.employeeList$ = new Observable((observer: Observer<any>) => {
       observer.next({
         factory: this.param.factory,
@@ -98,8 +98,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
   }
   filterList(keys: KeyValuePair[]) {
@@ -127,9 +126,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           })
           if (isSearch)
             this.functionUtility.snotifySuccessError(true, 'System.Message.SearchOKMsg')
-        },
-        error: () => this.functionUtility.snotifySystemError(),
-        complete: () =>  this.spinnerService.hide()
+        }
       });
   };
   search = () => {
@@ -160,8 +157,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.getData(false)
             this.functionUtility.snotifySuccessError(true,'EmployeeInformationModule.EmployeeGroupSkillSettings.NotExitedData')
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
 
   }
@@ -174,8 +170,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           if (res.isSuccess)
             this.getData(false);
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
     });
   }

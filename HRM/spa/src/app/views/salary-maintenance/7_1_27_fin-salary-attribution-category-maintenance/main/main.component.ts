@@ -1,7 +1,6 @@
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { S_7_1_27_FinSalaryAttributionCategoryMaintenance } from '@services/salary-maintenance/s_7_1_27_fin-salary-attribution-category-maintenance.service';
 import { Pagination } from '@utilities/pagination-utility';
 import { KeyValuePair } from '@utilities/key-value-pair';
@@ -13,6 +12,8 @@ import {
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { FormGroup, NgForm } from '@angular/forms';
 import { ModalService } from '@services/modal.service';
+import { FileResultModel } from '@views/_shared/file-upload-component/file-upload.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -63,11 +64,11 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
 
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.filterList(role.dataResolved)
         this.getSource()
-      }).unsubscribe();
+      });
   }
   ngAfterViewChecked() {
     if (this.allowGetData && this.mainForm) {
@@ -108,46 +109,37 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
   }
 
   private getDropDownList() {
-    this.spinnerService.show()
     this.service.getDropDownList()
       .subscribe({
         next: (res) => {
-          this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   private getDepartment(onFactoryChange?: boolean) {
     if (this.param.factory) {
-      this.spinnerService.show();
       this.service
         .getDepartmentList(this.param)
         .subscribe({
           next: (res) => {
-            this.spinnerService.hide();
             this.departmentList = res;
             if (onFactoryChange)
               this.deleteProperty('department')
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }
   private getKindCode(onKindChange?: boolean) {
     if (this.param.kind) {
-      this.spinnerService.show();
       this.service
         .getKindCodeList(this.param)
         .subscribe({
           next: (res) => {
-            this.spinnerService.hide();
             this.kindCodeList = res;
             this.functionUtility.getNgSelectAllCheckbox(this.kindCodeList)
             if (onKindChange)
               this.deleteProperty('kind_Code_List')
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }
@@ -177,8 +169,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
               this.translateService.instant('System.Message.NotExitedData'),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   remove(item: FinSalaryAttributionCategoryMaintenance_Data) {
@@ -201,8 +192,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
                 this.translateService.instant('System.Caption.Error'));
             }
             this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
       });
   }
@@ -230,8 +220,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
               this.translateService.instant(`System.Message.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
   download() {
@@ -256,53 +245,29 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
               this.translateService.instant(`System.Message.${res.error}`),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
-  upload(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.spinnerService.show();
-      const fileFormat = event.target.files[0].name.split('.').pop();
-      if (!this.acceptFormat.includes(fileFormat)) {
-        event.target.value = '';
+  upload(event: FileResultModel) {
+    this.spinnerService.show();
+    this.service.uploadExcel(event.formData).subscribe({
+      next: (res) => {
         this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.InvalidFile'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      } else {
-        const formData = new FormData();
-        formData.append('file', event.target.files[0]);
-        this.service.uploadExcel(formData).subscribe({
-          next: (res) => {
-            this.inputRef.nativeElement.value = '';
-            this.spinnerService.hide();
-            if (res.isSuccess) {
-              this.getData(false)
-              this.snotifyService.success(
-                this.translateService.instant('System.Message.UploadOKMsg'),
-                this.translateService.instant('System.Caption.Success'))
-            } else {
-              if (!this.functionUtility.checkEmpty(res.data)) {
-                const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
-                this.functionUtility.exportExcel(res.data, fileName);
-              }
-              this.snotifyService.error(
-                res.error,
-                this.translateService.instant('System.Caption.Error')
-              );
-            }
-          },
-          error: () => {
-            event.target.value = '';
-            this.functionUtility.snotifySystemError()
-          },
-        });
+        if (res.isSuccess) {
+          if (this.functionUtility.checkFunction('Search') && this.param.factory && this.param.kind)
+            this.getData();
+          this.functionUtility.snotifySuccessError(true, 'System.Message.UploadOKMsg')
+        } else {
+          if (!this.functionUtility.checkEmpty(res.data)) {
+            const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
+            this.functionUtility.exportExcel(res.data, fileName);
+          }
+          this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
+        }
       }
-    }
+    });
   }
-  private getData = (isSearch: boolean) => {
+  private getData = (isSearch: boolean = false) => {
     return new Promise<void>((resolve, reject) => {
       this.spinnerService.show();
       this.service
@@ -325,14 +290,7 @@ export class MainComponent extends InjectBase implements OnInit, AfterViewChecke
             }
             resolve()
           },
-          error: () => {
-            this.spinnerService.hide();
-            this.snotifyService.error(
-              this.translateService.instant('System.Message.UnknowError'),
-              this.translateService.instant('System.Caption.Error')
-            );
-            reject()
-          }
+          error: () => { reject() }
         });
     })
   };

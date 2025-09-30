@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { Contract_ManagementParamSource, ContractManagementDto, ContractManagementParam } from '@models/employee-maintenance/4_1_15_contract-management';
 import { S_4_1_15_ContractManagementService } from '@services/employee-maintenance/s_4_1_15_contract-management.service';
@@ -8,6 +7,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ModalService } from '@services/modal.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -105,8 +105,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.pagination = res.pagination
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg')
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -134,31 +133,28 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.spinnerService.show()
       this.service.delete(item).subscribe({
         next: (res) => {
+          this.spinnerService.hide()
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.DeleteOKMsg' : 'System.Message.DeleteErrorMsg')
           if (res.isSuccess) this.getData();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     });
   }
 
   getListDivision() {
     this.service.getListDivision().subscribe({
-      next: res => this.division = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.division = res
     })
   }
   getListFactory() {
     this.service.getListFactory(this.param.division).subscribe({
-      next: res => this.factory = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.factory = res
     })
   }
 
   getListDepartment() {
     this.service.getListDepartment(this.param.division, this.param.factory).subscribe({
-      next: res => this.department = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.department = res
     })
   }
 
@@ -166,8 +162,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListContractType('', '').subscribe({
       next: res => {
         this.contractType = res
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 

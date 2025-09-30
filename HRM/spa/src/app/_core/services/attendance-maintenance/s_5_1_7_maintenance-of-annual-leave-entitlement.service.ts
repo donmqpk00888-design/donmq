@@ -78,9 +78,7 @@ export class S_5_1_7_MaintenanceOfAnnualLeaveEntitlementService implements IClea
     return this._http.get<OperationResult>(`${this.apiUrl}/DownloadExcel`, { params });
   }
 
-  uploadExcel(file: File) {
-    let formData = new FormData();
-    formData.append('file', file);
+  uploadExcel(formData: FormData) {
     formData.append('language', this.language);
     return this._http.post<OperationResult>(`${this.apiUrl}/UploadExcel`, formData);
   }

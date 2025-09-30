@@ -6,10 +6,10 @@ import { INavData } from '@coreui/angular';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
 import { AuthService } from '@services/auth/auth.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterEvent, Event, ResolveStart, ResolveEnd } from '@angular/router';
 import { filter, lastValueFrom } from 'rxjs';
 import { InjectBase } from '@utilities/inject-base-app';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,7 +50,7 @@ export class DefaultLayoutComponent extends InjectBase implements OnInit, AfterV
 
   async ngOnInit(): Promise<void> {
     this.spinnerService.show()
-    await this.initAuthPrograms()
+    await this.initSystem()
     this.navItems = this.navItem.getNav();
     this.signalRService.startConnection();
     this.signalRService.addListeners();
@@ -78,9 +78,9 @@ export class DefaultLayoutComponent extends InjectBase implements OnInit, AfterV
     this.sidebarMinimized = e;
   }
 
-  async initAuthPrograms() {
-    const authPrograms = await lastValueFrom(this.commonService.getAuthProgram());
-    localStorage.setItem(LocalStorageConstants.AUTH_PROGRAM, authPrograms);
+  async initSystem() {
+    const systemInfo = await lastValueFrom(this.commonService.getSystemInfo());
+    localStorage.setItem(LocalStorageConstants.SYSTEM_INFO, systemInfo);
   }
 
   async switchLang(lang: string) {

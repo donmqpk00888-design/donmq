@@ -158,25 +158,29 @@
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="optgroup-item-{{ index }}"
-                               type="checkbox"
-                               name="optgroup-item-{{ index }}"
-                               [ngModel]="item$.selected"
-                               [title]="'System.Action.SelectAll' | translate"
-                               [attr.aria-label]="'System.Action.SelectAll' | translate" />
-                        {{ 'System.Action.SelectAll' | translate }}
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
                       </ng-template>
                       <ng-template ng-option-tmp
                                    let-item="item"
                                    let-item$="item$"
                                    let-index="index">
-                        <input id="permission-option-item-{{ index }}"
-                               name="permission-option-item-{{ index }}"
-                               type="checkbox"
-                               [ngModel]="item$.selected"
-                               [title]="item.value"
-                               [attr.aria-label]="item.value" />
-                        {{ item.value }}
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
                       </ng-template>
                     </ng-select>
                   </div>
@@ -270,7 +274,8 @@
               </div>
             </div>
 
-            <div class="col-12 mt-2">
+            <div class="col-12">
+              <label class="d-block">&nbsp;</label>
               <!-- Search -->
               <button *ngIf="functionUtility.checkFunction('Search')"
                       type="button"

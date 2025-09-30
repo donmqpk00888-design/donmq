@@ -17,6 +17,7 @@ import { AuthService } from '@services/auth/auth.service';
     <ng-snotify></ng-snotify>
     <ng-progress></ng-progress>
     <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
+    <theme-switch></theme-switch>
   `,
   providers: [IconSetService],
 })

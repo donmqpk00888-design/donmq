@@ -13,6 +13,7 @@ import { MainComponent } from './main/main.component';
 import { FormComponent } from './form/form.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { DragScrollComponent } from 'ngx-drag-scroll';
+import { SharedModule } from '@views/_shared/shared.module';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DragScrollComponent } from 'ngx-drag-scroll';
     NgxMaskDirective, NgxMaskPipe,
     CollapseModule.forRoot(),
     TypeaheadModule.forRoot(),
-    DragScrollComponent
+    DragScrollComponent,
+    SharedModule
   ]
 })
 export class MonthlySalaryMaintenanceExitedEmployeesModule { }

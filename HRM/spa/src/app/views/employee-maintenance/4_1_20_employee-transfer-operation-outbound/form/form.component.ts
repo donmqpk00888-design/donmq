@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ClassButton,
   EmployeeMode,
@@ -14,6 +13,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { S_4_1_20_EmployeeTransferOperationOutboundService } from '@services/employee-maintenance/s_4_1_20_employee-transfer-operation-outbound.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -59,9 +59,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private _service: S_4_1_20_EmployeeTransferOperationOutboundService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.loadDropDownList();
         this.getListPositionTitleAfter();
@@ -72,20 +70,20 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe((role) => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((role) => {
       this.action = role.title;
-    }).unsubscribe();
+    });
 
-    this._service.paramForm.subscribe((res) => {
-      if (this.action == this.mode.edit) {
+    this._service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
+      if (this.action.toLowerCase() == this.mode.edit.toLowerCase()) {
         res != null ? (this.history_GUID = res) : this.back();
         this.getDetail();
       } else if (this.action == this.mode.add) {
         this.getEmployeeID();
       }
-    }).unsubscribe();
+    });
 
-    this._service.paramForm.subscribe((res) => {
+    this._service.paramForm.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (res != null) this.history_GUID = res;
     });
     this.loadDropDownList();
@@ -116,10 +114,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.getListPositionTitleBefore();
         this.spinnerService.hide();
       },
-      error: () => {
-        this.spinnerService.hide();
-        this.back();
-      },
+      error: () => { this.back(); },
     });
   }
 
@@ -153,8 +148,7 @@ export class FormComponent extends InjectBase implements OnInit {
         this.functionUtility.snotifySuccessError(res.isSuccess,
           res.isSuccess ? this.action == this.mode.add ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg' : res.error)
         if (res.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -189,8 +183,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getEmployeeID().subscribe({
       next: (res) => {
         this.employeeID = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
 

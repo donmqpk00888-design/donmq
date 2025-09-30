@@ -41,12 +41,12 @@ namespace API._Services.Services.SalaryMaintenance
                 .ToList();
             var dataDept = HOD
                 .GroupJoin(HODL,
-                    x => x.Key,
-                    y => y.Department_Code,
+                    x => new {x.Division, x.Department_Code},
+                    y => new {y.Division, y.Department_Code},
                     (x, y) => new { hod = x, hodl = y })
                 .SelectMany(x => x.hodl.DefaultIfEmpty(),
                     (x, y) => new { x.hod, hodl = y });
-            return dataDept.Select(x => new KeyValuePair<string, string>(x.hod.Key, $"{x.hod.Key}-{(x.hodl != null ? x.hodl.Name : x.hod.Value)}")).Distinct().ToList();
+            return dataDept.Select(x => new KeyValuePair<string, string>(x.hod.Department_Code, $"{x.hod.Department_Code}-{(x.hodl != null ? x.hodl.Name : x.hod.Department_Name)}")).Distinct().ToList();
         }
         public async Task<List<KeyValuePair<string, string>>> GetKindCodeList(FinSalaryAttributionCategoryMaintenance_Param param)
         {
@@ -260,7 +260,7 @@ namespace API._Services.Services.SalaryMaintenance
                 return result;
             var data = result.Data as List<FinSalaryAttributionCategoryMaintenance_Data>;
             if (data.Count == 0)
-                return new OperationResult(true, "Nodata");
+                return new OperationResult(true, "NoData");
             List<Table> tables = new()
             {
                 new Table("result", data)

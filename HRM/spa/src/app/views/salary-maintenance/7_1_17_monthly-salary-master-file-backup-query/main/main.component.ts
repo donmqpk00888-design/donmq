@@ -1,6 +1,5 @@
 import { S_7_1_17_MonthlySalaryMasterFileBackupQueryService } from '@services/salary-maintenance/s_7_1_17_monthly-salary-master-file-backup-query.service';
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { MonthlySalaryMasterFileBackupQueryDto, MonthlySalaryMasterFileBackupQueryParam, MonthlySalaryMasterFileBackupQuerySource } from '@models/salary-maintenance/7_1_17_monthly-salary-master-file-backup-query';
@@ -10,6 +9,7 @@ import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepick
 import { Observable } from 'rxjs';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -19,6 +19,9 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   @ViewChild('salarySearchTab', { static: true }) salarySearchTab: TemplateRef<any>;
   @ViewChild('batchDataTab', { static: true }) batchDataTab: TemplateRef<any>;
+
+  i18n: string = 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.'
+
   tabs: TabComponentModel[] = [];
   selectedTab: string = ''
 
@@ -29,9 +32,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   listFactory: KeyValuePair[] = [];
   listDepartment: KeyValuePair[] = [];
   listEmploymentStatus: KeyValuePair[] = [
-    { key: 'Y', value: 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.OnJob' },
-    { key: 'N', value: 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Resigned' },
-    { key: 'U', value: 'SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.Unpaid' }
+    { key: 'Y', value: this.i18n + 'OnJob' },
+    { key: 'N', value: this.i18n + 'Resigned' },
+    { key: 'U', value: this.i18n + 'Unpaid' }
   ];
   listPositionTitle: KeyValuePair[] = [];
   listPermissionGroup: KeyValuePair[] = [];
@@ -102,13 +105,13 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.tabs = [
       {
         id: 'salarySearch',
-        title: this.translateService.instant('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.MonthlySalarySearch'),
+        title: this.translateService.instant(this.i18n + 'MonthlySalarySearch'),
         isEnable: true,
         content: this.salarySearchTab
       },
       {
         id: 'batchData',
-        title: this.translateService.instant('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.BatchProductionData'),
+        title: this.translateService.instant(this.i18n + 'BatchProductionData'),
         isEnable: true,
         content: this.batchDataTab
       },
@@ -140,8 +143,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     this.service.getListFactory().subscribe({
       next: (res) => {
         this.listFactory = res;
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -151,7 +153,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   }
 
   getListDepartment() {
-    this.service.getListDepartment(this.salarySearch_Param.factory )
+    this.service.getListDepartment(this.salarySearch_Param.factory)
       .subscribe({
         next: (res) => {
           this.listDepartment = res;
@@ -168,9 +170,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       next: res => {
         this.listPermissionGroup = res;
         this.functionUtility.getNgSelectAllCheckbox(this.listPermissionGroup)
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     });
   }
@@ -183,8 +182,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
     serviceMethod().subscribe({
       next: (res) => {
         this[dataProperty] = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(false)
+      }
     });
   }
   //#endregion
@@ -202,13 +200,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
         }
         else {
-          this.snotifyService.error(
-            this.translateService.instant(this.getTransKey('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery', res.error)),
-            this.translateService.instant('System.Caption.Error')
-          );
+          this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     })
   }
 
@@ -347,27 +341,20 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
 
   execute() {
     this.snotifyService.confirm(
-      this.translateService.instant('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.ExecuteConfirm'),
+      this.translateService.instant(this.i18n + 'ExecuteConfirm'),
       this.translateService.instant('System.Caption.Confirm'),
       () => {
         this.spinnerService.show();
         this.service.execute(this.batchData_Param).subscribe({
           next: (res) => {
             if (res.isSuccess) {
-              this.snotifyService.success(
-                this.translateService.instant('System.Message.CreateOKMsg'),
-                this.translateService.instant('System.Caption.Success')
-              );
+              this.functionUtility.snotifySuccessError(res.isSuccess, 'System.Message.CreateOKMsg');
               this.clear();
             } else {
-              this.snotifyService.error(
-                this.translateService.instant(this.getTransKey('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery', res.error)),
-                this.translateService.instant('System.Caption.Error')
-              );
+              this.functionUtility.snotifySuccessError(res.isSuccess, `${this.i18n}${res.error}`);
             }
             this.spinnerService.hide();
           },
-          error: () => this.functionUtility.snotifySystemError(),
         });
       }
     );
@@ -381,11 +368,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
       this.salarySearch_Data = []
     }
   }
-  getTransKey(parent: string, key: string): string {
-    return this.functionUtility.hasTranslation(`${parent}.${key}`)
-      ? `${parent}.${key}`
-      : `${this.translateService.instant('SalaryMaintenance.MonthlySalaryMasterFileBackupQuery.InvalidErrorCode')} : ${key}`
-  }
   download() {
     this.spinnerService.show();
     this.service.download(this.salarySearch_Param).subscribe({
@@ -393,10 +375,9 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.spinnerService.hide();
         const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Report')
         result.isSuccess
-        ? this.functionUtility.exportExcel(result.data, fileName)
-          : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
+          ? this.functionUtility.exportExcel(result.data, fileName)
+          : this.functionUtility.snotifySuccessError(result.isSuccess, `System.Message.${result.error}`)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 }

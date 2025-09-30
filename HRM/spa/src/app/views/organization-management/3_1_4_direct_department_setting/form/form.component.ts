@@ -1,5 +1,4 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LangConstants } from '@constants/lang-constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
@@ -10,7 +9,8 @@ import {
 import { LangChangeEvent } from '@ngx-translate/core';
 import { S_3_1_4_DirectDepartmentSettingService } from '@services/organization-management/s_3_1_4_direct-department-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
-import { KeyValuePair } from '@utilities/key-value-pair';
+import { KeyValuePair } from '@utilities/key-value-pair';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -33,9 +33,7 @@ export class FormComponent extends InjectBase implements OnInit {
   formType: string = ''
   constructor(private service: S_3_1_4_DirectDepartmentSettingService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((event: LangChangeEvent) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((event: LangChangeEvent) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.isChange = false;
         this.getListDivision();
@@ -50,7 +48,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.getListDivision();
     this.getListFactory();
     this.getListDirectDepartmentAttribute();
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => {
         this.formType = res['title']
         this.action = `System.Action.${this.formType}`
@@ -100,11 +98,9 @@ export class FormComponent extends InjectBase implements OnInit {
     data.line_Code != null ? this.checkDuplicate() : (this.isDuplicate = false);
   }
   getListDivision() {
-    this.spinnerService.show();
     this.service.getListDivision().subscribe({
       next: (res) => {
         this.listDivision = res;
-        this.spinnerService.hide();
       }
     });
   }
@@ -121,19 +117,16 @@ export class FormComponent extends InjectBase implements OnInit {
     this.getListLine();
   }
   getListDepartment() {
-    this.spinnerService.show();
     this.isChange = true;
     this.service
       .getListDepartment()
       .subscribe({
         next: (res) => {
           this.listDepartment = res;
-          this.spinnerService.hide();
         }
       });
   }
   getListFactory() {
-    this.spinnerService.show();
     if (this.formType == 'Add' && this.isChange) {
       this.deleteProperty('factory');
       this.deleteProperty('department_Code');
@@ -141,12 +134,10 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListFactory(this.param.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
       }
     });
   }
   getListLine() {
-    this.spinnerService.show();
     this.paramArray.forEach((item) => {
       item.line_Code = null;
     });
@@ -155,9 +146,7 @@ export class FormComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.listLine = res;
-          this.spinnerService.hide();
-        },
-        error: () => { },
+        }
       });
   }
   deleteItem(index: number) {
@@ -178,11 +167,9 @@ export class FormComponent extends InjectBase implements OnInit {
     });
   }
   getListDirectDepartmentAttribute() {
-    this.spinnerService.show();
     this.service.GetListDirectDepartmentAttribute().subscribe({
       next: (res) => {
         this.listDirectDepartmentAttribute = res;
-        this.spinnerService.hide();
       }
     });
   }
@@ -213,13 +200,12 @@ export class FormComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service[this.formType == 'Add' ? 'addNew' : 'edit'](this.paramArray).subscribe({
       next: (result) => {
+        this.spinnerService.hide()
         this.functionUtility.snotifySuccessError(result.isSuccess,
           result.isSuccess ? (this.formType == 'Add' ? 'System.Message.CreateOKMsg' : 'System.Message.UpdateOKMsg') : result.error,
           result.isSuccess)
         if (result.isSuccess) this.back();
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
 
@@ -227,7 +213,6 @@ export class FormComponent extends InjectBase implements OnInit {
 
   checkDuplicate() {
     if (this.paramArray.filter((x) => x.line_Code == null).length == 0) {
-      this.spinnerService.show();
       const lookup = this.paramArray.reduce((temp, val) => {
         temp[val.line_Code] = ++temp[val.line_Code] || 0;
         return temp;
@@ -241,6 +226,7 @@ export class FormComponent extends InjectBase implements OnInit {
             item.department_Code = this.param.department_Code;
             item.division = this.param.division;
           });
+          this.spinnerService.show();
           this.service.checkDuplicate(this.paramArray).subscribe({
             next: (result) => {
               this.spinnerService.hide();
@@ -249,13 +235,11 @@ export class FormComponent extends InjectBase implements OnInit {
                 this.isDuplicate = true;
                 this.functionUtility.snotifySuccessError(false, 'OrganizationManagement.DirectDepartmentSetting.RepeatedData')
               }
-            },
-            error: () => this.functionUtility.snotifySystemError()
+            }
           });
-        } else this.spinnerService.hide();
+        }
       }
       else {
-        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(false, 'OrganizationManagement.DirectDepartmentSetting.RepeatedData')
       }
     }

@@ -10,6 +10,7 @@ import { CompulsoryInsuranceDataMaintenanceRoutingModule } from './compulsory_in
 import { FormComponent } from './form/form.component';
 import { MainComponent } from './main/main.component';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     TypeaheadModule.forRoot(),
     NgxMaskDirective,
     NgxMaskPipe,
+    SharedModule
   ],
   declarations: [MainComponent, FormComponent]
 })

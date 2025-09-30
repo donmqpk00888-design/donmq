@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <form class="form-horizontal" autocomplete="off" #mainForm="ngForm">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
           <div class="card-header">
             <div class="row border-title">
               <div class="col-md-12">
@@ -14,46 +16,49 @@
             <div class="row border-shadow">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label for="factory" class="badge badge-warning">
-                    {{
-                    "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Factory"
-                    | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory" name="factory"
-                    [(ngModel)]="param.factory"
-                    (ngModelChange)="onFactoryChange()"
-                    (clear)="onFactoryClear()"
-                    placeholder="{{ 'AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Factory' | translate }}">
-                    <ng-option *ngFor="let item of listFactory"
-                      [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
-                </div>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{
+                  "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Factory"
+                  | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onFactoryChange()"
+                           (clear)="onFactoryClear()"
+                           placeholder="{{ 'AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Factory' | translate }}">
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Year Month -->
               <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group">
-                  <label class="badge badge-warning">
-                    {{
-                    "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Year-Month"
-                    | translate }}
-                    <span class="text-danger text-bold">*</span>
-                  </label>
-                  <div class="input-group mr-3">
-                    <input type="text" autocomplete="off" placeholder="YYYY/MM"
-                      name="Year-Month" [bsConfig]="bsConfig"
-                      class="form-control" bsDatepicker
-                      [(ngModel)]="yearMonth_Value"
-                      (onShown)="onOpenCalendar($event)" onpaste="return false"
-                      required />
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="{{ iconButton.CALENDAR }}"></i>
-                      </span>
-                    </div>
+                <label class="badge badge-warning">
+                  {{
+                  "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Year-Month"
+                  | translate }}
+                  <span class="text-danger text-bold">*</span>
+                </label>
+                <div class="input-group mr-3">
+                  <input type="text"
+                         autocomplete="off"
+                         placeholder="YYYY/MM"
+                         name="Year-Month"
+                         [bsConfig]="bsConfig"
+                         class="form-control"
+                         bsDatepicker
+                         [(ngModel)]="yearMonth_Value"
+                         (onShown)="onOpenCalendar($event)"
+                         onpaste="return false"
+                         required />
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="{{ iconButton.CALENDAR }}"></i>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -61,78 +66,105 @@
               <div class="col-12">
                 <div class="row">
                   <div class="col-auto">
-                    <div class="form-group">
-                      <label for="permissionGroup" class="badge badge-warning">
-                        {{
-                        "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.PermissionGroup"
-                        | translate }}
-                        <span class="text-danger text-bold"> *</span>
-                      </label>
-                      <ng-select [items]="listPermissionGroup" [multiple]="true"
-                        name="namePermission" groupBy="allGroup"
-                        [selectableGroup]="true"
-                        [selectableGroupAsModel]="false" [closeOnSelect]="false"
-                        bindLabel="value" bindValue="key"
-                        [(ngModel)]="param.permissionGroup"
-                        [clearable]="param.permissionGroup.length > 0"
-                        (clear)="param.permissionGroup = []"
-                        [disabled]="!param.factory"
-                        placeholder="{{ 'AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.PermissionGroup' | translate }}">
-                        <ng-template ng-optgroup-tmp let-item="item"
-                          let-item$="item$" let-index="index">
-                          <input id="item-{{ index }}" type="checkbox"
-                            name="item-{{ index }}"
-                            [ngModel]="item$.selected" />
-                          {{
-                          'System.Action.SelectAll' | translate }}</ng-template>
-                        <ng-template ng-option-tmp let-item="item"
-                          let-item$="item$" let-index="index">
-                          <input id="item-{{ index }}" name="item-{{ index }}"
-                            type="checkbox" [ngModel]="item$.selected" /> {{
-                          item.value }} </ng-template>
-                      </ng-select>
-                    </div>
+                    <label for="permissionGroup"
+                           class="badge badge-warning">
+                      {{
+                      "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.PermissionGroup"
+                      | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select [items]="listPermissionGroup"
+                               [multiple]="true"
+                               name="namePermission"
+                               groupBy="allGroup"
+                               [selectableGroup]="true"
+                               [selectableGroupAsModel]="false"
+                               [closeOnSelect]="false"
+                               bindLabel="value"
+                               bindValue="key"
+                               [(ngModel)]="param.permissionGroup"
+                               [clearable]="param.permissionGroup.length > 0"
+                               (clear)="param.permissionGroup = []"
+                               [disabled]="!param.factory"
+                               placeholder="{{ 'AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.PermissionGroup' | translate }}">
+                      <ng-template ng-optgroup-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 name="item-{{ index }}"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp
+                                   let-item="item"
+                                   let-item$="item$"
+                                   let-index="index">
+                        <div class="custom-control custom-checkbox pe-none">
+                          <input id="item-{{ index }}"
+                                 name="item-{{ index }}"
+                                 type="checkbox"
+                                 class="custom-control-input"
+                                 [ngModel]="item$.selected" />
+                          <label class="custom-control-label"
+                                 for="item-{{ index }}"> {{ item.value }}</label>
+                        </div>
+                      </ng-template>
+                    </ng-select>
                   </div>
                 </div>
               </div>
-              <div class="col-12 pb-2">
+              <div class="col-12">
+                <label class="d-block">&nbsp;</label>
                 <button *ngIf="functionUtility.checkFunction('Search')"
-                  type="button" class="{{ classButton.SEARCH }}"
-                  (click)="getTotalRows()" [disabled]="disableSearch()">
+                        type="button"
+                        class="{{ classButton.SEARCH }}"
+                        (click)="getTotalRows()"
+                        [disabled]="disableSearch()">
                   <i class="{{ iconButton.SEARCH }}"></i>
                   {{ "System.Action.Search" | translate }}
                 </button>
-                <button type="button" class="{{ classButton.CLEAR }}"
-                  (click)="clear()">
+                <button type="button"
+                        class="{{ classButton.CLEAR }}"
+                        (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i>
                   {{ "System.Action.Clear" | translate }}
                 </button>
-                <button type="button" (click)="excel()" class="btn btn-success"
-                  *ngIf="functionUtility.checkFunction('Excel')"
-                  [disabled]="disableSearch()">
+                <button type="button"
+                        (click)="excel()"
+                        class="btn btn-success"
+                        *ngIf="functionUtility.checkFunction('Excel')"
+                        [disabled]="disableSearch()">
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>
               </div>
-              <div class="col-12 pb-2">
-                <div name="buttonGroup" class="btn-group"
-                  [(ngModel)]="param.option"
-                  (ngModelChange)="getDataRowChange()" btnRadioGroup>
-                  <label class="btn btn-light btn-sm mt-4 mb-0 font-sm"
-                    btnRadio="WorkingHours">
+              <div class="col-12">
+                <div name="buttonGroup"
+                     class="btn-group"
+                     [(ngModel)]="param.option"
+                     (ngModelChange)="getDataRowChange()"
+                     btnRadioGroup>
+                  <label class="btn btn-light btn-sm mt-2 mb-0 font-sm"
+                         btnRadio="WorkingHours">
                     {{
                     "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.WorkingHours"
                     | translate }}
                   </label>
-                  <label class="btn btn-light btn-sm mt-4 mb-0 font-sm"
-                    btnRadio="LeaveHours">
+                  <label class="btn btn-light btn-sm mt-2 mb-0 font-sm"
+                         btnRadio="LeaveHours">
                     {{
                     "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.LeaveHours"
                     | translate }}
                   </label>
                 </div>
               </div>
-              <div>
+              <div class="mt-2">
                 <strong class="title-card-cs pl-3">{{
                   "AttendanceMaintenance.MonthlyWorkingHoursLeaveHoursReport.Total"
                   | translate }}

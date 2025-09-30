@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, input, OnDestroy, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { HRMS_Emp_Unpaid_LeaveDto, HRMS_Emp_Unpaid_LeaveModel } from '@models/employee-maintenance/4_1_11_unpaid-leave';
 import { S_4_1_11_UnpaidLeaveService } from '@services/employee-maintenance/s_4_1_11_unpaid-leave.service';
@@ -10,6 +9,7 @@ import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepick
 import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',
@@ -101,14 +101,13 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.data.leave_End = leaveEnd;
     this.isSave = true
     const observable = this.isEdit ? this.service.edit(this.data) : this.service.addNew(this.data);
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
         this.spinnerService.hide();
         const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
         this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? message : result.error)
         if (result.isSuccess) this.directive.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   close() {
@@ -121,13 +120,10 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
   }
 
   getListFactory() {
-    this.spinnerService.show();
     this.service.getListFactory(this.data.division).subscribe({
       next: (res) => {
         this.listFactory = res;
-        this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -139,10 +135,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.service.getSeq(this.data).subscribe({
       next: (res) => {
         this.data.ordinal_Number = res.isSuccess ? res.data : null;
-      },
-      error: () => {
-        this.spinnerService.hide();
-      },
+      }
     });
   }
 
@@ -152,8 +145,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
       next: (res) => {
         this[dataProperty] = res;
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -179,8 +171,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
             this.data.local_Full_Name = res[0].local_Full_Name;
             this.data.onboard_Date = res[0].onboard_Date;
           }
-        },
-        error: () => this.functionUtility.snotifySystemError(false)
+        }
       });
     }
   }

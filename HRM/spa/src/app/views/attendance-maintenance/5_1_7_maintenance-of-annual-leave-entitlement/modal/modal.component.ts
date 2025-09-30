@@ -2,13 +2,14 @@ import { AfterViewInit, Component, EventEmitter, input, OnDestroy, ViewChild } f
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { CaptionConstants } from '@constants/message.enum';
 import { MaintenanceOfAnnualLeaveEntitlement } from '@models/attendance-maintenance/5_1_7_maintenance_of_annual_leave_entitlement';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_7_MaintenanceOfAnnualLeaveEntitlementService } from '@services/attendance-maintenance/s_5_1_7_maintenance-of-annual-leave-entitlement.service';
 import { ModalService } from '@services/modal.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-modal',
@@ -70,7 +71,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
     this.spinnerService.show();
     this.isSave = true
     const observable = this.isEdit ? this._service.edit(this.dataMain) : this._service.add(this.dataMain);
-    observable.subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
         this.spinnerService.hide();
         const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
@@ -78,8 +79,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         if (result.isSuccess) {
           isContinue ? this.clear() : this.directive.hide();
         }
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
   clear() {
@@ -93,27 +93,20 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
 
   //#region getInfo
   getListFactory() {
-    this.spinnerService.show();
-
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factoryList = res
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
   getListLeaveCode() {
-    this.spinnerService.show();
     this._service.getListLeaveCode()
       .subscribe({
         next: (res) => {
           this.leaveCodeList = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -123,8 +116,7 @@ export class ModalComponent extends InjectBase implements AfterViewInit, OnDestr
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }

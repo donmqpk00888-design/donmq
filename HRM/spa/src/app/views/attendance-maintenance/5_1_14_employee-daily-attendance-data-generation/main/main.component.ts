@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { EnabledDateConfig, HRMS_Att_Swipe_Card_Excute_Param } from '@models/attendance-maintenance/5_1_14_employee-daily-attendance-data-generation';
 import { ValidateResult } from '@models/base-source';
@@ -7,6 +6,7 @@ import { S_5_1_14_EmployeeDailyAttendanceDataGenerationService } from '@services
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig, DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -56,9 +56,7 @@ export class MainComponent extends InjectBase implements OnInit {
   ) {
     super();
     // Load lại dữ liệu khi thay đổi ngôn ngữ
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((res) => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe((res) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         // this.getFactories();
       });
@@ -67,7 +65,7 @@ export class MainComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
     // load dữ liệu [Factories]
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (res) => (this.factories = res.resolverFactories)
     );
     this.workOnDayDate = new Date();
@@ -75,14 +73,10 @@ export class MainComponent extends InjectBase implements OnInit {
 
   //#region Methods
   getFactories() {
-    this.spinnerService.show();
     this._services.getFactories().subscribe({
       next: (result) => {
-        this.spinnerService.hide();
         this.factories = result;
-      },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide(),
+      }
     });
   }
 
@@ -249,14 +243,10 @@ export class MainComponent extends InjectBase implements OnInit {
                             ? this.translateService.instant('System.Message.UnknowError')
                             : result.error
                       )
-                    },
-                    error: () => this.functionUtility.snotifySystemError(),
+                    }
                   });
                 }
-              },
-              error: () => {
-                this.functionUtility.snotifySystemError();
-              },
+              }
             });
         }
       );

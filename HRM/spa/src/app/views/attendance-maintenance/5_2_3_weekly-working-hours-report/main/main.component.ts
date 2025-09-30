@@ -3,9 +3,9 @@ import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { InjectBase } from '@utilities/inject-base-app';
 import { WeeklyWorkingHoursReport_Basic, WeeklyWorkingHoursReportDto, WeeklyWorkingHoursReportParam } from '@models/attendance-maintenance/5_2_3_weekly-working-hours-report';
 import { ClassButton, IconButton } from '@constants/common.constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { S_5_2_3_WeeklyWorkingHoursReportService } from '@services/attendance-maintenance/s_5_2_3_weekly-working-hours-report.service';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -45,7 +45,7 @@ export class MainComponent extends InjectBase implements OnInit {
     this.programCode = this.route.snapshot.data['program'];
     this.getDataFromSource();
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.getListFactory();
       this.getListLevel();
@@ -106,7 +106,6 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListDepartment() {
@@ -114,7 +113,6 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listDepartment = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -123,7 +121,6 @@ export class MainComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listLevel = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -142,7 +139,6 @@ export class MainComponent extends InjectBase implements OnInit {
           );
         }
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   paramChanged(): boolean {
@@ -185,7 +181,6 @@ export class MainComponent extends InjectBase implements OnInit {
           this.countRecord = res.data.count
         } else this.functionUtility.snotifySuccessError(res.isSuccess, res.error)
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   deleteProperty = (name: string) => delete this.param[name]

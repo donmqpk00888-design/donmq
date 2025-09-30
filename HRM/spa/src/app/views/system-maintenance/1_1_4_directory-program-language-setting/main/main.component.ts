@@ -1,5 +1,4 @@
 import { Component, effect, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import {
   DirectoryProgramLanguageSetting_Param,
@@ -11,6 +10,7 @@ import { S_1_1_4_DirectoryProgramLanguageSettingService } from '@services/system
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -81,8 +81,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         this.data = result.result;
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QueryOKMsg');
-      },
-      error: () => { this.functionUtility.snotifySystemError(true) }
+      }
     });
   }
   pageChanged(event: any) {
@@ -113,8 +112,7 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
             this.spinnerService.hide();
             this.functionUtility.snotifySuccessError(result.isSuccess, result.isSuccess ? this.translateService.instant('System.Message.DeleteOKMsg') : result.error, false);
             if (result.isSuccess) this.getDataPagination()
-          },
-          error: () => this.functionUtility.snotifySystemError(true)
+          }
         })
       });
   }

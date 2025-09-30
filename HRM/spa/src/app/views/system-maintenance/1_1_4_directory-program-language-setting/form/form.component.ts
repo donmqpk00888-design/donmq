@@ -8,8 +8,8 @@ import {
 } from '@models/system-maintenance/1_1_4_directory-program-language';
 import { S_1_1_4_DirectoryProgramLanguageSettingService } from '@services/system-maintenance/s_1_1_4_directory-program-language-setting.service';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -42,9 +42,9 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.url = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title
-    }).unsubscribe();
+    });
   }
 
 
@@ -62,7 +62,6 @@ export class FormComponent extends InjectBase implements OnInit {
       if (this.action == 'Edit') {
         if (source.selectedData && Object.keys(source.selectedData).length > 0) {
           this.programDirectory = structuredClone(source.selectedData);
-          this.getNameCode(this.programDirectory.kind, this.programDirectory.code);
           this.getDetail(this.programDirectory.kind, this.programDirectory.code);
         }
         else {
@@ -80,18 +79,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getDetail(kind, code).subscribe({
       next: (res) => {
         this.data = res
-      },
-      error: () => { }
-    })
-  }
-
-  getNameCode(kind: string, code: string) {
-    this.service.getNameCode(kind, code).subscribe({
-      next: (res) => {
-        this.listProgram = res
-        this.data.code = this.programDirectory.code + ' - ' + this.listProgram[0].value;
-      },
-      error: () => { }
+      }
     })
   }
 
@@ -135,10 +123,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.back();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
         }
       })
     }
@@ -151,10 +135,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.back();
           }
           else this.snotifyService.error(result.error, this.translateService.instant('System.Caption.Error'));
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
         }
       })
     }

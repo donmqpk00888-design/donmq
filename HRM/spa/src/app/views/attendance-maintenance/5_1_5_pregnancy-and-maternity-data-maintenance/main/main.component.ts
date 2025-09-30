@@ -9,8 +9,8 @@ import {
   PregnancyMaternityMemory,
   PregnancyMaternityParam
 } from '@models/attendance-maintenance/5_1_5_pregnancy_and_maternity_data';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -79,15 +79,11 @@ export class MainComponent extends InjectBase implements OnInit {
   }
 
   getListFactory() {
-    this.spinnerService.show();
-
     this._service.getListFactory()
       .subscribe({
         next: (res) => {
           this.factories = res
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -102,14 +98,11 @@ export class MainComponent extends InjectBase implements OnInit {
   }
   getListDepartment() {
     if (this.params.factory) {
-      this.spinnerService.show();
       this._service.getListDepartment(this.params.factory)
         .subscribe({
           next: (res) => {
             this.departments = res
-            this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
     }
   }
@@ -128,8 +121,7 @@ export class MainComponent extends InjectBase implements OnInit {
             );
 
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -177,8 +169,7 @@ export class MainComponent extends InjectBase implements OnInit {
               );
             }
             this.spinnerService.hide();
-          },
-          error: () => this.functionUtility.snotifySystemError()
+          }
         });
       });
   }
@@ -193,7 +184,6 @@ export class MainComponent extends InjectBase implements OnInit {
           ? this.functionUtility.exportExcel(result.data, fileName)
           : this.functionUtility.snotifySuccessError(result.isSuccess, result.error);
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 

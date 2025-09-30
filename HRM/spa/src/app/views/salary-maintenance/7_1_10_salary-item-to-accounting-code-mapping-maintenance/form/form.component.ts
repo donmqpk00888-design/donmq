@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -7,6 +6,7 @@ import { SalaryItemToAccountingCodeMappingMaintenanceDto } from '@models/salary-
 import { S_7_1_10_SalaryItemToAccountingCodeMappingMaintenanceService } from '@services/salary-maintenance/s_7_1_10_salary-item-to-accounting-code-mapping-maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -36,11 +36,11 @@ export class FormComponent extends InjectBase implements OnInit {
   ngOnInit(): void {
     this.title = this.functionUtility.getTitle(this.route.snapshot.data['program']);
     this.tempUrl = this.functionUtility.getRootUrl(this.router.routerState.snapshot.url);
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.formType = role.title
         this.getSource()
-      }).unsubscribe()
+      })
   }
   getSource() {
     if (this.formType == 'Edit') {
@@ -56,27 +56,17 @@ export class FormComponent extends InjectBase implements OnInit {
     this.getSalaryItems();
   }
   getSalaryItems() {
-    this.spinnerService.show();
     this.commonService.getListSalaryItems().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.salaryItems = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
 
   getFactory() {
-    this.spinnerService.show();
     this.service.getFactory().subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.factorys = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -86,7 +76,7 @@ export class FormComponent extends InjectBase implements OnInit {
   save(isNext?: boolean) {
     this.spinnerService.show();
     const actionMethod = this.service[this.formType == "Add" ? "create" : "edit"](this.model);
-    actionMethod.subscribe({
+    actionMethod.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
         this.spinnerService.hide();
         if (this.formType === 'Add')
@@ -95,9 +85,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.functionUtility.snotifySuccessError(res.isSuccess, res.isSuccess ? 'System.Message.UpdateOKMsg' : res.error ?? 'System.Message.UpdateErrorMsg');
         if (res.isSuccess)
           isNext ? this.model = <SalaryItemToAccountingCodeMappingMaintenanceDto>{ factory: this.model.factory, dC_Code: "D" } : this.back();
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -128,9 +115,6 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           if (res.isSuccess)
             this.functionUtility.snotifySuccessError(false, `Factory: ${this.model.factory},\r\nSalary_Item: ${this.model.salary_Item}, \r\nDC_Code: ${this.model.dC_Code} already exists!`, false);
-        },
-        error: () => {
-          this.functionUtility.snotifySystemError();
         }
       })
     }

@@ -10,6 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FactoryCalendarRoutingModule } from './factory-calendar-routing.module';
+import { SharedModule } from '@views/_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FactoryCalendarRoutingModule } from './factory-calendar-routing.module'
     BsDatepickerModule.forRoot(),
     TranslateModule,
     NgSelectModule,
-    FactoryCalendarRoutingModule
+    FactoryCalendarRoutingModule,
+    SharedModule
   ]
 })
 export class FactoryCalendarModule { }

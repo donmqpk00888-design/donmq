@@ -14,7 +14,7 @@
                 autocomplete="off">
             <div class="row">
               <!-- Factory -->
-              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Factory" | translate}}
                   <span class="text-danger">*</span>
@@ -31,7 +31,7 @@
               </div>
 
               <!-- Effective Status -->
-              <div class="col-xxl-2 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-2 col-xl-6 col-lg-6 col-md-6">
                 <label class="badge badge-warning">{{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.InService' |
                   translate}}</label>
                 <div class="row pl-3">
@@ -59,7 +59,7 @@
               </div>
 
               <!-- EmployeeID -->
-              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6">
                 <label class="badge badge-warning">
                   {{"AttendanceMaintenance.EmployeeLunchBreakTimeSetting.EmployeeID" | translate}}
                 </label>
@@ -72,7 +72,7 @@
               </div>
 
               <!-- Department -->
-              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 pb-2">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6">
                 <label class="badge badge-warning">
                   {{'AttendanceMaintenance.EmployeeLunchBreakTimeSetting.Department' | translate }}
                 </label>
@@ -104,39 +104,37 @@
 
               <!-- Submit Button -->
               <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12">
+                <label class="d-block">&nbsp;</label>
                 <!-- Search -->
                 <button *ngIf="functionUtility.checkFunction('Search')"
                         type="submit"
                         [disabled]="!param.factory"
-                        class="btn btn-primary mr-2 custom-margin-top"
+                        class="btn btn-primary mr-2"
                         (click)="search(true)">
                   <i class="{{iconButton.SEARCH}}"></i> {{"System.Action.Search" | translate }}
                 </button>
                 <!-- Clear -->
                 <button type="button"
-                        class="btn btn-danger mr-2 custom-margin-top"
+                        class="btn btn-danger mr-2"
                         (click)="clear()">
                   <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
                 </button>
                 <!-- Upload -->
-                <label *ngIf="functionUtility.checkFunction('Upload')"
-                       class="btn btn-success mr-2 mb-0 custom-margin-top">
-                  <input class="custom-upload"
-                         type="file"
-                         (change)="upload($event)">
-                  <i class="{{iconButton.UPLOAD}}"></i> {{"System.Action.Upload" | translate }}
-                </label>
+                <file-upload [allowExtensions]="accept"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <!-- Download -->
                 <button *ngIf="functionUtility.checkFunction('Upload')"
                         type="button"
-                        class="btn btn-primary mr-2 custom-margin-top"
+                        class="btn btn-primary mr-2"
                         (click)="downloadTemplate()">
                   <i class="{{iconButton.EXCEL}}"></i>
                   {{'System.Action.ExcelTemplate' | translate }}
                 </button>
                 <button type="button"
                         *ngIf="functionUtility.checkFunction('Excel')"
-                        class="btn btn-success mr-2 custom-margin-top"
+                        class="btn btn-success mr-2"
                         (click)="download()"
                         [disabled]="!param.factory">
                   <i class="{{ iconButton.EXCEL }}"></i>
@@ -211,7 +209,7 @@
                       <tr>
                         <td colspan="100%"
                             class="table-warning text-center font-weight-bold">
-                          {{"System.Message.Nodata" | translate }}
+                          {{"System.Message.NoData" | translate }}
                         </td>
                       </tr>
                     </tbody>
@@ -223,7 +221,7 @@
               <div class="row">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
                     <pagination [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"
                                 [itemsPerPage]="pagination.pageSize"

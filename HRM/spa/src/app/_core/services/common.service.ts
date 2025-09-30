@@ -2,22 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "@env/environment";
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo, SystemInfo } from '@models/common';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
-import { AuthProgram } from '@models/auth/auth';
 import { decode } from '@utilities/encryption-utility';
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   get language(): string { return localStorage.getItem(LocalStorageConstants.LANG) }
-  get authPrograms(): AuthProgram { return decode(localStorage.getItem(LocalStorageConstants.AUTH_PROGRAM)) as AuthProgram }
+  get systemInfo(): SystemInfo { return decode(localStorage.getItem(LocalStorageConstants.SYSTEM_INFO)) as SystemInfo }
   apiUrl = environment.apiUrl + 'Common/';
 
   constructor(private http: HttpClient) { }
 
-  getAuthProgram() {
-    return this.http.get(this.apiUrl + 'GetAuthProgram', { responseType: 'text' })
+  getSystemInfo() {
+    return this.http.get(this.apiUrl + 'GetSystemInfo', { responseType: 'text' })
   }
   getPasswordReset() {
     return this.http.get<Boolean>(this.apiUrl + 'GetPasswordReset')
@@ -30,7 +29,7 @@ export class CommonService {
     return this.http.get<KeyValuePair[]>(this.apiUrl + 'GetListDepartment', { params: { language: this.language, factory } });
   }
 
-  getListWorkShiftType() { 
+  getListWorkShiftType() {
     return this.http.get<KeyValuePair[]>(this.apiUrl + 'GetListWorkShiftType', { params: { language: this.language } });
   }
 

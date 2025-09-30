@@ -16,59 +16,59 @@
             <div class="row border-shadow">
               <!-- Factory -->
               <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                  <label for="factory"
-                         class="badge badge-warning">
-                    {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Factory" | translate }}
-                    <span class="text-danger text-bold"> *</span>
-                  </label>
-                  <ng-select id="factory"
-                             name="factory"
-                             [(ngModel)]="param.factory"
-                             (ngModelChange)="onSelectFactory()"
-                             [clearable]="param.factory != ''"
-                             (clear)="deleteProperty('factory')"
-                             required
-                             placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Factory' | translate }}">
-                    <ng-option *ngFor="let item of listFactory"
-                               [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
+                <label for="factory"
+                       class="badge badge-warning">
+                  {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Factory" | translate }}
+                  <span class="text-danger text-bold"> *</span>
+                </label>
+                <ng-select id="factory"
+                           name="factory"
+                           [(ngModel)]="param.factory"
+                           (ngModelChange)="onSelectFactory()"
+                           [clearable]="param.factory != ''"
+                           (clear)="deleteProperty('factory')"
+                           required
+                           placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Factory' | translate }}">
+                  <ng-option *ngFor="let item of listFactory"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- Department -->
               <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                  <label class="badge badge-warning">
-                    {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Department" | translate }}
-                  </label>
-                  <ng-select id="department"
-                             name="department"
-                             [(ngModel)]="param.department"
-                             [clearable]="param.department != ''"
-                             (clear)="deleteProperty('department')"
-                             [disabled]="!param.factory"
-                             placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Department' | translate }}">
-                    <ng-option *ngFor="let item of listDepartment"
-                               [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
+                <label class="badge badge-warning">
+                  {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Department" | translate }}
+                </label>
+                <ng-select id="department"
+                           name="department"
+                           [(ngModel)]="param.department"
+                           [clearable]="param.department != ''"
+                           (clear)="deleteProperty('department')"
+                           [disabled]="!param.factory"
+                           placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.Department' | translate }}">
+                  <ng-option *ngFor="let item of listDepartment"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- RewardPenalty -->
               <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                  <label class="badge badge-warning">
-                    {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.RewardPenaltyType" | translate }}
-                  </label>
-                  <ng-select id="rewardPenaltyType"
-                             name="rewardPenaltyType"
-                             [(ngModel)]="param.rewardPenaltyType"
-                             [clearable]="param.rewardPenaltyType != ''"
-                             (clear)="deleteProperty('rewardPenaltyType')"
-                             placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.RewardPenaltyType' | translate }}">
-                    <ng-option *ngFor="let item of listRewardPenalty"
-                               [value]="item.key">
-                      {{ item.value }}
-                    </ng-option>
-                  </ng-select>
+                <label class="badge badge-warning">
+                  {{ "RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.RewardPenaltyType" | translate }}
+                </label>
+                <ng-select id="rewardPenaltyType"
+                           name="rewardPenaltyType"
+                           [(ngModel)]="param.rewardPenaltyType"
+                           [clearable]="param.rewardPenaltyType != ''"
+                           (clear)="deleteProperty('rewardPenaltyType')"
+                           placeholder="{{ 'RewardAndPenaltyReport.EmployeeRewardAndPenaltyReport.RewardPenaltyType' | translate }}">
+                  <ng-option *ngFor="let item of listRewardPenalty"
+                             [value]="item.key">
+                    {{ item.value }}
+                  </ng-option>
+                </ng-select>
               </div>
               <!-- EmployeeID -->
               <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -142,7 +142,7 @@
                     <div class="input-group mr-2">
                       <input autocomplete="off"
                              type="text"
-                             class="form-control bg-white"
+                             class="form-control"
                              name="start_year_Month"
                              [(ngModel)]="start_Year_Month"
                              (ngModelChange)="onChangeYearMonth('start_Year_Month')"
@@ -150,8 +150,7 @@
                              bsDatepicker
                              [bsConfig]="bsConfigMonthly"
                              placeholder="{{placeholder.YearMonth}}"
-                             [required]="start_Year_Month || end_Year_Month"
-                             />
+                             [required]="start_Year_Month || end_Year_Month" />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="fa fa-calendar"></i>
@@ -161,11 +160,11 @@
                     <div class="input-group">
                       <input autocomplete="off"
                              type="text"
-                             class="form-control bg-white"
+                             class="form-control"
                              name="end_Year_Month"
                              [(ngModel)]="end_Year_Month"
                              (ngModelChange)="onChangeYearMonth('end_Year_Month')"
-                             [minDate]="end_Year_Month"
+                             [minDate]="start_Year_Month"
                              bsDatepicker
                              [bsConfig]="bsConfigMonthly"
                              placeholder="{{placeholder.YearMonth}}"
@@ -189,7 +188,7 @@
                              style="text-align: center;"
                              min="1"
                              name="counts"
-                             (keypress)="validateNumber($event)" 
+                             (keypress)="validateNumber($event)"
                              [(ngModel)]="param.counts"
                              required />
                       <div class="input-group-append">
@@ -230,18 +229,30 @@
                                      let-item="item"
                                      let-item$="item$"
                                      let-index="index">
-                          <input id="item-{{ index }}"
-                                 type="checkbox"
-                                 name="item-{{ index }}"
-                                 [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   name="item-{{ index }}"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                          </div>
+                        </ng-template>
                         <ng-template ng-option-tmp
                                      let-item="item"
                                      let-item$="item$"
                                      let-index="index">
-                          <input id="item-{{ index }}"
-                                 name="item-{{ index }}"
-                                 type="checkbox"
-                                 [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   name="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}"> {{ item.value }}</label>
+                          </div>
+                        </ng-template>
                       </ng-select>
                     </div>
                   </div>

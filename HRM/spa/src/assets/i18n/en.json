@@ -6,6 +6,7 @@
       "LogInFailed": "Your username and/or password do not match",
       "ConfirmPassword": "New Password and Confirm Password do not match",
       "Logout": "You have been logged out",
+      "SessionExpired":"Your session has expired, please log in again.",
       "ConfirmDelete": "Are you sure delete ?",
       "ConfirmExecution": "Confirm Execution?",
       "ConfirmDeleteMsg": "Are you sure you want to delete this record ?",
@@ -26,7 +27,7 @@
       "Unauthorized": "You are not authorized to view this page",
       "UnknowError": "Oops! Sorry, an error occurred while processing your request",
       "SystemError": "An error occurred while connecting to the server",
-      "Nodata": "No Data!",
+      "NoData": "No Data!",
       "DataFound": "Data Not Found!",
       "InvalidFile": "Please select a valid file format",
       "AllowExcelFile": "Please select a file with extension .xls, .xlsm, .xlsx",
@@ -65,7 +66,9 @@
       "InvalidInput": "Invalid input data",
       "AlreadyExitedData": "Selected data has been existed",
       "DuplicateInput": "Duplicated input data",
-      "ErrorException": "An exception was raised during data saving"
+      "ErrorException": "An exception was raised during data saving",
+      "InvalidErrorCode": "Invalid error code",
+      "TransactionError": "A database transaction is already active. Please try againt later"
     },
     "Caption": {
       "Success": "Success!",
@@ -1792,7 +1795,6 @@
       "Total": "The total number of query results ",
       "Records": "records",
       "InvalidInput": "Invalid input data",
-      "InvalidErrorCode": "Invalid error code",
       "InvalidFunc": "Invalid fucntion"
     },
     "MonthlyFactoryWorkingHoursReport": {
@@ -1874,8 +1876,7 @@
       "InvalidFunc": "Invalid fucntion",
       "ExecuteFail": "Execute Fail!",
       "InsFailHSAM": "INSERT HRMS_Sal_AddDedItem_Monthly Fail!",
-      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!",
-      "InvalidErrorCode": "Invalid error code"
+      "DelFailHSAM": "DELETE HRMS_Sal_AddDedItem_Monthly Fail!"
     },
     "MonthlyCompulsoryInsuranceDetailedReport": {
       "Factory": "Factory",
@@ -2114,13 +2115,12 @@
       "BatchProductionData": "Batch Production Data",
       "InvalidInput": "Invalid input data",
       "ExecuteConfirm": "Are you sure execute?",
-      "AlreadyLocked": "已經鎖定，不可再次執行",
+      "AlreadyLocked": "Already locked and not executable again",
       "InsMultiFailHSM": "Insert HRMS_Sal_MasterBackup fail!",
       "InsMultiFailHSMD": "Insert HRMS_Sal_MasterBackup_Detail fail!",
       "DelMultiFailHSM": "Delete HRMS_Sal_MasterBackup fail!",
       "DelMultiFailHSMD": "Delete HRMS_Sal_MasterBackup_Detail fail!",
-      "ExecuteFail": "Execute Fail!",
-      "InvalidErrorCode": "Invalid error code"
+      "ExecuteFail": "Execute Fail!"
     },
     "ChildcareSubsidyGeneration": {
       "ChildSubsidyIsGenerated": "Childcare Subsidy Generation",
@@ -2223,6 +2223,7 @@
     },
     "MonthlySalaryMaintenanceExitedEmployees": {
       "Probation": "Probation",
+      "Currency": "Currency",
       "SalaryLock": "Salary Lock",
       "YearMonth": "Year-Month",
       "Factory": "Factory",
@@ -2321,7 +2322,6 @@
       "ContinueExecuting": "此月份資料已經存在, 是否要繼續執行 ?",
       "InvalidInput": "Invalid input data",
       "InvalidTab": "Invalid selected tab",
-      "InvalidErrorCode": "Invalid error code",
       "DL11": "1.1 Salary lock = Y, Check the employee number that has not generated a closed account file in the current month",
       "DL12": "1.2 Salary lock = Y, Generate closing file",
       "DL21": "2.1 Salary lock = N, Check whether the salary has been paid, otherwise it cannot be cancelled",
@@ -2410,6 +2410,7 @@
     },
     "MonthlySalaryMaintenance": {
       "Probation": "Probation",
+      "Currency": "Currency",
       "SalaryLock": "Salary Lock",
       "YearMonth": "Year-Month",
       "Factory": "Factory",
@@ -2557,6 +2558,162 @@
       "Total": "The total number of query results ",
       "Records": "records",
       "InvalidInput": "Invalid input data"
+    },
+    "SalarySummaryReportExitedEmployee": {
+      "ID": "7.2.9",
+      "Factory": "Factory",
+      "Transfer": "Transfer",
+      "NoTransfer": "No Transfer",
+      "All": "All",
+      "DateOfResignation": "Date Of Resignation",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "SalarySummaryReportExitedEmployeeByDepartment": {
+      "ID": "7.2.10",
+      "Factory": "Factory",
+      "DateOfResignation": "Date Of Resignation",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlySalaryTransferDetails": {
+      "ID": "7.2.12",
+      "YearMonth": "Year-Month",
+      "Factory": "Factory",
+      "Department": "Department",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records"
+    },
+    "MonthlySalaryTransferDetailsExitedEmployee": {
+      "ID": "7.2.13",
+      "YearMonth": "Year-Month",
+      "Factory": "Factory",
+      "Department": "Department",
+      "DateOfResignation": "Date of Resignation",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records"
+    },
+    "TaxPayingEmployeeMonthlyNightShiftExtraPayAndOvertimePay": {
+      "ID": "7.2.14",
+      "Factory": "Factory",
+      "EmployeeID": "Employee ID",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyUnionDuesSummary": {
+      "ID": "7.2.15",
+      "Factory": "Factory",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "DownloadPersonnelDataToExcel": {
+      "ID": "7.2.16",
+      "Factory": "Factory",
+      "Date": "Date",
+      "PermissionGroup": "Permission Group",
+      "EmployeeKind": "Employee Kind",
+      "OnJob": "On Job",
+      "Resigned": "Resigned",
+      "All": "All",
+      "ReportKind": "Report Kind",
+      "EmployeeMasterFile": "Employee Master File",
+      "SalaryMasterFile": "Salary Master File",
+      "MonthlyAttendance": "Monthly Attendance",
+      "MonthlySalary": "Monthly Salary",
+      "YearMonth": "Year Month",
+      "Total": "The total number of query results ",
+      "Records": " records"
+    },
+    "7_2_17_MonthlyPersonalIncomeTaxAmountReport": {
+      "ID": "7.2.17",
+      "Factory": "Factory",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records"
+    },
+    "AnnualIncomeTaxDetailReport" :{
+      "ID": "7.2.18",
+      "Factory" : "Factory",
+      "Yearly" : "Yearly",
+      "PermissionGroup": "Permission Group",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "Records": "records",
+      "Total": "The total number of query results "
+
+    },
+    "MonthlySalarySummaryReportForFinance" : {
+      "ID": "7.2.19",
+      "Factory" : "Factory",
+      "YearMonth": "Year Month",
+      "Kind": "Kind",
+      "Resigned": "Resigned",
+      "OnJob": "On Job",
+      "All" : "All",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "Records": "records",
+      "Total": "The total number of query results "
+    },
+    "MonthlySalarySummaryReportForTaxation": {
+      "ID": "7.2.20",
+      "Factory": "Factory",
+      "Kind": "Kind",
+      "OnJob": "On Job",
+      "Resigned": "Resigned",
+      "All":"All",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyAdditionsAndDeductionsSummaryReportForFinance": {
+      "ID": "7.2.21",
+      "Factory": "Factory",
+      "Kind": "Kind",
+      "OnJob": "On Job",
+      "Resigned": "Resigned",
+      "All": "All",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data"
+    },
+    "MonthlyAdditionsAndDeductionsSummaryReport": {
+      "ID": "7.2.22",
+      "Factory": "Factory",
+      "YearMonth": "Year Month",
+      "Department": "Department",
+      "EmployeeID": "Employee ID",
+      "PermissionGroup": "Permission Group",
+      "Total": "The total number of query results ",
+      "Records": "records",
+      "InvalidInput": "Invalid input data",
+      "InvalidFunc": "Invalid function"
     }
   },
   "RewardandPenaltyMaintenance": {

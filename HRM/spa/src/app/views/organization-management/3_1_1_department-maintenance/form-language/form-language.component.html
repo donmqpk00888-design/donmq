@@ -3,20 +3,20 @@
      class="modal fade"
      tabindex="-1"
      role="dialog"
-     (onHide)="onHide()">
+     (onHide)="onHide()"
+     aria-labelledby="modalTitle">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <!-- Header -->
       <div class="modal-header bg-primary">
-        <h5>
+        <h5 id="modalTitle">
           {{ title }} - {{ action | translate }}
           {{ "OrganizationManagement.DepartmentMaintenance.Language" | translate }}
         </h5>
         <button type="button"
                 class="btn-close close pull-right"
                 (click)="close()">
-          <span aria-hidden="true"
-                class="visually-hidden">&times;</span>
+          <span class="visually-hidden">&times;</span>
         </button>
       </div>
       <!-- Body -->
@@ -65,7 +65,7 @@
                      name="department_Code"
                      placeholder="{{ 'OrganizationManagement.DepartmentMaintenance.DepartmentCode' | translate }}... "
                      *ngIf="isEdit"
-                     disabled/>
+                     disabled />
 
               <ng-select [searchable]="false"
                          [(ngModel)]="language.department_Code"
@@ -128,13 +128,13 @@
       <!-- Footer -->
       <div class="modal-footer">
         <button type="button"
-                class="btn btn-success text-white"
+                class="btn btn-success "
                 (click)="save()"
                 [disabled]="isSaveButtonDisabled()">
           <i class="fa fa-check"></i> {{ "System.Action.Save" | translate }}
         </button>
         <button type="button"
-                class="btn btn-danger text-white"
+                class="btn btn-danger "
                 (click)="close()">
           <i class="fa fa-ban"></i> {{ "System.Action.Cancel" | translate }}
         </button>

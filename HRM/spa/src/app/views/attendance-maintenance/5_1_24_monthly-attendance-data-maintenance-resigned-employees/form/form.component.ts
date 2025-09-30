@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { CaptionConstants } from '@constants/message.enum';
@@ -12,6 +11,7 @@ import { KeyValuePair } from '@utilities/key-value-pair';
 import { OperationResult } from '@utilities/operation-result';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -68,7 +68,7 @@ export class FormComponent extends InjectBase implements OnInit {
   ) {
     super();
 
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       if (this.param.action === 'add')
         this.getListFactoryAdd();
@@ -115,9 +115,9 @@ export class FormComponent extends InjectBase implements OnInit {
       this.getListSalaryType();
     }
 
-    this.route.data.subscribe(res => {
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       this.action = res.title;
-    }).unsubscribe();
+    });
   }
 
   back = () => this.router.navigate([this.url]);
@@ -163,6 +163,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getEmpInfo(param)
       .subscribe({
         next: (res) => {
+          this.spinnerService.hide();
           if (res.isSuccess) {
             this.invalid = false;
             this.data.useR_GUID = res.data.useR_GUID;
@@ -187,9 +188,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.invalid = true;
           }
           this.getResignedDetail()
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -209,8 +208,7 @@ export class FormComponent extends InjectBase implements OnInit {
             this.invalid = false;
         }
         this.spinnerService.hide();
-      },
-      error: () => this.functionUtility.snotifySystemError()
+      }
     });
   }
 
@@ -239,22 +237,17 @@ export class FormComponent extends InjectBase implements OnInit {
           }
 
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
   getListFactoryAdd() {
     this.factories = [];
-    this.spinnerService.show();
-
     this._service.getListFactoryAdd()
       .subscribe({
         next: (res) => {
           this.factories = res;
-          this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       });
   }
 
@@ -262,12 +255,10 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getListPermissionGroup().subscribe({
       next: (res) => {
         this.permissionGroups = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(),
+      }
     });
   }
   onFactoryChange() {
-    this.spinnerService.show();
     this.data.employee_ID = '';
     this.data.local_Full_Name = '';
     this.DepartmentNameCode = '';
@@ -276,11 +267,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this.data.allowances = [];
     this._service.getEmployeeIDByFactorys(this.data.factory).subscribe({
       next: res => {
-        this.spinnerService.hide();
         this.employeeIDs = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       }
     })
   }
@@ -288,8 +275,7 @@ export class FormComponent extends InjectBase implements OnInit {
     this._service.getListSalaryType().subscribe({
       next: (res) => {
         this.salaryTypes = res;
-      },
-      error: () => this.functionUtility.snotifySystemError(),
+      }
     });
   }
 
@@ -322,8 +308,7 @@ export class FormComponent extends InjectBase implements OnInit {
             );
           }
           this.spinnerService.hide();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
   }
 

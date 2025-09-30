@@ -1,212 +1,215 @@
 <div class="animated fadeIn">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <form class="form-horizontal"
-                      autocomplete="off"
-                      #mainForm="ngForm">
-                    <div class="card-header">
-                        <div class="row border-title">
-                            <div class="col-md-12">
-                                <strong class="title-card-cs">{{ title }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row border-shadow">
-                            <div class="row col-12">
-                                <!-- Factory -->
-                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="factory"
-                                               class="badge badge-warning">
-                                            {{ "SalaryReport.SalaryApprovalForm.Factory" | translate }}
-                                            <span class="text-danger text-bold"> *</span>
-                                        </label>
-                                        <ng-select id="factory"
-                                                   name="factory"
-                                                   [(ngModel)]="param.factory"
-                                                   (ngModelChange)="onSelectFactory()"
-                                                   [clearable]="param.factory != ''"
-                                                   (clear)="deleteProperty('factory')"
-                                                   required
-                                                   placeholder="{{ 'SalaryReport.SalaryApprovalForm.Factory' | translate }}">
-                                            <ng-option *ngFor="let item of listFactory"
-                                                       [value]="item.key">
-                                                {{ item.value }}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                                <!-- Department -->
-                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="factory"
-                                               class="badge badge-warning">
-                                            {{ "SalaryReport.SalaryApprovalForm.Department" | translate }}
-                                        </label>
-                                        <ng-select id="department"
-                                                   name="department"
-                                                   [(ngModel)]="param.department"
-                                                   [clearable]="param.department != ''"
-                                                   (clear)="deleteProperty('department')"
-                                                   placeholder="{{ 'SalaryReport.SalaryApprovalForm.Department' | translate }}"
-                                                   [disabled]="!param.factory">
-                                            <ng-option *ngFor="let item of listDepartment"
-                                                       [value]="item.key">
-                                                {{ item.value }}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                                <!-- Employee ID -->
-                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID" | translate }}
-                                    </label>
-                                    <div class="input-group mr-1">
-                                        <input autocomplete="off"
-                                               type="text"
-                                               placeholder="{{'CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID' | translate }}"
-                                               class="form-control"
-                                               (clear)="deleteProperty('employee_ID')"
-                                               maxlength="9"
-                                               name="employee_ID"
-                                               [(ngModel)]="param.employee_ID"
-                                               typeaheadOptionField="key"
-                                               typeaheadScrollable="true" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row col-12">
-                                <!-- Position Title -->
-                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="position"
-                                            class="badge badge-warning">
-                                            {{ "SalaryReport.SalaryApprovalForm.PositionTitle" | translate }}
-                                        </label>
-                                        <ng-select id="position"
-                                                name="position"
-                                                [(ngModel)]="param.position_Title"
-                                                (clear)="deleteProperty('position_Title')"
-                                                placeholder="{{ 'SalaryReport.SalaryApprovalForm.PositionTitle' | translate }}">
-                                            <ng-option *ngFor="let item of listPosition"
-                                                    [value]="item.key">
-                                                {{ item.value }}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                                <!-- Kind -->
-                                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="kind"
-                                               class="badge badge-warning">{{ 'SalaryReport.SalaryApprovalForm.Kind'
-                                            | translate }} <span class="text-danger text-bold"> *</span></label>
-                                        <div class="row pl-3">
-                                            <div *ngFor="let item of kind; let i">
-                                                <label class="container">
-                                                    <div class="row">
-                                                        <div class="custom-control custom-radio pt-2 mr-2">
-                                                            <input [id]="'kind_' + i"
-                                                                   class="custom-control-input"
-                                                                   type="radio"
-                                                                   name="kind"
-                                                                   [value]="item.key.toString()"
-                                                                   [(ngModel)]="param.kind"
-                                                                   [checked]="checked"
-                                                                   required />
-                                                            <p class="custom-control-label"
-                                                               [for]="'kind' + i">
-                                                                {{ item.value | translate }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Permission Group -->
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="form-group">
-                                            <label class="badge badge-warning">
-                                                {{ "SalaryReport.SalaryApprovalForm.PermissionGroup" | translate }}
-                                                <span class="text-danger text-bold"> *</span>
-                                            </label>
-                                            <ng-select id="permission_Group"
-                                                       name="permission_Group"
-                                                       [items]="listPermissionGroup"
-                                                       [multiple]="true"
-                                                       groupBy="allGroup"
-                                                       [selectableGroup]="true"
-                                                       [selectableGroupAsModel]="false"
-                                                       [closeOnSelect]="false"
-                                                       bindLabel="value"
-                                                       bindValue="key"
-                                                       [(ngModel)]="param.permission_Group"
-                                                       (ngModelChange)="onChangePermission()"
-                                                       [clearable]="param.permission_Group.length > 0"
-                                                       (clear)="param.permission_Group = []"
-                                                       [disabled]="!param.factory"
-                                                       required
-                                                       placeholder="{{ 'SalaryReport.SalaryApprovalForm.PermissionGroup' | translate }}">
-                                                <ng-template ng-optgroup-tmp
-                                                             let-item="item"
-                                                             let-item$="item$"
-                                                             let-index="index">
-                                                    <input id="item-{{ index }}"
-                                                           type="checkbox"
-                                                           name="item-{{ index }}"
-                                                           [ngModel]="item$.selected" /> {{ 'System.Action.SelectAll' | translate }}</ng-template>
-                                                <ng-template ng-option-tmp
-                                                             let-item="item"
-                                                             let-item$="item$"
-                                                             let-index="index">
-                                                    <input id="item-{{ index }}"
-                                                           name="item-{{ index }}"
-                                                           type="checkbox"
-                                                           [ngModel]="item$.selected" /> {{ item.value }} </ng-template>
-                                            </ng-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 pb-2">
-                                <button type="submit"
-                                        class="btn btn-primary mr-1"
-                                        (click)="getTotalRows(true)"
-                                        *ngIf="functionUtility.checkFunction('Search')"
-                                        [disabled]="!mainForm.valid">
-                                    <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
-                                </button>
-                                <button type="button"
-                                        class="btn btn-danger mr-1"
-                                        (click)="clear()">
-                                    <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
-                                </button>
-                                <button type="button"
-                                        (click)="download()"
-                                        class="btn btn-success"
-                                        [disabled]="mainForm.invalid"
-                                        *ngIf="functionUtility.checkFunction('Pdf')">
-                                    <i class="{{ iconButton.PDF }}"></i>
-                                    {{ "System.Action.PDF" | translate }}
-                                </button>
-                            </div>
-                            <div>
-                                <strong class="title-card-cs pl-3">{{ "AttendanceMaintenance.ResignationAnnualLeaveWorktypeAnalysisReport.Total" | translate }}
-                                    <span class="text-primary">{{ totalRows }}</span>
-                                    {{ "AttendanceMaintenance.ResignationAnnualLeaveWorktypeAnalysisReport.Records" | translate }}
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <form class="form-horizontal"
+              autocomplete="off"
+              #mainForm="ngForm">
+          <div class="card-header">
+            <div class="row border-title">
+              <div class="col-md-12">
+                <strong class="title-card-cs">{{ title }}</strong>
+              </div>
             </div>
-        </div>
+          </div>
+          <div class="card-body">
+            <div class="row border-shadow">
+              <div class="row col-12">
+                <!-- Factory -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label for="factory"
+                           class="badge badge-warning">
+                      {{ "SalaryReport.SalaryApprovalForm.Factory" | translate }}
+                      <span class="text-danger text-bold"> *</span>
+                    </label>
+                    <ng-select id="factory"
+                               name="factory"
+                               [(ngModel)]="param.factory"
+                               (ngModelChange)="onSelectFactory()"
+                               [clearable]="param.factory != ''"
+                               (clear)="deleteProperty('factory')"
+                               required
+                               placeholder="{{ 'SalaryReport.SalaryApprovalForm.Factory' | translate }}">
+                      <ng-option *ngFor="let item of listFactory"
+                                 [value]="item.key">
+                        {{ item.value }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <!-- Department -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label for="factory"
+                           class="badge badge-warning">
+                      {{ "SalaryReport.SalaryApprovalForm.Department" | translate }}
+                    </label>
+                    <ng-select id="department"
+                               name="department"
+                               [(ngModel)]="param.department"
+                               [clearable]="param.department != ''"
+                               (clear)="deleteProperty('department')"
+                               placeholder="{{ 'SalaryReport.SalaryApprovalForm.Department' | translate }}"
+                               [disabled]="!param.factory">
+                      <ng-option *ngFor="let item of listDepartment"
+                                 [value]="item.key">
+                        {{ item.value }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <!-- Employee ID -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label class="badge badge-warning"> {{"CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID" | translate }}
+                  </label>
+                  <div class="input-group mr-1">
+                    <input autocomplete="off"
+                           type="text"
+                           placeholder="{{'CompulsoryInsuranceManagement.CompulsoryInsuranceDataMaintenance.EmployeeID' | translate }}"
+                           class="form-control"
+                           (clear)="deleteProperty('employee_ID')"
+                           maxlength="9"
+                           name="employee_ID"
+                           [(ngModel)]="param.employee_ID"
+                           typeaheadOptionField="key"
+                           typeaheadScrollable="true" />
+                  </div>
+              </div>
+              <div class="row col-12">
+                <!-- Position Title -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label for="position"
+                           class="badge badge-warning">
+                      {{ "SalaryReport.SalaryApprovalForm.PositionTitle" | translate }}
+                    </label>
+                    <ng-select id="position"
+                               name="position"
+                               [(ngModel)]="param.position_Title"
+                               (clear)="deleteProperty('position_Title')"
+                               placeholder="{{ 'SalaryReport.SalaryApprovalForm.PositionTitle' | translate }}">
+                      <ng-option *ngFor="let item of listPosition"
+                                 [value]="item.key">
+                        {{ item.value }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <!-- Kind -->
+                <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label for="kind"
+                           class="badge badge-warning">{{ 'SalaryReport.SalaryApprovalForm.Kind'
+                                            | translate }} <span class="text-danger text-bold"> *</span></label>
+                    <div class="row pl-3">
+                      <div *ngFor="let item of kind; let i">
+                        <label class="container">
+                          <div class="row">
+                            <div class="custom-control custom-radio pt-2 mr-2">
+                              <input [id]="'kind_' + i"
+                                     class="custom-control-input"
+                                     type="radio"
+                                     name="kind"
+                                     [value]="item.key.toString()"
+                                     [(ngModel)]="param.kind"
+                                     [checked]="checked"
+                                     required />
+                              <p class="custom-control-label"
+                                 [for]="'kind' + i">
+                                {{ item.value | translate }}
+                              </p>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- Permission Group -->
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-auto">
+                      <label class="badge badge-warning">
+                        {{ "SalaryReport.SalaryApprovalForm.PermissionGroup" | translate }}
+                        <span class="text-danger text-bold"> *</span>
+                      </label>
+                      <ng-select id="permission_Group"
+                                 name="permission_Group"
+                                 [items]="listPermissionGroup"
+                                 [multiple]="true"
+                                 groupBy="allGroup"
+                                 [selectableGroup]="true"
+                                 [selectableGroupAsModel]="false"
+                                 [closeOnSelect]="false"
+                                 bindLabel="value"
+                                 bindValue="key"
+                                 [(ngModel)]="param.permission_Group"
+                                 (ngModelChange)="onChangePermission()"
+                                 [clearable]="param.permission_Group.length > 0"
+                                 (clear)="param.permission_Group = []"
+                                 [disabled]="!param.factory"
+                                 required
+                                 placeholder="{{ 'SalaryReport.SalaryApprovalForm.PermissionGroup' | translate }}">
+                        <ng-template ng-optgroup-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   name="item-{{ index }}"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}">{{'System.Action.SelectAll' | translate }}</label>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp
+                                     let-item="item"
+                                     let-item$="item$"
+                                     let-index="index">
+                          <div class="custom-control custom-checkbox pe-none">
+                            <input id="item-{{ index }}"
+                                   name="item-{{ index }}"
+                                   type="checkbox"
+                                   class="custom-control-input"
+                                   [ngModel]="item$.selected" />
+                            <label class="custom-control-label"
+                                   for="item-{{ index }}"> {{ item.value }}</label>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pb-2">
+                <label class="d-block">&nbsp;</label>
+                <button type="submit"
+                        class="btn btn-primary mr-1"
+                        (click)="getTotalRows(true)"
+                        *ngIf="functionUtility.checkFunction('Search')"
+                        [disabled]="!mainForm.valid">
+                  <i class="{{ iconButton.SEARCH }}"></i> {{"System.Action.Search" | translate }}
+                </button>
+                <button type="button"
+                        class="btn btn-danger mr-1"
+                        (click)="clear()">
+                  <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
+                </button>
+                <button type="button"
+                        (click)="download()"
+                        class="btn btn-success"
+                        [disabled]="mainForm.invalid"
+                        *ngIf="functionUtility.checkFunction('Pdf')">
+                  <i class="{{ iconButton.PDF }}"></i>
+                  {{ "System.Action.PDF" | translate }}
+                </button>
+              </div>
+              <div>
+                <strong class="title-card-cs pl-3">{{ "AttendanceMaintenance.ResignationAnnualLeaveWorktypeAnalysisReport.Total" | translate }}
+                  <span class="text-primary">{{ totalRows }}</span>
+                  {{ "AttendanceMaintenance.ResignationAnnualLeaveWorktypeAnalysisReport.Records" | translate }}
+                </strong>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

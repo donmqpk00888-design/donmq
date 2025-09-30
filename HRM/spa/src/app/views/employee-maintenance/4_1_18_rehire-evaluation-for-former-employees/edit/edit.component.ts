@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, effect } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import {
@@ -11,6 +10,7 @@ import { S_4_1_18_RehireEvaluationForFormerEmployeesService } from '@services/em
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-edit',
@@ -43,7 +43,7 @@ export class EditComponent extends InjectBase implements OnInit {
     private service: S_4_1_18_RehireEvaluationForFormerEmployeesService
   ) {
     super()
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(res => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.loadData()
     });
@@ -60,7 +60,6 @@ export class EditComponent extends InjectBase implements OnInit {
       next: (res) => {
         this[dataProperty] = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getDataFromSource() {
@@ -101,46 +100,34 @@ export class EditComponent extends InjectBase implements OnInit {
     }
   }
   getListFactoryEvaluation() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.evaluation.division).subscribe({
       next: (res) => {
         this.listFactoryEvaluation = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListFactoryPersonal() {
-    this.spinnerService.show();
     this.service.getListFactory(this.param.personal.division).subscribe({
       next: (res) => {
         this.listFactoryPersonal = res;
-        this.spinnerService.hide();
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartmentEvaluation() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.evaluation.factory, this.param.evaluation.division).subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.listDepartmentEvaluation = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
   getListDepartmentPersonal() {
-    this.spinnerService.show();
     this.service.getListDepartment(this.param.personal.factory, this.param.personal.division).subscribe({
       next: (res) => {
-        this.spinnerService.hide();
         this.listDepartmentPersonal = res;
       },
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
 
@@ -175,11 +162,10 @@ export class EditComponent extends InjectBase implements OnInit {
     this.spinnerService.show();
     this.service.update(this.param.evaluation).subscribe({
       next: result => {
+        this.spinnerService.hide();
         this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
         if (result.isSuccess) this.back();
       },
-      error: () => this.functionUtility.snotifySystemError(),
-      complete: () => this.spinnerService.hide()
     })
   }
 

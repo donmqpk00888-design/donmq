@@ -4,7 +4,6 @@ import { ClassButton, IconButton } from '@constants/common.constants';
 import { Pagination } from '@utilities/pagination-utility';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
@@ -15,6 +14,7 @@ import {
   ShiftManagementProgram_Param
 } from '@models/attendance-maintenance/5_1_10_shift-management-program';
 import { CommonService } from '@services/common.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -78,11 +78,11 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         dateInputFormat: 'YYYY/MM/DD',
       }
     );
-    this.route.data.subscribe(
+    this.route.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       (role) => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.filterList(role.dataResolved)
-      }).unsubscribe();
+      });
   }
   ngOnDestroy(): void {
     this.service.setParamSearch(<ShiftManagementProgram_MainMemory>{
@@ -99,13 +99,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: (res) => {
           this.spinnerService.hide()
           this.filterList(res)
-        },
-        error: () => {
-          this.spinnerService.hide()
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -134,13 +127,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('System.Message.SearchOKMsg'),
               this.translateService.instant('System.Caption.Success')
             );
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   };
@@ -164,13 +150,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
               this.translateService.instant('AttendanceMaintenance.ShiftManagementProgram.NotExitedData'),
               this.translateService.instant('System.Caption.Error'));
           }
-        },
-        error: () => {
-          this.spinnerService.hide();
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.UnknowError'),
-            this.translateService.instant('System.Caption.Error')
-          );
         }
       });
   }
@@ -222,13 +201,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
           }
           this.spinnerService.hide();
         },
-        error: () => {
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.DeleteErrorMsg'),
-            this.translateService.instant('System.Caption.Error')
-          );
-          this.spinnerService.hide();
-        }
       });
     });
   }
@@ -244,9 +216,6 @@ export class MainComponent extends InjectBase implements OnInit, OnDestroy {
         next: res => {
           this.departmentList = res;
         },
-        error: () => {
-          this.functionUtility.snotifySuccessError(false, 'System.Message.UnknowError')
-        }
       });
   }
   checkRequiredParams(): boolean {

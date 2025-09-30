@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { Leave_Record_Modification_MaintenanceDto } from '@models/attendance-maintenance/5_1_19_leave-record-modification-maintenance';
 import { UserForLogged } from '@models/auth/auth';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_19_LeaveRecordModificationMaintenanceService } from '@services/attendance-maintenance/s_5_1_19_leave-record-modification-maintenance.service';
 import { CommonService } from '@services/common.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -76,9 +76,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.snotifyService.error(res.error,
             this.translateService.instant('System.Caption.Error'));
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     })
   }
@@ -153,10 +150,7 @@ export class FormComponent extends InjectBase implements OnInit {
             ? this.dataMain.work_Shift_Type = res.data.work_Shift_Type
             : this.deleteProperty('work_Shift_Type')
         },
-        error: () => {
-          this.deleteProperty('work_Shift_Type')
-          this.functionUtility.snotifySystemError();
-        }
+        error: () => { this.deleteProperty('work_Shift_Type') }
       });
   }
   getListEmployee() {
@@ -165,42 +159,36 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
   getListFactory() {
     this.commonService.getListAccountAdd().subscribe({
       next: (res) => this.listFactory = res,
-      error: () => this.functionUtility.snotifySystemError(),
     });
   }
   getListWorkShiftType() {
     this.commonService.getListWorkShiftType().subscribe({
-      next: res => this.listWorkShiftType = res,
-      error: () => this.functionUtility.snotifySystemError(false)
+      next: res => this.listWorkShiftType = res
     })
   }
 
   getListAttendance() {
     this.service.GetListLeave().subscribe({
-      next: res => this.listAttendance = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listAttendance = res
     });
   }
 
   getListReasonCode() {
     this.commonService.getListReasonCode().subscribe({
-      next: res => this.listReasonCode = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listReasonCode = res
     });
   }
 
   getListHoliday() {
     this.service.getListHoliday('39', 1, 'Attendance').subscribe({
-      next: res => this.listHoliday = res,
-      error: () => this.functionUtility.snotifySystemError()
+      next: res => this.listHoliday = res
     });
   }
 

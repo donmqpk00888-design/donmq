@@ -1,8 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { S_5_1_21_MonthlyAttendanceDataGenerationActiveEmployeesService } from '@services/attendance-maintenance/s_5_1_21_monthly-attendance-data-generation-active-employees.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { TabComponentModel } from '@views/_shared/tab-component/tab.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main',
@@ -19,9 +19,7 @@ export class MainComponent extends InjectBase implements OnInit {
 
   constructor(private service: S_5_1_21_MonthlyAttendanceDataGenerationActiveEmployeesService) {
   super();
-  this.translateService.onLangChange
-    .pipe(takeUntilDestroyed())
-    .subscribe(() => {
+  this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
       this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
       this.initTab();
     });

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconButton, ClassButton, Placeholder } from '@constants/common.constants';
 import { LocalStorageConstants } from '@constants/local-storage.constants';
 import { UserForLogged } from '@models/auth/auth';
@@ -14,6 +13,7 @@ import { OperationResult } from '@utilities/operation-result';
 import { Pagination } from '@utilities/pagination-utility';
 import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -47,9 +47,7 @@ export class FormComponent extends InjectBase implements OnInit {
   // #region constructor
   constructor(private service: S_7_1_8_SapCostCenterSettingService) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getDropDownList()
       });
@@ -82,9 +80,6 @@ export class FormComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.listFactory = res;
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -93,9 +88,6 @@ export class FormComponent extends InjectBase implements OnInit {
     this.service.getListKind().subscribe({
       next: (res) => {
         this.listKind = res;
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError();
       },
     });
   }
@@ -118,9 +110,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.data.company_Code = '';
         }
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -140,9 +129,6 @@ export class FormComponent extends InjectBase implements OnInit {
           this.data.company_Code = '';
         }
       },
-      error: () => {
-        this.functionUtility.snotifySystemError();
-      },
     });
   }
 
@@ -156,8 +142,9 @@ export class FormComponent extends InjectBase implements OnInit {
     } else
       action = this.service.addNew(this.data)
     this.spinnerService.show();
-    action.subscribe({
+    action.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: result => {
+        this.spinnerService.hide()
         if (result.isSuccess) {
           const message = this.isEdit ? 'System.Message.UpdateOKMsg' : 'System.Message.CreateOKMsg';
           this.functionUtility.snotifySuccessError(true, message)
@@ -165,11 +152,8 @@ export class FormComponent extends InjectBase implements OnInit {
         } else {
           this.functionUtility.snotifySuccessError(false, result.error)
         }
-      },
-      error: () => {
-        this.functionUtility.snotifySystemError()
       }
-    }).add(() => this.spinnerService.hide());
+    })
   }
 
   onUpdateTimeChangeAlways() {

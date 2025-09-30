@@ -42,7 +42,7 @@
                       <input autocomplete="off"
                              type="text"
                              placeholder="{{placeholder.Year}}"
-                             class="form-control bg-white"
+                             class="form-control"
                              name="year"
                              id="year"
                              [(ngModel)]="param.year"
@@ -111,18 +111,10 @@
                   <i class="{{ iconButton.EXCEL }}"></i>
                   {{ "System.Action.Excel" | translate }}
                 </button>
-                <label type="button"
-                       class="{{classButton.UPLOAD}}"
-                       style="cursor: pointer; margin-bottom: 0;"
-                       *ngIf="functionUtility.checkFunction('Upload')">
-                  <i [class]="iconButton.UPLOAD"></i>
-                  {{'System.Action.Upload'| translate }}
-                  <input #inputRef
-                         type="file"
-                         name="upload"
-                         style="display: none"
-                         (change)="upload($event)" />
-                </label>
+                <file-upload [allowExtensions]="acceptFormat"
+                             [label]="'System.Action.Upload' | translate "
+                             (filesChange)="upload($event)"
+                             [hidden]="!functionUtility.checkFunction('Upload')"></file-upload>
                 <button type="button"
                         class="{{ classButton.SEARCH}}"
                         (click)="downloadTemplate()"
@@ -178,7 +170,7 @@
                     <tr *ngIf="data.length === 0">
                       <td colspan="100%"
                           class="table-warning text-center font-weight-bold">
-                        {{'System.Message.Nodata' | translate }}
+                        {{'System.Message.NoData' | translate }}
                       </td>
                     </tr>
                   </table>
@@ -186,7 +178,7 @@
                 <div class="row">
                   <div class="col-8">
                     <div class="d-flex"
-                         *ngIf="data?.length > 0 && pagination.totalPage > 0">
+                         *ngIf="data?.length > 0 && pagination.totalPage > 1">
                       <pagination [boundaryLinks]="true"
                                   [totalItems]="pagination.totalCount"
                                   [itemsPerPage]="pagination.pageSize"

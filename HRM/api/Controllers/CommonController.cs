@@ -14,10 +14,10 @@ namespace API.Controllers
             _service = service;
         }
         [EncryptionHttp]
-        [HttpGet("GetAuthProgram")]
-        public async Task<IActionResult> GetAuthProgram()
+        [HttpGet("GetSystemInfo")]
+        public async Task<IActionResult> GetSystemInfo()
         {
-            var results = await _service.GetAuthProgram(userName);
+            var results = await _service.GetSystemInfo(userName);
             return Ok(results);
         }
         [HttpGet("GetPasswordReset")]

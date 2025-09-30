@@ -238,7 +238,7 @@
                               *ngIf="functionUtility.checkFunction('Edit')">
                             <button type="button"
                                     name="btnEdit"
-                                    class="btn btn-warning btn-sm text-dark"
+                                    class="btn btn-warning btn-sm "
                                     (click)="onEdit(item)"
                                     [disabled]="item.isAttDate">
                               <i class="{{ iconButton.EDIT }}"></i>
@@ -284,7 +284,7 @@
                         <tr class="no-data">
                           <td colspan="100%"
                               class="table-warning text-center font-weight-bold">
-                            {{ "System.Message.Nodata" | translate }}
+                            {{ "System.Message.NoData" | translate }}
                           </td>
                         </tr>
                       </tbody>
@@ -295,7 +295,7 @@
               <div class="row  mt-3">
                 <div class="col-8">
                   <div class="d-flex"
-                       *ngIf="dataMain?.length > 0  && pagination.totalPage > 0">
+                       *ngIf="dataMain?.length > 0  && pagination.totalPage > 1">
                     <pagination name="pagination"
                                 [boundaryLinks]="true"
                                 [totalItems]="pagination.totalCount"

@@ -231,7 +231,7 @@ namespace API._Services.Services.AttendanceMaintenance
             var data = await GetData(param);
 
             if (data.Count == 0)
-                return new OperationResult(false, "System.Message.Nodata");
+                return new OperationResult(false, "System.Message.NoData");
 
             DateTime start_Date = DateTime.Parse(param.Start_Date);
             DateTime end_Date = DateTime.Parse(param.End_Date);

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ClassButton, IconButton } from '@constants/common.constants';
 import { HRMS_Att_Overtime_TempDto } from '@models/attendance-maintenance/5_1_16_overtime_temporary_record_maintenance';
-import { EmployeeCommonInfo } from '@models/commondto';
+import { EmployeeCommonInfo } from '@models/common';
 import { S_5_1_16_OvertimeTemporaryRecordMaintenanceService } from '@services/attendance-maintenance/s_5_1_16_overtime_temporary_record_maintenance.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -42,9 +42,7 @@ export class FormComponent extends InjectBase implements OnInit {
     private service: S_5_1_16_OvertimeTemporaryRecordMaintenanceService
   ) {
     super();
-    this.translateService.onLangChange
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
         this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
         this.getListFactory();
         this.getListEmployee()
@@ -82,13 +80,6 @@ export class FormComponent extends InjectBase implements OnInit {
             this.translateService.instant('System.Caption.Error')
           );
         }
-      },
-      error: () => {
-        this.spinnerService.hide();
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
       },
     });
   }
@@ -130,42 +121,23 @@ export class FormComponent extends InjectBase implements OnInit {
         next: res => {
           this.employeeList = res
           this.setEmployeeInfo();
-        },
-        error: () => this.functionUtility.snotifySystemError()
+        }
       })
     }
   }
   getListFactory() {
     this.service.getListFactory().subscribe({
       next: (res) => this.listFactory = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
     });
   }
   getListWorkShiftType() {
     this.service.getListWorkShiftType().subscribe({
       next: (res) => this.workShiftType = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
     });
   }
   getListHoliday() {
     this.service.getListHoliday().subscribe({
       next: (res) => this.listHoliday = res,
-      error: () => {
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
     });
   }
 
@@ -202,13 +174,7 @@ export class FormComponent extends InjectBase implements OnInit {
           this.data.clock_Out_Time = res.clock_Out_Time;
         } else this.clearClock()
       },
-      error: () => {
-        this.clearClock()
-        this.snotifyService.error(
-          this.translateService.instant('System.Message.SystemError'),
-          this.translateService.instant('System.Caption.Error')
-        );
-      },
+      error: () => { this.clearClock() },
     });
 
   }
@@ -226,13 +192,7 @@ export class FormComponent extends InjectBase implements OnInit {
           const time = res.value as string
           !time.isNullOrWhiteSpace() ? this.data.shift_Time = res.value : this.deleteProperty('shift_Time')
         },
-        error: () => {
-          this.deleteProperty('shift_Time')
-          this.snotifyService.error(
-            this.translateService.instant('System.Message.SystemError'),
-            this.translateService.instant('System.Caption.Error')
-          );
-        },
+        error: () => { this.deleteProperty('shift_Time') },
       });
   }
 
