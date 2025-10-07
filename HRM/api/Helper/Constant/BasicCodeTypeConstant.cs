@@ -50,6 +50,8 @@ namespace API.Helper.Constant
         public const string Type = "54";
         public const string InsuranceType = "57";
         public const string BenefitsType = "58";
+        public const string FactoryHeader = "58";
+        public const string Language = "58";
         public const string Method = "63";
         public const string SalaryCategory = "64";
         public const string BankNameOrBranch = "65";
