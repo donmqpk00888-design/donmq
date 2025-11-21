@@ -7,7 +7,6 @@ namespace API._Services.Interfaces.Manage
     {
         Task<UserForDetailDto> GetUser(int userId);
         Task<PaginationUtility<UserForDetailDto>> GetAll(PaginationParam pagination, string keyword);
-        //Task<List<UserForDetailDto>> GetUsersNotEmployee();
         Task<OperationResult> Add(UserForDetailDto userDto);
         Task<OperationResult> Edit(UserForDetailDto userDto);
         Task<OperationResult> UploadExcel(IFormFile file);

@@ -39,6 +39,5 @@ namespace API.Controllers.Leave
             var result = await _leaveApproveService.ExportExcel(pagination, dto);
             return Ok(result);
         }
-
     }
 }

@@ -1,4 +1,5 @@
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.Leave;
 using API.Dtos.Leave;
 using API.Helpers.Utilities;
@@ -11,10 +12,12 @@ namespace API._Services.Services.Leave
     public class LeaveSurrogateService : ILeaveSurrogateService
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
+        private readonly ICommonService _commonService;
 
-        public LeaveSurrogateService(IRepositoryAccessor repositoryAccessor)
+        public LeaveSurrogateService(IRepositoryAccessor repositoryAccessor, ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
+            _commonService = commonService;
         }
 
         public async Task<SurrogateDto> GetDetail(int userId)
@@ -176,7 +179,7 @@ namespace API._Services.Services.Leave
                 if (!userSurrogate.Roles_User.Any())
                     userSurrogate.UserRank = 1;
 
-                userSurrogate.Updated = DateTime.Now;
+                userSurrogate.Updated = _commonService.GetServerTime();
                 _repositoryAccessor.Users.Update(userSurrogate);
                 await _repositoryAccessor.SaveChangesAsync();
 
@@ -195,7 +198,7 @@ namespace API._Services.Services.Leave
             var _transaction = await _repositoryAccessor.BeginTransactionAsync();
             try
             {
-                var now = DateTime.Now;
+                var now = _commonService.GetServerTime();
                 // tài khoản người đại diện
                 var user = await _repositoryAccessor.Users
                     .FindAll(x => x.UserID == dto.SurrogateId)

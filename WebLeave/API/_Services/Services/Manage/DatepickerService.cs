@@ -10,11 +10,13 @@ namespace API._Services.Services.Manage
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly IMapper _mapper;
+        private readonly ICommonService _commonService;
 
-        public DatepickerService(IRepositoryAccessor repositoryAccessor, IMapper mapper)
+        public DatepickerService(IRepositoryAccessor repositoryAccessor, IMapper mapper, ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
             _mapper = mapper;
+            _commonService = commonService;
         }
 
         public async Task<List<DatepickerDto>> GetAll()
@@ -34,7 +36,7 @@ namespace API._Services.Services.Manage
         {
             DatePickerManager datepicker = await _repositoryAccessor.DatePickerManager.FirstOrDefaultAsync(x => x.Type == datepickerDto.Type);
             datepicker.EnableMonthPrevious = datepickerDto.EnableMonthPrevious;
-            datepicker.UpdateTime = DateTime.Now;
+            datepicker.UpdateTime = _commonService.GetServerTime();
             datepicker.UserID = UserID;
             _repositoryAccessor.DatePickerManager.Update(datepicker);
             if (await _repositoryAccessor.SaveChangesAsync())

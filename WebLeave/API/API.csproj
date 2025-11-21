@@ -6,6 +6,7 @@
   <ItemGroup>
     <Content Include="Resources\**" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -17,7 +18,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="LinqKit.Core" Version="1.2.2" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.5.0" />
-
     <Using Include="SDCores" />
   </ItemGroup>
 </Project>

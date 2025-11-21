@@ -12,5 +12,6 @@ namespace API._Services.Interfaces.Common
         Task<List<Department>> GetDepartments();
         Task<List<CommentArchive>> GetCommentArchives();
         Task<BrowserInfoDto> GetLoginDetectInfo(string username);
+        DateTime GetServerTime();
     }
 }

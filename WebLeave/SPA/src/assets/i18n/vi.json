@@ -710,7 +710,8 @@
       "Edit": "Chỉnh sửa",
       "Delete": "Xóa",
       "SelectDept": "Chọn Phòng Ban...",
-      "EnterPartCode": "Nhập Mã Bộ Phận..."
+      "EnterPartCode": "Nhập Mã Bộ Phận...",
+      "DuplicatePartCode": "Mã Bộ Phận đã tồn tại"
     },
     "LunchBreak": {
       "Title": "Thời gian nghỉ trưa",
@@ -806,8 +807,10 @@
       "Ignore": "Ignore",
       "UploadErrorMsg": "Tải lên không thành công, vui lòng kiểm tra lại dữ liệu trong file excel",
       "DeletedSuccessfully": "Xóa dữ liệu thành công",
-      "EmptyList": "Không có dữ liệu nào được xóa",
-      "DeletedFailed": "Xóa dữ liệu không thành công : "
+      "DeletedSuccessfullyWithReport": "Xóa dữ liệu thành công nhưng có một số dữ liệu bị lỗi, vui lòng kiểm tra lại file báo cáo đã tải về",
+      "DeletedFailed": "Xóa dữ liệu không thành công",
+      "DeletedFailedWithReport": "Xóa dữ liệu không thành công, vui lòng kiểm tra lại file báo cáo đã tải về",
+      "EmptyList": "Không có dữ liệu nào được xóa"
     },
     "SeaHrSeaConfirm": {
       "EmpNumber": "Mã Nhân Viên",
@@ -933,7 +936,8 @@
     "Update": "Cập nhật",
     "UpdateDepartment": "Cập nhật Phòng Ban",
     "DetailsDepartment": "Chi tiết Phòng Ban",
-    "Shift_Time": "Giờ Làm Việc"
+    "Shift_Time": "Giờ Làm Việc",
+    "DuplicateDeptCode": "Mã Phòng Ban trong Khu vực và Tòa Nhà này đã tồn tại"
   },
   "SeaHr_ViewData": {
     "ViewData": "Xem dữ liệu",

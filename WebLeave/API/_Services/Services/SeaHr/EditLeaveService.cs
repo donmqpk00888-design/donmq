@@ -1,4 +1,5 @@
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.SeaHr;
 using API.Dtos.Common;
 using API.Dtos.SeaHr.EditLeave;
@@ -12,17 +13,19 @@ namespace API._Services.Services.SeaHr
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly IMapper _mapper;
+        private readonly ICommonService _serviceCommon;
 
-        public EditLeaveService(IRepositoryAccessor repositoryAccessor, IMapper mapper)
+        public EditLeaveService(IRepositoryAccessor repositoryAccessor, IMapper mapper, ICommonService serviceCommon)
         {
             _repositoryAccessor = repositoryAccessor;
             _mapper = mapper;
+            _serviceCommon = serviceCommon;
         }
 
         public async Task<OperationResult> AcceptEditLeave(int LeaveID, string UserName)
         {
             LeaveData leave = await _repositoryAccessor.LeaveData.FindById(LeaveID);
-            leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] dasuachua {UserName}";
+            leave.Comment += $"-[{_serviceCommon.GetServerTime():dd/MM/yyyy HH:mm:ss}] dasuachua {UserName}";
             leave.LeaveArrange = false;
             /**
             * * Trả EditRequest về 0
@@ -148,7 +151,7 @@ namespace API._Services.Services.SeaHr
         public async Task<OperationResult> RejectEditLeave(int LeaveID, string UserName)
         {
             LeaveData leave = await _repositoryAccessor.LeaveData.FindById(LeaveID);
-            leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] datuchoi,vuilonglienhenhansu {UserName}";
+            leave.Comment += $"-[{_serviceCommon.GetServerTime():dd/MM/yyyy HH:mm:ss}] datuchoi,vuilonglienhenhansu {UserName}";
             leave.LeaveArrange = false;
             /**
             * * Trả EditRequest về 3

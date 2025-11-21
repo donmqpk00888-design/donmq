@@ -13,16 +13,19 @@ namespace API._Services.Services.SeaHr
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly ILeaveCommonService _leaveCommonService;
+        private readonly ICommonService _commonService;
         private readonly INotification _notification;
 
         public AddManuallyService(
             IRepositoryAccessor repositoryAccessor,
             ILeaveCommonService leaveCommonService,
+            ICommonService commonService,
             INotification notification)
         {
             _notification = notification;
             _repositoryAccessor = repositoryAccessor;
             _leaveCommonService = leaveCommonService;
+            _commonService = commonService;
         }
         public async Task<OperationResult> AddManually(AddManuallyParam param, string userId)
         {
@@ -87,8 +90,8 @@ namespace API._Services.Services.SeaHr
                 return new OperationResult(true, "Không tìm thấy");
 
             leave.Status_Line = false;
-            leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] Đã xóa";
-            leave.Updated = DateTime.Now;
+            leave.Comment += $"-[{_commonService.GetServerTime():dd/MM/yyyy HH:mm:ss}] Đã xóa";
+            leave.Updated = _commonService.GetServerTime();
 
             if (leave.Cate.CateSym.Equals("U") || leave.Cate.CateSym.Equals("J"))
             {
@@ -110,7 +113,7 @@ namespace API._Services.Services.SeaHr
                     hisemp.CountRestArran += leave.LeaveDay;
                 }
 
-                hisemp.Updated = DateTime.Now;
+                hisemp.Updated = _commonService.GetServerTime();
                 _repositoryAccessor.HistoryEmp.Update(hisemp);
             }
             _repositoryAccessor.LeaveData.Update(leave);

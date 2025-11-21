@@ -726,7 +726,8 @@
       "Edit": "Edit",
       "Delete": "Delete",
       "SelectDept": "Select Department...",
-      "EnterPartCode": "Enter PartCode..."
+      "EnterPartCode": "Enter PartCode...",
+      "DuplicatePartCode": "PartCode already exists"
     },
     "LunchBreak": {
       "Title": "Lunch Break",
@@ -822,8 +823,10 @@
       "Ignore": "Ignore",
       "UploadErrorMsg": "Uploading file failed on save. Please check the excel data again",
       "DeletedSuccessfully":"Deleted Successfully",
-      "EmptyList":"No employee data is deleted",
-      "DeletedFailed":"Deleted employee failed : "
+      "DeletedSuccessfullyWithReport":"Deleted successfully but some deleted data failed, please check downloaded Error Report",
+      "DeletedFailed":"Deleted Failed",
+      "DeletedFailedWithReport":"Deleted failed, please check downloaded Error Report",
+      "EmptyList":"No employee data is deleted"
     },
     "SeaHrSeaConfirm": {
       "FromDate": "From Date",
@@ -955,7 +958,8 @@
     "CategoryDetail": "Category Detail",
     "Add": "Add",
     "AddNew": "Add New",
-    "Edit": "Edit"
+    "Edit": "Edit",
+    "DuplicateDeptCode": "Department Code in this Area and Building already exists"
   },
   "SeaHr_ViewData": {
     "ViewData": "View Data",

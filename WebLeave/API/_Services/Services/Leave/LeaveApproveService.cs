@@ -16,6 +16,7 @@ namespace API._Services.Services.Leave
         private readonly IMapper _mapper;
         private readonly IMailUtility _mailUtility;
         private readonly ILeaveCommonService _leaveCommonService;
+        private readonly ICommonService _commonService;
         private readonly IFunctionUtility _functionUtility;
 
         public LeaveApproveService(
@@ -23,12 +24,14 @@ namespace API._Services.Services.Leave
             IMapper mapper,
             IMailUtility mailUtility,
             ILeaveCommonService leaveCommonService,
+            ICommonService commonService,
             IFunctionUtility functionUtility)
         {
             _accessorRepo = accessorRepo;
             _mapper = mapper;
             _mailUtility = mailUtility;
             _leaveCommonService = leaveCommonService;
+            _commonService = commonService;
             _functionUtility = functionUtility;
         }
 
@@ -243,8 +246,8 @@ namespace API._Services.Services.Leave
             models.ForEach(x =>
             {
                 x.Status_Line = dataLeave.FirstOrDefault(y => y.LeaveID == x.LeaveID).Status_Line;
-                x.Updated = DateTime.Now;
-                x.Time_Applied = DateTime.Now;
+                x.Updated = _commonService.GetServerTime();
+                x.Time_Applied = _commonService.GetServerTime();
 
                 // 2: đồng ý 3: từ chối
                 // Approve bị từ chối thì bỏ qua 
@@ -301,7 +304,7 @@ namespace API._Services.Services.Leave
                                 hisemp.CountRestArran += leave.LeaveDay;
                             }
 
-                            hisemp.Updated = DateTime.Now;
+                            hisemp.Updated = _commonService.GetServerTime();
                             _accessorRepo.HistoryEmp.Update(hisemp);
                         }
                         var model = models.FirstOrDefault(x => x.EmpID == leave.EmpID);

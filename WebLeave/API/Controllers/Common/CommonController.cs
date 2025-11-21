@@ -64,5 +64,11 @@ namespace API.Controllers.Common
             }
             return Ok(data);
         }
+        [HttpGet("GetSeverTime")]
+        public IActionResult SeverTime()
+        {
+            var _serverTime = _serviceCommon.GetServerTime();
+            return Ok(_serverTime);
+        }
     }
 }

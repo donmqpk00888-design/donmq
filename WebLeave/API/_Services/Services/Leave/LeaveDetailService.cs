@@ -1,4 +1,5 @@
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.Leave;
 using API.Dtos.Common;
 using API.Helpers.Enums;
@@ -13,15 +14,18 @@ namespace API._Services.Services.Leave
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly IFunctionUtility _functionUtility;
+        private readonly ICommonService _commonService;
         private readonly INotification _notification;
 
         public LeaveDetailService(
             IRepositoryAccessor repositoryAccessor,
             IFunctionUtility functionUtility,
+            ICommonService commonService,
             INotification notification)
         {
             _repositoryAccessor = repositoryAccessor;
             _functionUtility = functionUtility;
+            _commonService = commonService;
             _notification = notification;
         }
 
@@ -39,12 +43,12 @@ namespace API._Services.Services.Leave
                 {
                     leaveData.Approved = 1;
                     leaveData.Status_Lock = true;
-                    leaveData.Comment += "-[" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "] suadoichoduyet " + userName;
+                    leaveData.Comment += "-[" + _commonService.GetServerTime().ToString("dd/MM/yyyy HH:mm:ss") + "] suadoichoduyet " + userName;
                 }
                 else if (slEditApproval == 1)
                 {
                     leaveData.Approved = 3;
-                    leaveData.Comment += "-[" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "] suadoituchoi " + userName;
+                    leaveData.Comment += "-[" + _commonService.GetServerTime().ToString("dd/MM/yyyy HH:mm:ss") + "] suadoituchoi " + userName;
                     if (historyEmp.CountLeave > 0)
                         historyEmp.CountLeave -= leaveData.LeaveDay;
 
@@ -62,13 +66,13 @@ namespace API._Services.Services.Leave
                         historyEmp.CountRestArran += leaveData.LeaveDay;
                     }
 
-                    historyEmp.Updated = DateTime.Now;
+                    historyEmp.Updated = _commonService.GetServerTime();
                     _repositoryAccessor.HistoryEmp.Update(historyEmp);
                 }
                 else
                 {
                     leaveData.Approved = 2;
-                    leaveData.Comment += "-[" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "] suadoichapnhan " + userName;
+                    leaveData.Comment += "-[" + _commonService.GetServerTime().ToString("dd/MM/yyyy HH:mm:ss") + "] suadoichapnhan " + userName;
                     historyEmp.CountLeave += leaveData.LeaveDay;
 
                     if (leaveData.Cate.CateSym == "J")
@@ -83,7 +87,7 @@ namespace API._Services.Services.Leave
                     }
                 }
                 leaveData.ApprovedBy = userID;
-                leaveData.Updated = DateTime.Now;
+                leaveData.Updated = _commonService.GetServerTime();
                 _repositoryAccessor.LeaveData.Update(leaveData);
                 await _repositoryAccessor.SaveChangesAsync();
 
@@ -103,8 +107,8 @@ namespace API._Services.Services.Leave
             await _notification.SendNotitoUser(notitext, empid);
 
             LeaveData leaveData = await _repositoryAccessor.LeaveData.FirstOrDefaultAsync(x => x.LeaveID == leaveid);
-            leaveData.Comment += "-[" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "] Gửi mail: `" + notitext + "` (" + userName + ")";
-            leaveData.Updated = DateTime.Now;
+            leaveData.Comment += "-[" + _commonService.GetServerTime().ToString("dd/MM/yyyy HH:mm:ss") + "] Gửi mail: `" + notitext + "` (" + userName + ")";
+            leaveData.Updated = _commonService.GetServerTime();
             if (notitext.Trim() != string.Empty)
             {
                 leaveData.MailContent_Lock = notitext;
@@ -120,7 +124,7 @@ namespace API._Services.Services.Leave
             if (itemLeaveData != null)
             {
                 CommentArchive commentArchive = await _repositoryAccessor.CommentArchive.FirstOrDefaultAsync(x => x.Value == commentArchiveID);
-                itemLeaveData.Comment += "-[" + DateTime.Now + "] '" + commentArchive.Comment + "' chinhsuacomment " + userID.ToString();
+                itemLeaveData.Comment += "-[" + _commonService.GetServerTime() + "] '" + commentArchive.Comment + "' chinhsuacomment " + userID.ToString();
                 itemLeaveData.CommentArchive = commentArchive.Comment;
             }
             if (await _repositoryAccessor.SaveChangesAsync())
@@ -260,7 +264,6 @@ namespace API._Services.Services.Leave
             if (leaveID == null || leaveID <= 0)
                 return new OperationResult(false);
 
-            DateTime dtNow = DateTime.Now;
             LeaveData leaveData = await _repositoryAccessor.LeaveData.FirstOrDefaultAsync(x => x.LeaveID == leaveID);
             if (leaveData == null)
                 return new OperationResult(false);
@@ -272,8 +275,8 @@ namespace API._Services.Services.Leave
                 leaveData.EditRequest = 2;
 
             leaveData.ReasonAdjust = ReasonAdjust;
-            leaveData.Comment += "-[" + dtNow.ToString("dd/MM/yyyy HH:mm:ss") + "] ycsuachua" + $", lydo: {ReasonAdjust}";
-            leaveData.Updated = dtNow;
+            leaveData.Comment += "-[" + _commonService.GetServerTime().ToString("dd/MM/yyyy HH:mm:ss") + "] ycsuachua" + $", lydo: {ReasonAdjust}";
+            leaveData.Updated = _commonService.GetServerTime();
 
             _repositoryAccessor.LeaveData.Update(leaveData);
             await _repositoryAccessor.SaveChangesAsync();

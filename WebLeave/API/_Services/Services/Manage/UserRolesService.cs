@@ -6,14 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using API.Helpers.Enums;
 using API.Dtos.Auth;
 using System.Text.Json;
+using API._Services.Interfaces.Common;
 namespace API._Services.Services.Manage
 {
     public class UserRolesService : IUserRolesService
     {
         private readonly IRepositoryAccessor _repoAccessor;
-        public UserRolesService(IRepositoryAccessor repoAccessor)
+        private readonly ICommonService _commonService;
+        public UserRolesService(IRepositoryAccessor repoAccessor, ICommonService commonService)
         {
             _repoAccessor = repoAccessor;
+            _commonService = commonService;
         }
 
         public async Task<(List<TreeNode<RoleNode>> Roles, List<TreeNode<RoleNode>> AssignedRoles)> GetAllRoleUser(int userId, string langId)
@@ -382,7 +385,7 @@ namespace API._Services.Services.Manage
             {
                 RoleID = roleId,
                 UserID = userId,
-                Updated = DateTime.Now,
+                Updated = _commonService.GetServerTime(),
                 Updated_By = updateByResult
             };
 
@@ -483,7 +486,7 @@ namespace API._Services.Services.Manage
                 {
                     RoleID = role.RoleID,
                     UserID = userId,
-                    Updated = DateTime.Now,
+                    Updated = _commonService.GetServerTime(),
                     Updated_By = await UpdatedByJoin(roles_User, updateBy)
                 };
                 _repoAccessor.RolesUser.Add(roleUser);
@@ -526,7 +529,7 @@ namespace API._Services.Services.Manage
                 {
                     RoleID = roleView.RoleID,
                     UserID = userId,
-                    Updated = DateTime.Now,
+                    Updated = _commonService.GetServerTime(),
                     Updated_By = updateByResult
                 };
                 listRoleUser.Add(user);
@@ -540,7 +543,7 @@ namespace API._Services.Services.Manage
                 {
                     RoleID = roleModerator.RoleID,
                     UserID = userId,
-                    Updated = DateTime.Now,
+                    Updated = _commonService.GetServerTime(),
                     Updated_By = updateByResult
                 };
                 listRoleUser.Add(r_User);

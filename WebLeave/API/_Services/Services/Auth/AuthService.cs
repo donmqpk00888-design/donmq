@@ -1,5 +1,6 @@
 using API._Repositories;
 using API._Services.Interfaces;
+using API._Services.Interfaces.Common;
 using API.Dtos.Auth;
 using API.Helpers.Enums;
 using API.Helpers.Hubs;
@@ -17,6 +18,7 @@ namespace API._Services.Services
         private readonly IMapper _mapper;
         private readonly IJwtUtility _jwtUtility;
         private readonly IFunctionUtility _functionUtility;
+        private readonly ICommonService _commonService;
         private readonly IHubContext<LoginDetectHub> _loginDetectHub;
 
         public AuthService(
@@ -24,12 +26,14 @@ namespace API._Services.Services
             IMapper mapper,
             IJwtUtility jwtUtility,
             IFunctionUtility functionUtility,
+            ICommonService commonService,
             IHubContext<LoginDetectHub> loginDetectHub)
         {
             _repositoryAccessor = repositoryAccessor;
             _mapper = mapper;
             _jwtUtility = jwtUtility;
             _functionUtility = functionUtility;
+            _commonService = commonService;
             _loginDetectHub = loginDetectHub;
         }
 
@@ -47,8 +51,8 @@ namespace API._Services.Services
                 LoginDetect detect = new()
                 {
                     UserName = userForLogin.Username,
-                    Expires = DateTime.Now.AddDays(30),
-                    LoggedAt = DateTime.Now,
+                    Expires = _commonService.GetServerTime().AddDays(30),
+                    LoggedAt = _commonService.GetServerTime(),
                     LoggedByIP = userForLogin.IpLocal
                 };
                 _repositoryAccessor.LoginDetect.Add(detect);
@@ -486,7 +490,7 @@ namespace API._Services.Services
         public async Task<bool> CheckLoggedIn(UserForLoginParam userForLogin)
         {
             LoginDetect detect = await _repositoryAccessor.LoginDetect.FirstOrDefaultAsync(x => x.UserName == userForLogin.Username && x.LoggedByIP != userForLogin.IpLocal);
-            return detect != null && detect.Expires > DateTime.Now;
+            return detect != null && detect.Expires > _commonService.GetServerTime();
         }
 
         public async Task Logout(UserForLoginParam userForLogin)

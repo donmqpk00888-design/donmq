@@ -37,11 +37,11 @@ export class TeamManagementService {
   }
 
   create(part: Part) {
-    return this.http.post<boolean>(`${this.apiUrl}TeamManagement/Create`, part);
+    return this.http.post<OperationResult>(`${this.apiUrl}TeamManagement/Create`, part);
   }
 
   update(part: Part) {
-    return this.http.post<boolean>(`${this.apiUrl}TeamManagement/Update`, part);
+    return this.http.post<OperationResult>(`${this.apiUrl}TeamManagement/Update`, part);
   }
 
   getDataDetail(partID: number) {

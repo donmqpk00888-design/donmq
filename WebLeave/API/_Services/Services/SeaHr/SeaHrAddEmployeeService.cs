@@ -1,5 +1,6 @@
 using System.Globalization;
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.SeaHr;
 using API.Dtos.SeaHr;
 using API.Helpers.Utilities;
@@ -12,15 +13,17 @@ namespace API._Services.Services.SeaHr
         private static readonly SemaphoreSlim semaphore = new(1, 1);
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly IFunctionUtility _functionUtility;
+        private readonly ICommonService _commonService;
 
         public SeaHrAddEmployeeService(
             IRepositoryAccessor repositoryAccessor,
-            IFunctionUtility functionUtility)
+            IFunctionUtility functionUtility,
+            ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
             _functionUtility = functionUtility;
+            _commonService = commonService;
         }
-
         public async Task<bool> IsExists(EmployeeDTO employeeDTO)
         {
             return await _repositoryAccessor.Employee.AnyAsync(x => x.EmpNumber == employeeDTO.EmpNumber);
@@ -48,12 +51,13 @@ namespace API._Services.Services.SeaHr
 
             HistoryEmp history = new();
             double TotalDay = Convert.ToDouble(employeeDTO.TotalDay);
+            var _serverTime = _commonService.GetServerTime();
 
             history.EmpID = employee.EmpID;
             history.TotalDay = TotalDay;
             history.Agent = TotalDay / 2;
             history.Arrange = TotalDay / 2;
-            history.YearIn = DateTime.Now.Year;
+            history.YearIn = _serverTime.Year;
             history.CountAgent = employeeDTO.CountAgent;
             history.CountArran = employeeDTO.CountArran;
             history.CountLeave = employeeDTO.CountLeave;
@@ -61,7 +65,7 @@ namespace API._Services.Services.SeaHr
             history.CountRestArran = employeeDTO.CountRestArran;
             history.CountLeave = employeeDTO.CountTotal;
             history.CountTotal = employeeDTO.CountAgent + employeeDTO.CountRestAgent;
-            history.Updated = DateTime.Now;
+            history.Updated = _serverTime;
             _repositoryAccessor.HistoryEmp.Add(history);
 
             Users user = await _repositoryAccessor.Users.FirstOrDefaultAsync(x => x.UserName == employeeDTO.EmpNumber);
@@ -74,7 +78,7 @@ namespace API._Services.Services.SeaHr
                     UserRank = 1,
                     ISPermitted = true,
                     EmpID = employee.EmpID,
-                    Updated = DateTime.Now,
+                    Updated = _serverTime,
                     Visible = true,
                     FullName = _functionUtility.RemoveUnicode(employeeDTO.EmpName)
                 };
@@ -140,7 +144,7 @@ namespace API._Services.Services.SeaHr
                 if (!excelResult.IsSuccess)
                     return new OperationResult(false, excelResult.Error);
                 string factory = SettingsConfigUtility.GetCurrentSettings("AppSettings:Factory").ToLower();
-                DateTime now = DateTime.Now;
+                DateTime now = _commonService.GetServerTime();
                 ResultDataUploadEmp dataResult = new()
                 {
                     CountCreateEmp = 0,

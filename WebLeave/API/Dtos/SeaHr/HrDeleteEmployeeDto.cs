@@ -1,10 +1,10 @@
 
 namespace API.Dtos.SeaHr
 {
-    public class ListDeleteEmployeeModel
+    public class HrDeleteEmployeeExcel
     {
         public string EmpNumber { get; set; }
         public string FullName { get; set; }
-        public int isDelete { get; set; }
+        public string Message { get; set; }
     }
 }

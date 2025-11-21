@@ -44,17 +44,18 @@ export class DepartmentAddComponent extends InjectBase implements OnInit {
       next: (res) => {
         if (res.isSuccess) {
           this.snotifyService.success(this.translateService.instant('System.Message.CreateOKMsg'), this.translateService.instant('System.Caption.Success'));
+          this.router.navigate(['manage/department']);
         } else {
-          this.snotifyService.error(this.translateService.instant('System.Message.CreateErrorMsg'), this.translateService.instant('System.Caption.Error'));
+          this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
         }
         this.spinnerService.hide();
       },
       error: () => {
+        this.spinnerService.hide();
         this.snotifyService.error(this.translateService.instant('System.Message.SystemError'), this.translateService.instant('System.Caption.Error'));
       },
       complete: () => {
         this.spinnerService.hide();
-        this.router.navigate(['manage/department']);
       }
     });
   }

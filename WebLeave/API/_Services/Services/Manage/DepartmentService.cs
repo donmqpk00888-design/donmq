@@ -22,10 +22,10 @@ namespace API._Services.Services.Manage
         {
             departmentDto.DeptName = departmentDto.deptnamevn + " - " + departmentDto.deptnametw;
             Department dept = _mapper.Map<Department>(departmentDto);
-            var check = await _repo.Department.AnyAsync(x => x.DeptName == departmentDto.DeptName);
+            var check = await _repo.Department.AnyAsync(x => x.DeptCode == departmentDto.DeptCode && x.AreaID == departmentDto.AreaID && x.BuildingID == departmentDto.BuildingID);
             if (check)
             {
-                return new OperationResult(false, "Exists Alrealdy");
+                return new OperationResult(false, "Department.DuplicateDeptCode");
             }
             using var _transaction = await _repo.BeginTransactionAsync();
             try
@@ -190,6 +190,9 @@ namespace API._Services.Services.Manage
 
         public async Task<OperationResult> Update(DepartmentDto departmentDto)
         {
+            var checkDuplicate = await _repo.Department.FirstOrDefaultAsync(x => x.DeptCode == departmentDto.DeptCode && x.AreaID == departmentDto.AreaID && x.BuildingID == departmentDto.BuildingID);
+            if (checkDuplicate is not null)
+                return new OperationResult { IsSuccess = false, Error = "Department.DuplicateDeptCode" };
             try
             {
                 DetpLang dvn = await _repo.DetpLang.FirstOrDefaultAsync(q => q.DeptID == departmentDto.DeptID && q.LanguageID == LangConstants.VN);

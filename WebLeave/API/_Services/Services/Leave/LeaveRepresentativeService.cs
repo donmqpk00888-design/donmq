@@ -16,17 +16,20 @@ namespace API._Services.Services.Leave
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly IFunctionUtility _functionUtility;
         private readonly ILeaveCommonService _leaveCommonService;
+        private readonly ICommonService _commonService;
         private readonly INotification _notification;
 
         public LeaveRepresentativeService(
             IRepositoryAccessor repositoryAccessor,
             IFunctionUtility functionUtility,
             ILeaveCommonService leaveCommonService,
+            ICommonService commonService,
             INotification notification)
         {
             _repositoryAccessor = repositoryAccessor;
             _functionUtility = functionUtility;
             _leaveCommonService = leaveCommonService;
+            _commonService = commonService;
             _notification = notification;
         }
 
@@ -88,8 +91,8 @@ namespace API._Services.Services.Leave
                       .FirstOrDefault();
 
                     leave.Status_Line = false;
-                    leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] Đã xóa";
-                    leave.Updated = DateTime.Now;
+                    leave.Comment += $"-[{_commonService.GetServerTime():dd/MM/yyyy HH:mm:ss}] Đã xóa";
+                    leave.Updated = _commonService.GetServerTime();
 
                     if (leave.Cate.CateSym.Equals("U") || leave.Cate.CateSym.Equals("J"))
                     {
@@ -108,7 +111,7 @@ namespace API._Services.Services.Leave
                             hisemp.CountRestArran += leave.LeaveDay;
                         }
 
-                        hisemp.Updated = DateTime.Now;
+                        hisemp.Updated = _commonService.GetServerTime();
                         _repositoryAccessor.HistoryEmp.Update(hisemp);
                     }
 
@@ -135,9 +138,8 @@ namespace API._Services.Services.Leave
             if (!allowData.Any())
                 return new OperationResult(false, "No body");
 
-            int dateNow = DateTime.Now.Year;
             HistoryEmp history = await _repositoryAccessor.HistoryEmp
-                .FindAll(x => x.Emp.EmpNumber == empNumber && x.Emp.Visible == true && x.YearIn == dateNow)
+                .FindAll(x => x.Emp.EmpNumber == empNumber && x.Emp.Visible == true && x.YearIn == DateTime.Now.Year)
                 .Include(x => x.Emp.Part.Dept.Area)
                 .Include(x => x.Emp.Part.Dept.Building.Area)
                 .FirstOrDefaultAsync();

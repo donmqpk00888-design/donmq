@@ -1,4 +1,5 @@
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.Manage;
 using API.Dtos.Common;
 using API.Models;
@@ -9,10 +10,12 @@ namespace API._Services.Services.Manage
     public class LunchBreakService : ILunchBreakService
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
+        private readonly ICommonService _commonService;
 
-        public LunchBreakService(IRepositoryAccessor repositoryAccessor)
+        public LunchBreakService(IRepositoryAccessor repositoryAccessor, ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
+            _commonService = commonService;
         }
 
         public async Task<OperationResult> Create(LunchBreakDto dto)
@@ -34,7 +37,7 @@ namespace API._Services.Services.Manage
                 Seq = dto.Seq,
                 Visible = dto.Visible,
                 CreatedBy = dto.CreatedBy,
-                CreatedTime = DateTime.Now
+                CreatedTime = _commonService.GetServerTime()
             };
 
             try
@@ -152,7 +155,7 @@ namespace API._Services.Services.Manage
             item.Seq = dto.Seq;
             item.Visible = dto.Visible;
             item.UpdatedBy = dto.UpdatedBy;
-            item.UpdatedTime = DateTime.Now;
+            item.UpdatedTime = _commonService.GetServerTime();
 
             try
             {

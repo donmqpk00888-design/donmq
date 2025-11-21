@@ -31,7 +31,7 @@ export class LeaveApproveComponent extends InjectBase implements OnInit {
   category: KeyValuePair[] = [];
   dateFrom = new Date();
   dateTo = new Date();
-  dateComment = new Date();
+  dateComment: Date = null;
   languageCurrent: string = localStorage.getItem(LocalStorageConstants.LANG) ?? LangConstants.VN;
   pagination: Pagination = {
     pageNumber: 1,
@@ -57,7 +57,6 @@ export class LeaveApproveComponent extends InjectBase implements OnInit {
   constructor(
     private leaveaApproveService: LeaveApproveService,
     private modalService: BsModalService,
-
   ) {
     super();
   }
@@ -207,7 +206,17 @@ export class LeaveApproveComponent extends InjectBase implements OnInit {
     this.leaveDataApproveUpdate = [];
     this.modalRef?.hide()
   }
-  updateLeaveData(check: boolean) {
+
+  getServerTimeAsPromise(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.commonService.getServerTime().subscribe({
+        next: resolve,
+        error: reject,
+      });
+    });
+  }
+  async updateLeaveData(check: boolean) {
+    this.dateComment = await this.getServerTimeAsPromise();
     if (check) {
       this.leaveDataApproveUpdate.forEach(item => {
         item.approvedBy = JSON.parse(localStorage.getItem(LocalStorageConstants.USER)).userID;

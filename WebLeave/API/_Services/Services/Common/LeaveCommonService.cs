@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using API._Repositories;
 using API._Services.Interfaces.Common;
@@ -17,16 +18,17 @@ namespace API._Services.Services.Common
     {
         private readonly IRepositoryAccessor _repoAccessor;
         private readonly IMapper _mapper;
+        private readonly ICommonService _serviceCommon;
 
         public LeaveCommonService(
             IRepositoryAccessor repoAccessor,
+            ICommonService serviceCommon,
             IMapper mapper)
         {
             _repoAccessor = repoAccessor;
+            _serviceCommon = serviceCommon;
             _mapper = mapper;
         }
-
-
 
         public async Task<int> AddLeave(LeavePersonalDto leavePersonalDto, string userId)
         {
@@ -38,6 +40,9 @@ namespace API._Services.Services.Common
             DateTime to = leavePersonalDto.Time_End.ConvertToDateTime();
 
             Employee emp = await _repoAccessor.Employee.FirstOrDefaultAsync(x => x.EmpID == leavePersonalDto.EmpID);
+
+            var _serverTime = _serviceCommon.GetServerTime(); 
+
             LeaveData leave = new()
             {
                 EmpID = leavePersonalDto.EmpID,
@@ -49,15 +54,15 @@ namespace API._Services.Services.Common
                 LeavePlus = false,
                 Status_Line = true,
                 Status_Lock = false,
-                Time_Applied = DateTime.Now,
+                Time_Applied = _serverTime,
                 Time_Start = from,
                 Time_End = to,
                 UserID = Convert.ToInt32(userId),
-                Updated = DateTime.Now,
-                Created = DateTime.Now,
+                Updated = _serverTime,
+                Created = _serverTime,
                 TimeLine = $"{from:HH:mm dd/MM/yyyy} - {to:HH:mm dd/MM/yyyy}",
                 LeaveArchive = ReturnArchive(emp.EmpNumber, leavePersonalDto.Time_Lunch),
-                Comment = $"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] {leavePersonalDto.Comment}"
+                Comment = $"[{_serverTime:dd/MM/yyyy HH:mm:ss}] {leavePersonalDto.Comment}"
             };
 
             _repoAccessor.LeaveData.Add(leave);
@@ -102,7 +107,7 @@ namespace API._Services.Services.Common
                 EmpNumber = emp.EmpNumber?.Trim(),
                 LeaveID = leave.LeaveID,
                 LeaveType = leavePersonalDto.LeaveType?.Trim(),
-                RequestDate = DateTime.Now,
+                RequestDate = _serviceCommon.GetServerTime(),
                 LoggedByIP = leavePersonalDto.IpLocal
             };
             _repoAccessor.LeaveLog.Add(leaveLog);

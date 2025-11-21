@@ -52,17 +52,26 @@ export class SeahrDeleteComponent extends InjectBase implements OnInit {
       next: (res) => {
         this.spinnerService.hide();
         if (res.isSuccess) {
-          this.snotifyService.success(
-            this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error),
-            this.translateService.instant('System.Caption.Success')
-          );
+          if (res.data) {
+            this.functionUtility.exportExcel(res.data.file, res.data.name);
+            this.snotifyService.warning(
+              this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error),
+              this.translateService.instant('System.Caption.Warning')
+            );
+          } else {
+            this.snotifyService.success(
+              this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error),
+              this.translateService.instant('System.Caption.Success')
+            );
+          }
           this.back();
         } else {
+          if (res.data)
+            this.functionUtility.exportExcel(res.data.file, res.data.name);
           this.snotifyService.error(
-            this.functionUtility.checkEmpty(res.data)
-              ? this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error)
-              : this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error) + res.data as string,
-            this.translateService.instant('System.Caption.Error'));
+            this.translateService.instant('SeaHr.SearHrAddEmployee.' + res.error),
+            this.translateService.instant('System.Caption.Error')
+          );
         }
       },
       error: () => {

@@ -33,4 +33,8 @@ export class CommonService {
   getBrowserInfo(ipLocal: string, username: string) {
     return this.http.get<BrowserInfo>(`${this.apiUrl}common/GetBrowserInfo`, { params: { ipLocal, username } });
   }
+
+  getServerTime() {
+    return this.http.get<Date>(`${this.apiUrl}common/GetServerTime`);
+  }
 }

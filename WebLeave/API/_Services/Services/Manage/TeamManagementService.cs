@@ -21,7 +21,7 @@ namespace API._Services.Services.Manage
             _mapper = mapper;
         }
 
-        public async Task<bool> Create(PartDto partDto)
+        public async Task<OperationResult> Create(PartDto partDto)
         {
             using var _transaction = await _repositoryAccessor.BeginTransactionAsync();
             try
@@ -29,7 +29,7 @@ namespace API._Services.Services.Manage
                 int partId = 1;
                 IQueryable<Part> checkExist = _repositoryAccessor.Part.FindAll(true);
                 if(checkExist.FirstOrDefault(x => x.PartCode == partDto.PartCode) != null)
-                    return false;
+                    return new OperationResult { IsSuccess = false, Error = "Manage.TeamManager.DuplicatePartCode" };
                 if (checkExist.Any())
                     partId = checkExist.Max(x => x.PartID) + 1;
 
@@ -73,12 +73,12 @@ namespace API._Services.Services.Manage
                 await _repositoryAccessor.SaveChangesAsync();
                 await _transaction.CommitAsync();
 
-                return true;
+                return new OperationResult { IsSuccess = true };
             }
             catch
             {
                 await _transaction.RollbackAsync();
-                return false;
+                return new OperationResult { IsSuccess = false, Error = "System.Message.CreateErrorMsg" };
             }
         }
 
@@ -157,7 +157,7 @@ namespace API._Services.Services.Manage
             return await PaginationUtility<TeamManagementDataDto>.CreateAsync(data, pagination.PageNumber, pagination.PageSize, isPaging);
         }
 
-        public async Task<bool> Update(PartDto partDto)
+        public async Task<OperationResult> Update(PartDto partDto)
         {
             using var _transaction = await _repositoryAccessor.BeginTransactionAsync();
             try
@@ -174,26 +174,30 @@ namespace API._Services.Services.Manage
 
                 var data = await _repositoryAccessor.Part.FindAll().ToListAsync();
                 if (data.FirstOrDefault(x => x.PartCode == partDto.PartCode) is not null)
-                    return false; // new OperationResult { IsSuccess = false, Error = "System.Message.DuplicateMsg" };
+                    return new OperationResult { IsSuccess = false, Error = "Manage.TeamManager.DuplicatePartCode" };
                 var item = data.FirstOrDefault(x => x.PartID == partDto.PartID);
                 if (item is null)
-                    return false; // new OperationResult { IsSuccess = false, Error = "'System.Message.UpdateErrorMsg'" };
-                
+                    return new OperationResult { IsSuccess = false, Error = "System.Message.UpdateErrorMsg" };
+
                 // item.part
-                Part part = _mapper.Map<Part>(partDto);
-                _repositoryAccessor.Part.Update(part);
+                item.PartCode = partDto.PartCode;
+                item.PartName = partDto.PartName;
+                item.Number = partDto.Number;
+                item.DeptID = partDto.DeptID;
+                item.Visible = partDto.Visible;
+                _repositoryAccessor.Part.Update(item);
 
                 _repositoryAccessor.PartLang.UpdateMultiple(new List<PartLang> { partVN, partEN, partTW });
 
                 await _repositoryAccessor.SaveChangesAsync();
                 await _transaction.CommitAsync();
 
-                return true;
+                return new OperationResult { IsSuccess = true };
             }
             catch
             {
                 await _transaction.RollbackAsync();
-                return false;
+                return new OperationResult { IsSuccess = false, Error = "System.Message.UpdateErrorMsg" };
             }
         }
     }

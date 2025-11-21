@@ -13,15 +13,18 @@ namespace API._Services.Services.Leave
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly INotification _notification;
         private readonly ILeaveCommonService _leaveCommonService;
+        private readonly ICommonService _commonService;
 
         public LeavePersonalService(
             IRepositoryAccessor repositoryAccessor,
             INotification notification,
-            ILeaveCommonService leaveCommonService)
+            ILeaveCommonService leaveCommonService,
+            ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
             _notification = notification;
             _leaveCommonService = leaveCommonService;
+            _commonService = commonService;
         }
 
         public async Task<OperationResult> AddLeaveDataPersonal(LeavePersonalDto leavePersonalDto, string userId)
@@ -72,8 +75,8 @@ namespace API._Services.Services.Leave
             .FirstOrDefaultAsync();
 
             leave.Status_Line = false;
-            leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] Đã xóa";
-            leave.Updated = DateTime.Now;
+            leave.Comment += $"-[{_commonService.GetServerTime():dd/MM/yyyy HH:mm:ss}] Đã xóa";
+            leave.Updated = _commonService.GetServerTime();
 
             if (leave.Cate.CateSym.Equals("U") || leave.Cate.CateSym.Equals("J"))
             {
@@ -95,7 +98,7 @@ namespace API._Services.Services.Leave
                     hisemp.CountRestArran += leave.LeaveDay;
                 }
 
-                hisemp.Updated = DateTime.Now;
+                hisemp.Updated = _commonService.GetServerTime();
                 _repositoryAccessor.HistoryEmp.Update(hisemp);
             }
 

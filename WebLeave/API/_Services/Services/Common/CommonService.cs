@@ -49,5 +49,14 @@ namespace API._Services.Services.Common
 
             return result;
         }
+
+        public DateTime GetServerTime()
+        {
+            // Lấy múi giờ của máy chủ  
+            var serverTimeZone = TimeZoneInfo.Local;
+            var utcNow = DateTime.UtcNow;
+            // Chuyển đổi sang thời gian máy chủ 
+            return TimeZoneInfo.ConvertTimeFromUtc(utcNow, serverTimeZone);
+        }
     }
 }

@@ -50,12 +50,12 @@ export class CreateOrUpdateComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.spinnerService.hide();
-          if (res) {
+          if (res.isSuccess) {
             this.snotifyService.success(this.translateService.instant('System.Message.CreateOKMsg'), this.translateService.instant('System.Caption.Success'));
             type === 'SAVE' ? this.close("SAVE") : this.reset();
           }
           else {
-            this.snotifyService.error(this.translateService.instant('System.Message.CreateErrorMsg'), this.translateService.instant('System.Caption.Error'));
+            this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
           }
         }, error: () => {
           this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));
@@ -70,12 +70,12 @@ export class CreateOrUpdateComponent extends InjectBase implements OnInit {
       .subscribe({
         next: (res) => {
           this.spinnerService.hide();
-          if (res) {
+          if (res.isSuccess) {
             this.snotifyService.success(this.translateService.instant('System.Message.UpdateOKMsg'), this.translateService.instant('System.Caption.Success'));
             this.close("SAVE");
           }
           else {
-            this.snotifyService.error(this.translateService.instant('System.Message.UpdateErrorMsg'), this.translateService.instant('System.Caption.Error'));
+            this.snotifyService.error(this.translateService.instant(res.error), this.translateService.instant('System.Caption.Error'));
           }
         }, error: () => {
           this.snotifyService.error(this.translateService.instant('System.Message.UnknowError'), this.translateService.instant('System.Caption.Error'));

@@ -1,4 +1,5 @@
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.Leave;
 using API.Dtos.Leave;
 using API.Helpers.Enums;
@@ -9,10 +10,11 @@ namespace API._Services.Services.Leave
     public class EditLeaveDataService : IEditLeaveDataService
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
-
-        public EditLeaveDataService(IRepositoryAccessor repositoryAccessor)
+        private readonly ICommonService _commonService;
+        public EditLeaveDataService(IRepositoryAccessor repositoryAccessor, ICommonService commonService)
         {
             _repositoryAccessor = repositoryAccessor;
+            _commonService = commonService;
         }
         public async Task<PaginationUtility<LeaveDataDTO>> GetAllEditLeave(PaginationParam param, int userID)
         {
@@ -172,7 +174,7 @@ namespace API._Services.Services.Leave
         public async Task<OperationResult> EditLeaveData(int LeaveID, string UserName)
         {
             LeaveData leave = await _repositoryAccessor.LeaveData.FindById(LeaveID);
-            leave.Comment += $"-[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] đã chỉnh sửa {UserName}";
+            leave.Comment += $"-[{_commonService.GetServerTime():dd/MM/yyyy HH:mm:ss}] đã chỉnh sửa {UserName}";
             leave.LeaveArrange = false;
             /**
             * * Trả EditRequest về 0

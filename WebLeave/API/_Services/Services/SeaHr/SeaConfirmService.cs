@@ -1,5 +1,6 @@
 using System.Data.SqlTypes;
 using API._Repositories;
+using API._Services.Interfaces.Common;
 using API._Services.Interfaces.SeaHr;
 using API.Dtos.Common;
 using API.Dtos.SeaHr;
@@ -18,14 +19,17 @@ namespace API._Services.Services.SeaHr
     {
         private readonly IRepositoryAccessor _repositoryAccessor;
         private readonly MapperConfiguration _mapperConfiguration;
+        private readonly ICommonService _serviceCommon;
         private readonly IFunctionUtility _functionUtility;
 
         public SeaConfirmService(
             IRepositoryAccessor repositoryAccessor,
             MapperConfiguration mapperConfiguration,
+            ICommonService serviceCommon,
             IFunctionUtility functionUtility)
         {
             _mapperConfiguration = mapperConfiguration;
+            _serviceCommon = serviceCommon;
             _functionUtility = functionUtility;
             _repositoryAccessor = repositoryAccessor;
         }
@@ -231,12 +235,10 @@ namespace API._Services.Services.SeaHr
 
             return result;
         }
-
-
         public async Task<OperationResult> Confirm(List<LeaveDataDto> data, string username)
         {
             List<LeaveData> leaveData = new();
-            DateTime timeNow = DateTime.Now;
+            var _serverTime = _serviceCommon.GetServerTime();
             List<LeaveData> listLeaveData = await _repositoryAccessor.LeaveData.FindAll(x => data.Select(d => d.LeaveID).Contains(x.LeaveID), true).ToListAsync();
             List<CommentArchive> listComment = await _repositoryAccessor.CommentArchive.FindAll(true).ToListAsync();
             // Xét duyệt các item có EditRequest == 0
@@ -264,11 +266,11 @@ namespace API._Services.Services.SeaHr
                     {
                         var commentArchive = listComment.FirstOrDefault(x => x.Value == leaveItem.CommentLeave)?.Comment;
 
-                        model.Comment += "-[" + timeNow.ToString("dd/MM/yyyy HH:mm:ss") + "] '" + commentArchive + "' duocluutru " + username;
+                        model.Comment += "-[" + _serverTime.ToString("dd/MM/yyyy HH:mm:ss") + "] '" + commentArchive + "' duocluutru " + username;
                         model.CommentArchive = commentArchive;
                     }
                     else
-                        model.Comment += "-[" + timeNow.ToString("dd/MM/yyyy HH:mm:ss") + "] duocluutru " + username;
+                        model.Comment += "-[" + _serverTime.ToString("dd/MM/yyyy HH:mm:ss") + "] duocluutru " + username;
 
 
                     model.Approved = 4;
@@ -277,7 +279,7 @@ namespace API._Services.Services.SeaHr
                     // EditRequest    = 1 => Đã gởi yêu cầu sửa phép tới chủ quản
                     // EditRequest    = 2 => Đã gởi yêu cầu sửa phép tới nhân sự
                     model.EditRequest = 0;
-                    model.Updated = timeNow;
+                    model.Updated = _serverTime;
                     model.LeaveArrange = false;
 
                     leaveData.Add(model);

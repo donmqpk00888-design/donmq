@@ -696,7 +696,8 @@
       "Edit": "修改",
       "Delete": "刪除",
       "SelectDept": "選擇部門...",
-      "EnterPartCode": "輸入組別代碼..."
+      "EnterPartCode": "輸入組別代碼...",
+      "DuplicatePartCode": "零件代碼已存在"
     },
     "LunchBreak": {
       "Title": "午休时间",
@@ -792,8 +793,10 @@
       "Ignore": "Ignore",
       "UploadErrorMsg": "Uploading file failed on save. Please check the excel data again",
       "DeletedSuccessfully":"Deleted Successfully",
-      "EmptyList":"No employee data is deleted",
-      "DeletedFailed":"Deleted employee failed : "
+      "DeletedSuccessfullyWithReport":"Deleted successfully but some deleted data failed, please check downloaded Error Report",
+      "DeletedFailed":"Deleted Failed",
+      "DeletedFailedWithReport":"Deleted failed, please check downloaded Error Report",
+      "EmptyList":"No employee data is deleted"
     },
     "SeaHrSeaConfirm": {
       "EmpNumber": "工號",
@@ -919,7 +922,8 @@
     "Update": "更新",
     "UpdateDepartment": "更新部門",
     "DetailsDepartment": "细节",
-    "Shift_Time": "工作时间"
+    "Shift_Time": "工作时间",
+    "DuplicateDeptCode": "該區域和建築物的部門代碼已存在"
   },
   "SeaHr_ViewData": {
     "ViewData": "資料看板",
