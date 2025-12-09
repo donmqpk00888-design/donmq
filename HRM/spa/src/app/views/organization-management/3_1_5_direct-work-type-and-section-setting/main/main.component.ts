@@ -9,7 +9,10 @@ import {
 import { S_3_1_5_DirectWorkTypeAndSectionSettingService } from '@services/organization-management/s_3_1_5_direct-work-type-and-section-setting.service';
 import { InjectBase } from '@utilities/inject-base-app';
 import { KeyValuePair } from '@utilities/key-value-pair';
-import { Pagination } from '@utilities/pagination-utility';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Pagination } from '@utilities/pagination-utility'; import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { S_5_1_productionEffiencyService } from '@services/kanban/s_5_1_production-effiency.service';
+import { ProductionEfficiencyDetail, ProductionEfficiencyDTO, ProductionEfficiencyParam } from '@models/kanban/5_1_production-effiency';
+import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-main',
@@ -18,175 +21,127 @@ import { Pagination } from '@utilities/pagination-utility';import { takeUntilDes
 })
 export class MainComponent extends InjectBase implements OnInit, OnDestroy {
   title: string = '';
-  programCode: string = '';
-  pagination: Pagination = <Pagination>{};
-  listDivision: KeyValuePair[] = [];
-  listFactory: KeyValuePair[] = [];
-  listWorkType: KeyValuePair[] = [];
-  listSection: KeyValuePair[] = [];
+  listShift: KeyValuePair[] = [];
   iconButton = IconButton;
-  effective_Date_value: Date = null;
-  data: HRMS_Org_Direct_SectionDto[] = [];
-  selectedData: HRMS_Org_Direct_SectionDto = <HRMS_Org_Direct_SectionDto>{};
-  param: DirectWorkTypeAndSectionSettingParam = <DirectWorkTypeAndSectionSettingParam>{};
+  date: Date = null;
+  play: boolean = false;
+  data: ProductionEfficiencyDTO[] = [
+    { category: '', detail: [] }
+  ];
+  detail: ProductionEfficiencyDetail[] = [];
+  param: ProductionEfficiencyParam = <ProductionEfficiencyParam>{};
 
   constructor(
-    private service: S_3_1_5_DirectWorkTypeAndSectionSettingService,
+    private service: S_5_1_productionEffiencyService,
   ) {
     super();
-    this.programCode = this.route.snapshot.data['program'];
-    effect(() => {
-      this.param = this.service.paramSearch().param;
-      this.pagination = this.service.paramSearch().pagination;
-      this.data = this.service.paramSearch().data;
-      if (this.param.effective_Date != undefined && this.param.effective_Date != "")
-        this.effective_Date_value = this.param.effective_Date.toDate();
-      if (this.data.length > 0) {
-        if (!this.functionUtility.checkFunction('Search'))
-          this.clear(false)
-        else
-          this.getData()
-      }
-      this.getListSection();
-      this.getListDivision();
-      this.getListSection();
-      this.getListWorkType();
-      this.changeGetFactory();
-    });
-    this.service.paramSearchSource$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(param => {
-      if (param) this.param = param;
-    })
-    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(()=> {
-      this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-      this.getListSection();
-      this.getListDivision();
-      this.getListSection();
-      this.getListWorkType();
-      this.changeGetFactory();
-      this.getData();
-    });
   }
   ngOnDestroy(): void {
-    this.checkDate()
-    this.service.setParamSearch(<DirectWorkTypeAndSectionSetting>{
-      param: this.param,
-      pagination: this.pagination,
-      data: this.data,
-      selectedData: this.selectedData
-    });
   }
 
   ngOnInit() {
-    this.title = this.functionUtility.getTitle(this.route.snapshot.data['program'])
-    this.getListDivision();
-    this.getListSection();
-    this.getListWorkType();
+    this.search(true);
   }
 
   checkDate() {
-    if (this.effective_Date_value != null)
-      this.param.effective_Date = this.effective_Date_value.toDate().toStringYearMonth();
-    else this.deleteProperty('effective_Date');
+    if (this.date != null)
+      this.param.productionDate = this.date.toDate().toStringYearMonth();
+    else this.deleteProperty('productionDate');
   }
+  charts: { labels: string[], data: ChartDataset[], options: ChartOptions, category: string }[] = [];
   getData(isSearch?: boolean) {
     this.checkDate()
     this.spinnerService.show();
-    this.service.changeParamSearch(this.param);
-    this.service.getData(this.pagination, this.param).subscribe({
+    this.service.getData(this.param).subscribe({
       next: (res) => {
         this.spinnerService.hide();
-        this.data = res.result;
-        this.pagination = res.pagination;
+        this.charts = res.map(x => ({
+          labels: x.detail.map(d => d.rmodel),
+          data: [{ data: x.detail.map(d => d.qty), label: x.category, stack: 'a' }],
+          options: { responsive: true, indexAxis: 'y' },
+          category: x.category
+        }));
         if (isSearch)
           this.functionUtility.snotifySuccessError(true, 'System.Message.QuerySuccess')
       },
     });
   }
 
-  download() {
-    this.spinnerService.show();
-    this.service.download(this.param).subscribe({
-      next: (result) => {
-        this.spinnerService.hide();
-        const fileName = this.functionUtility.getFileNameExport(this.programCode, 'Download')
-        result.isSuccess
-          ? this.functionUtility.exportExcel(result.data, fileName)
-          : this.functionUtility.snotifySuccessError(result.isSuccess, result.error)
-      },
-    });
-  }
 
-  getListDivision() {
-    this.service.getListDivision().subscribe({
-      next: (res) => {
-        this.listDivision = res;
-      },
-    });
-  }
-  onDivisionChange() {
-    this.deleteProperty('factory');
-    if (!this.functionUtility.checkEmpty(this.param.division))
-      this.changeGetFactory();
-  }
-  changeGetFactory() {
-    this.service.getListFactory(this.param.division).subscribe({
-      next: (res) => {
-        this.listFactory = res;
-      },
-    });
-  }
-
-  getListWorkType() {
-    this.service.getListWorkType().subscribe({
-      next: (res) => {
-        this.listWorkType = res;
-      },
-    });
-  }
-
-  getListSection() {
-    this.service.getListSection().subscribe({
-      next: (res) => {
-        this.listSection = res;
-      },
-    });
-  }
-
-  pageChanged(event: any) {
-    this.pagination.pageNumber = event.page;
-    this.getData();
-  }
-
-  add() {
-    this.selectedData = <HRMS_Org_Direct_SectionDto>{ direct_Section: 'Y' };
-    this.router.navigate([`${this.router.routerState.snapshot.url}/add`]);
-  }
-  edit(item: HRMS_Org_Direct_SectionDto) {
-    this.selectedData = { ...item }
-    this.router.navigate([`${this.router.routerState.snapshot.url}/edit`]);
-  }
 
   clear(isClear: boolean) {
-    this.deleteProperty('division')
-    this.deleteProperty('factory')
-    this.deleteProperty('effective_Date')
-    this.deleteProperty('work_Type_Code')
-    this.deleteProperty('section_Code')
-    this.deleteProperty('direct_Section')
-
-    this.effective_Date_value = null;
-    this.changeGetFactory()
-    if (isClear) {
-      this.pagination.pageNumber = 1;
-      this.data = [];
-      this.pagination.totalCount = 0;
-    }
-    else this.functionUtility.checkFunction('Search') ? this.getData() : this.data = [];
+    this.deleteProperty('productionDate')
+    this.data = [];
+    this.date = null;
   }
 
   search(isSearch: boolean) {
-    this.pagination.pageNumber === 1 ? this.getData(isSearch) : this.pagination.pageNumber = 1;
+    this.getData(isSearch);
+  }
+  intervalId: any;
+  playButton() {
+    this.play = !this.play;
+    console.log('this.play :', this.play);
+    if (this.play) {
+      this.getData();
+      this.intervalId = setInterval(() => {
+        this.getData();
+      }, 1000);
+    } else {
+      clearInterval(this.intervalId);
+    }
   }
 
   deleteProperty = (name: string) => delete this.param[name]
+
+  //event change page
+
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    indexAxis: 'y',
+
+  };
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+
+  barChartData: ChartDataset[] = [
+    { data: [], stack: 'a' }
+  ];
+  barChartLabels: string[] = [];
+  // events
+  chartClicked({
+    event,
+    active,
+  }: {
+    event: MouseEvent;
+    active: {}[];
+  }): void {
+    console.log(event, active);
+  }
+
+  chartHovered({
+    event,
+    active,
+  }: {
+    event: MouseEvent;
+    active: {}[];
+  }): void {
+    console.log(event, active);
+  }
+
+  // randomize(): void {
+  //   // Only Change 3 values
+  //   const data = [
+  //     Math.round(Math.random() * 100),
+  //     59,
+  //     80,
+  //     Math.random() * 100,
+  //     56,
+  //     Math.random() * 100,
+  //     40,
+  //   ];
+  //   const clone = JSON.parse(JSON.stringify(this.barChartData));
+  //   clone[0].data = data;
+  //   this.barChartData = clone;
+  // }
 }

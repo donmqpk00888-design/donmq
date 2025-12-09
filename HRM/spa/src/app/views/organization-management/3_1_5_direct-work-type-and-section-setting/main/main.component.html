@@ -13,65 +13,21 @@
           <form class="form-horizontal border-shadow"
                 autocomplete="off">
             <div class="row ">
-              <div class="col-xxl-2 col-xl-2 col-lg-4 col-sm-12 col-md-6 ">
-                <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Division" | translate }} </label>
-                <ng-select name="division"
-                           [(ngModel)]="param.division"
-                           (ngModelChange)="onDivisionChange()"
-                           placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Division" | translate }}'
-                           (clear)="deleteProperty('division')"
-                           [clearable]="param.division !== ''">
-                  <ng-option *ngFor="let i of listDivision"
-                             [value]="i.key">{{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <div class="col-xxl-2 col-xl-2 col-lg-4 col-sm-12 col-md-6 ">
-                <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Factory" | translate }} </label>
-                <ng-select name="factory"
-                           [(ngModel)]="param.factory"
-                           placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Factory" | translate }}'
-                           (clear)="deleteProperty('factory')"
-                           [clearable]="param.factory !== ''">
-                  <ng-option *ngFor="let i of listFactory"
-                             [value]="i.key">{{i.key}} - {{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <div class="col-xxl-2 col-xl-2 col-lg-4 col-sm-12 col-md-6 ">
-                <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.WorkType" | translate }} </label>
-                <ng-select name="work_Type_Code"
-                           [(ngModel)]="param.work_Type_Code"
-                           placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.WorkType" | translate }}'
-                           (clear)="deleteProperty('work_Type_Code')"
-                           [clearable]="param.work_Type_Code !== ''">
-                  <ng-option *ngFor="let i of listWorkType"
-                             [value]="i.key">{{i.value}}</ng-option>
-                </ng-select>
-              </div>
-              <div class="col-xxl-2 col-xl-2 col-lg-4 col-sm-12 col-md-6 ">
-                <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.SectionCode" | translate }} </label>
-                <ng-select name="section_Code"
-                           [(ngModel)]="param.section_Code"
-                           placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.SectionCode" | translate }}'
-                           (clear)="deleteProperty('section_Code')"
-                           [clearable]="param.section_Code !== ''">
-                  <ng-option *ngFor="let i of listSection"
-                             [value]="i.key">{{i.value}}</ng-option>
-                </ng-select>
-              </div>
+
               <div class="col-xxl-2 col-xl-2 col-lg-4 col-sm-12 col-md-6 ">
                 <label class="badge badge-warning"> {{"OrganizationManagement.DirectWorkTypeAndSectionSetting.EffectiveDate" | translate }} </label>
                 <div class="full-width">
                   <div class="container_date">
                     <div class="input-group mr-1">
                       <input autocomplete="off"
-                             (keydown.backspace)="effective_Date_value = null"
+                             (keydown.backspace)="date = null"
                              onkeypress="return false;"
                              onpaste="return false;"
                              type="text"
                              placeholder='{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.EffectiveDate" | translate }}'
                              class="form-control"
-                             name="effective_Date_value"
-                             [(ngModel)]="effective_Date_value"
+                             name="date"
+                             [(ngModel)]="date"
                              bsDatepicker
                              [bsConfig]="{ isAnimated: true,  minMode: 'month' ,dateInputFormat: 'YYYY/MM' }" />
                       <div class="input-group-append">
@@ -96,92 +52,34 @@
                 <i class="{{ iconButton.CLEAR }}"></i> {{"System.Action.Clear" | translate }}
               </button>
               <button type="button"
-                      (click)="add()"
-                      *ngIf="functionUtility.checkFunction('Add')"
+                      (click)="playButton()"
                       class="btn btn-success ml-1"
-                      id="add">
-                <i class="{{ iconButton.ADD }}"></i> {{"System.Action.Add" | translate }}
-              </button>
-              <button type="submit"
-                      class="btn btn-success ml-1"
-                      (click)="download()"
-                      [disabled]="data.length == 0"
-                      *ngIf="functionUtility.checkFunction('Excel')">
-                <i class="{{iconButton.EXCEL}}"></i> {{"System.Action.Excel" | translate }}
+                      id="playButton">
+                <i class="{{ iconButton.ADD }}"></i> Play
               </button>
             </div>
           </form>
           <div class="row justify-content-md-center">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th class="text-center"
-                          *ngIf="functionUtility.checkFunction('Edit')">{{"System.Action.Operation" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Division" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.Factory" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.WorkTypeCode" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.SectionCode" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.DirectSection" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.EffectiveDate" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.UpdateBy" | translate }}</th>
-                      <th class="text-center">{{"OrganizationManagement.DirectWorkTypeAndSectionSetting.UpdateTime" | translate }}</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="data.length > 0; else dataNotFound">
-                    <tr *ngFor="let item of data">
-                      <td class="text-center"
-                          *ngIf="functionUtility.checkFunction('Edit')">
-                        <button type="button"
-                                (click)="edit(item)"
-                                class="btn btn-sm btn-warning ml-2">
-                          <i class="{{ iconButton.EDIT }}"></i> <span>{{"System.Action.Edit" | translate }}</span>
-                        </button>
-                      </td>
-                      <td class="text-center">{{ item.division }}</td>
-                      <td class="text-center">{{ item.factory }}</td>
-                      <td class="text-center">{{ item.work_Type_Code + '-' + item.work_Type_Code_Name}}</td>
-                      <td class="text-center">{{ item.section_Code_Name}}</td>
-                      <td class="text-center">{{ item.direct_Section }}</td>
-                      <td class="text-center">{{ item.effective_Date }}</td>
-                      <td class="text-center">{{ item.update_By }}</td>
-                      <td class="text-center">{{ item.update_Time | date : 'yyyy/MM/dd'}}</td>
-                    </tr>
-                  </tbody>
-                  <ng-template #dataNotFound>
-                    <tbody>
-                      <tr>
-                        <td colspan="100%"
-                            class="table-warning text-center font-weight-bold">
-                          {{"System.Message.NoData" | translate }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </ng-template>
-                </table>
-              </div>
-              <div class="row">
-                <div class="col-8">
-                  <div class="d-flex"
-                       *ngIf="data?.length > 0 && pagination.totalPage > 1">
-                    <pagination [boundaryLinks]="true"
-                                [totalItems]="pagination.totalCount"
-                                [itemsPerPage]="pagination.pageSize"
-                                previousText="&lsaquo;"
-                                nextText="&rsaquo;"
-                                firstText="&laquo;"
-                                lastText="&raquo;"
-                                [maxSize]="5"
-                                [(ngModel)]="pagination.pageNumber"
-                                (pageChanged)="pageChanged($event)">
-                    </pagination>
-                    <span class="cs-page ml-2"> Page - {{ pagination.pageNumber }} / {{ pagination.totalPage }}</span>
-                  </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 row">
+              <div class="col-4"
+                   *ngFor="let item of charts; let i = index">
+                <div class="chart-header">
+                  <div class="header-row category-id-header">Category ID</div>
+                  <div class="header-row category-value">{{ item.category }}</div>
+                  <div class="header-row defect-title">QC TOP 5 Model Defects</div>
                 </div>
-                <div class="col-4">
-                  <span class="cs-page float-right ">{{'System.Rows' | translate }} : {{pagination.totalCount}}</span>
+                <div style="display: block">
+                  <canvas baseChart
+                          [datasets]="item.data"
+                          [labels]="item.labels"
+                          [options]="item.options"
+                          [legend]="barChartLegend"
+                          [type]="barChartType"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"></canvas>
                 </div>
+                <!-- <button mat-button
+                      (click)="randomize()">Update</button> -->
               </div>
             </div>
           </div>

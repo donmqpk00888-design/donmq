@@ -9,6 +9,7 @@ import { MainComponent } from './main/main.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BsDatepickerModule.forRoot(),
     TranslateModule,
     NgSelectModule,
+    NgChartsModule
   ],
   declarations: [MainComponent, AddComponent, EditComponent]
 })
